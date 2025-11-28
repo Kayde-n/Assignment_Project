@@ -12,7 +12,7 @@
         <h1>Hello!</h1>
     </div>
     <form action="POST">
-        <div>
+        <div class="details_form">
             <label>Username</label>
             <input type="text" id="username" name="username" placeholder="Enter your username..." required>
         </div>
@@ -23,10 +23,12 @@
 
         <div>
             <label>Password</label>
-            <input type="password" name="password" placeholder="Enter your password..." required>
+            <input type="password" id="password" name="password" placeholder="Enter your password..." required>
         </div>
         <div>
-            <label>Con</label>
+            <label>Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password..."
+                required>
         </div>
 
         <button type="submit">Log in</button>
