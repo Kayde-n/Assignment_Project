@@ -55,22 +55,27 @@
                 </div>
             </div>
 
-            <div>
+            <div class="news-post">
                 <img src="" alt="Image Placeholder">
                 <div>
-                    <div>Event Recap</div>
-                    <div>Campus Cleanup Day nets 500kg of waste!</div>
-                    <div>The October Campus Cleanup...</div>
+                    <div class="news-content">
+                        <span class="tag">Community</span>
+
+                        <a href="https://www.google.com" class="news-title">Top 5 Green Tips for reducing e-waste.</a>
+
+                        <p class="news-desc">
+                            Check out the most upvoted post this week from community...
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <button>[Home]</button>
+                    <button>[Tools]</button>
+                    <button>[Scan]</button>
+                    <button>[Messages]</button>
+                    <button>[Profile]</button>
                 </div>
             </div>
-            <div>
-                <button>[Home]</button>
-                <button>[Tools]</button>
-                <button>[Scan]</button>
-                <button>[Messages]</button>
-                <button>[Profile]</button>
-            </div>
-        </div>
 
 </body>
 
