@@ -13,6 +13,7 @@
 
     <label>Search Here:</label>
     <input type="text" placeholder="Search Here">
+    <button name="search_bttn">Search</button>
 
     <h3>What's New?</h3>
 
