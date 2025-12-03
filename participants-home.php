@@ -69,13 +69,14 @@
                         </p>
                     </div>
                 </div>
-                <div>
+                <nav>
                     <button>[Home]</button>
                     <button>[Tools]</button>
                     <button>[Scan]</button>
                     <button>[Messages]</button>
                     <button>[Profile]</button>
-                </div>
+                </nav>
+
             </div>
 
 </body>
