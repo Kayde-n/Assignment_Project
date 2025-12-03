@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <button>&larr;</button>
+    <button name="back_bttn">&larr;</button>
     <div>
         <img src="" alt="Image PLaceholder">
     </div>
