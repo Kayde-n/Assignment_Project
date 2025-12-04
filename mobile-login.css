@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.top-section {
+    background: #4CAF50;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.login-section {
+    padding: 30px 25px;
+    background: #ffffff;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-top: -30px; /* pull up to overlap the green top-section */
+    box-shadow: 0px -2px 5px rgba(0,0,0,0.1); /* optional shadow for effect */
+}
+
+.logo {
+    width: 70px;
+    margin-bottom: 10px;
+}
+
+.top-section h2 {
+    color: white;
+    font-weight: 500;
+    margin: 0;
+}
+
+.login-section {
+    padding: 30px 25px;
+}
+
+.login-section h1 {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 18px;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.1);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.signup-btn {
+    width: 100%;
+    padding: 12px;
+    background: #eaeaea;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.login-btn:active,
+.signup-btn:active {
+    opacity: 0.8;
+}
