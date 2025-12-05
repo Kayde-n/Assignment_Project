@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="main-container">
         <header>
             <button class="back-button" aria-label="Go back">←</button>
             <h1>Challenges Details</h1>
@@ -75,16 +75,6 @@
             <button class="nav-item nav-rewards" id="navRewards" type="button">Rewards</button>
             <button class="nav-item nav-profile" id="navProfile" type="button">Profile</button>
         </nav>
-
-
-
-
-
-
-
-
-
-
     </div>
 </body>
 
