@@ -114,28 +114,3 @@ input {
     color: #333;
     margin: 0;
 }
-
-/* RESPONSIVE: Mobile view */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .left-panel,
-    .right-panel {
-        width: 100%;
-    }
-
-    input {
-        width: 90%; /* make input responsive */
-    }
-
-    .login-btn,
-    .signup-btn {
-        width: 80%; /* make buttons responsive */
-    }
-
-    .right-panel {
-        height: 200px;
-    }
-}

@@ -10,7 +10,7 @@
 
 <body>
     <div class="top-section">
-        <div class="white-card">
+        <div class="eco-box">
             <img src="images/ecoxp-logo.png" class="logo" alt="EcoXP Logo">
             <h2>EcoXP</h2>
         </div>

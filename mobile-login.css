@@ -10,7 +10,7 @@ body {
     padding: 60px 20px;
 }
 
-.white-card {
+.eco-box {
     display: inline-block;          /* wrap content */
     background: #ffffff;            /* white color */
     border-radius: 20px;            /* curved edges */

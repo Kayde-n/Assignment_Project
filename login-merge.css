@@ -1,0 +1,197 @@
+/* -------------------- MOBILE FIRST -------------------- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+}
+
+/* Container stacked by default */
+.container {
+    display: block;
+}
+
+/* Top green section for mobile */
+.top-section-mobile {
+    display: block;
+    background: #4CAF50;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+/* Logo card for mobile */
+.eco-box.logo-card {
+    display: inline-block;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
+}
+
+.eco-logo {
+    width: 70px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.eco-box h2 {
+    color: #333;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Login section */
+.left-panel .login-section {
+    background: #ffffff;
+    padding: 30px 25px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-top: -20px;
+    box-shadow: 0px -2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.left-panel .login-section h1 {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 340px;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.button-section {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-btn,
+.signup-btn {
+    width: 250px;
+    padding: 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+}
+
+.login-btn { background: #4CAF50; color: white; }
+.signup-btn { background: #eaeaea; color: #333; }
+
+/* Right panel hidden on mobile */
+.right-panel {
+    display: none;
+}
+
+/* -------------------- DESKTOP -------------------- */
+@media (min-width: 992px) {
+    .container {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* Hide mobile top section */
+    .top-section-mobile {
+        display: none;
+    }
+
+    /* Left panel = login form */
+    .left-panel {
+        flex: 1;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        background: #ffffff;
+    }
+
+    .left-panel .login-section {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+        margin-top: 0;
+        box-shadow: none;
+        text-align: left;
+    }
+
+    .left-panel .login-section h1 {
+        font-size: 56px;
+        margin-bottom: 50px;
+    }
+
+    label {
+        font-size: 30px;
+    }
+
+    input {
+        width: 900px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        box-shadow: 0 5px 3px rgba(0,0,0,0.1);
+    }
+
+    .login-btn, .signup-btn {
+        width: 300px;
+        font-size: 24px;
+        border-radius: 8px;
+        margin: 0;
+        box-shadow: 0 5px 3px rgba(0,0,0,0.1);
+    }
+
+    /* Center buttons in left panel */
+    .left-panel .button-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* Right panel = logo box */
+    .right-panel {
+        display: flex;
+        flex: 1;
+        background: #4CAF50;
+        justify-content: center;
+        align-items: center;
+        padding: 50px;
+    }
+
+    .right-panel .eco-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        background: #ffffff;
+        padding: 30px 40px;
+        border-radius: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        text-align: center;
+    }
+
+    .right-panel .eco-logo {
+        width: 350px;
+        margin-bottom: 20px;
+    }
+
+    /* Hide mobile logo card on desktop */
+    .eco-box.logo-card {
+        display: none;
+    }
+}
