@@ -15,17 +15,17 @@ body {
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* center vertically */
-    align-items: center;     /* center horizontally */
+    justify-content: center;
+    align-items: center;
     padding: 50px;
-    gap: 30px; /* space between sections */
+    gap: 30px;
 }
 
 .login-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* space between labels & inputs */
+    gap: 15px;
 }
 
 .login-section h1 {
@@ -55,9 +55,9 @@ input {
 /* BUTTON SECTION */
 .button-section {
     display: flex;
-    flex-direction: column; /* stack buttons vertically */
+    flex-direction: column;
     align-items: center;
-    gap: 15px; /* space between buttons */
+    gap: 15px;
 }
 
 .login-btn {
@@ -86,21 +86,21 @@ input {
     flex: 1;
     background: #4CAF50;
     display: flex;
-    justify-content: center;  /* center horizontally */
-    align-items: center;      /* center vertically */
+    justify-content: center;
+    align-items: center;
     padding: 50px;
 }
 
 .eco-box {
-    background: #ffffff;       /* white box */
-    border-radius: 20px;       /* curved edges */
-    padding: 30px 40px;        /* inner spacing */
-    text-align: center;        /* center content */
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px 40px;
+    text-align: center;
     display: flex;
-    flex-direction: column;    /* stack image and text vertically */
+    flex-direction: column;
     align-items: center;
-    gap: 20px;                 /* spacing between image and text */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* subtle shadow */
+    gap: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .eco-logo {
