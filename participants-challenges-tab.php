@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Challenges (Pure HTML)</title>
+    <title>Challenges Tab</title>
 </head>
 
 <body>
@@ -13,15 +13,13 @@
     <div class="challenges-page" id="challengesPage">
 
         <!-- Header -->
-        <header class="header" id="header">
-            <button class="back-bttn" id="back-bttn-id">&larr;</button>
-            <h1 class="header-title" id="headerTitle">Challenges</h1>
-        </header>
+        <h1 class="header-title" id="headerTitle">Challenges</h1>
+
 
         <!-- Tabs (Ongoing / Completed) -->
         <nav class="tabs" id="tabs" role="tablist">
-            <button class="tab tab-ongoing" id="tabOngoing" role="tab" aria-selected="true">Ongoing</button>
-            <button class="tab tab-completed" id="tabCompleted" role="tab" aria-selected="false">Completed</button>
+            <button class="tab tab-ongoing" id="tabOngoing" role="tab">Ongoing</button>
+            <button class="tab tab-completed" id="tabCompleted" role="tab">Completed</button>
         </nav>
 
         <!-- Main content -->
@@ -147,13 +145,12 @@
         </main>
 
         <!-- Bottom navigation (mobile-style) -->
-        <nav class="bottom-nav" id="bottomNav" role="navigation" aria-label="Main navigation">
-            <button class="nav-item nav-home" id="navHome" type="button" aria-pressed="false">Home</button>
-            <button class="nav-item nav-challenges active" id="navChallenges" type="button"
-                aria-pressed="true">Challenges</button>
-            <button class="nav-item nav-scan" id="navScan" type="button" aria-pressed="false">Scan</button>
-            <button class="nav-item nav-rewards" id="navRewards" type="button" aria-pressed="false">Rewards</button>
-            <button class="nav-item nav-profile" id="navProfile" type="button" aria-pressed="false">Profile</button>
+        <nav class="bottom-nav" id="bottomNav" role="navigation">
+            <button class="nav-item nav-home" id="navHome" type="button">Home</button>
+            <button class="nav-item nav-challenges active" id="navChallenges" type="button">Challenges</button>
+            <button class="nav-item nav-scan" id="navScan" type="button">Scan</button>
+            <button class="nav-item nav-rewards" id="navRewards" type="button">Rewards</button>
+            <button class="nav-item nav-profile" id="navProfile" type="button">Profile</button>
         </nav>
 
     </div>
