@@ -40,6 +40,7 @@
 
             <section class="notes-section">
                 <label>Add Notes (Optional)</label>
+                <br>
                 <textarea id="notes" name="notes" rows="8" placeholder="e.g. Ivan liek men!"></textarea>
             </section>
 
@@ -49,11 +50,14 @@
 
         </article>
 
-
-
-
-
-
+        <!-- Bottom navigation (mobile-style) -->
+        <nav class="bottom-nav" id="bottomNav" role="navigation">
+            <button class="nav-item nav-home" id="navHome" type="button">Home</button>
+            <button class="nav-item nav-challenges active" id="navChallenges" type="button">Challenges</button>
+            <button class="nav-item nav-scan" id="navScan" type="button">Scan</button>
+            <button class="nav-item nav-rewards" id="navRewards" type="button">Rewards</button>
+            <button class="nav-item nav-profile" id="navProfile" type="button">Profile</button>
+        </nav>
 
     </div>
 </body>
