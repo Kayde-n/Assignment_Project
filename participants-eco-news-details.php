@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <button name="back_bttn">&larr;</button>
+    <button class="back-bttn" id="back-bttn-id">&larr;</button>
     <div>
         <img src="" alt="Image PLaceholder">
     </div>

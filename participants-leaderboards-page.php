@@ -11,7 +11,7 @@
 
 <body>
     <div>
-        <button name="back_bttn">&larr;</button>
+        <button class="back-bttn" id="back-bttn-id">&larr;</button>
         <h1>Leaderboard</h1>
     </div>
 
