@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoXP Login Page</title>
     <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="login-signupg.css">
+    <link rel="stylesheet" href="login-signup.css">
 </head>
 
 <body>
