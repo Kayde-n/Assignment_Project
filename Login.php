@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoXP Login Page</title>
     <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="login-signup.css">
+    <link rel="stylesheet" href="login-signupg.css">
 </head>
 
 <body>
@@ -29,10 +29,10 @@
         </form>
     </div>
     <div class="login-right">
-        <img src="Images/EcoXP_logo.png">
-        <h2>EcoXP</h2>
+        <div class="logo-box">
+            <img src="images/ecoxp-logo.png" alt="EcoXP Logo">
+            <h2>EcoXP</h2>
+        </div>
     </div>
-
 </body>
-
 </html>

@@ -30,7 +30,7 @@
     </div>
     <div class="login-right">
         <div class="logo-box">
-            <img src="image/ecoxp-logo.png" alt="EcoXP Logo">
+            <img src="images/ecoxp-logo.png" alt="EcoXP Logo">
             <h2>EcoXP</h2>
         </div>
     </div>
