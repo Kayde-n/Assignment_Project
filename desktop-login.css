@@ -1,0 +1,116 @@
+/* Reset & base styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* LEFT PANEL */
+.left-panel {
+    flex: 1;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    gap: 30px;
+}
+
+.login-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.login-section h1 {
+    font-size: 56px;
+    margin: 0;
+    padding-top: 0;
+    margin-bottom: 50px;
+}
+
+label {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 600px;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+/* BUTTON SECTION */
+.button-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.login-btn {
+    font-size: 24px;
+    width: 300px;
+    padding: 12px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.signup-btn {
+    font-size: 24px;
+    width: 300px;
+    padding: 12px;
+    background: #eaeaea;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* RIGHT PANEL */
+.right-panel {
+    flex: 1;
+    background: #4CAF50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.eco-box {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.eco-logo {
+    width: 350px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.eco-box h2 {
+    font-size: 36px;
+    color: #333;
+    margin: 0;
+}
