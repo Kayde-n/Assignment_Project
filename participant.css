@@ -91,3 +91,12 @@
     margin-top: auto;
     margin-bottom: 32px;
 }
+
+.main-content {
+    margin-left: 74px;
+    margin-top: 74px;
+    padding: 24px;
+    min-height: calc(100vh - 74px);
+    overflow-y: auto;
+    width: calc(100% - 74px);
+}

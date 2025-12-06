@@ -35,15 +35,6 @@ body::before {
     filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
 }
 
-.main-content {
-    margin-left: 74px;
-    margin-top: 74px;
-    padding: 24px;
-    min-height: calc(100vh - 74px);
-    overflow-y: auto;
-    width: calc(100% - 74px);
-}
-
 .search-box {
     margin-left: 16px;
     margin-top: 44px;
