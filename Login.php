@@ -14,7 +14,7 @@
         <div>
             <h1>Welcome Back!</h1>
         </div>
-        <form action="POST">
+        <form method="POST">
             <div class="details_form">
                 <label>Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email..." required>
