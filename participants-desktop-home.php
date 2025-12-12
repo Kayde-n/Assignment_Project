@@ -23,7 +23,7 @@
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn"><img src="images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
             </div>
             <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
             <button class="icon-btn"><img src="images/scan.png" alt="Scan"></button>
