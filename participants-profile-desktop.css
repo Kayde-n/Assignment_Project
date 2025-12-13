@@ -1,0 +1,146 @@
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/profilepage.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5; 
+    z-index: -1;
+}
+
+.main-content {
+    margin-left: -32px;
+}
+
+.profile-container {
+    display: flex;             
+    align-items: center;       
+    gap: 40px;                 
+    background-color: rgba(255, 255, 255, 0);
+    padding: 40px;             
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    max-width: 800px;          
+    margin: 40px;
+}
+
+.profile-pic img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #53B757; 
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;    
+}
+
+.profile-name {
+    font-size: 64px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.profile-education {
+    font-size: 32px;
+    color: #555;
+    margin: 8px 0 0 0;
+}
+
+.stats-container {
+    display: flex;
+    gap: 40px;
+    margin: 30px 0 0 40px;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #53B757;
+    background-color: #ffffff;
+    border-radius: 8px;
+    width: 800px;
+    text-align: center;
+    font-weight: 600;
+    color: #53B757;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.stat-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+}
+
+.stat-upper {
+    padding: 10px 0;
+    border-bottom: 2px solid #53B757;
+    font-size: 32px;
+    font-weight: 1000;
+}
+
+.stat-lower {
+    padding: 15px 0;
+    font-size: 22px;
+}
+
+.quick-access {
+    margin: 40px 0 40px 40px;       /* align with profile and stats */
+    max-width: 92%;
+}
+
+.quick-access h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 32px;
+}
+
+.quick-access ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quick-access li {
+    padding: 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.quick-access li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 15px;
+    width: 100%;
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.quick-access li a:hover {
+    background-color: rgba(83, 183, 87, 0.1);
+}
+
+.quick-access li a img {
+    width: 24px;
+    height: 24px;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
