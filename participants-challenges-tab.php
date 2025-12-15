@@ -5,9 +5,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Challenges Tab</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="participants_challenges.css">
+    <link rel="stylesheet" href="participant.css">
 </head>
 
 <body>
+    <div class="top-bar">
+        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <button class="icon-btn no-hover"><h2>EcoXP</h2></button>
+        <div class="default-icon-container">
+            <button class="icon-btn"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
+            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+        </div>
+    </div>
+    
+    <div class="side-bar">
+        <div class="participant-icon-container">
+            <div id="home-icon-box">
+                <button class="icon-btn"><img src="images/home.png" alt="Home"></button>
+            </div>
+            <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
+            <button class="icon-btn"><img src="images/scan.png" alt="Scan"></button>
+            <button class="icon-btn"><img src="images/tag.png" alt="Rewards"></button>
+            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+        </div>
+    </div>
 
     <!-- Page wrapper -->
     <div class="challenges-page" id="challengesPage">

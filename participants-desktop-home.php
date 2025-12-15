@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>homepage</title>
+    <title>newsdetails</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-home-desktop.css">
@@ -40,7 +40,7 @@
         <div class="text-box">
             Your Impact
         </div>
-        <div class="impact-container">
+        <div class="impact-container" >
             <button class="impact-box"><h3>CO2​ Emissions Avoided</h3></button>
             <button class="impact-box"><h3>Waste Diverted </h3></button>
             <button class="impact-box"><h3>Challenges Completed</h3></button>
@@ -49,10 +49,10 @@
                 <img src="images/next.png" alt="Next" />
             </button>
         </div>
-        <div class="text-box">
+        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'" style="cursor: pointer;">
             What News?
         </div>
-        <div class="content-container">
+        <div class="content-container" onclick="window.location.href='participants-desktop-newsdetails.php'">
             <button class="image-holder">
                 <img src="images/sample-image.png" alt="Sample Image">
             </button>

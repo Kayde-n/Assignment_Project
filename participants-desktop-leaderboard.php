@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco News Page</title>
+    <title>leaderboard</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-leaderboard-desktop.css">

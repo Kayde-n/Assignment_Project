@@ -39,7 +39,7 @@
         <div class="text-box">
             What News?
         </div>
-        <button class="content-holder">
+        <button class="content-holder" onclick="window.location.href='participants-desktop-newsdetails.php'">
             <div class="category-box">Environment</div>
             <div class="content-image">
                 <img src="images/sample-image.png" alt="">
