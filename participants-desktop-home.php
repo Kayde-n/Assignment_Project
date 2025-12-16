@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>homepage</title>
+    <title>newsdetails</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-home-desktop.css">
@@ -12,7 +12,7 @@
 <body>
     <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover"><h2>EcoXP</h2></button>
+        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
@@ -26,7 +26,7 @@
                 <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
             </div>
             <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn"><img src="images/scan.png" alt="Scan"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img src="images/scan.png" alt="Scan"></button>
             <button class="icon-btn"><img src="images/tag.png" alt="Rewards"></button>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
@@ -40,7 +40,7 @@
         <div class="text-box">
             Your Impact
         </div>
-        <div class="impact-container">
+        <div class="impact-container" >
             <button class="impact-box"><h3>CO2​ Emissions Avoided</h3></button>
             <button class="impact-box"><h3>Waste Diverted </h3></button>
             <button class="impact-box"><h3>Challenges Completed</h3></button>
@@ -49,10 +49,10 @@
                 <img src="images/next.png" alt="Next" />
             </button>
         </div>
-        <div class="text-box">
+        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'" style="cursor: pointer;">
             What News?
         </div>
-        <div class="content-container">
+        <div class="content-container" onclick="window.location.href='participants-desktop-newsdetails.php'">
             <button class="image-holder">
                 <img src="images/sample-image.png" alt="Sample Image">
             </button>

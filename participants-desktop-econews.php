@@ -12,7 +12,7 @@
 <body>
     <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover"><h2>EcoXP</h2></button>
+        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
@@ -26,7 +26,7 @@
                 <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
             </div>
             <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn"><img src="images/scan.png" alt="Scan"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img src="images/scan.png" alt="Scan"></button>
             <button class="icon-btn"><img src="images/tag.png" alt="Rewards"></button>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
@@ -39,7 +39,7 @@
         <div class="text-box">
             What News?
         </div>
-        <button class="content-holder">
+        <button class="content-holder" onclick="window.location.href='participants-desktop-newsdetails.php'">
             <div class="category-box">Environment</div>
             <div class="content-image">
                 <img src="images/sample-image.png" alt="">
