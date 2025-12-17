@@ -13,9 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rowcount = mysqli_num_rows($result);
 
     if ($rowcount == 1) {
-        $_SESSION['mySession'] = $row['id'];
+        $_SESSION['mySession'] = $row['user_id'];
         $_SESSION['user_full_name'] = $row['user_full_name'];
-        header("location: viewContacts.php");
+        header("location: participants-desktop-home.php");
     } else {
         echo '<script>alert("Your Email or Password is invalid. Please re-login.");</script>';
     }
@@ -47,11 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div>
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Enter your password..." required>
+                <input type="password" name="hash_password" placeholder="Enter your password..." required>
             </div>
 
             <button type="submit">Log in</button>
-            <button type="button">Sign up</button>
+            <button type="button" onclick="window.location.href='Register.php'">Sign up</button>
         </form>
     </div>
     <div class="login-right">
