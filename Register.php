@@ -17,7 +17,7 @@
         <form method="POST">
             <div class="details_form">
                 <label>Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username..." required>
+                <input type="text" id="username" name="user_full_name" placeholder="Enter your username..." required>
             </div>
             <div>
                 <label>Email Address</label>
@@ -26,7 +26,7 @@
 
             <div>
                 <label>Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password..." required>
+                <input type="password" id="password" name="hash_password" placeholder="Enter your password..." required>
             </div>
             <div>
                 <label>Confirm Password</label>
@@ -34,10 +34,29 @@
                     required>
             </div>
 
-            <button type="submit">Log in</button>
-            <button type="button">Sign up</button>
+            <button type="submit" name="regBtn">Sign up</button>
         </form>
     </div>
+    <?php
+        if (isset($_POST['regBtn'])){
+            include("database.php");
+            $sql = "SELECT * FROM user WHERE email='$_POST[email]'";
+            $result = mysqli_query($database, $sql);
+            $numrow = mysqli_num_rows($result);
+            if ($numrow == 0){
+                $sql = "INSERT INTO user (user_full_name, email, hash_password) VALUES ('$_POST[user_full_name]', '$_POST[email]', '$_POST[hash_password]')";
+                if (!mysqli_query($database, $sql)){
+                    die('Error: ' . mysqli_error($database));
+                }
+                else {
+                    echo "<script>alert('Registration successful!');window.location.href='Login.php';</script>";
+                }    
+            }   
+            else {
+                echo "<script>alert('Email already registered. Please use a different email.')</script>";
+            }
+        }
+    ?>
     <div class="login-right">
         <div class="logo-box">
             <img src="images/ecoxp-logo.png" alt="EcoXP Logo">
