@@ -1,3 +1,29 @@
+<?php
+session_start();
+include("database.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // username and password sent from Form
+    $email = mysqli_real_escape_string($database, $_POST['email']);
+    $password = mysqli_real_escape_string($database, $_POST['hash_password']);
+
+    $sql = "SELECT * FROM user WHERE email='$email' AND hash_password='$password'";
+    $result = mysqli_query($database, $sql);
+    $row = mysqli_fetch_array($result);
+    $rowcount = mysqli_num_rows($result);
+
+    if ($rowcount == 1) {
+        $_SESSION['mySession'] = $row['id'];
+        $_SESSION['user_full_name'] = $row['user_full_name'];
+        header("location: viewContacts.php");
+    } else {
+        echo '<script>alert("Your Email or Password is invalid. Please re-login.");</script>';
+    }
+    
+    mysqli_close($database);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
