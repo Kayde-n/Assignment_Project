@@ -1,6 +1,3 @@
-<?php
-    include("session.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +7,52 @@
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-logaction-desktop.css">
+    <style>
+        .otp-container {
+            padding: 40px;
+            border-radius: 20px;
+            width: 840px;
+            background-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            margin: 40px auto; 
+        }
+        .otp-boxes {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .otp-input {
+            width: 240px;
+            height: 320px;
+            font-size: 128px;
+            text-align: center;
+            border-radius: 16px;
+            border: 3px solid #53B757;
+            outline: none;
+            transition: 0.2s ease;
+        }
+        .otp-input:focus {
+            border-color: #3fa84a;
+            box-shadow: 0 0 10px rgba(83,183,87,0.4);
+        }
+        .otp-submit {
+            width: 240px;
+            height: 56px;
+            background: #53B757;
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+        .otp-submit:hover {
+            background: #46a14b;
+        }
+
+    </style>
  
 </head>
 <body>
@@ -35,35 +78,20 @@
         </div>
     </div>
     <div class="main-content">
-        <div class="attendance-btn-wrapper">
-            <button class="attendance-btn" onclick="window.location.href='participants-desktop-otp.php'">Sign Up for Attendance</button>
-        </div>
-        <div class="log-action-container">
-
-            <div class="text-box">
-                Log Action
-            </div>
-
-            <select class="log-select">
-                <option>Select Challenge</option>
-                <option>Recycle Plastic</option>
-                <option>Bring Reusable Bottle</option>
-                <option>Public Transport</option>
-            </select>
-
-            <div class="upload-box">
-                <img src="images/image-placeholder.png" alt="Upload">
-                <p>Upload proof</p>
-            </div>
-
-            <textarea class="log-notes" placeholder="Add Notes (Optional)"></textarea>
-
-            <div class="submit-container">
-                <button class="submit-btn">Submit For Review</button>
-            </div>
+        <div class="text-box">
+                Enter OTP
         </div>
 
-    </div>
+        <div class="otp-container">
+            <div class="otp-boxes">
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+            </div>
+            <button class="otp-submit">Verify</button>
+        </div>
+
+</div>
 
 </body>
 </html>
