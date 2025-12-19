@@ -73,7 +73,7 @@
             <div id="log-icon-box">
                 <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img src="images/scan.png" alt="Scan"></button>
             </div>
-            <button class="icon-btn"><img src="images/tag.png" alt="Rewards"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img src="images/tag.png" alt="Rewards"></button>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
     </div>
