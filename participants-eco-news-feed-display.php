@@ -1,5 +1,5 @@
 <?php
-    include("session.php");
+include("session.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,10 +15,13 @@
 <body>
 
     <h2>Eco News Feed</h2>
+    <form method="post">
+        <label>Search Here:</label>
+        <input type="text" placeholder="Search Here">
+        <button name="search_bttn" onClick="">Search</button>
 
-    <label>Search Here:</label>
-    <input type="text" placeholder="Search Here">
-    <button name="search_bttn">Search</button>
+    </form>
+
 
     <h3>What's New?</h3>
 
