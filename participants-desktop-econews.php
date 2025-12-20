@@ -1,5 +1,5 @@
 <?php
-//include("session.php");
+include("session.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,10 +97,12 @@
                 fetch('search.php?query=' + encodeURIComponent(query))
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+
                         displayResults(data);
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                    });
             } else {
                 searchResults.innerHTML = ''; // Clear results if less than 2 chars
             }
