@@ -1,7 +1,8 @@
 <?php
-$database=mysqli_connect("localhost","root","","assignment");
+$database = mysqli_connect("localhost", "root", "", "ecoxp database");
 
-if(mysqli_connect_errno()){
-    echo "Failed to connect to MYSQL:".mysqli_connect_error();
+if (mysqli_connect_errno()) {
+    error_log("Database connection failed: " . mysqli_connect_error());
+    exit();
 }
 ?>
