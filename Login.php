@@ -1,5 +1,9 @@
 <?php
-session_start();
+// At the very top of authenticate-user-role.php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 include("database.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -7,21 +11,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = mysqli_real_escape_string($database, $_POST['email']);
     $password = mysqli_real_escape_string($database, $_POST['hash_password']);
 
-    $sql = "SELECT * FROM user WHERE email='$email' AND hash_password='$password'";
+
+    $sql = "SELECT * FROM user WHERE email='$email'";
     $result = mysqli_query($database, $sql);
     $row = mysqli_fetch_array($result);
     $rowcount = mysqli_num_rows($result);
 
     if ($rowcount == 1) {
-        $_SESSION['mySession'] = $row['user_id'];
-        $_SESSION['user_full_name'] = $row['user_full_name'];
-        header("location: participants-desktop-home.php");
+        if ($row = mysqli_fetch_assoc($result)) {
+            if (password_verify($password, $row['hash_password'])) { // Password is correct
+                $_SESSION['mySession'] = $row['user_id'];
+                $_SESSION['user_id'] = $row['user_full_name'];
+
+            } else {
+                // Password is incorrect
+                echo '<script>alert("Your Email or Password is invalid. Please re-login.");</script>';
+            }
+        }
+
     } else {
         echo '<script>alert("Your Email or Password is invalid. Please re-login.");</script>';
     }
-    
+    header("location: authenticate-user-role.php");
+
     mysqli_close($database);
-    }
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div>
             <h1>Welcome Back!</h1>
         </div>
-        <form method="POST">
+        <form method="POST" autocomplete="off">
             <div class="details_form">
                 <label>Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email..." required>
@@ -61,4 +76,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </body>
+
 </html>
