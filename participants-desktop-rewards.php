@@ -1,3 +1,11 @@
+<?php
+    include("session.php");
+    
+    // Fetch all rewards from database
+    $sql = "SELECT rewards_id, reward_name, description, points_required, quantity FROM rewards";
+    $result = mysqli_query($con, $sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,45 +51,28 @@
             <button class="category-btn">Physical Rewards</button>
         </div>
 
-        <p class="result-count">4 results</p>
+        <p class="result-count"><?php mysqli_num_rows($result);?> 4 results</p>
 
         <div class="reward-cards">
 
-            <div class="reward-card">
-                <div class="reward-img"><img src="images/voucher.png"></div>
-                <div class="reward-info">
-                    <h3>10% cafeteria voucher</h3>
-                    <p class="reward-points">1000GP</p>
-                    <button class="redeem-btn" onclick="openModal('10% cafeteria voucher')">Redeem</button>
-                </div>
-            </div>
-
-            <div class="reward-card">
-                <div class="reward-img"><img src="images/voucher.png"></div>
-                <div class="reward-info">
-                    <h3>20% cafeteria voucher</h3>
-                    <p class="reward-points">1900GP</p>
-                    <button class="redeem-btn" onclick="openModal('20% cafeteria voucher')">Redeem</button>
-                </div>
-            </div>
-
-            <div class="reward-card">
-                <div class="reward-img"><img src="images/voucher.png"></div>
-                <div class="reward-info">
-                    <h3>30% cafeteria voucher</h3>
-                    <p class="reward-points">2800GP</p>
-                    <button class="redeem-btn" onclick="openModal('30% cafeteria voucher')">Redeem</button>
-                </div>
-            </div>
-
-            <div class="reward-card">
-                <div class="reward-img"><img src="images/voucher.png"></div>
-                <div class="reward-info">
-                    <h3>40% cafeteria voucher</h3>
-                    <p class="reward-points">3700GP</p>
-                    <button class="redeem-btn" onclick="openModal('40% cafeteria voucher')">Redeem</button>
-                </div>
-            </div>
+            <?php
+                if(mysqli_num_rows($result) > 0){
+                    while($row = mysqli_fetch_assoc($result)){
+            ?>
+                        <div class="reward-card">
+                            <div class="reward-img"><img src="images/voucher.png"></div>
+                            <div class="reward-info">
+                                <h3><?php echo $row['reward_name']; ?></h3>
+                                <p class="reward-points"><?php echo $row['points_required']; ?>GP</p>
+                                <button class="redeem-btn" onclick="openModal('<?php echo $row['reward_name']; ?>', '<?php echo $row['description']; ?>', <?php echo $row['rewards_id']; ?>)">Redeem</button>
+                            </div>
+                        </div>
+            <?php
+                    }
+                } else {
+                    echo '<p>No rewards available at the moment.</p>';
+                }
+            ?>
 
         </div>
     </div>
@@ -99,13 +90,11 @@
                 <img src="images/voucher.png" style="width:120px;">
             </div>
 
-            <p>
-                <strong>Terms & Conditions:</strong><br>
-                • Eligible participants only<br>
-                • Non-transferable<br>
-                • Valid identification required
+            <p id = "modalDescription">
+                <strong>Terms & Conditions:</strong>
+                <span id = "termsText"></span>
             </p>
-
+            
             <label>
                 <input type="checkbox"> I agree to the terms & conditions
             </label>
@@ -138,8 +127,13 @@
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
-    function openModal(title) {
+    let currentRewardId = null;
+
+    function openModal(title, description, rewardId) {
+        currentRewardId = rewardId;
         document.getElementById("modalTitle").innerText = title;
+        document.getElementById("termsText").innerHTML = description.replace(/\n/g, '<br>');
+        document.getElementById("agreeCheckbox").checked = false;
         document.getElementById("rewardModal").classList.add("show");
     }
 
@@ -148,6 +142,12 @@
     }
 
     function confirmRedeem() {
+        // Check if checkbox is checked
+        if(!document.getElementById("agreeCheckbox").checked) {
+            alert("Please agree to the terms & conditions");
+            return;
+        }
+
         // Close first modal
         closeModal();
 
@@ -162,3 +162,6 @@
 
 </body>
 </html>
+<?php
+    mysqli_close($con);
+?>
