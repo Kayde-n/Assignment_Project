@@ -1,5 +1,83 @@
+<?php
+session_start();
+include("Database.php");
+$participant_id = $_SESSION['user_role_id'];
+$sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
+
+$sql_query_daily_streak = "SELECT date_accomplished FROM participants_challenges 
+        WHERE participants_id = $participant_id
+        ORDER BY date_accomplished DESC";
+$streak_result = mysqli_query($database, $sql_query_daily_streak);
+$dates = [];
+$streak = 0;
+
+$challenges_count = 0;
+$impact = [];
+$total_impact_amount = 0; // total CO2 reduction
+$total_impact_amount2 = 0; // total waste recycled
+$result = mysqli_query($database, $sql_query_impact);
+
+if (!$result) {
+    error_log("Database query failed: " . mysqli_error($database));
+    exit();
+}
+while ($row = mysqli_fetch_assoc($result)) {
+    $challenges_count += 1;
+}
+while ($row = mysqli_fetch_assoc($result)) {
+    $impact[$row['impact_type']] = $row['impact_amount'];
+}
+$row_count = count($impact);
+$count = 0;
+
+while ($count < $row_count) {
+    // Check impact type and add corresponding impact amount
+    if ($impact['impact_type'] == 'reduced carbon emission') {
+        $total_impact_amount = $impact['impact_amount'] + $total_impact_amount;
+
+    } else if ($impact['impact_type'] == 'recycling trash') {
+        $total_impact_amount2 = $impact['impact_amount'] + $total_impact_amount2;
+
+    }
+    $count++;
+}
+$user_impact_emissions = $total_impact_amount . " kg of CO2 Reduced Emissions";
+$user_impact_waste = $total_impact_amount2 . " kg of Waste Recycled";
+
+while ($row = mysqli_fetch_assoc($streak_result)) {
+    $dates[] = $row['date_accomplished']; // push each date into array
+}
+
+$today = new DateTime('today'); // Get today's date (no time, only date)
+$current_day = clone $today;
+
+
+// Convert date strings into DateTime objects
+$dates = array_map(function ($d) {
+    return new DateTime($d);
+}, $dates);
+
+
+while (true) {
+    $found = false;
+    foreach ($dates as $d) {
+        if ($d->format('Y-m-d') == $current_day->format('Y-m-d')) {
+            $found = true;
+            break;
+        }
+    }
+    if ($found) {
+        $streak++;
+        $current_day->modify('-1 day'); // go to previous day
+    } else {
+        // Streak breaks when a day is missing
+        break;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +85,18 @@
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-home-desktop.css">
- 
+
 </head>
+
 <body>
     <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'"><h2>EcoXP</h2></button>
+        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'">
+            <h2>EcoXP</h2>
+        </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
+                    src="images/profile.png" alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
         </div>
@@ -23,12 +105,24 @@
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
+                        src="images/home.png" alt="Home"></button>
             </div>
             <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img src="images/scan.png" alt="Scan"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img src="images/tag.png" alt="Rewards"></button>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
+                    src="images/scan.png" alt="Scan"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
+                    src="images/tag.png" alt="Rewards"></button>
+            <button class="icon-btn" id="logout" onclick="logout_confirm()">
+                <script>
+                    function logout_confirm() {
+                        if (confirm("Are you sure you want to logout?")) {
+                            window.location.href = "logout.php";
+                        }
+                    }
+                </script>
+                <img src="images/logout.png" alt="Logout">
+            </button>
         </div>
     </div>
     <div class="main-content">
@@ -36,20 +130,37 @@
             <input type="text" placeholder="Search..." id="search-input">
             <button id="search-btn">🔍</button>
         </div>
-        <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”</p>
+        <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
+        </p>
         <div class="text-box">
             Your Impact
         </div>
-        <div class="impact-container" >
-            <button class="impact-box"><h3>CO2​ Emissions Avoided</h3></button>
-            <button class="impact-box"><h3>Waste Diverted </h3></button>
-            <button class="impact-box"><h3>Challenges Completed</h3></button>
-            <button class="impact-box"><h3>Daily Streak</h3></button>
+        <div class="impact-container">
+            <button class="impact-box">
+                <h3><?= $user_impact_emissions ?></h3>
+            </button>
+
+            <button class="impact-box">
+                <h3><?= $user_impact_waste ?></h3>
+            </button>
+
+            <button class="impact-box">
+                <h3>
+                    <?= $challenges_count ?> Challenges Completed
+                </h3>
+            </button>
+
+            <button class="impact-box">
+                <h3>
+                    Daily Streak <br><?= $streak ?>
+                </h3>
+            </button>
             <button class="impact-next-btn">
                 <img src="images/next.png" alt="Next" />
             </button>
         </div>
-        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'" style="cursor: pointer;">
+        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
+            style="cursor: pointer;">
             What News?
         </div>
         <div class="content-container" onclick="window.location.href='participants-desktop-newsdetails.php'">
@@ -60,7 +171,12 @@
                 <div class="text-inner">
                     <h4 class="category-box">Category</h4>
                     <h3 class="title-box">Top 5 Green Tips for reducing e-waste.</h3>
-                    <h5 class="description-box">TCheck out the most upvoted post this week from community — it’s sparked a real conversation around how we deal with our old gadgets. In our tech-driven world, devices like phones, laptops, and chargers stack up quickly—and when they’re discarded improperly, they become toxic e-waste that hurts both the environment and our health. Those same devices also contain materials like gold and copper that, if recycled responsibly, could be reused instead of wasted. By being smarter with how we use and dispose of electronics—</h5>
+                    <h5 class="description-box">TCheck out the most upvoted post this week from community — it’s sparked
+                        a real conversation around how we deal with our old gadgets. In our tech-driven world, devices
+                        like phones, laptops, and chargers stack up quickly—and when they’re discarded improperly, they
+                        become toxic e-waste that hurts both the environment and our health. Those same devices also
+                        contain materials like gold and copper that, if recycled responsibly, could be reused instead of
+                        wasted. By being smarter with how we use and dispose of electronics—</h5>
                 </div>
             </button>
             <button class="next-btn">
@@ -75,7 +191,12 @@
                 <div class="text-inner">
                     <h4 class="category-box">Category</h4>
                     <h3 class="title-box">Top 5 Green Tips for reducing e-waste.</h3>
-                    <h5 class="description-box">TCheck out the most upvoted post this week from community — it’s sparked a real conversation around how we deal with our old gadgets. In our tech-driven world, devices like phones, laptops, and chargers stack up quickly—and when they’re discarded improperly, they become toxic e-waste that hurts both the environment and our health. Those same devices also contain materials like gold and copper that, if recycled responsibly, could be reused instead of wasted. By being smarter with how we use and dispose of electronics—</h5>
+                    <h5 class="description-box">TCheck out the most upvoted post this week from community — it’s sparked
+                        a real conversation around how we deal with our old gadgets. In our tech-driven world, devices
+                        like phones, laptops, and chargers stack up quickly—and when they’re discarded improperly, they
+                        become toxic e-waste that hurts both the environment and our health. Those same devices also
+                        contain materials like gold and copper that, if recycled responsibly, could be reused instead of
+                        wasted. By being smarter with how we use and dispose of electronics—</h5>
                 </div>
             </button>
             <button class="next-btn">
@@ -90,7 +211,12 @@
                 <div class="text-inner">
                     <h4 class="category-box">Category</h4>
                     <h3 class="title-box">Top 5 Green Tips for reducing e-waste.</h3>
-                    <h5 class="description-box">TCheck out the most upvoted post this week from community — it’s sparked a real conversation around how we deal with our old gadgets. In our tech-driven world, devices like phones, laptops, and chargers stack up quickly—and when they’re discarded improperly, they become toxic e-waste that hurts both the environment and our health. Those same devices also contain materials like gold and copper that, if recycled responsibly, could be reused instead of wasted. By being smarter with how we use and dispose of electronics—</h5>
+                    <h5 class="description-box">TCheck out the most upvoted post this week from community — it’s sparked
+                        a real conversation around how we deal with our old gadgets. In our tech-driven world, devices
+                        like phones, laptops, and chargers stack up quickly—and when they’re discarded improperly, they
+                        become toxic e-waste that hurts both the environment and our health. Those same devices also
+                        contain materials like gold and copper that, if recycled responsibly, could be reused instead of
+                        wasted. By being smarter with how we use and dispose of electronics—</h5>
                 </div>
             </button>
             <button class="next-btn">
@@ -100,4 +226,5 @@
     </div>
 
 </body>
+
 </html>
