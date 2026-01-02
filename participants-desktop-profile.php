@@ -1,6 +1,41 @@
 <?php
-include("session.php");
+    include("session.php");
+
+    if (!isset($_GET['id'])) {
+        echo "<script>alert('Invalid profile ID.'); window.location.href='participants-desktop-home.php';</script>";
+        exit();
+    }
+
+    $profile_id = $_GET['id'];
+
+    /* PROFILE INFO */
+    $sql = "SELECT participants.participants_id,participants.TP_no,`user`.name,`user`.email FROM participants
+            JOIN `user` ON participants.user_id = `user`.user_id WHERE participants.participants_id = $profile_id";
+
+    $result = mysqli_query($con, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $profile = mysqli_fetch_assoc($result);
+    } else {
+        echo "<script>alert('Profile not found'); window.location.href='participants-desktop-home.php';</script>";
+        exit();
+    }
+
+    /* TOTAL POINTS */
+    $points_sql = "SELECT IFNULL(SUM(points), 0) AS total_points FROM participants_challenges WHERE participants_id = $profile_id";
+
+    $points_result = mysqli_query($con, $points_sql);
+    $points_row = mysqli_fetch_assoc($points_result);
+    $total_points = $points_row['total_points'];
+
+    /* RANKING */
+    $ranking_sql = "SELECT COUNT(*) + 1 AS ranking FROM ( SELECT participants_id, SUM(points) AS total FROM participants_challenges GROUP BY participants_id HAVING total > (SELECT IFNULL(SUM(points), 0) FROM participants_challenges WHERE participants_id = $profile_id)) ranked";
+
+    $ranking_result = mysqli_query($con, $ranking_sql);
+    $ranking_row = mysqli_fetch_assoc($ranking_result);
+    $ranking = $ranking_row['ranking'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,18 +84,18 @@ include("session.php");
                 <img src="images/profile.png" alt="Profile Picture">
             </div>
             <div class="profile-info">
-                <p class="profile-name">Eiden Jackson</p>
-                <p class="profile-education">Bachelor of Environmental Science</p>
+                <p class = 'profile-name'><?php echo htmlspecialchars($profile['name']);?></p>
+                <p class="profile-education"><?php echo htmlspecialchars($profile['TP_no']);?></p>
             </div>
         </div>
         <div class="stats-container">
             <div class="stat-box">
                 <div class="stat-upper">Points</div>
-                <div class="stat-lower">20000</div>
+                <div class="stat-lower"><?php echo $total_points; ?></div>
             </div>
             <button class="stat-box" onclick="window.location.href='participants-desktop-leaderboard.php'">
                 <div class="stat-upper">Ranking</div>
-                <div class="stat-lower">1</div>
+                <div class="stat-lower"><?php echo $ranking; ?></div>
             </button>
         </div>
         <div class="quick-access">
@@ -130,3 +165,11 @@ include("session.php");
 </body>
 
 </html>
+
+<!-- When linking to the profile page, pass the ID:
+
+<a href="participants-desktop-profile.php?id=<?php echo $participants_id; ?>">
+    View Profile
+</a>
+
+-->
