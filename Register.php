@@ -29,7 +29,7 @@ include("database.php");
 
             <div>
                 <label>Password</label>
-                <input type="password" id="password" name="hash_password" placeholder="Enter your password..." required>
+                <input type="password" id="password" name="password" placeholder="Enter your password..." required>
             </div>
             <div>
                 <label>Confirm Password</label>
@@ -51,7 +51,7 @@ include("database.php");
         // Hash the password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $profile_pic = "/uploads/Google.jpg";
-        $account_status = "active";
+        $account_status = "Active";
         if ($numrow == 0) {
 
             $sql = "INSERT INTO user (user_full_name, email, hash_password, profile_picture_path, account_status) VALUES ('$_POST[user_full_name]', '$_POST[email]', '$hashed_password', '$profile_pic', '$account_status')";
