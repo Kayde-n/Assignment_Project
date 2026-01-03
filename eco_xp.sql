@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 21, 2025 at 02:43 PM
+-- Generation Time: Jan 03, 2026 at 11:20 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -186,9 +186,9 @@ CREATE TABLE IF NOT EXISTS `eco_news` (
 --
 
 INSERT INTO `eco_news` (`eco_news_id`, `title`, `description`, `image_path`, `venue`, `organised_by`, `events_id`, `posted_by`) VALUES
-(1, 'Beach Clean-up', 'Beach clean-up is an annual event where students clean up beaches along the coast of Klang', 'eco_images/beach_clean_up.png', 'Kawasan Perindustrian Selat Klang Utara, 42000 Port Klang, Selangor', 'Petronas', 1, 3),
-(17, 'Tree Planting Day', 'Students and staff join to plant trees around the campus to promote greenery and reduce carbon footprint', 'eco_images/tree_planting.png', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Green Club', 1, 2),
-(20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', '\'eco_images/recycling_drive.png', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1);
+(1, 'Beach Clean-up', 'Beach clean-up is an annual event where students clean up beaches along the coast of Klang', 'beach_cleanup.jpg', 'Kawasan Perindustrian Selat Klang Utara, 42000 Port Klang, Selangor', 'Petronas', 1, 3),
+(17, 'Tree Planting Day', 'Students and staff join to plant trees around the campus to promote greenery and reduce carbon footprint', 'tree_planting.png', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Green Club', 1, 2),
+(20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', 'recycling_event.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -609,24 +609,24 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_full_name`, `email`, `hash_password`, `profile_picture_path`, `account_status`) VALUES
-(1, 'Ivan Chia', 'ivan@yahoo.com', '$2b$10$', '/uploads/Google.jpg', 'Active'),
-(2, 'Vince Heong', 'vince@gmail.com', '234gft', '/uploads/Google.jpg', 'Active'),
-(3, 'Zong ze', 'Zong@gmail.com', '3dg($%g', '/uploads/Google.jpg', 'Active'),
-(4, 'Daniel Wong', 'daniel.wong@gmail.com', 'a9F#2kL!', '/uploads/Google.jpg', 'Active'),
-(5, 'Aisyah Rahman', 'aisyah.rahman@gmail.com', 'Qw8$Lm2@', '/uploads/Google.jpg', 'Deactivated'),
-(6, 'Jason Lim', 'jason.lim@gmail.com', 'Zx7!P0$r', '/uploads/Google.jpg', 'Active'),
-(7, 'Nur Syafiqah Ali', 'syafiqah.ali@gmail.com', 'M2@#x9Kq', '/uploads/Google.jpg', 'Deactivated'),
-(8, 'Amir Hakim', 'amir.hakim@gmail.com', 'P@9xLm21', '/uploads/Google.jpg', 'Active'),
-(9, 'Siti Nur Aina', 'siti.aina@gmail.com', 'Qw!7Kp$2', '/uploads/Google.jpg', 'Deactivated'),
-(10, 'Bryan Tan', 'bryan.tan@gmail.com', 'L9#xP2@A', '/uploads/Google.jpg', 'Active'),
-(11, 'Farah Nabila', 'farah.nabila@gmail.com', 'Z@8P!k2L', '/uploads/Google.jpg', 'Active'),
-(12, 'Kelvin Chong', 'kelvin.chong@gmail.com', 'X2$P@9Lm', '/uploads/Google.jpg', 'Deactivated'),
-(13, 'Aiman Syazwan', 'aiman.syazwan@gmail.com', 'M!9L@x2P', '/uploads/Google.jpg', 'Active'),
-(14, 'Adam Firdaus', 'adam.firdaus@gmail.com', 'A9!xP@2L', '/uploads/Google.jpg', 'Active'),
-(15, 'Sofia Amirah', 'sofia.amirah@gmail.com', 'Q2@Lx!9P', '/uploads/Google.jpg', 'Deactivated'),
-(16, 'Ryan Tan', 'ryan.tan@gmail.com', 'Zx9@P!2L', '/uploads/Google.jpg', 'Active'),
-(17, 'Nur Izzati', 'nur.izzati@gmail.com', 'M@9x!P2L', '/uploads/Google.jpg', 'Active'),
-(18, 'Daniel Chong', 'daniel.chong@gmail.com', 'P!9xL@2M', '/uploads/Google.jpg', 'Deactivated');
+(1, 'Ivan Chia', 'ivan@yahoo.com', '$2b$10$', 'images/profile.png', 'Active'),
+(2, 'Vince Heong', 'vince@gmail.com', '234gft', 'images/profile.png', 'Active'),
+(3, 'Zong ze', 'Zong@gmail.com', '3dg($%g', 'images/profile.png', 'Active'),
+(4, 'Daniel Wong', 'daniel.wong@gmail.com', 'a9F#2kL!', 'images/profile.png', 'Active'),
+(5, 'Aisyah Rahman', 'aisyah.rahman@gmail.com', 'Qw8$Lm2@', 'images/profile.png', 'Deactivated'),
+(6, 'Jason Lim', 'jason.lim@gmail.com', 'Zx7!P0$r', 'images/profile.png', 'Active'),
+(7, 'Nur Syafiqah Ali', 'syafiqah.ali@gmail.com', 'M2@#x9Kq', 'images/profile.png', 'Deactivated'),
+(8, 'Amir Hakim', 'amir.hakim@gmail.com', 'P@9xLm21', 'images/profile.png', 'Active'),
+(9, 'Siti Nur Aina', 'siti.aina@gmail.com', 'Qw!7Kp$2', 'images/profile.png', 'Deactivated'),
+(10, 'Bryan Tan', 'bryan.tan@gmail.com', 'L9#xP2@A', 'images/profile.png', 'Active'),
+(11, 'Farah Nabila', 'farah.nabila@gmail.com', 'Z@8P!k2L', 'images/profile.png', 'Active'),
+(12, 'Kelvin Chong', 'kelvin.chong@gmail.com', 'X2$P@9Lm', 'images/profile.png', 'Deactivated'),
+(13, 'Aiman Syazwan', 'aiman.syazwan@gmail.com', 'M!9L@x2P', 'images/profile.png', 'Active'),
+(14, 'Adam Firdaus', 'adam.firdaus@gmail.com', 'A9!xP@2L', 'images/profile.png', 'Active'),
+(15, 'Sofia Amirah', 'sofia.amirah@gmail.com', 'Q2@Lx!9P', 'images/profile.png', 'Deactivated'),
+(16, 'Ryan Tan', 'ryan.tan@gmail.com', 'Zx9@P!2L', 'images/profile.png', 'Active'),
+(17, 'Nur Izzati', 'nur.izzati@gmail.com', 'M@9x!P2L', 'images/profile.png', 'Active'),
+(18, 'Daniel Chong', 'daniel.chong@gmail.com', 'P!9xL@2M', 'images/profile.png', 'Deactivated');
 
 --
 -- Constraints for dumped tables
