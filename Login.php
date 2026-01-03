@@ -1,38 +1,38 @@
 <?php
-// At the very top of authenticate-user-role.php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+
+session_start();
+
 
 include("database.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // username and password sent from Form
     $email = mysqli_real_escape_string($database, $_POST['email']);
-    $password = mysqli_real_escape_string($database, $_POST['hash_password']);
+    $password = mysqli_real_escape_string($database, $_POST['password']);
 
 
     $sql = "SELECT * FROM user WHERE email='$email'";
     $result = mysqli_query($database, $sql);
-    $row = mysqli_fetch_array($result);
-    $rowcount = mysqli_num_rows($result);
 
-    if ($rowcount == 1) {
-        if ($row = mysqli_fetch_assoc($result)) {
-            if (password_verify($password, $row['hash_password'])) { // Password is correct
-                $_SESSION['mySession'] = $row['user_id'];
-                $_SESSION['user_id'] = $row['user_full_name'];
 
-            } else {
-                // Password is incorrect
-                echo '<script>alert("Your Email or Password is invalid. Please re-login.");</script>';
-            }
-        }
+
+    $row = mysqli_fetch_assoc($result);
+
+    if (password_verify($password, $row['hash_password'])) { // Password is correct
+        $_SESSION['mySession'] = $row['user_id'];
+        $_SESSION['user_id'] = $row['user_full_name'];
+        echo '<script>console.log("Login success");</script>';
 
     } else {
+        // Password is incorrect
         echo '<script>alert("Your Email or Password is invalid. Please re-login.");</script>';
+
     }
     header("location: authenticate-user-role.php");
+
+
+
+
 
     mysqli_close($database);
     exit();
@@ -55,14 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div>
             <h1>Welcome Back!</h1>
         </div>
-        <form method="POST" autocomplete="off">
+        <form method="POST">
             <div class="details_form">
                 <label>Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email..." required>
             </div>
             <div>
                 <label>Password</label>
-                <input type="password" name="hash_password" placeholder="Enter your password..." required>
+                <input type="password" name="password" placeholder="Enter your password..." required>
             </div>
 
             <button type="submit">Log in</button>
