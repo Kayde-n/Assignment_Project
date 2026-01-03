@@ -93,7 +93,7 @@ include("session.php");
             // Only search if user typed at least 2 characters
             if (query.length >= 2) {
                 // Send AJAX request to PHP
-                fetch('search.php?query=' + encodeURIComponent(query))
+                fetch('search.php?query=' + encodeURIComponent(query)+'&source=eco_news')
                     .then(response => response.json())
                     .then(data => {
 
