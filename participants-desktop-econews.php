@@ -1,4 +1,5 @@
 <?php
+    include("session.php")
     include("Database.php");
 
     $sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
