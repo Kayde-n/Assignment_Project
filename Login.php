@@ -8,7 +8,7 @@ include("database.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // username and password sent from Form
     $email = mysqli_real_escape_string($database, $_POST['email']);
-    $password = mysqli_real_escape_string($database, $_POST['password']);
+    $password = $_POST['password'];
 
 
     $sql = "SELECT * FROM user WHERE email='$email'";
