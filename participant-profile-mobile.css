@@ -1,0 +1,145 @@
+.profile-page {
+    padding: 0px 16px;
+}
+
+/* Header */
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--card-white);
+    border: 3px solid var(--line-black);
+    margin-bottom: 16px;
+}
+
+.profile-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary-text);
+}
+
+.profile-id {
+    font-size: 14px;
+    color: var(--secondary-text);
+}
+
+.profile-course {
+    font-size: 14px;
+    color: var(--secondary-text);
+}
+
+/* Stats */
+.profile-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--secondary-green);
+    border-radius: 6px;
+    background: var(--card-white);
+    text-align: center;
+}
+
+.stat-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--secondary-green);
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--secondary-green);
+}
+
+/* Quick access */
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.quick-item {
+    display: flex;
+    color: var(--primary-text);
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line-black);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.quick-item i {
+    width: 24px;
+    height: 24px;
+    color: var(--primary-text);
+}
+
+.quick-item span {
+    flex: 1;
+    font-size: 14px;
+}
+
+.chevron {
+    color: var(--secondary-text);
+}
+
+.quick-item.logout {
+    color: #d9534f;  
+    border: 0px;        /* applies to text + icons */
+}
+
+.quick-item.logout i {
+    color: #d9534f;
+    stroke: #d9534f;
+}
+
+.upload-avatar {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #61616110;
+    border: 2px solid var(--line-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.upload-avatar:hover {
+    background-color: var(--ice-mint);
+    border-color: var(--line-black);
+}
+
+/* text overlay */
+.avatar-text {
+    font-size: 12px;
+    color: var(--secondary-text);
+    font-weight: 600;
+    z-index: 1;
+}
+
+/* uploaded image */
+.upload-avatar img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
