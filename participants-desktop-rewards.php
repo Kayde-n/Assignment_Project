@@ -1,13 +1,16 @@
 <?php
-    include("session.php");
-    
-    // Fetch all rewards from database
-    $sql = "SELECT rewards_id, reward_name, description, points_required, quantity FROM rewards";
-    $result = mysqli_query($con, $sql);
+include("session.php");
+include("database.php");
+
+// Fetch all rewards from database
+$sql = "SELECT rewards_id, reward_name, description, points_required, quantity FROM rewards";
+$result = mysqli_query($database, $sql);
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,14 +18,18 @@
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-rewards-desktop.css">
- 
+
 </head>
+
 <body>
-    <div class="top-bar" >
+    <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'"><h2>EcoXP</h2></button>
+        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'">
+            <h2>EcoXP</h2>
+        </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
+                    src="images/profile.png" alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
         </div>
@@ -31,12 +38,15 @@
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
+                        src="images/home.png" alt="Home"></button>
             </div>
             <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img src="images/scan.png" alt="Scan"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
+                    src="images/scan.png" alt="Scan"></button>
             <div id="reward-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img src="images/tag.png" alt="Rewards"></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
+                        src="images/tag.png" alt="Rewards"></button>
             </div>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
@@ -47,31 +57,33 @@
 
         <div class="reward-categories">
             <button class="category-btn active">All Rewards</button>
-            <button class="category-btn">Discount/Vouchers</button>
-            <button class="category-btn">Physical Rewards</button>
+            <button class="category-btn" onclick="filterRewards('Discount/Vouchers')">Discount/Vouchers</button>
+            <button class="category-btn" onclick="filterRewards('Physical Rewards')">Physical Rewards</button>
         </div>
 
-        <p class="result-count"><?php mysqli_num_rows($result);?> 4 results</p>
-
+        <p class="result-count"><?php echo mysqli_num_rows($result); ?> results</p>
         <div class="reward-cards">
 
             <?php
-                if(mysqli_num_rows($result) > 0){
-                    while($row = mysqli_fetch_assoc($result)){
-            ?>
-                        <div class="reward-card">
-                            <div class="reward-img"><img src="images/voucher.png"></div>
-                            <div class="reward-info">
-                                <h3><?php echo $row['reward_name']; ?></h3>
-                                <p class="reward-points"><?php echo $row['points_required']; ?>GP</p>
-                                <button class="redeem-btn" onclick="openModal('<?php echo $row['reward_name']; ?>', '<?php echo $row['description']; ?>', <?php echo $row['rewards_id']; ?>)">Redeem</button>
-                            </div>
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <div class="reward-card">
+                        <div class="reward-img"><img src="images/voucher.png"></div>
+                        <div class="reward-info">
+                            <h3><?php echo $row['reward_name']; ?></h3>
+                            <p class="reward-points"><?php echo $row['points_required']; ?>GP</p>
+                            <button class="redeem-btn" data-title="<?php echo htmlspecialchars($row['reward_name']); ?>"
+                                data-description="<?php echo htmlspecialchars($row['description']); ?>"
+                                data-id="<?php echo $row['rewards_id']; ?>"
+                                onclick="openModal(this.dataset.title, this.dataset.description, this.dataset.id)">Redeem</button>
                         </div>
-            <?php
-                    }
-                } else {
-                    echo '<p>No rewards available at the moment.</p>';
+                    </div>
+                    <?php
                 }
+            } else {
+                echo '<p>No rewards available at the moment.</p>';
+            }
             ?>
 
         </div>
@@ -90,13 +102,13 @@
                 <img src="images/voucher.png" style="width:120px;">
             </div>
 
-            <p id = "modalDescription">
+            <p id="modalDescription">
                 <strong>Terms & Conditions:</strong>
-                <span id = "termsText"></span>
+                <span id="termsText"></span>
             </p>
-            
+
             <label>
-                <input type="checkbox"> I agree to the terms & conditions
+                <input type="checkbox" id="agreeCheckbox"> I agree to the terms & conditions
             </label>
 
             <div class="modal-footer">
@@ -105,17 +117,18 @@
 
         </div>
     </div>
-    
+
     <div id="qrModal" class="modal-overlay">
         <div class="modal-box" style="width:420px; text-align:center;">
 
             <div class="modal-header">
-            <h3>Redeem QR Code</h3>
-            <span class="close-btn" onclick="closeQrModal()">&times;</span>
+                <h3>Redeem QR Code</h3>
+                <span class="close-btn" onclick="closeQrModal()">&times;</span>
             </div>
 
             <div style="margin:20px 0;">
-            <img src="images/qrcode.png" alt="QR Code" style="width:180px;">
+                <img id="qrCodeImg" src=" " alt="QR Code" style="width:180px;">
+
             </div>
 
             <p style="color:#53B757; font-weight:600;">09 : 47</p>
@@ -127,41 +140,70 @@
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
-    let currentRewardId = null;
+        let currentRewardId = null;
 
-    function openModal(title, description, rewardId) {
-        currentRewardId = rewardId;
-        document.getElementById("modalTitle").innerText = title;
-        document.getElementById("termsText").innerHTML = description.replace(/\n/g, '<br>');
-        document.getElementById("agreeCheckbox").checked = false;
-        document.getElementById("rewardModal").classList.add("show");
-    }
-
-    function closeModal() {
-        document.getElementById("rewardModal").classList.remove("show");
-    }
-
-    function confirmRedeem() {
-        // Check if checkbox is checked
-        if(!document.getElementById("agreeCheckbox").checked) {
-            alert("Please agree to the terms & conditions");
-            return;
+        function openModal(title, description, rewardId) {
+            currentRewardId = rewardId;
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("termsText").innerHTML = description.replace(/\n/g, '<br>');
+            document.getElementById("agreeCheckbox").checked = false;
+            document.getElementById("rewardModal").classList.add("show");
         }
 
-        // Close first modal
-        closeModal();
+        function closeModal() {
+            document.getElementById("rewardModal").classList.remove("show");
+        }
 
-        // Open QR modal
-        document.getElementById("qrModal").classList.add("show");
-    }
+        function confirmRedeem() {
+            // Check if checkbox is checked
+            if (!document.getElementById("agreeCheckbox").checked) {
+                alert("Please agree to the terms & conditions");
+                return;
+            }
+            fetch("set-reward-session.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "reward_id=" + encodeURIComponent(currentRewardId)
+            })
+                .then(response => response.text())
+                .then(data => {
+                    if (data === "OK") {
+                        // Now generate QR
+                        return fetch("qr-image-generation.php");//"return" keyword essentially for chaining promises in following async operations
+                    } else {
+                        alert("Failed to start redemption");
+                    }
+                })
+                .then(response => response.text())
+                .then(qrUrl => {
+                    console.log("QR URL:", qrUrl);
+                    alert("QR URL: " + qrUrl);
+                    document.getElementById("qrCodeImg").src = qrUrl;
+                    closeModal(); // Close first modal
+                    document.getElementById("qrModal").classList.add("show"); // Open QR modal
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
 
-    function closeQrModal() {
-        document.getElementById("qrModal").classList.remove("show");
-    }
+        function closeQrModal() {
+            document.getElementById("qrModal").classList.remove("show");
+        }
+        function filterRewards(category) {
+            // Placeholder function for filtering rewards
+
+        }
+
     </script>
 
 </body>
+
 </html>
 <?php
-    mysqli_close($con);
+if ($database) {
+    mysqli_close($database);
+}
 ?>
