@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 03, 2026 at 02:50 PM
+-- Generation Time: Jan 04, 2026 at 07:16 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ecoxp database`
+-- Database: `ecoxp`
 --
 
 -- --------------------------------------------------------
@@ -410,6 +410,7 @@ CREATE TABLE IF NOT EXISTS `rewards` (
   `description` text NOT NULL,
   `points_required` int NOT NULL,
   `quantity` int NOT NULL,
+  `rewards_category` varchar(255) NOT NULL,
   PRIMARY KEY (`rewards_id`),
   UNIQUE KEY `rewards_id` (`rewards_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -418,12 +419,12 @@ CREATE TABLE IF NOT EXISTS `rewards` (
 -- Dumping data for table `rewards`
 --
 
-INSERT INTO `rewards` (`rewards_id`, `reward_name`, `description`, `points_required`, `quantity`) VALUES
-(1, 'Free Parking', 'Reward includes free parking for 3 days (description includes T&C)', 1500, 15),
-(2, 'Campus Cafeteria Voucher', 'RM10 voucher redeemable at the campus cafeteria (terms and conditions apply)', 800, 50),
-(3, 'APU Merchandise T-Shirt', 'Official APU merchandise T-shirt available in selected sizes (terms and conditions apply)', 1200, 30),
-(4, 'Printing Credits', 'Includes 100 pages of black-and-white printing credits usable within the campus (terms and conditions apply)', 500, 100),
-(5, 'Library Late Fee Waiver', 'Waiver of library late fees up to RM20 (terms and conditions apply)', 700, 40);
+INSERT INTO `rewards` (`rewards_id`, `reward_name`, `description`, `points_required`, `quantity`, `rewards_category`) VALUES
+(1, 'Free Parking', 'Reward includes free parking for 3 days (description includes T&C)', 1500, 15, 'Discount/Vouchers'),
+(2, 'Campus Cafeteria Voucher', 'RM10 voucher redeemable at the campus cafeteria (terms and conditions apply)', 800, 50, 'Discount/Vouchers'),
+(3, 'APU Merchandise T-Shirt', 'Official APU merchandise T-shirt available in selected sizes (terms and conditions apply)', 1200, 30, 'Physical Rewards'),
+(4, 'Printing Credits', 'Includes 100 pages of black-and-white printing credits usable within the campus (terms and conditions apply)', 500, 100, 'Discount/Vouchers'),
+(5, 'Library Late Fee Waiver', 'Waiver of library late fees up to RM20 (terms and conditions apply)', 700, 40, 'Discount/Vouchers');
 
 -- --------------------------------------------------------
 
