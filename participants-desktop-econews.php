@@ -1,6 +1,11 @@
 <?php
-include("session.php");
+    include("session.php");
+    include("Database.php");
+
+    $sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
+    $result = mysqli_query($database, $sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,36 +56,32 @@ include("session.php");
         <div class="text-box">
             What News?
         </div>
-        <button class="content-holder" onclick="window.location.href='participants-desktop-newsdetails.php'">
-            <div class="category-box">Environment</div>
-            <div class="content-image">
-                <img src="images/sample-image.png" alt="">
-            </div>
-            <div class="content-text-box">
-                <h3 class="content-text-title">Top 5 Green Tips for reducing e-waste.</h3>
-                <p class="content-text-description">TCheck out the most upvoted post this week from community — it’s
-                    sparked a real conversation around how we deal with our old gadgets. In our tech-driven world,
-                    devices like phones, laptops, and chargers stack up quickly—and when they’re discarded improperly,
-                    they become toxic e-waste that hurts both the environment and our health. Those same devices also
-                    contain materials like gold and copper that, if recycled responsibly, could be reused instead of
-                    wasted. By being smarter with how we use and dispose of electronics—</p>
-            </div>
-        </button>
-        <button class="content-holder">
-            <div class="category-box">Environment</div>
-            <div class="content-image">
-                <img src="images/sample-image.png" alt="">
-            </div>
-            <div class="content-text-box">
-                <h3 class="content-text-title">Top 5 Green Tips for reducing e-waste.</h3>
-                <p class="content-text-description">TCheck out the most upvoted post this week from community — it’s
-                    sparked a real conversation around how we deal with our old gadgets. In our tech-driven world,
-                    devices like phones, laptops, and chargers stack up quickly—and when they’re discarded improperly,
-                    they become toxic e-waste that hurts both the environment and our health. Those same devices also
-                    contain materials like gold and copper that, if recycled responsibly, could be reused instead of
-                    wasted. By being smarter with how we use and dispose of electronics—</p>
-            </div>
-        </button>
+        
+        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+
+            <button class="content-holder"
+                onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
+
+                <div class="category-box">Environment</div>
+
+                <div class="content-image">
+                    <img src="/Assignment_Project/images/<?php echo $row['image_path']; ?>">
+                </div>
+
+                <div class="content-text-box">
+                    <h3 class="content-text-title">
+                        <?php echo $row['title']; ?>
+                    </h3>
+
+                    <p class="content-text-description">
+                        <?php echo substr($row['description'], 0, 200); ?>...
+                    </p>
+                </div>
+
+            </button>
+
+        <?php } ?>
+
     </div>
     <script>
         const searchInput = document.getElementById('search-input');
