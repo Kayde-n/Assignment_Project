@@ -50,7 +50,7 @@ include("database.php");
 
         // Hash the password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $profile_pic = "/uploads/Google.jpg";
+        $profile_pic = "images/profile.png";
         $account_status = "Active";
         if ($numrow == 0) {
 
