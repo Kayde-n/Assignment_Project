@@ -1,5 +1,66 @@
 <?php
     include("session.php");
+    include("Database.php");
+    $user_id = $_SESSION['user_id'];
+    $participants_id = $_SESSION['user_role_id'];
+
+    // DEBUG - Check what's in $_GET
+    echo "<!-- GET array: ";
+    print_r($_GET);
+    echo " -->";
+    
+    echo "<!-- isset GET tab: " . (isset($_GET['tab']) ? 'YES' : 'NO') . " -->";
+    echo "<!-- GET tab value: " . (isset($_GET['tab']) ? $_GET['tab'] : 'NOTHING') . " -->";
+
+    $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'ongoing';
+    
+    echo "<!-- active_tab variable: " . $active_tab . " -->";
+
+    if ($active_tab == 'ongoing') {
+        $sql = "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status
+        FROM challenges
+        LEFT JOIN participants_challenges
+            ON challenges.challenges_id = participants_challenges.challenges_id
+            AND participants_challenges.participants_id = $participants_id
+        WHERE  participants_challenges.challenges_id IS NULL
+            OR participants_challenges.challenges_status = 'pending'";
+        
+        $challenges_result = mysqli_query($database, $sql);
+
+    } else if ($active_tab == 'completed') {
+        $sql= "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status
+        FROM challenges
+        INNER JOIN participants_challenges
+            ON challenges.challenges_id = participants_challenges.challenges_id
+        WHERE participants_challenges.participants_id = $participants_id
+         AND participants_challenges.challenges_status IN ('approved', 'rejected')";
+
+        $challenges_result = mysqli_query($database, $sql);
+    }
+
+    // Separate into daily quests and special events
+    $daily_quests = [];
+    $special_events = [];
+
+    while ($row = mysqli_fetch_assoc($challenges_result)) {
+        if ($row['challenge_type'] == 'Daily') {
+            $daily_quests[] = $row;
+        } else if ($row['challenge_type'] == 'Weekly' || $row['challenge_type'] == 'Seasonal') {
+            $special_events[] = $row;
+        }
+    }
+
+    //for daily progress
+    $daily_completed=0;
+    $daily_total = count($daily_quests);
+
+    if ($active_tab == 'ongoing') {
+        foreach ($daily_quests as $quest) {
+            if ($quest['challenges_status'] == 'approved') {
+                $daily_completed++;
+            }
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,8 +106,16 @@
 
         <!-- Tabs (Ongoing / Completed) -->
         <nav class="tabs" id="tabs" role="tablist">
-            <button class="tab tab-ongoing" id="tabOngoing" role="tab">Ongoing</button>
-            <button class="tab tab-completed" id="tabCompleted" role="tab">Completed</button>
+        <button class="tab tab-ongoing <?php echo ($active_tab == 'ongoing') ? 'active' : ''; ?>" 
+                id="tabOngoing" 
+                role="tab">
+            Ongoing
+        </button>
+        <button class="tab tab-completed <?php echo ($active_tab == 'completed') ? 'active' : ''; ?>" 
+                id="tabCompleted" 
+                role="tab">
+            Completed
+        </button>
         </nav>
 
         <!-- Main content -->
@@ -57,11 +126,18 @@
                 <h2 id="dailyQuestsHeading" class="section-title">Daily Quests</h2>
 
                 <!-- Progress row (e.g., 2/5) -->
-                <div class="daily-progress" id="dailyProgress">
-                    <label for="dailyProgressMeter" class="progress-label">2/5</label>
-                    <!-- HTML progress element (no styling) -->
-                    <progress id="dailyProgressMeter" class="progress-meter" value="2" max="5">2 of 5</progress>
-                </div>
+                <!-- Progress row - ALWAYS SHOW -->
+            <div class="daily-progress" id="dailyProgress">
+                <label for="dailyProgressMeter" class="progress-label">
+                    <?php echo $daily_completed; ?>/<?php echo $daily_total; ?>
+                </label>
+                <!-- HTML progress element -->
+                <progress id="dailyProgressMeter" class="progress-meter" 
+                        value="<?php echo $daily_completed; ?>" 
+                        max="<?php echo $daily_total; ?>">
+                    <?php echo $daily_completed; ?> of <?php echo $daily_total; ?>
+                </progress>
+            </div>
 
                 <!-- Quest list -->
                 <div class="quest-list" id="questList">
@@ -181,6 +257,16 @@
         </nav>
 
     </div>
+
+    <script>
+    document.getElementById('tabOngoing').addEventListener('click', function() {
+        window.location.href = 'participants-desktop-challenges-tab.php?tab=ongoing';
+    });
+
+    document.getElementById('tabCompleted').addEventListener('click', function() {
+        window.location.href = 'participants-desktop-challenges-tab.php?tab=completed';
+    });
+    </script>
 
 </body>
 
