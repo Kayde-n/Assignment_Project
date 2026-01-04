@@ -6,17 +6,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>System Config</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="admin-system-config.css">
 </head>
 <body>
-        <div class="container">
+    <div class="top-bar">
+        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'"><h2>EcoXP</h2></button>
+        <div class="default-icon-container">
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
+            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+        </div>
+    </div>
+
+    <div class="side-bar">
+        <div class="admin-icon-container">
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png" alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img src="images/system-analytics.png" alt="System Analytics"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img src="images/sustainability-report.png" alt="Sustainability Report"></button>
+            <div id="system-config-icon-box">
+                <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img src="images/system-config.png" alt="System Config"></button>
+            </div>
+            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+        </div>
+    </div>
+
+    <div class="main-content">
         <!-- Header Section -->
-        <header>
-            <button class="back-btn">
+        <div class="page-header">
+            <button class="back-btn" onclick="window.history.back()">
                 <img src="Images/back-arrow.png" alt="Back">
             </button>
-            <h1>System Settings</h1>
-        </header>
+            <div class="title-box">
+                <h1>System Settings</h1>
+            </div>
+        </div>
 
         <!-- System Maintenance Section -->
         <section class="system-maintenance">
@@ -65,7 +92,7 @@
                 <div class="color-picker">
                     <input type="text" id="system-color" name="system-color" value="#4CAF50" readonly>
                     <button class="edit-btn">
-                        <img src="Images/edit-icon.png" alt="Edit">
+                        <img src="Images/edit.png" alt="Edit">
                     </button>
                 </div>
             </div>
@@ -96,26 +123,6 @@
             <button class="btn-reset">Reset</button>
             <button class="btn-save">Save</button>
         </div>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <a href="home.html" class="nav-item">
-                <img src="Images/home-icon.png" alt="Home">
-            </a>
-            <a href="stats.html" class="nav-item">
-                <img src="Images/stats-icon.png" alt="Stats">
-            </a>
-            <a href="leaderboard.html" class="nav-item">
-                <img src="Images/leaderboard-icon.png" alt="Leaderboard">
-            </a>
-            <a href="community.html" class="nav-item">
-                <img src="Images/community-icon.png" alt="Community">
-            </a>
-            <a href="profile.html" class="nav-item active">
-                <img src="Images/profile-icon.png" alt="Profile">
-            </a>
-        </nav>
     </div>
-
 </body>
 </html>
