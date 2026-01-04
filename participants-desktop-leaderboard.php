@@ -8,13 +8,15 @@ $sql_query = "SELECT
                 u.user_full_name,
                 COALESCE(SUM(c.points_reward), 0) AS total_eco_points
                 FROM user u
-                LEFT JOIN participants p 
-                    ON u.user_id = p.user_id
-                LEFT JOIN participants_challenges pc 
-                    ON p.participants_id = pc.participants_id
-                LEFT JOIN challenges c 
-                    ON pc.challenges_id = c.challenges_id
-                ORDER BY total_eco_points DESC;";
+            RIGHT JOIN participants p 
+                ON u.user_id = p.user_id
+            LEFT JOIN participants_challenges pc 
+                ON p.participants_id = pc.participants_id
+                AND pc.challenges_status = 'approved'
+            LEFT JOIN challenges c 
+                ON pc.challenges_id = c.challenges_id
+            GROUP BY u.user_id, u.user_full_name, u.profile_picture_path
+            ORDER BY total_eco_points DESC;";
 $result = mysqli_query($database, $sql_query);
 
 if (!$result) {
@@ -33,10 +35,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     $leaderstats[$row['user_full_name']] = $row['total_eco_points'];
     $images[] = $row['profile_picture_path'];
 }
-$empty_space = 21 - count($leaderstats);
-while (count($leaderstats) < $empty_space) {
+$total_slots = 20;
+$empty_space = $total_slots - count($leaderstats);
+$filled_space = 0;
+while ($filled_space < $empty_space) {
     $leaderstats['Spot Open ' . (count($leaderstats) + 1)] = 0;
     $images[] = 'images/profile.png';
+    $filled_space++;
 }
 
 $topThree = array_slice($leaderstats, 0, 3, true);
@@ -50,13 +55,6 @@ foreach ($topThree as $name => $points) {
     ]; //convert to array within an array 
 
 }
-
-echo "<pre>";
-print ($empty_space);
-print_r($leaderstats);
-print_r($topThreeArrays);
-print_r($images);
-echo "</pre>";
 
 ?>
 <!DOCTYPE html>

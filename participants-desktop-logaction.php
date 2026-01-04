@@ -1,5 +1,16 @@
 <?php
 include("session.php");
+include("database.php");
+$sql_query = "SELECT challenge_name FROM challenges";
+$result = mysqli_query($database, $sql_query);
+if (!$result) {
+    die("Database query failed: " . mysqli_error($database));
+}
+$challenges = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $challenges[] = $row;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,27 +63,28 @@ include("session.php");
             <div class="text-box">
                 Log Action
             </div>
+            <form action="challenges-upload.php" method="POST" enctype="multipart/form-data">
+                <select class="log-select" name="challenge_selected" required>
+                    <?php foreach ($challenges as $challenge): ?>
+                        <option><?php echo $challenge['challenge_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
 
-            <select class="log-select">
-                <option>Select Challenge</option>
-                <option>Recycle Plastic</option>
-                <option>Bring Reusable Bottle</option>
-                <option>Public Transport</option>
-            </select>
+                <div class="upload-box">
 
-            <div class="upload-box">
-                <form action="challenges-upload.php" method="POST" enctype="multipart/form-data">
                     <input type="file" name="upload_file" required>
 
-                </form>
 
-            </div>
 
-            <textarea class="log-notes" placeholder="Add Notes (Optional)"></textarea>
+                </div>
 
-            <div class="submit-container">
-                <button class="submit-btn">Submit For Review</button>
-            </div>
+
+                <textarea class="log-notes" placeholder="Add Notes (Optional)"></textarea>
+
+                <div class="submit-container">
+                    <button class="submit-btn">Submit For Review</button>
+                </div>
+            </form>
         </div>
 
     </div>
