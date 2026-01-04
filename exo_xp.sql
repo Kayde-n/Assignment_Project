@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 21, 2025 at 02:43 PM
+-- Generation Time: Jan 03, 2026 at 02:50 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `eco_xp`
+-- Database: `ecoxp database`
 --
 
 -- --------------------------------------------------------
@@ -186,9 +186,9 @@ CREATE TABLE IF NOT EXISTS `eco_news` (
 --
 
 INSERT INTO `eco_news` (`eco_news_id`, `title`, `description`, `image_path`, `venue`, `organised_by`, `events_id`, `posted_by`) VALUES
-(1, 'Beach Clean-up', 'Beach clean-up is an annual event where students clean up beaches along the coast of Klang', 'eco_images/beach_clean_up.png', 'Kawasan Perindustrian Selat Klang Utara, 42000 Port Klang, Selangor', 'Petronas', 1, 3),
-(17, 'Tree Planting Day', 'Students and staff join to plant trees around the campus to promote greenery and reduce carbon footprint', 'eco_images/tree_planting.png', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Green Club', 1, 2),
-(20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', '\'eco_images/recycling_drive.png', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1);
+(1, 'Beach Clean-up', 'Beach clean-up is an annual event where students clean up beaches along the coast of Klang', 'beach_cleanup.jpg', 'Kawasan Perindustrian Selat Klang Utara, 42000 Port Klang, Selangor', 'Petronas', 1, 3),
+(17, 'Tree Planting Day', 'Students and staff join to plant trees around the campus to promote greenery and reduce carbon footprint', 'tree_planting.png', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Green Club', 1, 2),
+(20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', 'recycling_event.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -220,35 +220,6 @@ INSERT INTO `events` (`events_id`, `event_name`, `description`, `points_rewarded
 (1, 'APU gotong-royong', 'A weekly event where students come together and make an effort to keep school premises clean', '500', 'No. 11, Jalan Teknologi 5, Taman Teknologi Malaysia, Bukit Jalil 57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur.”', 'Petronas', 'contactmplus@petronas.com', '2025-12-23 10:00:00', '2025-12-23 16:30:00', 300),
 (2, 'APU Blood Donation Drive', 'A campus-wide blood donation campaign in collaboration with hospitals to encourage students to donate blood', '800', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'National Blood Centre', 'info@pdn.gov.my', '2025-12-26 09:00:00', '2025-12-26 15:00:00', 200),
 (3, 'APU Tech Awareness Workshop', 'An educational workshop aimed at increasing awareness of emerging technologies and digital safety among students', '300', 'APU Lecture Hall 5, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU IT Society', 'apuitsociety@apu.edu.my', '2025-12-28 14:00:00', '2025-12-28 17:30:00', 150);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `events_resources`
---
-
-DROP TABLE IF EXISTS `events_resources`;
-CREATE TABLE IF NOT EXISTS `events_resources` (
-  `event_resources_id` int NOT NULL AUTO_INCREMENT,
-  `events_id` int NOT NULL,
-  `resources_id` int NOT NULL,
-  `date_assigned` date NOT NULL,
-  `venue` text NOT NULL,
-  `quantity_assigned` int NOT NULL,
-  PRIMARY KEY (`event_resources_id`),
-  UNIQUE KEY `event_resources_id` (`event_resources_id`),
-  KEY `events_id` (`events_id`),
-  KEY `resources_id` (`resources_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `events_resources`
---
-
-INSERT INTO `events_resources` (`event_resources_id`, `events_id`, `resources_id`, `date_assigned`, `venue`, `quantity_assigned`) VALUES
-(1, 2, 3, '2025-12-26', 'APU Campus, Technology Park Malaysia, Bukit Jalil', 120),
-(2, 2, 1, '2025-12-23', 'No. 11, Jalan Teknologi 5, Taman Teknologi Malaysia, Bukit Jalil 57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur.', 35),
-(3, 3, 2, '2025-12-28', 'APU Lecture Hall 5, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 5);
 
 -- --------------------------------------------------------
 
@@ -347,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `participants` (
   PRIMARY KEY (`participants_id`),
   UNIQUE KEY `participant_id` (`participants_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `participants`
@@ -358,7 +329,8 @@ INSERT INTO `participants` (`participants_id`, `user_id`, `TP_no`) VALUES
 (2, 8, 'TP00002'),
 (3, 9, 'TP00003'),
 (4, 10, 'TP00004'),
-(5, 11, 'TP00005');
+(5, 11, 'TP00005'),
+(6, 19, '');
 
 -- --------------------------------------------------------
 
@@ -401,10 +373,11 @@ CREATE TABLE IF NOT EXISTS `participants_challenges` (
   `participants_id` int NOT NULL,
   `challenges_id` int NOT NULL,
   `date_accomplished` date NOT NULL,
-  `verified_date` date NOT NULL,
+  `verified_date` date DEFAULT NULL,
   `challenges_status` varchar(50) NOT NULL,
-  `impact_type` varchar(50) NOT NULL,
-  `impact_amount` int NOT NULL,
+  `impact_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `impact_amount` int DEFAULT NULL,
   `staff_id` int NOT NULL,
   PRIMARY KEY (`participants_challenges_id`),
   UNIQUE KEY `participants_challenges_id` (`participants_challenges_id`),
@@ -417,38 +390,12 @@ CREATE TABLE IF NOT EXISTS `participants_challenges` (
 -- Dumping data for table `participants_challenges`
 --
 
-INSERT INTO `participants_challenges` (`participants_challenges_id`, `participants_id`, `challenges_id`, `date_accomplished`, `verified_date`, `challenges_status`, `impact_type`, `impact_amount`, `staff_id`) VALUES
-(1, 5, 2, '2025-12-05', '2025-12-06', 'approved', 'reduced water pollution', 5, 1),
-(2, 2, 1, '2025-12-17', '2025-12-18', 'pending', 'reduced carbon emmision', 2, 3),
-(3, 3, 4, '2025-12-17', '2025-12-19', 'rejected', 'recycling trash', 3, 6),
-(4, 5, 3, '2025-12-24', '2025-12-31', 'approved', 'reduced carbon emmision', 6, 4),
-(5, 4, 5, '2025-12-25', '2025-12-29', 'approved', 'reduced air pollution', 12, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `resources`
---
-
-DROP TABLE IF EXISTS `resources`;
-CREATE TABLE IF NOT EXISTS `resources` (
-  `resources_id` int NOT NULL AUTO_INCREMENT,
-  `resource_name` varchar(50) NOT NULL,
-  `description` text NOT NULL,
-  `quantity_available` int NOT NULL,
-  UNIQUE KEY `resources_id` (`resources_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `resources`
---
-
-INSERT INTO `resources` (`resources_id`, `resource_name`, `description`, `quantity_available`) VALUES
-(1, 'Sets of 10 Chairs', 'The resource consists of a set of 10 chairs, when allocated 10 chairs will be distributed, the set amount is fixed', 10),
-(2, 'Projector', 'A portable projector used for presentations and workshops, allocated per unit', 5),
-(3, 'Foldable Tables', 'Foldable tables suitable for events and exhibitions, allocated per table', 20),
-(4, 'PA System', 'A public address system including speakers and microphone, allocated as one complete set', 3),
-(5, 'Event Canopy Tent', 'A large canopy tent used for outdoor events, allocated per tent', 4);
+INSERT INTO `participants_challenges` (`participants_challenges_id`, `participants_id`, `challenges_id`, `date_accomplished`, `verified_date`, `challenges_status`, `impact_type`, `image_path`, `impact_amount`, `staff_id`) VALUES
+(1, 5, 2, '2025-12-05', '2025-12-06', 'approved', 'reduced water pollution', NULL, 5, 1),
+(2, 2, 1, '2025-12-17', '2025-12-18', 'pending', 'reduced carbon emmision', NULL, 2, 3),
+(3, 3, 4, '2025-12-17', '2025-12-19', 'rejected', 'recycling trash', NULL, 3, 6),
+(4, 5, 3, '2025-12-24', '2025-12-31', 'approved', 'reduced carbon emmision', NULL, 6, 4),
+(5, 4, 5, '2025-12-25', '2025-12-29', 'approved', 'reduced air pollution', NULL, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -602,31 +549,32 @@ CREATE TABLE IF NOT EXISTS `user` (
   `account_status` varchar(50) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`user_id`, `user_full_name`, `email`, `hash_password`, `profile_picture_path`, `account_status`) VALUES
-(1, 'Ivan Chia', 'ivan@yahoo.com', '$2b$10$', '/uploads/Google.jpg', 'Active'),
-(2, 'Vince Heong', 'vince@gmail.com', '234gft', '/uploads/Google.jpg', 'Active'),
-(3, 'Zong ze', 'Zong@gmail.com', '3dg($%g', '/uploads/Google.jpg', 'Active'),
-(4, 'Daniel Wong', 'daniel.wong@gmail.com', 'a9F#2kL!', '/uploads/Google.jpg', 'Active'),
-(5, 'Aisyah Rahman', 'aisyah.rahman@gmail.com', 'Qw8$Lm2@', '/uploads/Google.jpg', 'Deactivated'),
-(6, 'Jason Lim', 'jason.lim@gmail.com', 'Zx7!P0$r', '/uploads/Google.jpg', 'Active'),
-(7, 'Nur Syafiqah Ali', 'syafiqah.ali@gmail.com', 'M2@#x9Kq', '/uploads/Google.jpg', 'Deactivated'),
-(8, 'Amir Hakim', 'amir.hakim@gmail.com', 'P@9xLm21', '/uploads/Google.jpg', 'Active'),
-(9, 'Siti Nur Aina', 'siti.aina@gmail.com', 'Qw!7Kp$2', '/uploads/Google.jpg', 'Deactivated'),
-(10, 'Bryan Tan', 'bryan.tan@gmail.com', 'L9#xP2@A', '/uploads/Google.jpg', 'Active'),
-(11, 'Farah Nabila', 'farah.nabila@gmail.com', 'Z@8P!k2L', '/uploads/Google.jpg', 'Active'),
-(12, 'Kelvin Chong', 'kelvin.chong@gmail.com', 'X2$P@9Lm', '/uploads/Google.jpg', 'Deactivated'),
-(13, 'Aiman Syazwan', 'aiman.syazwan@gmail.com', 'M!9L@x2P', '/uploads/Google.jpg', 'Active'),
-(14, 'Adam Firdaus', 'adam.firdaus@gmail.com', 'A9!xP@2L', '/uploads/Google.jpg', 'Active'),
-(15, 'Sofia Amirah', 'sofia.amirah@gmail.com', 'Q2@Lx!9P', '/uploads/Google.jpg', 'Deactivated'),
-(16, 'Ryan Tan', 'ryan.tan@gmail.com', 'Zx9@P!2L', '/uploads/Google.jpg', 'Active'),
-(17, 'Nur Izzati', 'nur.izzati@gmail.com', 'M@9x!P2L', '/uploads/Google.jpg', 'Active'),
-(18, 'Daniel Chong', 'daniel.chong@gmail.com', 'P!9xL@2M', '/uploads/Google.jpg', 'Deactivated');
+(1, 'Ivan Chia', 'ivan@yahoo.com', '$2b$10$', 'images/profile.png', 'Active'),
+(2, 'Vince Heong', 'vince@gmail.com', '234gft', 'images/profile.png', 'Active'),
+(3, 'Zong ze', 'Zong@gmail.com', '3dg($%g', 'images/profile.png', 'Active'),
+(4, 'Daniel Wong', 'daniel.wong@gmail.com', 'a9F#2kL!', 'images/profile.png', 'Active'),
+(5, 'Aisyah Rahman', 'aisyah.rahman@gmail.com', 'Qw8$Lm2@', 'images/profile.png', 'Deactivated'),
+(6, 'Jason Lim', 'jason.lim@gmail.com', 'Zx7!P0$r', 'images/profile.png', 'Active'),
+(7, 'Nur Syafiqah Ali', 'syafiqah.ali@gmail.com', 'M2@#x9Kq', 'images/profile.png', 'Deactivated'),
+(8, 'Amir Hakim', 'amir.hakim@gmail.com', 'P@9xLm21', 'images/profile.png', 'Active'),
+(9, 'Siti Nur Aina', 'siti.aina@gmail.com', 'Qw!7Kp$2', 'images/profile.png', 'Deactivated'),
+(10, 'Bryan Tan', 'bryan.tan@gmail.com', 'L9#xP2@A', 'images/profile.png', 'Active'),
+(11, 'Farah Nabila', 'farah.nabila@gmail.com', 'Z@8P!k2L', 'images/profile.png', 'Active'),
+(12, 'Kelvin Chong', 'kelvin.chong@gmail.com', 'X2$P@9Lm', 'images/profile.png', 'Deactivated'),
+(13, 'Aiman Syazwan', 'aiman.syazwan@gmail.com', 'M!9L@x2P', 'images/profile.png', 'Active'),
+(14, 'Adam Firdaus', 'adam.firdaus@gmail.com', 'A9!xP@2L', 'images/profile.png', 'Active'),
+(15, 'Sofia Amirah', 'sofia.amirah@gmail.com', 'Q2@Lx!9P', 'images/profile.png', 'Deactivated'),
+(16, 'Ryan Tan', 'ryan.tan@gmail.com', 'Zx9@P!2L', 'images/profile.png', 'Active'),
+(17, 'Nur Izzati', 'nur.izzati@gmail.com', 'M@9x!P2L', 'images/profile.png', 'Active'),
+(18, 'Daniel Chong', 'daniel.chong@gmail.com', 'P!9xL@2M', 'images/profile.png', 'Deactivated'),
+(19, 'vernice', 'vernice.heong@gmail.com', '$2y$10$JJTy7S4fnhUD/t74oEJkz.TqGVCHXa5wlZBfMyg/2kC/zVh.eIu8.', '/uploads/Google.jpg', 'Active');
 
 --
 -- Constraints for dumped tables
@@ -658,13 +606,6 @@ ALTER TABLE `eco_news`
   ADD CONSTRAINT `eco_news_ibfk_1` FOREIGN KEY (`events_id`) REFERENCES `events` (`events_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `eco_news_ibfk_2` FOREIGN KEY (`posted_by`) REFERENCES `staff` (`staff_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `eco_news_ibfk_3` FOREIGN KEY (`posted_by`) REFERENCES `event_manager` (`event_manager_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `events_resources`
---
-ALTER TABLE `events_resources`
-  ADD CONSTRAINT `events_resources_ibfk_1` FOREIGN KEY (`events_id`) REFERENCES `events` (`events_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `events_resources_ibfk_2` FOREIGN KEY (`resources_id`) REFERENCES `resources` (`resources_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `event_management`

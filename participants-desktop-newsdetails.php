@@ -1,5 +1,26 @@
 <?php
     include("session.php");
+    include("Database.php");
+
+    if (!isset($_GET['id'])) {
+        echo "<script>alert('Invalid news ID'); window.location.href='participants-desktop-home.php';</script>";
+        exit();
+    }
+
+    $news_id = intval($_GET['id']);
+
+    $sql = "SELECT eco_news_id, title, description, venue, organised_by, image_path
+            FROM eco_news
+            WHERE eco_news_id = $news_id";
+
+    $result = mysqli_query($database, $sql);
+
+    if (mysqli_num_rows($result) === 0) {
+        echo "<script>alert('News not found'); window.location.href='participants-desktop-home.php';</script>";
+        exit();
+    }
+
+    $row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,31 +58,40 @@
     <div class="main-content">
 
         <div class="news-image">
-            <img src="images/sample-image.png" alt="sample image">
+            <img src="images/<?php echo $row['image_path']; ?>" alt="sample image">
         </div>
 
         <div class="news-text-container">
 
             <h2 class="news-title">
-                Top 5 Green Tips for reducing e-waste.
+                <?php 
+                    echo $row['title'];
+                ?><!-- title -->
             </h2>
 
             <p class="news-paragraph">
-                UK businesses and households produce 1.45 million tonnes of e-waste a year,
-                equating to 23.9kg of e-waste each year per capita, which places the UK as
-                the second highest producer in the world.
+                <br>
+                Organised by: 
+                <br>
+                <?php 
+                    echo $row['organised_by']; 
+                ?><!-- organised by-->
             </p>
 
             <p class="news-paragraph">
-                What is e-waste?
+                Venue:
+                <br>
+                <?php 
+                    echo $row['venue'];
+                ?> <!--- venue --->
             </p>
 
             <p class="news-paragraph">
-                Electronic waste, or e-waste, refers to any product with electrical components
-                that businesses and households dispose of, including laptops, tablets, phones,
-                televisions, air conditioners and printers. The proliferation of devices among
-                businesses and households is causing a major environmental problem since most
-                electronic waste contains toxic materials.
+                Full description: 
+                <br>
+                <?php 
+                echo $row['description']; 
+                ?> <!-- description -->
             </p>
 
             <div class="quote-box">
