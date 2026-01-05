@@ -6,7 +6,8 @@ include("database.php");
 $sql = "SELECT rewards_id, reward_name, description, points_required, quantity FROM rewards";
 $result = mysqli_query($database, $sql);
 
-?>
+$sql_query_category = "SELECT ca"
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
