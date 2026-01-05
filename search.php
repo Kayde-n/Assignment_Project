@@ -28,17 +28,17 @@ elseif($source === 'home'){
         [
             'title' => 'Eco News',
             'description' => 'Latest environmental news and updates',
-            'url' => 'participants-desktop_econews.php'
+            'url' => 'participants-desktop-econews.php'
         ],
         [
             'title' => 'Challenges',
             'description' => 'Challenges tab',
-            'url' => 'participants-challenges-details.php'
+            'url' => 'participants-desktop-challenges-tab.php'
         ],
         [
             'title' => 'LeaderBoard',
             'description' => 'Participants Green Points Leaderboard',
-            'url' => 'participants-desktop_leaderboard.php'
+            'url' => 'participants-desktop-leaderboard.php'
         ]
     ];
 
