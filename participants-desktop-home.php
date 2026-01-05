@@ -174,7 +174,7 @@
                 onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
 
                 <button class="image-holder">
-                    <img src="/Assignment_Project/images/<?php echo $row['image_path']; ?>" alt="News Image">
+                    <img src="images/<?php echo $row['image_path']; ?>" alt="News Image">
                 </button>
 
                 <button class="content-text-box">
