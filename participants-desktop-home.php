@@ -134,7 +134,6 @@ while (true) {
     <div class="main-content">
         <div class="search-box">
             <input type="text" placeholder="Search..." id="search-input">
-            <button id="search-btn">🔍</button>
             <div id="search-results"></div> <!-- placeholder for search results -->
         </div>
         <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
@@ -231,19 +230,36 @@ while (true) {
                     return;
                 }
 
-                let html = '<ul>';
-                results.forEach(item => {
-                    html += `
-                <li>
+            let html = '<div class="search-results-container">';
+            results.forEach(item => {
+                // Determine redirect URL
+                let redirectUrl = '';
+                if (item.url) {
+                    // For home search results with predefined url
+                    redirectUrl = item.url;
+                } else if (item.eco_news_id) {
+                    // For eco news results
+                    redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                }
+                
+                html += `
+                <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
                     <h4>${item.title}</h4>
-                </li>
+                    <p>${item.description || ''}</p>
+                </div>
             `;
-                });
-                html += '</ul>';
+            });
+            html += '</div>';
 
-                searchResults.innerHTML = html;
+            searchResults.innerHTML = html;
+        }
+
+        function redirectToResult(url) {
+            if (url) {
+                window.location.href = url;
             }
-        </script>
+        }
+    </script>
 
 </body>
 
