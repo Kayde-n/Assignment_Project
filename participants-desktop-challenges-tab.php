@@ -17,23 +17,26 @@
     echo "<!-- active_tab variable: " . $active_tab . " -->";
 
     if ($active_tab == 'ongoing') {
-        $sql = "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status
+        $sql = "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status, participants_challenges.date_accomplished
         FROM challenges
         LEFT JOIN participants_challenges
             ON challenges.challenges_id = participants_challenges.challenges_id
             AND participants_challenges.participants_id = $participants_id
-        WHERE  participants_challenges.challenges_id IS NULL
-            OR participants_challenges.challenges_status = 'pending'";
+            AND DATE(participants_challenges.date_accomplished) = CURDATE()
+        WHERE challenges.challenge_type = 'Daily'
+        AND (participants_challenges.challenges_id IS NULL
+            OR participants_challenges.challenges_status = 'pending')";
         
         $challenges_result = mysqli_query($database, $sql);
 
     } else if ($active_tab == 'completed') {
-        $sql= "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status
+        $sql= "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status,participants_challenges.verified_date
         FROM challenges
         INNER JOIN participants_challenges
             ON challenges.challenges_id = participants_challenges.challenges_id
         WHERE participants_challenges.participants_id = $participants_id
-         AND participants_challenges.challenges_status IN ('approved', 'rejected')";
+         AND participants_challenges.challenges_status IN ('approved', 'rejected')
+         ORDER BY participants_challenges.verified_date DESC";
 
         $challenges_result = mysqli_query($database, $sql);
     }
@@ -46,25 +49,27 @@
     $dailes_total_result = mysqli_query($database, $dailes_total_sql);
     $daily_total = mysqli_num_rows($dailes_total_result);
 
-    //to get all completed/rejected that are daily
+    //to get all completed/rejected/pending that are daily
     $compledted_sql= "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status
         FROM challenges
         INNER JOIN participants_challenges
             ON challenges.challenges_id = participants_challenges.challenges_id
         WHERE participants_challenges.participants_id = $participants_id
-         AND participants_challenges.challenges_status IN ('approved', 'rejected')
-         AND challenges.challenge_type = 'Daily'";
+         AND participants_challenges.challenges_status IN ('approved', 'rejected','pending')
+         AND challenges.challenge_type = 'Daily'
+         AND participants_challenges.verified_date= CURDATE()";
 
     $daily_completed_total_result = mysqli_query($database, $compledted_sql);
     $completed_daily_total = mysqli_num_rows($daily_completed_total_result);
 
-    //Special Events section
-    $events_sql="SELECT eco_news.eco_news_id, eco_news.title, eco_news.description, eco_news.image_path, eco_news.venue, eco_news.organised_by , events.start_time, events.points_rewarded, events.events_id
-            FROM eco_news ,events
-            WHERE eco_news.events_id = events.events_id
+        //Special Events section - include attendance info for current participant
+        $events_sql = "SELECT eco_news.eco_news_id, eco_news.title, eco_news.description, eco_news.image_path, eco_news.venue, eco_news.organised_by, events.start_time, events.points_rewarded, events.events_id, attendance.attendance_id, attendance.event_attended
+            FROM eco_news
+            JOIN events ON eco_news.events_id = events.events_id
+            LEFT JOIN attendance ON attendance.events_id = events.events_id AND attendance.participants_id = $participants_id
             ORDER BY eco_news_id DESC LIMIT 10";
-    
-    $events_result = mysqli_query($database, $events_sql);
+
+        $events_result = mysqli_query($database, $events_sql);
 
     
 ?>
@@ -95,10 +100,11 @@
             <div class="participant-icon-container">
             <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
                 src="images/home.png" alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-challenges-tab.php'"><img src="images/challanges.png" alt="Challenges"></button>
+            <div id="challenges-icon-box">
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-challenges-tab.php'"><img src="images/challanges.png" alt="Challenges"></button>
+            </div>    
             <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
                 src="images/scan.png" alt="Scan"></button>
-            </div>
             <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
                 src="images/tag.png" alt="Rewards"></button>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
@@ -164,13 +170,16 @@
                     ?>
                         <article class="quest-card" role="article">
                             <figure class="quest-image">
-                                <img src="images/quest-placeholder.png" alt="Quest image placeholder" />
+                                <img src="images/ecoxp-.png" alt="Quest image placeholder" />
                             </figure>
 
                             <div class="quest-body">
                                 <span class="quest-tag"><?php echo htmlspecialchars($row['challenge_type']); ?></span>
                                 <h3 class="quest-title"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
                                 <p class="quest-reward"><?php echo htmlspecialchars($row['points_reward']); ?>GP</p>
+                                <?php if ($active_tab == 'completed' && isset($row['verified_date']) && $row['verified_date']): ?>
+                                <p class="quest-verified" style="font-size: 0.85em; color: #666; margin-top: 5px;">Verified: <?php echo date('M d, Y', strtotime($row['verified_date'])); ?></p>
+                                <?php endif; ?>
                             </div>
 
                             <div class="quest-action">
@@ -235,6 +244,19 @@
                         </div>
 
                         <div class="event-action">
+                        <?php
+                            // If attendance record exists for this participant & event, show status
+                            if (!empty($event['attendance_id'])) {
+                                if (isset($event['event_attended']) && $event['event_attended'] == 1) {
+                                    // Already attended
+                                    echo '<button class="btn-attended" type="button" disabled>Attended</button>';
+                                } else {
+                                    // Signed up but not yet attended
+                                    echo '<button class="btn-signedup" type="button" disabled>Signed Up</button>';
+                                }
+                            } else {
+                                // Not signed up yet — show Join button
+                        ?>
                             <button class="btn-join" 
                                     type="button"
                                     data-event-id="<?php echo htmlspecialchars($event['events_id']); ?>"
@@ -244,11 +266,13 @@
                                     data-image="images/<?php echo htmlspecialchars($event['image_path']); ?>"
                                     data-venue="<?php echo htmlspecialchars($event['venue']); ?>"
                                     data-organizer="<?php echo htmlspecialchars($event['organised_by']); ?>"
-                                    data-time="<?php echo date('M d, Y - H:i', strtotime($event['start_time'])); ?>"
+                                    data-date="<?php echo date('M d, Y', strtotime($event['start_time'])); ?>"
+                                    data-time="<?php echo date('H:i', strtotime($event['start_time'])); ?>"
                                     data-points="<?php echo htmlspecialchars($event['points_rewarded']); ?>GP"
                                     onclick="showEventDetails(this)">
                                 Join
                             </button>
+                        <?php } ?>
                         </div>
                     </article>
                 <?php 
@@ -264,21 +288,6 @@
                         <img class="event-details-image" id="eventImage" src="" alt="Event image">
                         
                         <h2 class="event-details-title" id="eventTitle"></h2>
-                        
-                        <div class="event-details-meta">
-                            <div class="event-meta-item">
-                                <span>📅</span>
-                                <span id="eventDate"></span>
-                            </div>
-                            <div class="event-meta-item">
-                                <span>📍</span>
-                                <span id="eventVenue"></span>
-                            </div>
-                            <div class="event-meta-item">
-                                <span>👥</span>
-                                <span id="eventOrganizer"></span>
-                            </div>
-                        </div>
                         
                         <div class="event-details-description" id="eventDescription"></div>
                         
@@ -346,9 +355,9 @@
             document.getElementById('eventImage').src = button.dataset.image;
             document.getElementById('eventTitle').textContent = button.dataset.title;
             document.getElementById('eventDescription').textContent = button.dataset.description;
-            document.getElementById('eventDate').textContent = button.dataset.time;
-            document.getElementById('eventVenue').textContent = button.dataset.venue;
-            document.getElementById('eventOrganizer').textContent = button.dataset.organizer;
+            document.getElementById('eventDate').textContent = button.dataset.date;
+            document.getElementById('eventVenue').textContent = button.dataset.venue || 'N/A';
+            document.getElementById('eventOrganizer').textContent = button.dataset.organizer || 'N/A';
             document.getElementById('eventPoints').textContent = button.dataset.points;
             document.getElementById('eventTime').textContent = button.dataset.time;
             
@@ -376,20 +385,21 @@
             document.body.style.overflow = ''; // Restore scrolling
         }
 
-        // Join event action
-        document.getElementById('joinEventBtn').addEventListener('click', function() {
-            const ecoNewsId = this.dataset.ecoNewsId;
-            // Redirect to the details page or join action
-            window.location.href = 'participants-eco-news-details.php?eco_news_id=' + ecoNewsId;
-        });
+        // Join event action (handled below with AJAX POST)
+        
 
-        // Close overlay when clicking outside the container
-        document.getElementById('eventDetailsOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeEventDetails();
-            }
-        });
-        </script>
+    // Close overlay when clicking outside the container
+    document.getElementById('eventDetailsOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeEventDetails();
+        }
+    });
+
+    document.getElementById('joinEventBtn').addEventListener('click', function () {
+    const eventId = this.dataset.eventId;
+    window.location.href = 'join-event.php?event_id=' + eventId;
+    });
+    </script>
 
 </body>
 
