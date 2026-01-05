@@ -43,18 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Failed to save file');
     }
     // Insert into database
-<<<<<<< HEAD
-    $sql_query1 = "SELECT challenges_id FROM challenges WHERE challenge_name = '" . mysqli_real_escape_string($database, $_POST['challenge_selected']) . "'";
-    $result = mysqli_query($database, $sql_query1);
-    if (!$result) {
-        die("Database query failed: " . mysqli_error($database));
-    }
-    $row = mysqli_fetch_assoc($result);
-    if (!$row) {
-        die("Challenge not found");
-    }
-    $challenges_id = $row['challenges_id'];
-=======
     $sql_query1 = "SELECT challenges_id FROM challenges WHERE challenge_name = '$_POST[challenge_selected]'";
     $result = mysqli_query($database, $sql_query1);
     $row = mysqli_fetch_array($result);
@@ -63,16 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$result) {
         die("Database query failed: " . mysqli_error($database));
     }
->>>>>>> 1292f447953e6b82a798fb2108f090e526de5cee
 
     $today = new DateTime();
     $todayString = $today->format("Y-m-d");
 
-<<<<<<< HEAD
-    $sql_query2 = "INSERT INTO participants_challenges (participants_id,challenges_id,date_accomplished,verified_date,challenges_status,impact_type,image_path,impact_amount,staff_id) VALUES ('$participant_id', '$challenges_id', '$todayString', NULL, 'pending', '$targetPath', NULL, NULL, NULL)";
-
-    if (mysqli_query($database, $sql_query2)) {
-=======
     $staff_id = [];
     $sql_query2 = "SELECT staff_id FROM staff";
     $result = mysqli_query($database, $sql_query2);
@@ -87,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql_query3 = "INSERT INTO participants_challenges (participants_id,challenges_id,date_accomplished,verified_date,challenges_status,impact_type,image_path,impact_amount,staff_id) VALUES ('$participant_id', '$challenges_id', '$todayString', NULL, 'pending',NULL, '$targetPath', NULL, '$staff_id[$randomINdex]')";
 
     if (mysqli_query($database, $sql_query3)) {
->>>>>>> 1292f447953e6b82a798fb2108f090e526de5cee
         echo "Upload successful: $newName";
     } else {
         die("Insert failed: " . mysqli_error($database));
