@@ -67,22 +67,24 @@ img {
 .tab {
   padding: 12px 20px;
   background: none;
-  color: #666;
+  color: #666 !important;
   font-size: 14px;
   font-weight: 500;
-  border-bottom: 3px solid transparent;
+  border-bottom: 3px solid transparent !important;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.tab-ongoing {
-  color: #4caf50;
-  border-bottom-color: #4caf50;
+/* Active state - must come after .tab */
+.tab.active {
+  color: #4caf50 !important;
+  border-bottom: 3px solid #4caf50 !important;
+  font-weight: 600;
 }
 
 .tab:hover {
-  color: #4caf50;
+  color: #4caf50 !important;
 }
-
 /* ===========================
    MAIN CONTENT
    =========================== */
@@ -221,12 +223,18 @@ img {
 }
 
 .btn-claim,
-.btn-claimed {
+.btn-claimed,
+.btn-logaction,
+.btn-pending,
+.btn-approved,
+.btn-rejected {
   padding: 8px 20px;
   font-size: 13px;
   font-weight: 600;
   border-radius: 6px;
   transition: all 0.3s ease;
+  text-align: center;
+  display: inline-block;
 }
 
 .btn-claim {
@@ -236,6 +244,46 @@ img {
 
 .btn-claim:hover {
   background-color: #45a049;
+}
+
+.btn-logaction {
+  background-color: #28a745;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-logaction:hover {
+  background-color: #218838;
+}
+
+.btn-pending {
+  background-color: #ffc107;
+  color: #212529;
+  cursor: default;
+}
+
+.btn-pending[disabled] {
+  opacity: 0.9;
+}
+
+.btn-approved {
+  background-color: #28a745;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.btn-approved[disabled] {
+  opacity: 0.8;
+}
+
+.btn-rejected {
+  background-color: #dc3545;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.btn-rejected[disabled] {
+  opacity: 0.8;
 }
 
 .btn-claimed {

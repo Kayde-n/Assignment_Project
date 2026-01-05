@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 04, 2026 at 07:16 AM
+-- Generation Time: Jan 05, 2026 at 03:18 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ecoxp`
+-- Database: `ecoxp database`
 --
 
 -- --------------------------------------------------------
@@ -129,7 +129,8 @@ INSERT INTO `challenges` (`challenges_id`, `challenge_name`, `description`, `poi
 (2, 'Bring Your Own Bottle', 'Use a reusable bottle instead of disposable plastic bottles for the day (description includes T&C)', 100, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Daily'),
 (3, 'Public Transport Commute', 'Commute to campus using public transport at least once during the week (description includes T&C)', 300, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Weekly'),
 (4, 'No-Print Week', 'Avoid printing any documents for one full week to reduce paper usage (description includes T&C)', 500, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Weekly'),
-(5, 'Green Lifestyle Month', 'Participate in eco-friendly activities throughout the month to promote sustainability (description includes T&C)', 1200, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Seasonal');
+(5, 'Green Lifestyle Month', 'Participate in eco-friendly activities throughout the month to promote sustainability (description includes T&C)', 1200, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Seasonal'),
+(6, 'Clean up After Eating', 'After eating in the canteen. Participants will have to take a photo and upload to the Log Action to submit their submission. The photo will have to be verified, and the photo must about the user taking their plates to the canteen dirty place section ', 100, 'APU Campus, Technology Park Malaysia, Bukit Jalil', 'Daily');
 
 -- --------------------------------------------------------
 
@@ -187,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `eco_news` (
 
 INSERT INTO `eco_news` (`eco_news_id`, `title`, `description`, `image_path`, `venue`, `organised_by`, `events_id`, `posted_by`) VALUES
 (1, 'Beach Clean-up', 'Beach clean-up is an annual event where students clean up beaches along the coast of Klang', 'beach_cleanup.jpg', 'Kawasan Perindustrian Selat Klang Utara, 42000 Port Klang, Selangor', 'Petronas', 1, 3),
-(17, 'Tree Planting Day', 'Students and staff join to plant trees around the campus to promote greenery and reduce carbon footprint', 'tree_planting.png', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Green Club', 1, 2),
+(17, 'Tree Planting Day', 'Students and staff join to plant trees around the campus to promote greenery and reduce carbon footprint', 'tree_planting.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Green Club', 1, 2),
 (20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', 'recycling_event.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1);
 
 -- --------------------------------------------------------
@@ -318,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `participants` (
   PRIMARY KEY (`participants_id`),
   UNIQUE KEY `participant_id` (`participants_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `participants`
@@ -330,7 +331,8 @@ INSERT INTO `participants` (`participants_id`, `user_id`, `TP_no`) VALUES
 (3, 9, 'TP00003'),
 (4, 10, 'TP00004'),
 (5, 11, 'TP00005'),
-(6, 19, '');
+(6, 19, ''),
+(7, 20, '');
 
 -- --------------------------------------------------------
 
@@ -378,24 +380,27 @@ CREATE TABLE IF NOT EXISTS `participants_challenges` (
   `impact_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `impact_amount` int DEFAULT NULL,
+  `Challenge_notes` varchar(255) NOT NULL,
   `staff_id` int NOT NULL,
   PRIMARY KEY (`participants_challenges_id`),
   UNIQUE KEY `participants_challenges_id` (`participants_challenges_id`),
   KEY `participants_id` (`participants_id`),
   KEY `challenges_id` (`challenges_id`),
   KEY `staff_id` (`staff_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `participants_challenges`
 --
 
-INSERT INTO `participants_challenges` (`participants_challenges_id`, `participants_id`, `challenges_id`, `date_accomplished`, `verified_date`, `challenges_status`, `impact_type`, `image_path`, `impact_amount`, `staff_id`) VALUES
-(1, 5, 2, '2025-12-05', '2025-12-06', 'approved', 'reduced water pollution', NULL, 5, 1),
-(2, 2, 1, '2025-12-17', '2025-12-18', 'pending', 'reduced carbon emmision', NULL, 2, 3),
-(3, 3, 4, '2025-12-17', '2025-12-19', 'rejected', 'recycling trash', NULL, 3, 6),
-(4, 5, 3, '2025-12-24', '2025-12-31', 'approved', 'reduced carbon emmision', NULL, 6, 4),
-(5, 4, 5, '2025-12-25', '2025-12-29', 'approved', 'reduced air pollution', NULL, 12, 1);
+INSERT INTO `participants_challenges` (`participants_challenges_id`, `participants_id`, `challenges_id`, `date_accomplished`, `verified_date`, `challenges_status`, `impact_type`, `image_path`, `impact_amount`, `Challenge_notes`, `staff_id`) VALUES
+(1, 5, 2, '2025-12-05', '2025-12-06', 'approved', 'reduced water pollution', NULL, 5, '', 1),
+(2, 2, 1, '2025-12-17', '2025-12-18', 'pending', 'reduced carbon emmision', NULL, 2, '', 3),
+(3, 3, 4, '2025-12-17', '2025-12-19', 'rejected', 'recycling trash', NULL, 3, '', 6),
+(4, 5, 3, '2025-12-24', '2025-12-31', 'approved', 'reduced carbon emmision', NULL, 6, '', 4),
+(5, 4, 5, '2025-12-25', '2025-12-29', 'approved', 'reduced air pollution', NULL, 12, '', 1),
+(6, 7, 2, '2026-01-04', '2026-01-04', 'approved', 'reduced pollution', 'null', 6, '', 4),
+(7, 7, 6, '2026-01-04', '2026-01-04', 'rejected', 'reduced pollution', 'Null', 90, '', 2);
 
 -- --------------------------------------------------------
 
@@ -410,7 +415,6 @@ CREATE TABLE IF NOT EXISTS `rewards` (
   `description` text NOT NULL,
   `points_required` int NOT NULL,
   `quantity` int NOT NULL,
-  `rewards_category` varchar(255) NOT NULL,
   PRIMARY KEY (`rewards_id`),
   UNIQUE KEY `rewards_id` (`rewards_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -419,12 +423,12 @@ CREATE TABLE IF NOT EXISTS `rewards` (
 -- Dumping data for table `rewards`
 --
 
-INSERT INTO `rewards` (`rewards_id`, `reward_name`, `description`, `points_required`, `quantity`, `rewards_category`) VALUES
-(1, 'Free Parking', 'Reward includes free parking for 3 days (description includes T&C)', 1500, 15, 'Discount/Vouchers'),
-(2, 'Campus Cafeteria Voucher', 'RM10 voucher redeemable at the campus cafeteria (terms and conditions apply)', 800, 50, 'Discount/Vouchers'),
-(3, 'APU Merchandise T-Shirt', 'Official APU merchandise T-shirt available in selected sizes (terms and conditions apply)', 1200, 30, 'Physical Rewards'),
-(4, 'Printing Credits', 'Includes 100 pages of black-and-white printing credits usable within the campus (terms and conditions apply)', 500, 100, 'Discount/Vouchers'),
-(5, 'Library Late Fee Waiver', 'Waiver of library late fees up to RM20 (terms and conditions apply)', 700, 40, 'Discount/Vouchers');
+INSERT INTO `rewards` (`rewards_id`, `reward_name`, `description`, `points_required`, `quantity`) VALUES
+(1, 'Free Parking', 'Reward includes free parking for 3 days (description includes T&C)', 1500, 15),
+(2, 'Campus Cafeteria Voucher', 'RM10 voucher redeemable at the campus cafeteria (terms and conditions apply)', 800, 50),
+(3, 'APU Merchandise T-Shirt', 'Official APU merchandise T-shirt available in selected sizes (terms and conditions apply)', 1200, 30),
+(4, 'Printing Credits', 'Includes 100 pages of black-and-white printing credits usable within the campus (terms and conditions apply)', 500, 100),
+(5, 'Library Late Fee Waiver', 'Waiver of library late fees up to RM20 (terms and conditions apply)', 700, 40);
 
 -- --------------------------------------------------------
 
@@ -550,7 +554,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `account_status` varchar(50) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
@@ -575,7 +579,8 @@ INSERT INTO `user` (`user_id`, `user_full_name`, `email`, `hash_password`, `prof
 (16, 'Ryan Tan', 'ryan.tan@gmail.com', 'Zx9@P!2L', 'images/profile.png', 'Active'),
 (17, 'Nur Izzati', 'nur.izzati@gmail.com', 'M@9x!P2L', 'images/profile.png', 'Active'),
 (18, 'Daniel Chong', 'daniel.chong@gmail.com', 'P!9xL@2M', 'images/profile.png', 'Deactivated'),
-(19, 'vernice', 'vernice.heong@gmail.com', '$2y$10$JJTy7S4fnhUD/t74oEJkz.TqGVCHXa5wlZBfMyg/2kC/zVh.eIu8.', '/uploads/Google.jpg', 'Active');
+(19, 'vernice', 'vernice.heong@gmail.com', '$2y$10$JJTy7S4fnhUD/t74oEJkz.TqGVCHXa5wlZBfMyg/2kC/zVh.eIu8.', '/uploads/Google.jpg', 'Active'),
+(20, 'Anne', 'Anne@yahoo.com', '$2y$10$9W0fGJM/8BtyADBZZDS47Oce0IgqQH8WUPYXqt4KO.I9XvsfyYsR.', 'images/profile.png', 'Active');
 
 --
 -- Constraints for dumped tables

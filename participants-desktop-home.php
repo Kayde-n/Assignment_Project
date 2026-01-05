@@ -133,6 +133,7 @@
         <div class="search-box">
             <input type="text" placeholder="Search..." id="search-input">
             <button id="search-btn">🔍</button>
+            <div id="search-results"></div> <!-- placeholder for search results -->
         </div>
         <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
         </p>
@@ -197,6 +198,50 @@
             </div>
 
         <?php } ?>
+<script>
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        // Trigger search on every keystroke
+        searchInput.addEventListener('input', function () {
+            const query = this.value;
+
+            // Only search if user typed at least 2 characters
+            if (query.length >= 2) {
+                // Send AJAX request to PHP
+                fetch('search.php?query=' + encodeURIComponent(query)+'&source=home')
+                    .then(response => response.json())
+                    .then(data => {
+
+                        displayResults(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                    });
+            } else {
+                searchResults.innerHTML = ''; // Clear results if less than 2 chars
+            }
+        });
+
+        function displayResults(results) { //builds HTML search results
+            if (results.length === 0) {
+                searchResults.innerHTML = '<p>No results found</p>';
+                return;
+            }
+
+            let html = '<ul>';
+            results.forEach(item => {
+                html += `
+                <li>
+                    <h4>${item.title}</h4>
+                </li>
+            `;
+            });
+            html += '</ul>';
+
+            searchResults.innerHTML = html;
+        }
+    </script>
 
 </body>
 

@@ -73,24 +73,50 @@
     $data_events = mysqli_fetch_assoc(mysqli_query($database, $sql_events));
     $total_events = $data_events['total_events'] ?? 0;
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sustainability Report</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="admin-sustainability-report.css">
 </head>
 <body>
-        <div class="container">
+    <div class="top-bar">
+        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'"><h2>EcoXP</h2></button>
+        <div class="default-icon-container">
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
+            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+        </div>
+    </div>
+
+    <div class="side-bar">
+        <div class="admin-icon-container">
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png" alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img src="images/system-analytics.png" alt="System Analytics"></button>
+            <div id="sustainability-report-icon-box">
+                <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img src="images/sustainability-report.png" alt="Sustainability Report"></button>
+            </div>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img src="images/system-config.png" alt="System Config"></button>
+            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+        </div>
+    </div>
+
+    <div class="main-content">
         <!-- Header Section -->
-        <header>
-            <h1>Sustainability Report</h1>
+        <div class="page-header">
+            <div class="title-box">
+                <h1>Sustainability Report</h1>
+            </div>
+
             <div class="date-selector">
                 <label for="month-year">
-                    <img src="Images/calendar-icon.png" alt="Calendar">
+                    <img src="images/calendar.png" alt="Calendar">
                 </label>
-
                 <form method="GET">
                     <select id="month-year" name="month_year" onchange="this.form.submit()">
                         <?php while ($row = mysqli_fetch_assoc($result_months)) : ?>
@@ -102,7 +128,7 @@
                     </select>
                 </form>
             </div>
-        </header>
+        </div>
 
         <!-- Executive Summary Section -->
         <section class="executive-summary">
@@ -115,29 +141,23 @@
         <!-- Environmental Impact Section -->
         <section class="environmental-impact">
             <h2>Environmental Impact</h2>
-
             <div class="impact-grid">
-
                 <div class="impact-card">
                     <div class="impact-value"><?= number_format($air_pollution); ?> kg CO₂e</div>
                     <div class="impact-label">Reduced Air Pollution</div>
                 </div>
-
                 <div class="impact-card">
                     <div class="impact-value"><?= number_format($carbon_emission); ?> kg CO₂e</div>
                     <div class="impact-label">Reduced Carbon Emission</div>
                 </div>
-
                 <div class="impact-card">
+                    <div class="impact-value">890 kg</div>
                     <div class="impact-value"><?= number_format($item_recycled); ?></div>
-                    <div class="impact-label">Items Recycled</div>
                 </div>
-
                 <div class="impact-card">
                     <div class="impact-value"><?= number_format($water_conserved); ?></div>
                     <div class="impact-label">Reduced Water Pollution</div>
                 </div>
-
             </div>
         </section>
 
@@ -170,7 +190,6 @@
                     <div class="stat-fill" style="width: <?php echo $points_percent; ?>%;"></div>
                 </div>
             </div>
-
             <div class="stat-item">
                 <div class="stat-info">
                     <span class="stat-label">Events Held</span>
@@ -187,35 +206,12 @@
         <!-- Download Button -->
         <div class="download-section">
             <button class="download-btn">
-                <img src="Images/download-icon.png" alt="Download">
+                <img src="images/download.png" alt="Download">
                 Download Full Report as PDF
             </button>
         </div>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <a href="home.html" class="nav-item">
-                <img src="Images/home-icon.png" alt="Home">
-                <span>Home</span>
-            </a>
-            <a href="stats.html" class="nav-item">
-                <img src="Images/stats-icon.png" alt="Stats">
-                <span>Stats</span>
-            </a>
-            <a href="leaderboard.html" class="nav-item active">
-                <img src="Images/leaderboard-icon.png" alt="Leaderboard">
-                <span>Leaderboard</span>
-            </a>
-            <a href="community.html" class="nav-item">
-                <img src="Images/community-icon.png" alt="Community">
-                <span>Community</span>
-            </a>
-            <a href="profile.html" class="nav-item">
-                <img src="Images/profile-icon.png" alt="Profile">
-                <span>Profile</span>
-            </a>
-        </nav>
     </div>
+
 
 </body>
 </html>
