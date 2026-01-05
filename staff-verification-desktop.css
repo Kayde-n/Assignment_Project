@@ -1,4 +1,3 @@
-/* Sidebar Icon Highlight */
 #verification-icon {
     width: 116px;
     height: 76px;
@@ -11,16 +10,21 @@
     box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
 }
 
+#verification-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+}
+
 #verification-icon img {
     filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
 }
 
-/* Tabs Layout */
 .verification-tabs {
     margin-top: 24px;
     margin-left: 24px;
     display: flex;
-    flex-wrap: wrap; /* Allows content to flow underneath labels */
+    flex-wrap: wrap;
     gap: 12px;
 }
 
@@ -40,17 +44,16 @@
     transition: all 0.2s ease;
 }
 
-/* Active Tab Style */
 input[type="radio"]:checked + .tab-box {
     border-color: #4CAF50;
     color: #4CAF50;
     background-color: #f9fff9;
 }
 
-/* Tab Filtering Logic - HIDES AND SHOWS THE BOXES */
+
 .tab-content {
     display: none;
-    width: 100%; /* Force list to start on a new line below labels */
+    width: 100%;
     margin-top: 30px;
 }
 
@@ -60,7 +63,6 @@ input[type="radio"]:checked + .tab-box {
     display: block !important;
 }
 
-/* The Grid (The Boxes) */
 .verification-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Forces 2 boxes per row */

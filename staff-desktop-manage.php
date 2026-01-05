@@ -16,7 +16,7 @@ include('Database.php');
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
-            <button class="icon-btn"><img src="images/profile.png" alt="Profile"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="images/profile.png" alt="Profile"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting"></button>
         </div>

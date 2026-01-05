@@ -53,19 +53,20 @@ if ($result) {
                 JOIN challenges c ON pc.challenges_id = c.challenges_id
                 WHERE pc.challenges_status = 'pending'";
 
-    $listQueryApporve = "SELECT pc.*, u.user_full_name, c.challenge_name 
+    $listQueryApporve = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished 
                         FROM participants_challenges pc 
                         JOIN participants p ON pc.participants_id = p.participants_id 
-                        JOIN user u ON p.user_id = u.user_id JOIN challenges c ON pc.challenges_id = c.challenges_id 
+                        JOIN user u ON p.user_id = u.user_id 
+                        JOIN challenges c ON pc.challenges_id = c.challenges_id 
                         WHERE pc.challenges_status = 'approved'";
     
-    $listQueryRejected = "SELECT pc.*, u.user_full_name, c.challenge_name 
-                          FROM participants_challenges pc
-                          JOIN participants p ON pc.participants_id = p.participants_id
-                          JOIN user u ON p.user_id = u.user_id
-                          JOIN challenges c ON pc.challenges_id = c.challenges_id
-                          WHERE pc.challenges_status = 'rejected'";
-
+    $listQueryRejected = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished 
+                      FROM participants_challenges pc
+                      JOIN participants p ON pc.participants_id = p.participants_id
+                      JOIN user u ON p.user_id = u.user_id
+                      JOIN challenges c ON pc.challenges_id = c.challenges_id
+                      WHERE pc.challenges_status = 'rejected'";
+                      
     $pendingList = mysqli_query($database, $listQuery);
     $approvedList = mysqli_query($database, $listQueryApporve);
     $rejectedList = mysqli_query($database, $listQueryRejected);
@@ -126,7 +127,7 @@ if ($result) {
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
-            <button class="icon-btn"><img src="images/profile.png" alt="Profile"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="images/profile.png" alt="Profile"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting"></button>
         </div>

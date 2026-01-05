@@ -24,7 +24,7 @@ $total_results = mysqli_num_rows($result);
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
-            <button class="icon-btn"><img src="images/profile.png" alt="Profile"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="images/profile.png" alt="Profile"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting"></button>
         </div>
@@ -61,7 +61,10 @@ $total_results = mysqli_num_rows($result);
 
         <div class="results-info">
             <span><?php echo $total_results; ?> results</span>
-            <button class="add-btn-circle" onclick="window.location.href='staff-desktop-manage.php'">+</button>
+            <div class="action-buttons">
+                <button id="mainViewBtn" class="view-profile-btn" onclick="window.location.href='staff-desktop-view.php'">View Profile</button>
+                <button class="add-btn-circle" onclick="window.location.href='staff-desktop-manage.php'">+</button>
+            </div>
         </div>
 
         <div class="participants-grid">
@@ -147,6 +150,9 @@ $total_results = mysqli_num_rows($result);
         document.getElementById('modalImg').src = img;
         document.getElementById('modalStatus').innerText = status;
         document.getElementById('userModal').style.display = "block";
+        document.getElementById('viewProfileBtn').onclick = function() {
+        window.location.href = 'staff-desktop-view.php?id=' + id;
+        };
     }
 
     function closeModal() {
