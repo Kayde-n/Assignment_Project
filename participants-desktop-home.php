@@ -1,83 +1,84 @@
 <?php
-    session_start();
-    include("Database.php");
-    $participant_id = $_SESSION['user_role_id'];
-    $sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
+session_start();
+include("Database.php");
+include("check-maintenance-status.php");
+$participant_id = $_SESSION['user_role_id'];
+$sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
 
-    $sql_query_daily_streak = "SELECT date_accomplished FROM participants_challenges 
+$sql_query_daily_streak = "SELECT date_accomplished FROM participants_challenges 
             WHERE participants_id = $participant_id
             ORDER BY date_accomplished DESC";
-    $streak_result = mysqli_query($database, $sql_query_daily_streak);
-    $dates = [];
-    $streak = 0;
+$streak_result = mysqli_query($database, $sql_query_daily_streak);
+$dates = [];
+$streak = 0;
 
-    $challenges_count = 0;
-    $impact = [];
-    $total_impact_amount = 0; // total CO2 reduction
-    $total_impact_amount2 = 0; // total waste recycled
-    $result = mysqli_query($database, $sql_query_impact);
-    
-    // news 
-    $sql_news = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
-    $result_news = mysqli_query($database, $sql_news);
+$challenges_count = 0;
+$impact = [];
+$total_impact_amount = 0; // total CO2 reduction
+$total_impact_amount2 = 0; // total waste recycled
+$result = mysqli_query($database, $sql_query_impact);
 
-    if (!$result) {
-        error_log("Database query failed: " . mysqli_error($database));
-        exit();
+// news 
+$sql_news = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
+$result_news = mysqli_query($database, $sql_news);
+
+if (!$result) {
+    error_log("Database query failed: " . mysqli_error($database));
+    exit();
+}
+while ($row = mysqli_fetch_assoc($result)) {
+    $challenges_count += 1;
+}
+while ($row = mysqli_fetch_assoc($result)) {
+    $impact[$row['impact_type']] = $row['impact_amount'];
+}
+$row_count = count($impact);
+$count = 0;
+
+while ($count < $row_count) {
+    // Check impact type and add corresponding impact amount
+    if ($impact['impact_type'] == 'reduced carbon emission') {
+        $total_impact_amount = $impact['impact_amount'] + $total_impact_amount;
+
+    } else if ($impact['impact_type'] == 'recycling trash') {
+        $total_impact_amount2 = $impact['impact_amount'] + $total_impact_amount2;
+
     }
-    while ($row = mysqli_fetch_assoc($result)) {
-        $challenges_count += 1;
-    }
-    while ($row = mysqli_fetch_assoc($result)) {
-        $impact[$row['impact_type']] = $row['impact_amount'];
-    }
-    $row_count = count($impact);
-    $count = 0;
+    $count++;
+}
+$user_impact_emissions = $total_impact_amount . " kg of CO2 Reduced Emissions";
+$user_impact_waste = $total_impact_amount2 . " kg of Waste Recycled";
 
-    while ($count < $row_count) {
-        // Check impact type and add corresponding impact amount
-        if ($impact['impact_type'] == 'reduced carbon emission') {
-            $total_impact_amount = $impact['impact_amount'] + $total_impact_amount;
+while ($row = mysqli_fetch_assoc($streak_result)) {
+    $dates[] = $row['date_accomplished']; // push each date into array
+}
 
-        } else if ($impact['impact_type'] == 'recycling trash') {
-            $total_impact_amount2 = $impact['impact_amount'] + $total_impact_amount2;
-
-        }
-        $count++;
-    }
-    $user_impact_emissions = $total_impact_amount . " kg of CO2 Reduced Emissions";
-    $user_impact_waste = $total_impact_amount2 . " kg of Waste Recycled";
-
-    while ($row = mysqli_fetch_assoc($streak_result)) {
-        $dates[] = $row['date_accomplished']; // push each date into array
-    }
-
-    $today = new DateTime('today'); // Get today's date (no time, only date)
-    $current_day = clone $today;
+$today = new DateTime('today'); // Get today's date (no time, only date)
+$current_day = clone $today;
 
 
-    // Convert date strings into DateTime objects
-    $dates = array_map(function ($d) {
-        return new DateTime($d);
-    }, $dates);
+// Convert date strings into DateTime objects
+$dates = array_map(function ($d) {
+    return new DateTime($d);
+}, $dates);
 
 
-    while (true) {
-        $found = false;
-        foreach ($dates as $d) {
-            if ($d->format('Y-m-d') == $current_day->format('Y-m-d')) {
-                $found = true;
-                break;
-            }
-        }
-        if ($found) {
-            $streak++;
-            $current_day->modify('-1 day'); // go to previous day
-        } else {
-            // Streak breaks when a day is missing
+while (true) {
+    $found = false;
+    foreach ($dates as $d) {
+        if ($d->format('Y-m-d') == $current_day->format('Y-m-d')) {
+            $found = true;
             break;
         }
     }
+    if ($found) {
+        $streak++;
+        $current_day->modify('-1 day'); // go to previous day
+    } else {
+        // Streak breaks when a day is missing
+        break;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +113,8 @@
                 <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
                         src="images/home.png" alt="Home"></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-challenges-tab.php'"><img src="images/challanges.png" alt="Challenges"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-challenges-tab.php'"><img
+                    src="images/challanges.png" alt="Challenges"></button>
             <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
                     src="images/scan.png" alt="Scan"></button>
             <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
@@ -164,10 +166,10 @@
                 <img src="images/next.png" alt="Next" />
             </button>
         </div>
-            <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
+        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
             style="cursor: pointer;">
-                What News?
-            </div>
+            What News?
+        </div>
         <?php while ($row = mysqli_fetch_assoc($result_news)) { ?>
 
             <div class="content-container"
@@ -198,50 +200,50 @@
             </div>
 
         <?php } ?>
-<script>
-        const searchInput = document.getElementById('search-input');
-        const searchResults = document.getElementById('search-results');
+        <script>
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
 
-        // Trigger search on every keystroke
-        searchInput.addEventListener('input', function () {
-            const query = this.value;
+            // Trigger search on every keystroke
+            searchInput.addEventListener('input', function () {
+                const query = this.value;
 
-            // Only search if user typed at least 2 characters
-            if (query.length >= 2) {
-                // Send AJAX request to PHP
-                fetch('search.php?query=' + encodeURIComponent(query)+'&source=home')
-                    .then(response => response.json())
-                    .then(data => {
+                // Only search if user typed at least 2 characters
+                if (query.length >= 2) {
+                    // Send AJAX request to PHP
+                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=home')
+                        .then(response => response.json())
+                        .then(data => {
 
-                        displayResults(data);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching search results:', error);
-                    });
-            } else {
-                searchResults.innerHTML = ''; // Clear results if less than 2 chars
-            }
-        });
+                            displayResults(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching search results:', error);
+                        });
+                } else {
+                    searchResults.innerHTML = ''; // Clear results if less than 2 chars
+                }
+            });
 
-        function displayResults(results) { //builds HTML search results
-            if (results.length === 0) {
-                searchResults.innerHTML = '<p>No results found</p>';
-                return;
-            }
+            function displayResults(results) { //builds HTML search results
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<p>No results found</p>';
+                    return;
+                }
 
-            let html = '<ul>';
-            results.forEach(item => {
-                html += `
+                let html = '<ul>';
+                results.forEach(item => {
+                    html += `
                 <li>
                     <h4>${item.title}</h4>
                 </li>
             `;
-            });
-            html += '</ul>';
+                });
+                html += '</ul>';
 
-            searchResults.innerHTML = html;
-        }
-    </script>
+                searchResults.innerHTML = html;
+            }
+        </script>
 
 </body>
 
