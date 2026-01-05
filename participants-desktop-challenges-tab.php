@@ -217,28 +217,100 @@
 
                 <div class="event-list" id="eventList">
 
-                    <?php
-                    // Loop through all events from the query
-                    while ($event = mysqli_fetch_assoc($events_result)):
-                    ?>
-                        <article class="event-card" role="article" aria-labelledby="eventTitle<?php echo $event['events_id']; ?>">
-                            <figure class="event-image" aria-hidden="true">
-                                <img src="images/<?php echo htmlspecialchars($event['image_path']); ?>" alt="Event image placeholder" onerror="console.log('Image failed to load: ' + this.src)" />
-                            </figure>
+                <?php
+                // Loop through all events from the query
+                while ($event = mysqli_fetch_assoc($events_result)):
+                ?>
+                    <article class="event-card" role="article">
+                        <figure class="event-image" aria-hidden="true">
+                            <img src="images/<?php echo htmlspecialchars($event['image_path']); ?>" 
+                                alt="<?php echo htmlspecialchars($event['title']); ?>" 
+                                onerror="this.src='images/event-placeholder.png'" />
+                        </figure>
 
-                            <div class="event-body">
-                                <h3 class="event-title" id="eventTitle<?php echo $event['eco_news_id']; ?>"><?php echo htmlspecialchars($event['title']); ?></h3>
-                                <p class="event-date"><?php echo date('M d, Y - H:i', strtotime($event['start_time'])); ?></p>
-                                <p class="event-reward"><?php echo htmlspecialchars($event['points_rewarded']); ?>GP</p>
-                            </div>
+                        <div class="event-body">
+                            <h3 class="event-title"><?php echo htmlspecialchars($event['title']); ?></h3>
+                            <p class="event-date"><?php echo date('M d, Y - H:i', strtotime($event['start_time'])); ?></p>
+                            <p class="event-reward"><?php echo htmlspecialchars($event['points_rewarded']); ?>GP</p>
+                        </div>
 
-                            <div class="event-action">
-                                <a href="participants-eco-news-details.php?eco_news_id=<?php echo urlencode($event['eco_news_id']); ?>" class="btn-join">Join</a>
+                        <div class="event-action">
+                            <button class="btn-join" 
+                                    type="button"
+                                    data-event-id="<?php echo htmlspecialchars($event['events_id']); ?>"
+                                    data-eco-news-id="<?php echo htmlspecialchars($event['eco_news_id']); ?>"
+                                    data-title="<?php echo htmlspecialchars($event['title']); ?>"
+                                    data-description="<?php echo htmlspecialchars($event['description']); ?>"
+                                    data-image="images/<?php echo htmlspecialchars($event['image_path']); ?>"
+                                    data-venue="<?php echo htmlspecialchars($event['venue']); ?>"
+                                    data-organizer="<?php echo htmlspecialchars($event['organised_by']); ?>"
+                                    data-time="<?php echo date('M d, Y - H:i', strtotime($event['start_time'])); ?>"
+                                    data-points="<?php echo htmlspecialchars($event['points_rewarded']); ?>GP"
+                                    onclick="showEventDetails(this)">
+                                Join
+                            </button>
+                        </div>
+                    </article>
+                <?php 
+                endwhile; 
+                ?>
+
+            </div>
+                <!-- Event Details Overlay -->
+                <div class="event-details-overlay" id="eventDetailsOverlay">
+                    <div class="event-details-container">
+                        <button class="event-details-close" id="closeEventDetails">&times;</button>
+                        
+                        <img class="event-details-image" id="eventImage" src="" alt="Event image">
+                        
+                        <h2 class="event-details-title" id="eventTitle"></h2>
+                        
+                        <div class="event-details-meta">
+                            <div class="event-meta-item">
+                                <span>📅</span>
+                                <span id="eventDate"></span>
                             </div>
-                        </article>
-                    <?php 
-                    endwhile; 
-                    ?>
+                            <div class="event-meta-item">
+                                <span>📍</span>
+                                <span id="eventVenue"></span>
+                            </div>
+                            <div class="event-meta-item">
+                                <span>👥</span>
+                                <span id="eventOrganizer"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-details-description" id="eventDescription"></div>
+                        
+                        <div class="event-details-info">
+                            <div class="event-info-row">
+                                <span class="event-info-label">Points Reward:</span>
+                                <span class="event-info-value" id="eventPoints"></span>
+                            </div>
+                            <div class="event-info-row">
+                                <span class="event-info-label">Start Time:</span>
+                                <span class="event-info-value" id="eventTime"></span>
+                            </div>
+                            <div class="event-info-row">
+                                <span class="event-info-label">Date:</span>
+                                <span class="event-info-value" id="eventDate"></span>
+                            </div>
+                            <div class="event-info-row">
+                                <span class="event-info-label">Venue:</span>
+                                <span class="event-info-value" id="eventVenue"></span>
+                            </div>
+                            <div class="event-info-row">
+                                <span class="event-info-label">Organiser:</span>
+                                <span class="event-info-value" id="eventOrganizer"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-details-actions">
+                            <button class="btn-cancel" id="cancelEvent">Cancel</button>
+                            <button class="btn-join-event" id="joinEventBtn">Join Event</button>
+                        </div>
+                    </div>
+                </div>
 
                 </div>
             </section>
@@ -257,14 +329,67 @@
     </div>
 
     <script>
-    document.getElementById('tabOngoing').addEventListener('click', function() {
-        window.location.href = 'participants-desktop-challenges-tab.php?tab=ongoing';
-    });
+        // Tab switching
+        document.getElementById('tabOngoing').addEventListener('click', function() {
+            window.location.href = 'participants-desktop-challenges-tab.php?tab=ongoing';
+        });
 
-    document.getElementById('tabCompleted').addEventListener('click', function() {
-        window.location.href = 'participants-desktop-challenges-tab.php?tab=completed';
-    });
-    </script>
+        document.getElementById('tabCompleted').addEventListener('click', function() {
+            window.location.href = 'participants-desktop-challenges-tab.php?tab=completed';
+        });
+
+        // Event details modal
+        function showEventDetails(button) {
+            const overlay = document.getElementById('eventDetailsOverlay');
+            
+            // Populate modal with event data
+            document.getElementById('eventImage').src = button.dataset.image;
+            document.getElementById('eventTitle').textContent = button.dataset.title;
+            document.getElementById('eventDescription').textContent = button.dataset.description;
+            document.getElementById('eventDate').textContent = button.dataset.time;
+            document.getElementById('eventVenue').textContent = button.dataset.venue;
+            document.getElementById('eventOrganizer').textContent = button.dataset.organizer;
+            document.getElementById('eventPoints').textContent = button.dataset.points;
+            document.getElementById('eventTime').textContent = button.dataset.time;
+            
+            // Store event IDs for join action
+            document.getElementById('joinEventBtn').dataset.eventId = button.dataset.eventId;
+            document.getElementById('joinEventBtn').dataset.ecoNewsId = button.dataset.ecoNewsId;
+            
+            // Show overlay
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        // Close event details
+        document.getElementById('closeEventDetails').addEventListener('click', function() {
+            closeEventDetails();
+        });
+
+        document.getElementById('cancelEvent').addEventListener('click', function() {
+            closeEventDetails();
+        });
+
+        function closeEventDetails() {
+            const overlay = document.getElementById('eventDetailsOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Join event action
+        document.getElementById('joinEventBtn').addEventListener('click', function() {
+            const ecoNewsId = this.dataset.ecoNewsId;
+            // Redirect to the details page or join action
+            window.location.href = 'participants-eco-news-details.php?eco_news_id=' + ecoNewsId;
+        });
+
+        // Close overlay when clicking outside the container
+        document.getElementById('eventDetailsOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEventDetails();
+            }
+        });
+        </script>
 
 </body>
 
