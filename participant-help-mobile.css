@@ -1,0 +1,85 @@
+/* header */
+.page-header {
+    height: 64px;
+    display: flex;
+    align-items: left;
+    padding: 16px;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary-green);
+}
+
+.return-btn {
+    width: 32px;
+    height: 32px;
+    margin: 0px 16px 0px 0px;
+    color: var(--secondary-text); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--card-white);
+    border-radius: 50%;
+    border: 1px solid #99999910; 
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    transition: all 0.2s ease;
+}
+
+
+
+.profile-page {
+    padding: 0px 16px;
+}
+
+
+/* Quick access */
+.quick-item {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--line-black);
+}
+
+.quick-header {
+    gap: 12px;
+    padding: 14px 16px 14px 24px;
+    color: var(--primary-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+}
+
+.quick-item button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+
+.quick-header span {    
+    flex: 1;
+    font-size: 16px;
+    text-align: left;
+}
+
+.chevron {
+    color: var(--secondary-text);
+}
+
+
+.panel {
+width: 100%;
+  padding: 0 16px 16px 24px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+  line-height: 1.5;
+  text-align: justify;
+  color: var(--secondary-text);
+}

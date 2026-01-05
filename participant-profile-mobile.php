@@ -46,7 +46,6 @@
 
         <h2 class="profile-name">John Doe</h2>
         <p class="profile-id">TP012345</p>
-        <p class="profile-course">Environmental Studies</p>
     </div>
 
     <!-- Stats -->

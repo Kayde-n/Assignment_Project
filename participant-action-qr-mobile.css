@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--primary-green);
+    background: radial-gradient(circle at top left, #52B788, #2D6A4F);
     border-radius: 6px;
     margin: 0px 16px;
     padding: 4px 4px 4px 8px;

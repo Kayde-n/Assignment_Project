@@ -30,11 +30,6 @@
     color: var(--secondary-text);
 }
 
-.profile-course {
-    font-size: 14px;
-    color: var(--secondary-text);
-}
-
 /* Stats */
 .profile-stats {
     display: flex;
