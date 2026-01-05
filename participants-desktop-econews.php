@@ -97,7 +97,6 @@
                 fetch('search.php?query=' + encodeURIComponent(query)+'&source=eco_news')
                     .then(response => response.json())
                     .then(data => {
-
                         displayResults(data);
                     })
                     .catch(error => {
@@ -108,23 +107,33 @@
             }
         });
 
-        function displayResults(results) { //builds HTML search results
+        function displayResults(results) {
             if (results.length === 0) {
                 searchResults.innerHTML = '<p>No results found</p>';
                 return;
             }
 
-            let html = '<ul>';
+            let html = '<div class="search-results-container">';
             results.forEach(item => {
+                // For eco news results, use eco_news_id to construct URL
+                let redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                
                 html += `
-                <li>
+                <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
                     <h4>${item.title}</h4>
-                </li>
+                    <p>${item.description ? item.description.substring(0, 30) : ''}...</p>
+                </div>
             `;
             });
-            html += '</ul>';
+            html += '</div>';
 
             searchResults.innerHTML = html;
+        }
+
+        function redirectToResult(url) {
+            if (url) {
+                window.location.href = url;
+            }
         }
     </script>
 
