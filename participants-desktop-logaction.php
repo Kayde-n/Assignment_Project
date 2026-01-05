@@ -49,7 +49,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="participant-icon-container">
             <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
                     src="images/home.png" alt="Home"></button>
-            <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-challenges-tab.php'"><img src="images/challanges.png" alt="Challenges"></button>
             <div id="log-icon-box">
                 <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
                         src="images/scan.png" alt="Scan"></button>

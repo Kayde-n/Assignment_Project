@@ -112,7 +112,7 @@
                 <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
                         src="images/home.png" alt="Home"></button>
             </div>
-            <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-challenges-tab.php'"><img src="images/challanges.png" alt="Challenges"></button>
             <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
                     src="images/scan.png" alt="Scan"></button>
             <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
@@ -174,7 +174,7 @@
                 onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
 
                 <button class="image-holder">
-                    <img src="/Assignment_Project/images/<?php echo $row['image_path']; ?>" alt="News Image">
+                    <img src="images/<?php echo $row['image_path']; ?>" alt="News Image">
                 </button>
 
                 <button class="content-text-box">

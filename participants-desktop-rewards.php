@@ -132,7 +132,7 @@ $sql_query_category = "SELECT ca"
 
             </div>
 
-            <p style="color:#53B757; font-weight:600;">09 : 47</p>
+            <p id="timerDisplay" style="color:#53B757; font-weight:600;">10:00</p>
 
             <button class="redeem-btn" onclick="closeQrModal()">End Redeem</button>
 
@@ -142,6 +142,136 @@ $sql_query_category = "SELECT ca"
     <!-- ===== JAVASCRIPT ===== -->
     <script>
         let currentRewardId = null;
+        let currentRedemptionId = null;
+        let timeLeft = 600; // 10 minutes in seconds
+        let timerInterval = null;
+
+        // Format time as MM:SS
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Update timer display
+        function updateTimer() {
+            const timerElement = document.getElementById('timerDisplay');
+            timerElement.textContent = formatTime(timeLeft);
+            
+            // Change color when time is running out (last minute)
+            if (timeLeft <= 60) {
+                timerElement.style.color = '#F44336';
+                timerElement.classList.add('expiring');
+            } else {
+                timerElement.style.color = '#4CAF50';
+                timerElement.classList.remove('expiring');
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                expireRedemption();
+            } else {
+                timeLeft--;
+            }
+        }
+
+        // Start the countdown timer
+        function startTimer() {
+            // Clear any existing timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            // Reset to 10 minutes
+            timeLeft = 600;
+            
+            // Update display immediately
+            const timerElement = document.getElementById('timerDisplay');
+            timerElement.textContent = formatTime(timeLeft);
+            timerElement.style.color = '#4CAF50';
+            timerElement.classList.remove('expiring');
+            
+            // Start countdown
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // Stop the timer
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+
+        // Expire redemption when timer runs out
+        function expireRedemption() {
+            if (!currentRedemptionId) {
+                alert('No active redemption found.');
+                document.getElementById("qrModal").classList.remove("show");
+                return;
+            }
+
+            fetch('expire-redemption.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `redemption_id=${currentRedemptionId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Redemption time expired. QR code is no longer valid.');
+                    document.getElementById("qrModal").classList.remove("show");
+                    location.reload(); // Refresh to update points
+                } else {
+                    alert('Error: ' + data.message);
+                    document.getElementById("qrModal").classList.remove("show");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while expiring redemption.');
+                document.getElementById("qrModal").classList.remove("show");
+            });
+        }
+
+        function endRedemption() {
+            if (!confirm('Are you sure you want to end this redemption?')) {
+                return;
+            }
+
+            stopTimer();
+
+            if (!currentRedemptionId) {
+                document.getElementById("qrModal").classList.remove("show");
+                return;
+            }
+
+            fetch('end-redemption.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `redemption_id=${currentRedemptionId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Redemption ended successfully.');
+                    document.getElementById("qrModal").classList.remove("show");
+                    location.reload(); // Refresh page
+                } else {
+                    alert('Error: ' + data.message);
+                    document.getElementById("qrModal").classList.remove("show");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
 
         function openModal(title, description, rewardId) {
             currentRewardId = rewardId;
@@ -184,6 +314,7 @@ $sql_query_category = "SELECT ca"
                     document.getElementById("qrCodeImg").src = qrUrl;
                     closeModal(); // Close first modal
                     document.getElementById("qrModal").classList.add("show"); // Open QR modal
+                    startTimer();
                 })
                 .catch(error => {
                     alert(error.message);
@@ -191,8 +322,21 @@ $sql_query_category = "SELECT ca"
         }
 
         function closeQrModal() {
-            document.getElementById("qrModal").classList.remove("show");
+            if (confirm('Closing will end your redemption. Continue?')) {
+                stopTimer();
+                endRedemption();
+            }
         }
+
+
+        // Prevent accidental page close
+        window.onbeforeunload = function() {
+            if (document.getElementById("qrModal").classList.contains("show")) {
+                e.preventDefault();
+                return "Your redemption is still active. Are you sure you want to leave?";
+            }
+        };
+
         function filterRewards(category) {
             // Placeholder function for filtering rewards
 
