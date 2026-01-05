@@ -1,8 +1,10 @@
 <?php
-    include("session.php");
+include("session.php");
+include("database.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +13,16 @@
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="admin-system-config.css">
 </head>
+
 <body>
     <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'"><h2>EcoXP</h2></button>
+        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'">
+            <h2>EcoXP</h2>
+        </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png"
+                    alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
         </div>
@@ -24,11 +30,15 @@
 
     <div class="side-bar">
         <div class="admin-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png" alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img src="images/system-analytics.png" alt="System Analytics"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img src="images/sustainability-report.png" alt="Sustainability Report"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png"
+                    alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
+                    src="images/system-analytics.png" alt="System Analytics"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
+                    src="images/sustainability-report.png" alt="Sustainability Report"></button>
             <div id="system-config-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img src="images/system-config.png" alt="System Config"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
+                        src="images/system-config.png" alt="System Config"></button>
             </div>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
@@ -48,7 +58,7 @@
         <!-- System Maintenance Section -->
         <section class="system-maintenance">
             <h2>System Maintenance</h2>
-            
+
             <!-- Toggle Switch -->
             <div class="toggle-container">
                 <span class="toggle-label">Maintenance Mode</span>
@@ -73,7 +83,8 @@
             <!-- Notification Message -->
             <div class="notification-field">
                 <label for="notification-msg">Send Push Notification</label>
-                <textarea id="notification-msg" name="notification-msg" rows="3" placeholder="Enter notification message..."></textarea>
+                <textarea id="notification-msg" name="notification-msg" rows="3"
+                    placeholder="Enter notification message..."></textarea>
             </div>
 
             <!-- Action Buttons -->
@@ -85,7 +96,7 @@
         <!-- System Configurations Section -->
         <section class="system-configurations">
             <h2>System Configurations</h2>
-            
+
             <!-- System Color -->
             <div class="config-item">
                 <label for="system-color">System Color</label>
@@ -100,7 +111,7 @@
             <!-- Green Points Settings -->
             <div class="config-section">
                 <h3>Green Points Settings</h3>
-                
+
                 <div class="input-field">
                     <label for="recycle-points">Per 1st Recycle</label>
                     <input type="number" id="recycle-points" name="recycle-points" value="10" min="0">
@@ -125,4 +136,5 @@
         </div>
     </div>
 </body>
+
 </html>

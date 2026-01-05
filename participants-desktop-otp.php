@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,14 +14,16 @@
             border-radius: 20px;
             width: 840px;
             background-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            margin: 40px auto; 
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            margin: 40px auto;
         }
+
         .otp-boxes {
             display: flex;
             gap: 20px;
             margin-bottom: 30px;
         }
+
         .otp-input {
             width: 240px;
             height: 320px;
@@ -31,10 +34,12 @@
             outline: none;
             transition: 0.2s ease;
         }
+
         .otp-input:focus {
             border-color: #3fa84a;
-            box-shadow: 0 0 10px rgba(83,183,87,0.4);
+            box-shadow: 0 0 10px rgba(83, 183, 87, 0.4);
         }
+
         .otp-submit {
             width: 240px;
             height: 56px;
@@ -48,19 +53,23 @@
             display: block;
             margin: 0 auto;
         }
+
         .otp-submit:hover {
             background: #46a14b;
         }
-
     </style>
- 
+
 </head>
+
 <body>
     <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'"><h2>EcoXP</h2></button>
+        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'">
+            <h2>EcoXP</h2>
+        </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
+                    src="images/profile.png" alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
         </div>
@@ -68,18 +77,21 @@
 
     <div class="side-bar">
         <div class="participant-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
+                    src="images/home.png" alt="Home"></button>
             <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
             <div id="log-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img src="images/scan.png" alt="Scan"></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
+                        src="images/scan.png" alt="Scan"></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img src="images/tag.png" alt="Rewards"></button>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
+                    src="images/tag.png" alt="Rewards"></button>
+
         </div>
     </div>
     <div class="main-content">
         <div class="text-box">
-                Enter OTP
+            Enter OTP
         </div>
 
         <div class="otp-container">
@@ -91,7 +103,8 @@
             <button class="otp-submit">Verify</button>
         </div>
 
-</div>
+    </div>
 
 </body>
+
 </html>

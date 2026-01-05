@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('File upload failed');
     }
 
+
     $file = $_FILES['upload_file'];
 
     // File info
@@ -65,13 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $staff_id[] = $row['staff_id'];
     }
     $randomINdex = array_rand($staff_id);
+    $challenge_notes = $_POST['challenge_notes'];
 
-    $sql_query3 = "INSERT INTO participants_challenges (participants_id,challenges_id,date_accomplished,verified_date,challenges_status,impact_type,image_path,impact_amount,staff_id) VALUES ('$participant_id', '$challenges_id', '$todayString', NULL, 'pending',NULL, '$targetPath', NULL, '$staff_id[$randomINdex]')";
+    $sql_query3 = "INSERT INTO participants_challenges (participants_id,challenges_id,date_accomplished,verified_date,challenges_status,impact_type,image_path,impact_amount,Challenge_notes,staff_id) VALUES ('$participant_id', '$challenges_id', '$todayString', NULL, 'pending',NULL, '$targetPath', NULL,'$challenge_notes', '$staff_id[$randomINdex]')";
 
     if (mysqli_query($database, $sql_query3)) {
-        echo "Upload successful: $newName";
+
+        $_SESSION['popup_message'] = "Upload successful: $newName";
+        header("Location: participants-desktop-logaction.php");
+        exit();
     } else {
         die("Insert failed: " . mysqli_error($database));
     }
+
 }
 ?>

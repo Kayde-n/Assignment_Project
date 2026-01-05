@@ -1,9 +1,9 @@
 <?php
-    include("session.php");
-    include("Database.php");
+include("session.php");
+include("Database.php");
 
-    $sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
-    $result = mysqli_query($database, $sql);
+$sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
+$result = mysqli_query($database, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -40,9 +40,20 @@
                         src="images/home.png" alt="Home"></button>
             </div>
             <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img src="images/scan.png" alt="Scan"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img src="images/tag.png" alt="Rewards"></button>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
+                    src="images/scan.png" alt="Scan"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
+                    src="images/tag.png" alt="Rewards"></button>
+            <button class="icon-btn" id="logout" onClick="logout_confirm()">
+                <script>
+                    function logout_confirm() {
+                        if (confirm("Are you sure you want to logout?")) {
+                            window.location.href = "logout.php";
+                        }
+                    }
+                </script>
+                <img src="images/logout.png" alt="Logout">
+            </button>
         </div>
     </div>
     <div class="main-content">
@@ -56,7 +67,7 @@
         <div class="text-box">
             What News?
         </div>
-        
+
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
 
             <button class="content-holder"
@@ -94,7 +105,7 @@
             // Only search if user typed at least 2 characters
             if (query.length >= 2) {
                 // Send AJAX request to PHP
-                fetch('search.php?query=' + encodeURIComponent(query)+'&source=eco_news')
+                fetch('search.php?query=' + encodeURIComponent(query) + '&source=eco_news')
                     .then(response => response.json())
                     .then(data => {
 

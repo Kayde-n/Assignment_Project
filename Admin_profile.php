@@ -62,9 +62,9 @@ include("session.php");
                 <p class="profile-role">Bachelor of Environmental Science</p>
             </div>
         </div>
-    
 
-    <!-- QUICK ACCESS -->
+
+        <!-- QUICK ACCESS -->
         <div class="quick-access">
             <h3>Quick Access</h3>
             <ul>
@@ -96,6 +96,14 @@ include("session.php");
                     <a href="Admin_system_config.php">
                         <div class="left">
                             <img src="images/system-config.png" alt="Arrow Icon">System Configuration
+                        </div>
+                        <img src="images/arrow.png" alt="Arrow Icon">
+                    </a>
+                </li>
+                <li>
+                    <a href="desktop-settings.php">
+                        <div class="left">
+                            <img src="images/setting.png" alt="Settings Icon">Settings
                         </div>
                         <img src="images/arrow.png" alt="Arrow Icon">
                     </a>

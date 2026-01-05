@@ -1,6 +1,12 @@
 <?php
 include("session.php");
 include("database.php");
+if (isset($_SESSION['popup_message'])): ?>
+    <script>
+        alert("<?php echo addslashes($_SESSION['popup_message']); ?>");
+    </script>
+    <?php unset($_SESSION['popup_message']); ?>
+<?php endif;
 $sql_query = "SELECT challenge_name FROM challenges";
 $result = mysqli_query($database, $sql_query);
 if (!$result) {
@@ -50,7 +56,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
             <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
                     src="images/tag.png" alt="Rewards"></button>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+
+            </button>
         </div>
     </div>
     <div class="main-content">
@@ -79,7 +86,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                 </div>
 
 
-                <textarea class="log-notes" placeholder="Add Notes (Optional)"></textarea>
+                <textarea class="log-notes" placeholder="Add Notes (Optional)" name="challenge_notes"></textarea>
 
                 <div class="submit-container">
                     <button class="submit-btn">Submit For Review</button>
