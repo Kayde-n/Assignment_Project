@@ -1,6 +1,13 @@
 <?php
-include("session.php");
+//include("session.php");
 include("database.php");
+date_default_timezone_set("Asia/Kuala_Lumpur");
+
+// Check if maintenance mode is currently active
+$sql_check = "SELECT * FROM downtime WHERE admin_id = 1 AND end_time = '2099-12-31 23:59:59' LIMIT 1";
+$result_check = mysqli_query($database, $sql_check);
+$maintenance_active = mysqli_num_rows($result_check);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,34 +70,36 @@ include("database.php");
             <div class="toggle-container">
                 <span class="toggle-label">Maintenance Mode</span>
                 <label class="toggle-switch">
-                    <input type="checkbox" id="maintenance-mode">
+                    <input type="checkbox" id="maintenance-mode" onclick="confirmMaintenance(this)" <?php echo $maintenance_active ? 'checked' : ''; ?>>
                     <span class="slider"></span>
                 </label>
             </div>
 
             <!-- Date Time Inputs -->
-            <div class="datetime-group">
-                <div class="datetime-field">
-                    <label for="start-date">Start Date & Time</label>
-                    <input type="datetime-local" id="start-date" name="start-date" value="2025-11-01T00:00">
+            <form action="system-settings-change.php" method="POST">
+                <div class="datetime-group">
+                    <div class="datetime-field">
+                        <label for="start-date">Start Date & Time</label>
+                        <input type="datetime-local" id="start-date" name="start-date"
+                            value="<?php echo date('Y-m-d\TH:i'); ?>">
+                    </div>
+                    <div class="datetime-field">
+                        <label for="end-date">End Date & Time</label>
+                        <input type="datetime-local" id="end-date" name="end-date" value="">
+                    </div>
                 </div>
-                <div class="datetime-field">
-                    <label for="end-date">End Date & Time</label>
-                    <input type="datetime-local" id="end-date" name="end-date" value="2025-11-01T00:00">
+
+                <!-- Notification Message -->
+                <div class="notification-field">
+                    <label for="notification-msg">Send Push Notification</label>
+                    <textarea id="notification-msg" name="notification-msg" rows="3"
+                        placeholder="Enter notification message..."></textarea>
                 </div>
-            </div>
 
-            <!-- Notification Message -->
-            <div class="notification-field">
-                <label for="notification-msg">Send Push Notification</label>
-                <textarea id="notification-msg" name="notification-msg" rows="3"
-                    placeholder="Enter notification message..."></textarea>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button class="btn-secondary">Clear System Notification</button>
-            </div>
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-secondary">Clear System Notification</button>
+                </div>
         </section>
 
         <!-- System Configurations Section -->
@@ -134,7 +143,51 @@ include("database.php");
             <button class="btn-reset">Reset</button>
             <button class="btn-save">Save</button>
         </div>
+        </form>
     </div>
 </body>
+<script>
+    function confirmMaintenance(checkbox) {
+        if (checkbox.checked) {
+            // Turning ON maintenance
+            if (confirm("Are you sure you want to enable maintenance mode?")) {
+                updateMaintenance(1);
+            } else {
+                checkbox.checked = false; // revert
+            }
+        } else {
+            // Turning OFF maintenance
+            if (confirm("Disable maintenance mode?")) {
+                updateMaintenance(0);
+            } else {
+                checkbox.checked = true; // revert
+            }
+        }
+    }
+
+    function updateMaintenance(status) {
+
+        fetch("maintainence_toggle.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: 'status=' + status
+
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data !== "OK") {
+                    console.log("Failed to update maintenance mode: " + data);
+                } else {
+                    console.log("Maintenance mode updated successfully.");
+                }
+            })
+            .catch(error => {
+                console.log("Error: " + error.message);
+
+            });
+    }
+</script>
 
 </html>
