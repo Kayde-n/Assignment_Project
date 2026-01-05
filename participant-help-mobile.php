@@ -32,7 +32,7 @@
 
    <!-- page header -->
     <div class="page-header">
-        <a href="participant-home-mobile.php" class="return-btn" aria-label="Return button">
+        <a href="participant-profile-mobile.php" class="return-btn" aria-label="Return button">
                 <i data-lucide="arrow-left"></i>
         </a>
         <div class="header-title">Help & FAQ</div>     

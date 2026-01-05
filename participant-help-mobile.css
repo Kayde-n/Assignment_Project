@@ -38,12 +38,12 @@
 .quick-item {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid var(--line-black);
+    border-bottom: 1px solid rgba(45, 106, 79, 0.154);
 }
 
 .quick-header {
     gap: 12px;
-    padding: 14px 16px 14px 24px;
+    padding: 16px 16px 16px 24px;
     color: var(--primary-text);
     cursor: pointer;
     display: flex;
@@ -69,7 +69,7 @@
 }
 
 .chevron {
-    color: var(--secondary-text);
+    color: var(--primary-green);
 }
 
 
