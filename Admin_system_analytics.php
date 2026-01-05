@@ -6,123 +6,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>System Analytics</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="admin-system-analytics.css">
 </head>
 <body>
-     <div class="mobile-container">
-        <!-- Header -->
-        <header class="header">
-            <h1>System Analytics</h1>
-        </header>
+    <div class="top-bar">
+        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'"><h2>EcoXP</h2></button>
+        <div class="default-icon-container">
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
+            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+        </div>
+    </div>
+
+    <div class="side-bar">
+        <div class="admin-icon-container">
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png" alt="Home"></button>
+            <div id="system-analytics-icon-box">
+                <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img src="images/system-analytics.png" alt="System Analytics"></button>
+            </div>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img src="images/sustainability-report.png" alt="Sustainability Report"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img src="images/system-config.png" alt="System Config"></button>
+            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+        </div>
+    </div>
         
         <!-- Main Content -->
-        <main class="main-content">
-            <!-- Analytics Grid -->
-            <div class="analytics-grid">
-                <!-- Row 1 -->
-                <div class="analytics-card">
-                    <h3>System Performance</h3>
-                    <div class="chart-placeholder line-chart">
-                        <svg viewBox="0 0 100 50">
-                            <polyline points="0,40 20,30 40,35 60,20 80,25 100,15" fill="none" stroke="#ccc" stroke-width="2"/>
-                        </svg>
-                    </div>
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="title-box"><h1>System Analytics</h1></div>
+        </div>
+
+        <!-- Analytics Grid -->
+        <div class="analytics-grid">
+            <!-- Row 1 -->
+            <div class="analytics-card">
+                <h3 class="card-title">System Performance</h3>
+                <div class="card-content">
+                    <canvas id="performanceChart1"></canvas>
                 </div>
-                
-                <div class="analytics-card">
-                    <h3>Popular Challenges</h3>
+            </div>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Popular Challenges</h3>
+                <div class="card-content card-image">
                     <div class="image-placeholder">
-                        <span class="icon">🖼️</span>
-                    </div>
-                </div>
-                
-                <!-- Row 2 -->
-                <div class="analytics-card">
-                    <h3>Admin's Permission</h3>
-                    <div class="chart-placeholder donut-chart">
-                        <svg viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="40" fill="none" stroke="#e0e0e0" stroke-width="20"/>
-                            <circle cx="50" cy="50" r="40" fill="none" stroke="#4CAF50" stroke-width="20" stroke-dasharray="188.4 62.8" transform="rotate(-90 50 50)"/>
-                        </svg>
-                    </div>
-                </div>
-                
-                <div class="analytics-card">
-                    <h3>Green Points Analytics</h3>
-                    <div class="chart-placeholder bar-chart">
-                        <svg viewBox="0 0 100 60">
-                            <rect x="5" y="30" width="10" height="30" fill="#4CAF50"/>
-                            <rect x="20" y="20" width="10" height="40" fill="#4CAF50"/>
-                            <rect x="35" y="35" width="10" height="25" fill="#4CAF50"/>
-                            <rect x="50" y="15" width="10" height="45" fill="#4CAF50"/>
-                            <rect x="65" y="25" width="10" height="35" fill="#4CAF50"/>
-                            <rect x="80" y="40" width="10" height="20" fill="#4CAF50"/>
-                        </svg>
-                    </div>
-                </div>
-                
-                <!-- Row 3 -->
-                <div class="analytics-card">
-                    <h3>System Performance</h3>
-                    <div class="chart-placeholder line-chart">
-                        <svg viewBox="0 0 100 50">
-                            <polyline points="0,40 20,35 40,30 60,38 80,32 100,28" fill="none" stroke="#ccc" stroke-width="2"/>
-                        </svg>
-                    </div>
-                </div>
-                
-                <div class="analytics-card">
-                    <h3>Popular Challenges</h3>
-                    <div class="image-placeholder">
-                        <span class="icon">🖼️</span>
-                    </div>
-                </div>
-                
-                <!-- Row 4 -->
-                <div class="analytics-card">
-                    <h3>Admins Permission</h3>
-                    <div class="chart-placeholder donut-chart">
-                        <svg viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="40" fill="none" stroke="#e0e0e0" stroke-width="20"/>
-                            <circle cx="50" cy="50" r="40" fill="none" stroke="#4CAF50" stroke-width="20" stroke-dasharray="188.4 62.8" transform="rotate(-90 50 50)"/>
-                        </svg>
-                    </div>
-                </div>
-                
-                <div class="analytics-card">
-                    <h3>Green Points Analytics</h3>
-                    <div class="chart-placeholder bar-chart">
-                        <svg viewBox="0 0 100 60">
-                            <rect x="5" y="35" width="10" height="25" fill="#4CAF50"/>
-                            <rect x="20" y="25" width="10" height="35" fill="#4CAF50"/>
-                            <rect x="35" y="30" width="10" height="30" fill="#4CAF50"/>
-                            <rect x="50" y="20" width="10" height="40" fill="#4CAF50"/>
-                            <rect x="65" y="28" width="10" height="32" fill="#4CAF50"/>
-                            <rect x="80" y="38" width="10" height="22" fill="#4CAF50"/>
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#90A4AE" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
                         </svg>
                     </div>
                 </div>
             </div>
-        </main>
-        
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <button class="nav-btn">
-                <span class="icon">🏠</span>
-            </button>
-            <button class="nav-btn active">
-                <span class="icon">📊</span>
-            </button>
-            <button class="nav-btn">
-                <span class="icon">📄</span>
-            </button>
-            <button class="nav-btn">
-                <span class="icon">👥</span>
-            </button>
-            <button class="nav-btn">
-                <span class="icon">👤</span>
-            </button>
-        </nav>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Activity Distribution</h3>
+                <div class="card-content">
+                    <canvas id="activityChart1"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Green Points Awarded</h3>
+                <div class="card-content">
+                    <canvas id="pointsChart1"></canvas>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="analytics-card">
+                <h3 class="card-title">System Performance</h3>
+                <div class="card-content">
+                    <canvas id="performanceChart2"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Popular Challenges</h3>
+                <div class="card-content card-image">
+                    <div class="image-placeholder">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#90A4AE" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Activity Distribution</h3>
+                <div class="card-content">
+                    <canvas id="activityChart2"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Green Points Awarded</h3>
+                <div class="card-content">
+                    <canvas id="pointsChart2"></canvas>
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="analytics-card">
+                <h3 class="card-title">System Performance</h3>
+                <div class="card-content">
+                    <canvas id="performanceChart3"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Popular Challenges</h3>
+                <div class="card-content card-image">
+                    <div class="image-placeholder">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#90A4AE" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Activity Distribution</h3>
+                <div class="card-content">
+                    <canvas id="activityChart3"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h3 class="card-title">Green Points Awarded</h3>
+                <div class="card-content">
+                    <canvas id="pointsChart3"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="admin-system-analytics.js"></script>
 </body>
 </html>

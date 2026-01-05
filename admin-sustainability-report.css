@@ -1,0 +1,223 @@
+body::before {
+    content: "";
+    position: fixed; /* stays fixed while scrolling */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/tree.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2; /* 20% visible */
+    z-index: -1; /* behind all content */
+}
+
+#sustainability-report-icon-box {
+  width: 116px;
+  height: 76px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 20px;
+  border-color: #999999;
+  box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
+}
+
+#sustainability-report-icon-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+}
+
+#sustainability-report-icon-box img{
+  filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
+}
+
+/* Date Selector */
+.date-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    width: fit-content;
+    margin-bottom: 24px;
+}
+
+.date-selector label {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.date-selector img {
+  width: 16px;
+  height: 16px;
+}
+
+.date-selector select {
+  border: none;
+  background: none;
+  font-size: 14px;
+  color: #212121;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+/* Section Styling */
+section {
+  margin-bottom: 32px;
+}
+
+section h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #212121;
+  margin-bottom: 16px;
+}
+
+/* Executive Summary */
+.executive-summary {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.executive-summary p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #616161;
+  margin: 0;
+}
+
+/* Environmental Impact */
+.environmental-impact {
+  background-color: transparent;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.impact-card {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 24px 20px;
+  text-align: center;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.impact-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #212121;
+  margin-bottom: 8px;
+}
+
+.impact-label {
+  font-size: 13px;
+  color: #616161;
+}
+
+/* Participation Statistics */
+.participation-stats {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.stat-item {
+  margin-bottom: 20px;
+}
+
+.stat-item:last-child {
+  margin-bottom: 0;
+}
+
+.stat-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #616161;
+  font-weight: 400;
+}
+
+.stat-badge {
+  font-size: 14px;
+  font-weight: 600;
+  color: #212121;
+  padding: 4px 12px;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+}
+
+.stat-badge.positive {
+  background-color: #e8ffe9;
+  color: #45a049;
+}
+
+.stat-bar {
+  width: 100%;
+  height: 8px;
+  background-color: rgb(237, 237, 237);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  background-color: #45a049;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Download Section */
+.download-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+  background-color: #45a049;
+}
+
+.download-btn img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+}
