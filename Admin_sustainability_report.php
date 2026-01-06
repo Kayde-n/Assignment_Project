@@ -1,27 +1,27 @@
 <?php
-    include("session.php");
-    include("Database.php");
+include("session.php");
+include("Database.php");
 
-    //GET LATEST AVAILABLE MONTH (DEFAULT SELECTION)
-    $sql_latest = "SELECT DATE_FORMAT
+//GET LATEST AVAILABLE MONTH (DEFAULT SELECTION)
+$sql_latest = "SELECT DATE_FORMAT
         (MAX(date_accomplished), '%Y-%m') AS latest_month
         FROM participants_challenges";
-    $latest = mysqli_fetch_assoc(mysqli_query($database, $sql_latest));
-    $monthYear = $_GET['month_year'] ?? $latest['latest_month'];
-    [$year, $month] = explode('-', $monthYear);
+$latest = mysqli_fetch_assoc(mysqli_query($database, $sql_latest));
+$monthYear = $_GET['month_year'] ?? $latest['latest_month'];
+[$year, $month] = explode('-', $monthYear);
 
 
-    //GET AVAILABLE MONTHS FOR DROPDOWN
-    $sql_months = "SELECT DISTINCT 
+//GET AVAILABLE MONTHS FOR DROPDOWN
+$sql_months = "SELECT DISTINCT 
             DATE_FORMAT(date_accomplished, '%Y-%m') AS ym,
             DATE_FORMAT(date_accomplished, '%M %Y') AS label
             FROM participants_challenges
             ORDER BY ym DESC";
-    $result_months = mysqli_query($database, $sql_months);
+$result_months = mysqli_query($database, $sql_months);
 
 
-    //ENVIRONMENTAL IMPACT TOTALS (FILTERED BY MONTH)
-    $sql = "SELECT 
+//ENVIRONMENTAL IMPACT TOTALS (FILTERED BY MONTH)
+$sql = "SELECT 
             SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
             SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon emmision%' THEN impact_amount ELSE 0 END) AS carbon_emission,
             SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
@@ -30,51 +30,52 @@
             WHERE DATE_FORMAT(date_accomplished, '%Y-%m') = '$monthYear'";
 
 
-    //GREEN POINTS AWARDED (APPROVED ONLY, BY MONTH)
-    $sql_points = "SELECT 
+//GREEN POINTS AWARDED (APPROVED ONLY, BY MONTH)
+$sql_points = "SELECT 
             SUM(c.points_reward) AS total_points
             FROM participants_challenges pc
             JOIN challenges c ON pc.challenges_id = c.challenges_id 
             WHERE pc.challenges_status = 'approved' AND DATE_FORMAT(pc.date_accomplished, '%Y-%m') = '$monthYear'";
 
-    $result_points = mysqli_query($database, $sql_points);
-    $data_points = mysqli_fetch_assoc($result_points);
-    $green_points = $data_points['total_points'] ?? 0;
+$result_points = mysqli_query($database, $sql_points);
+$data_points = mysqli_fetch_assoc($result_points);
+$green_points = $data_points['total_points'] ?? 0;
 
 
-    //FETCH ENVIRONMENTAL IMPACT RESULTS
-    $data = mysqli_fetch_assoc(mysqli_query($database, $sql));
+//FETCH ENVIRONMENTAL IMPACT RESULTS
+$data = mysqli_fetch_assoc(mysqli_query($database, $sql));
 
-    $air_pollution    = $data['air_pollution'] ?? 0;
-    $carbon_emission  = $data['carbon_emission'] ?? 0;
-    $item_recycled    = $data['item_recycled'] ?? 0;
-    $water_conserved  = $data['water_conserved'] ?? 0;
+$air_pollution = $data['air_pollution'] ?? 0;
+$carbon_emission = $data['carbon_emission'] ?? 0;
+$item_recycled = $data['item_recycled'] ?? 0;
+$water_conserved = $data['water_conserved'] ?? 0;
 
 
-    //USER PARTICIPATION STATISTICS (ACTIVE VS TOTAL)
-    $sql_users = "SELECT 
+//USER PARTICIPATION STATISTICS (ACTIVE VS TOTAL)
+$sql_users = "SELECT 
             COUNT(DISTINCT u.user_id) AS total_users,
             COUNT(DISTINCT CASE WHEN u.account_status = 'active' THEN u.user_id END) AS active_users
             FROM user u
             JOIN participants_challenges pc ON u.user_id = pc.participants_id
             WHERE MONTH(pc.date_accomplished) = $month AND YEAR(pc.date_accomplished) = $year";
-    $data_users = mysqli_fetch_assoc(mysqli_query($database, $sql_users));
+$data_users = mysqli_fetch_assoc(mysqli_query($database, $sql_users));
 
-    $total_users    = $data_users['total_users'] ?? 0;
-    $active_users   = $data_users['active_users'] ?? 0;
-    $active_percent = ($total_users > 0) ? round(($active_users / $total_users) * 100): 0;
+$total_users = $data_users['total_users'] ?? 0;
+$active_users = $data_users['active_users'] ?? 0;
+$active_percent = ($total_users > 0) ? round(($active_users / $total_users) * 100) : 0;
 
-    //EVENTS COUNT (BY SELECTED MONTH)
-    $sql_events = "SELECT COUNT(*) AS total_events
+//EVENTS COUNT (BY SELECTED MONTH)
+$sql_events = "SELECT COUNT(*) AS total_events
                 FROM events
                 WHERE YEAR(start_time) = $year
                 AND MONTH(start_time) = $month";
 
-    $data_events = mysqli_fetch_assoc(mysqli_query($database, $sql_events));
-    $total_events = $data_events['total_events'] ?? 0;
+$data_events = mysqli_fetch_assoc(mysqli_query($database, $sql_events));
+$total_events = $data_events['total_events'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,12 +84,16 @@
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="admin-sustainability-report.css">
 </head>
+
 <body>
     <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'"><h2>EcoXP</h2></button>
+        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'">
+            <h2>EcoXP</h2>
+        </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png"
+                    alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
         </div>
@@ -96,12 +101,16 @@
 
     <div class="side-bar">
         <div class="admin-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png" alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img src="images/system-analytics.png" alt="System Analytics"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png"
+                    alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
+                    src="images/system-analytics.png" alt="System Analytics"></button>
             <div id="sustainability-report-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img src="images/sustainability-report.png" alt="Sustainability Report"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
+                        src="images/sustainability-report.png" alt="Sustainability Report"></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img src="images/system-config.png" alt="System Config"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
+                    src="images/system-config.png" alt="System Config"></button>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
     </div>
@@ -119,9 +128,8 @@
                 </label>
                 <form method="GET">
                     <select id="month-year" name="month_year" onchange="this.form.submit()">
-                        <?php while ($row = mysqli_fetch_assoc($result_months)) : ?>
-                            <option value="<?= $row['ym']; ?>"
-                                <?= ($monthYear === $row['ym']) ? 'selected' : ''; ?>>
+                        <?php while ($row = mysqli_fetch_assoc($result_months)): ?>
+                            <option value="<?= $row['ym']; ?>" <?= ($monthYear === $row['ym']) ? 'selected' : ''; ?>>
                                 <?= $row['label']; ?>
                             </option>
                         <?php endwhile; ?>
@@ -134,7 +142,9 @@
         <section class="executive-summary">
             <h2>Executive Summary</h2>
             <p>
-                This month showed exceptional growth in sustainability initiatives, with community engagement increasing by significant environmental impact, though challenges in waste reduction remain a priority moving forward.
+                This month showed exceptional growth in sustainability initiatives, with community engagement increasing
+                by significant environmental impact, though challenges in waste reduction remain a priority moving
+                forward.
             </p>
         </section>
 
@@ -151,11 +161,11 @@
                     <div class="impact-label">Reduced Carbon Emission</div>
                 </div>
                 <div class="impact-card">
-                    <div class="impact-value">890 kg</div>
-                    <div class="impact-value"><?= number_format($item_recycled); ?></div>
+                    <div class="impact-value"><?= number_format($item_recycled); ?>kg</div>
+                    <div class="impact-label">Total Garbage Recycled</div>
                 </div>
                 <div class="impact-card">
-                    <div class="impact-value"><?= number_format($water_conserved); ?></div>
+                    <div class="impact-value"><?= number_format($water_conserved); ?>&ell;</div>
                     <div class="impact-label">Reduced Water Pollution</div>
                 </div>
             </div>
@@ -184,8 +194,8 @@
                 </div>
                 <div class="stat-bar">
                     <?php
-                        $max_points = 100000;
-                        $points_percent = ($green_points > 0)? min(100, round(($green_points / $max_points) * 100)): 0;
+                    $max_points = 100000;
+                    $points_percent = ($green_points > 0) ? min(100, round(($green_points / $max_points) * 100)) : 0;
                     ?>
                     <div class="stat-fill" style="width: <?php echo $points_percent; ?>%;"></div>
                 </div>
@@ -214,4 +224,5 @@
 
 
 </body>
+
 </html>
