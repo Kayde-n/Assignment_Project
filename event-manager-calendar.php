@@ -1,5 +1,30 @@
 <?php
     include("session.php");
+    include("Database.php");
+
+    $calender_events="SELECT events.events_id, events.event_name, events.start_time
+    FROM events";
+
+    $result = mysqli_query($database, $calender_events);
+
+    $eventsArray = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            //this is to get date and time separately form the database
+            $date = date('Y-m-d', strtotime($row['start_time']));
+            $time = date('g:i A', strtotime($row['start_time']));
+
+            if (!isset($eventsArray[$date])) {
+                $eventsArray[$date] = [];
+            }
+
+            $eventsArray[$date][] = [
+                'title' => $row['event_name'],
+                'time' => $time,
+                'eventId' => $row['events_id']
+            ];
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,65 +145,12 @@
                 <div class="events-header">
                     <h3>Events</h3>
                     <button class="add-event-btn" onclick="window.location.href='event-manager-event-form.php'">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <img src="images/add.png" alt="More options" width="20" height="20" class="white-icon">
                         </svg>
                     </button>
                 </div>
 
                 <div class="events-list">
-                    <div class="event-item">
-                        <div class="event-icon">
-                            <img src="images/event-icon.png" alt="Event">
-                        </div>
-                        <div class="event-details">
-                            <h4>Urban Green Activity</h4>
-                            <p class="event-date">Nov 1, 2025</p>
-                        </div>
-                        <button class="event-menu-btn">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="1"></circle>
-                                <circle cx="12" cy="5" r="1"></circle>
-                                <circle cx="12" cy="19" r="1"></circle>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="event-item">
-                        <div class="event-icon">
-                            <img src="images/event-icon.png" alt="Event">
-                        </div>
-                        <div class="event-details">
-                            <h4>Beach Cleanup Drive</h4>
-                            <p class="event-date">Nov 3, 2025</p>
-                        </div>
-                        <button class="event-menu-btn">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="1"></circle>
-                                <circle cx="12" cy="5" r="1"></circle>
-                                <circle cx="12" cy="19" r="1"></circle>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="event-item">
-                        <div class="event-icon">
-                            <img src="images/event-icon.png" alt="Event">
-                        </div>
-                        <div class="event-details">
-                            <h4>Tree Planting Event</h4>
-                            <p class="event-date">Nov 11, 2025</p>
-                        </div>
-                        <button class="event-menu-btn">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="1"></circle>
-                                <circle cx="12" cy="5" r="1"></circle>
-                                <circle cx="12" cy="19" r="1"></circle>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -188,18 +160,9 @@
         let currentYear = currentDate.getFullYear();
         let currentMonth = currentDate.getMonth();
 
-        // Sample events data (you can fetch this from database)
-        const eventsData = {
-            '2025-11-01': [{ title: 'Urban Green Activity', time: '10:00 AM' }],
-            '2025-11-03': [{ title: 'Beach Cleanup Drive', time: '2:00 PM' }],
-            '2025-11-11': [{ title: 'Tree Planting Event', time: '9:00 AM' }],
-            '2025-11-13': [{ title: 'Recycling Workshop', time: '3:00 PM' }],
-            '2025-11-14': [{ title: 'Community Garden Day', time: '11:00 AM' }],
-            '2025-11-23': [{ title: 'Sustainability Seminar', time: '1:00 PM' }],
-            '2025-11-29': [{ title: 'Eco Fair', time: '10:00 AM' }],
-            '2025-11-30': [{ title: 'Green Energy Talk', time: '4:00 PM' }],
-            '2025-12-01': [{ title: 'Winter Cleanup', time: '8:00 AM' }]
-        };
+        //databse punya itu results
+        const eventsData = <?php echo json_encode($eventsArray); ?>;
+        
 
         // Month names
         const monthNames = [
@@ -349,7 +312,8 @@
                             date: dateString,
                             day: day,
                             title: event.title,
-                            time: event.time
+                            time: event.time,
+                            eventId: event.eventId  
                         });
                     });
                 }
@@ -379,19 +343,23 @@
             eventItem.innerHTML = `
                 <div class="event-icon">
                     <img src="images/event-icon.png" alt="Event" onerror="this.style.display='none'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendars-icon lucide-calendars"><path d="M12 2v2"/><path d="M15.726 21.01A2 2 0 0 1 14 22H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2"/><path d="M18 2v2"/><path d="M2 13h2"/><path d="M8 8h14"/><rect x="8" y="3" width="14" height="14" rx="2"/></svg>
                 </div>
                 <div class="event-details">
                     <h4>${event.title}</h4>
                     <p class="event-date">${formattedDate} • ${event.time}</p>
                 </div>
                 <button class="event-menu-btn" onclick="showEventMenu('${event.date}', '${event.title}')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="12" cy="5" r="1"></circle>
-                        <circle cx="12" cy="19" r="1"></circle>
-                    </svg>
+                    <img src="images/Trash.png" alt="Deletion" width="20" height="20">
                 </button>
             `;
+            eventItem.addEventListener('click', function(e) {
+                if (!e.target.closest('.event-menu-btn')) {
+                    // Redirect to details page with eventId
+                    window.location.href = `event-manager-event-details.php?events_id=${event.eventId}`;
+                }
+            });
+
             
             return eventItem;
         }
@@ -417,7 +385,8 @@
                         date: dateString,
                         day: date.getDate(),
                         title: event.title,
-                        time: event.time
+                        time: event.time,
+                        eventId: event.eventId  
                     });
                     eventsList.appendChild(eventItem);
                 });

@@ -43,6 +43,11 @@ body::before {
     max-width: 1400px;
 }
 
+/*just for the plus icon to be white*/
+.white-icon {
+     filter: brightness(0) invert(1);
+}
+
 /* Calendar Section */
 .calendar-section {
     background-color: #FFFFFF;
