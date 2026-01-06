@@ -170,6 +170,10 @@
         display: none;
     }
     
+    .main-content{
+        margin-left: 10px;
+        margin-top: 10px;
+    }
 
     .top-bar {
         display: none;
