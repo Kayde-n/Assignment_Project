@@ -50,6 +50,12 @@ body::before {
     cursor: pointer;
     font-weight: 500;
     transition: all 0.2s ease;
+    text-decoration: none; 
+    color: #333;  
+}
+
+.category-btn:visited {
+    color: #333;            
 }
 
 .category-btn.active, .category-btn:hover {
@@ -77,8 +83,8 @@ body::before {
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    width: 44px;
-    height: 44px;
+    width: 35px;
+    height: 35px;
     box-shadow: 0 2px 4px rgba(83, 183, 87, 0.1);
     transition: all 0.2s ease;
     position: relative; 
@@ -104,7 +110,7 @@ body::before {
 }
 
 .add-btn img {
-    width: 24px;
+    width: 15px;
     height: auto;
 }
 
@@ -141,25 +147,26 @@ body::before {
     margin-bottom: 16px;
 }
 
-.reward-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 32px;
-    margin-left: 16px;
+.reward-container {
+    display: flex;
+    flex-wrap: wrap;        /* Allows cards to wrap to next line */
+    gap: 16px;              /* Space between cards */
+    justify-content: flex-start;
 }
-
 .reward-card {
     display: flex;
-    height: 156px;
+    width: 280px;              
+    min-height: 156px;         
     align-items: center;
     gap: 12px;
     padding: 16px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.6);
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    background-color: rgba(255, 255, 255, 0.6);
     position: relative;
+    flex-shrink: 0;           
 }
+
 
 .reward-card-trash-icon {
     position: absolute;
@@ -171,9 +178,12 @@ body::before {
     align-items: center;
     justify-content: center;
     background-color: transparent;
+    border: none;          
+    outline: none;         
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
+    padding: 0;
 }
 
 .reward-card-trash-icon:hover {
@@ -186,6 +196,7 @@ body::before {
     height: 16px;
     filter: invert(40%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(60%) contrast(100%);
 }
+
 
 .reward-img img {
     width: 64px;
