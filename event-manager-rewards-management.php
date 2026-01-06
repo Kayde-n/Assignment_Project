@@ -1,13 +1,32 @@
 <?php
 include("session.php");
-include("database.php");
+include("Database.php");
 
-// Fetch all rewards from database
-$sql = "SELECT rewards_id, reward_name, description, points_required, quantity FROM rewards";
-$result = mysqli_query($database, $sql);
+$active_category = $_GET['category'] ?? 'All Rewards';
+$result = null;
 
-$sql_query_category = "SELECT ca"
-    ?>
+if ($active_category === 'All Rewards') {
+
+    $sql = "SELECT rewards_id, reward_name, description, points_required 
+            FROM rewards";
+    $result = mysqli_query($database, $sql);
+
+} elseif ($active_category === 'Physical Rewards') {
+
+    $sql = "SELECT rewards_id, reward_name, description, points_required 
+            FROM rewards 
+            WHERE category LIKE '%Physical%'";
+    $result = mysqli_query($database, $sql);
+
+} elseif ($active_category === 'Discount/Vouchers') {
+
+    $sql = "SELECT rewards_id, reward_name, description, points_required 
+            FROM rewards 
+            WHERE category LIKE '%Vouchers%'";
+    $result = mysqli_query($database, $sql);
+
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,27 +74,48 @@ $sql_query_category = "SELECT ca"
         </div>
 
         <div class="reward-categories">
-            <button class="category-btn active">All Rewards</button>
-            <button class="category-btn" onclick="filterRewards('Discount/Vouchers')">Discount/Vouchers</button>
-            <button class="category-btn" onclick="filterRewards('Physical Rewards')">Physical Rewards</button>
+            <form method="GET" style="display:flex; gap:12px;">
+                <button type="submit" name="category" value="All Rewards"
+                    class="category-btn <?php echo ($active_category === 'All Rewards') ? 'active' : ''; ?>">
+                    All Rewards
+                </button>
+
+                <button type="submit" name="category" value="Discount/Vouchers"
+                    class="category-btn <?php echo ($active_category === 'Discount/Vouchers') ? 'active' : ''; ?>">
+                    Discount/Vouchers
+                </button>
+
+                <button type="submit" name="category" value="Physical Rewards"
+                    class="category-btn <?php echo ($active_category === 'Physical Rewards') ? 'active' : ''; ?>">
+                    Physical Rewards
+                </button>
+            </form>
+
             <div class="add-btn-container">
-                <button class="add-btn" onclick="window.location.href='event-manager-new-reward-post.php'"><img src="images/add.png" alt="add rewards"></button>
+                <button class="add-btn" onclick="window.location.href='event-manager-new-reward-post.php'">
+                    <img src="images/add.png" alt="add rewards">
+                </button>
                 <span class="tooltip">Add rewards</span>
             </div>
         </div>
 
-        <p class="result-count"><?php echo mysqli_num_rows($result); ?> results</p>
-        <div class="reward-cards">
 
+
+        <p class="result-count">
+            <?php echo ($result) ? mysqli_num_rows($result) : 0; ?> results
+        </p>
+            <div class="reward-container">
             <?php
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                     <div class="reward-card">
-                        <div class="reward-card-trash-icon">
-                            <img src="images/trash.png" alt="Edit" title="Edit reward">
+                        <button class="reward-card-trash-icon" 
+                                onclick="deleteReward(<?php echo $row['rewards_id']; ?>)" 
+                                title="Delete reward">
+                            <img src="images/trash.png" alt="Delete">
                             <span class="tooltip">Delete Rewards</span>
-                        </div>
+                        </button>
                         <div class="reward-img"><img src="images/voucher.png"></div>
                         <div class="reward-info">
                             <h3><?php echo $row['reward_name']; ?></h3>
@@ -89,9 +129,16 @@ $sql_query_category = "SELECT ca"
                 echo '<p>No rewards available at the moment.</p>';
             }
             ?>
-
-        </div>
+            </div>
     </div>
+    <script>
+        function deleteReward(rewards_id) {
+            if (confirm("Are you sure you want to delete this reward?")) {
+                window.location.href = `delete_reward.php?rewards_id=${rewards_id}`;
+            }
+        }
+    </script>
+
 </body>
 
 </html>
