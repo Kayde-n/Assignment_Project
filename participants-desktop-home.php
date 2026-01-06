@@ -86,7 +86,7 @@ while (true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>newsdetails</title>
+    <title>Home</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-home-desktop.css">
@@ -167,7 +167,7 @@ while (true) {
         </div>
         <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
             style="cursor: pointer;">
-            What News?
+            What's New?
         </div>
         <?php while ($row = mysqli_fetch_assoc($result_news)) { ?>
 
