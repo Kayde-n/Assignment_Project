@@ -69,7 +69,7 @@ if (isset($_POST['save_profile'])) {
         <div class="staff-icon-container">
             <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
             <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="images/verification.png" alt="Verification"></button>
-            <button class="icon-btn"><img src="images/newspaper.png" alt="News"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-news.php'"><img src="images/newspaper.png" alt="News"></button>
             <div id="account-icon-box">
                 <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="images/account-management.png" alt="Account"></button>
             </div>
