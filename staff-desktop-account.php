@@ -14,9 +14,9 @@ $total_results = mysqli_num_rows($result);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Management</title>
-    <link rel="stylesheet" href="/assignment/global.css">
-    <link rel="stylesheet" href="/assignment/staff.css">
-    <link rel="stylesheet" href="/assignment/staff-account-desktop.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="staff.css">
+    <link rel="stylesheet" href="staff-account-desktop.css">
     
 </head>
 <body>
@@ -35,7 +35,7 @@ $total_results = mysqli_num_rows($result);
             <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
             <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="images/verification.png" alt="Verification"></button>
             <button class="icon-btn"><img src="images/newspaper.png" alt="News"></button>
-            <div id="account-icon-box">
+            <div id="account-icon">
                 <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="images/account-management.png" alt="Account"></button>
             </div>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>

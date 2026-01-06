@@ -123,118 +123,120 @@ if ($result) {
     </script>
 </head>
 <body>
-    <div class="top-bar">
-        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
-        <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="images/profile.png" alt="Profile"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting"></button>
-        </div>
-    </div>
-
-    <div class="side-bar">
-        <div class="staff-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
-            <div id="verification-icon">
-                <button class="icon-btn"><img src="images/verification.png" alt="Verification"></button>
+    <div id="desktop">
+        <div class="top-bar">
+            <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+            <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
+            <div class="default-icon-container">
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="images/profile.png" alt="Profile"></button>
+                <button class="icon-btn"><img src="images/notif.png" alt="Notification"></button>
+                <button class="icon-btn"><img src="images/setting.png" alt="Setting"></button>
             </div>
-            <button class="icon-btn"><img src="images/newspaper.png" alt="Scan"></button>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="images/account-management.png" alt="Account"></button>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
-    </div>
 
-    <div class="main-content">
-        <div class="text-box">Verification Queue</div>
-
-        <div class="verification-tabs">
-            <input type="radio" name="status" id="pending" value="pending" checked>
-            <label for="pending" class="tab-box">Pending (<?php echo $pendingCount; ?>)</label>
-
-            <input type="radio" name="status" id="approved" value="approved">
-            <label for="approved" class="tab-box">Approved (<?php echo $approvedCount; ?>)</label>
-
-            <input type="radio" name="status" id="rejected" value="rejected">
-            <label for="rejected" class="tab-box">Rejected (<?php echo $rejectedCount; ?>)</label>
-
-            <div class="tab-content" id="content-pending">
-                <div class="verification-list">
-                    <?php while($row = mysqli_fetch_assoc($pendingList)): ?>
-                        <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
-                            <div class="item-details">
-                                <img src="images/profile.png" class="user-pfp">
-                                <div class="user-text">
-                                    <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
-                                    <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
-                                </div>
-                            </div>
-                            <img src="images/placeholder.png" class="proof-img">
-                        </div>
-                    <?php endwhile; ?>
+        <div class="side-bar">
+            <div class="staff-icon-container">
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
+                <div id="verification-icon">
+                    <button class="icon-btn"><img src="images/verification.png" alt="Verification"></button>
                 </div>
+                <button class="icon-btn"><img src="images/newspaper.png" alt="Scan"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="images/account-management.png" alt="Account"></button>
+                <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
             </div>
+        </div>
 
-            <div class="tab-content" id="content-approved">
-                <div class="verification-list">
-                    <?php if($approvedCount > 0): mysqli_data_seek($approvedList, 0); ?>
-                        <?php while($row = mysqli_fetch_assoc($approvedList)): ?>
+        <div class="main-content">
+            <div class="text-box">Verification Queue</div>
+
+            <div class="verification-tabs">
+                <input type="radio" name="status" id="pending" value="pending" checked>
+                <label for="pending" class="tab-box">Pending (<?php echo $pendingCount; ?>)</label>
+
+                <input type="radio" name="status" id="approved" value="approved">
+                <label for="approved" class="tab-box">Approved (<?php echo $approvedCount; ?>)</label>
+
+                <input type="radio" name="status" id="rejected" value="rejected">
+                <label for="rejected" class="tab-box">Rejected (<?php echo $rejectedCount; ?>)</label>
+
+                <div class="tab-content" id="content-pending">
+                    <div class="verification-list">
+                        <?php while($row = mysqli_fetch_assoc($pendingList)): ?>
                             <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
                                 <div class="item-details">
                                     <img src="images/profile.png" class="user-pfp">
                                     <div class="user-text">
                                         <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
                                         <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
-                                        <span style="color: green; font-weight: bold;">✓ Approved</span>
                                     </div>
                                 </div>
                                 <img src="images/placeholder.png" class="proof-img">
                             </div>
                         <?php endwhile; ?>
-                    <?php else: ?>
-                        <p>No approved items found.</p>
-                    <?php endif; ?>
+                    </div>
                 </div>
-            </div>
 
-            <div class="tab-content" id="content-rejected">
-                <div class="verification-list">
-                    <?php if($rejectedCount > 0): mysqli_data_seek($rejectedList, 0); ?>
-                        <?php while($row = mysqli_fetch_assoc($rejectedList)): ?>
-                            <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
-                                <div class="item-details">
-                                    <img src="images/profile.png" class="user-pfp">
-                                    <div class="user-text">
-                                        <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
-                                        <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
-                                        <span style="color: red; font-weight: bold;">✕ Rejected</span>
+                <div class="tab-content" id="content-approved">
+                    <div class="verification-list">
+                        <?php if($approvedCount > 0): mysqli_data_seek($approvedList, 0); ?>
+                            <?php while($row = mysqli_fetch_assoc($approvedList)): ?>
+                                <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
+                                    <div class="item-details">
+                                        <img src="images/profile.png" class="user-pfp">
+                                        <div class="user-text">
+                                            <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
+                                            <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
+                                            <span style="color: green; font-weight: bold;">✓ Approved</span>
+                                        </div>
                                     </div>
+                                    <img src="images/placeholder.png" class="proof-img">
                                 </div>
-                                <img src="images/placeholder.png" class="proof-img">
-                            </div>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <p>No rejected items found.</p>
-                    <?php endif; ?>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <p>No approved items found.</p>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
 
-            <div id="verificationModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
-                    <h2 style="margin-bottom: 10px;">Verification Details</h2>
-                    <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
-                    
-                    <div id="modal-body">
+                <div class="tab-content" id="content-rejected">
+                    <div class="verification-list">
+                        <?php if($rejectedCount > 0): mysqli_data_seek($rejectedList, 0); ?>
+                            <?php while($row = mysqli_fetch_assoc($rejectedList)): ?>
+                                <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
+                                    <div class="item-details">
+                                        <img src="images/profile.png" class="user-pfp">
+                                        <div class="user-text">
+                                            <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
+                                            <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
+                                            <span style="color: red; font-weight: bold;">✕ Rejected</span>
+                                        </div>
+                                    </div>
+                                    <img src="images/placeholder.png" class="proof-img">
+                                </div>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <p>No rejected items found.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div id="verificationModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h2 style="margin-bottom: 10px;">Verification Details</h2>
+                        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
+                        
+                        <div id="modal-body">
+                            </div>
+
+                        <div class="button-group-modal">
+                            <form id="modalForm" method="POST">
+                                <input type="hidden" name="id" id="modal-id">
+                                <input type="hidden" name="action" id="modal-action">
+                                <button type="button" class="btn-reject" onclick="submitModal('reject')">Reject</button>
+                                <button type="button" class="btn-approve" onclick="submitModal('approve')">Approve</button>
+                            </form>
                         </div>
-
-                    <div class="button-group-modal">
-                        <form id="modalForm" method="POST">
-                            <input type="hidden" name="id" id="modal-id">
-                            <input type="hidden" name="action" id="modal-action">
-                            <button type="button" class="btn-reject" onclick="submitModal('reject')">Reject</button>
-                            <button type="button" class="btn-approve" onclick="submitModal('approve')">Approve</button>
-                        </form>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     border: 1px solid #999999;
     box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
@@ -65,7 +67,7 @@ input[type="radio"]:checked + .tab-box {
 
 .verification-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Forces 2 boxes per row */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     width: 100%;
 }
@@ -132,7 +134,6 @@ input[type="radio"]:checked + .tab-box {
     background-color: rgba(0,0,0,0.5); 
 }
 
-/* Modal Box */
 .modal-content {
     background-color: #fff;
     margin: 10% auto;
@@ -154,4 +155,108 @@ input[type="radio"]:checked + .tab-box {
     display: flex;
     justify-content: center;
     gap: 20px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .verification-tabs {
+        margin: 16px;
+        gap: 10px;
+    }
+
+    .tab-box {
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+
+    .verification-list {
+        grid-template-columns: 1fr; /* 1 column instead of 2 */
+    }
+
+    .verification-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .item-details {
+        width: 100%;
+    }
+
+    .proof-img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .button-group {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin-top: 20%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+
+    .verification-tabs {
+        margin: 12px;
+        gap: 8px;
+    }
+
+    .tab-box {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .verification-item {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .item-details {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .user-pfp {
+        width: 45px;
+        height: 45px;
+    }
+
+    .challenge-name {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .proof-img {
+        width: 100%;
+        height: 140px;
+    }
+
+    .button-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .btn-reject,
+    .btn-approve {
+        width: 48%;
+        padding: 8px 0;
+        font-size: 14px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+        margin-top: 30%;
+    }
+
+    .close {
+        font-size: 24px;
+    }
 }

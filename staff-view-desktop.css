@@ -1,43 +1,44 @@
-#account-icon-box {
+#account-icon {
     width: 116px;
     height: 76px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     border: 1px solid #999999;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-    transform: translateY(-3px);
-    transition: all 0.2s ease;
-    cursor: pointer;
+    box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
 }
 
-#account-icon-box:hover {
+#account-icon:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
     transition: all 0.2s ease;
 }
 
-#account-icon-box img {
+#account-icon img {
     filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
 }
 
 .search-container {
     margin: 20px 16px;
     display: flex;
-    max-width: 100%;
+    align-items: stretch;
+    max-width: 520px;   /* IMPORTANT */
+    width: 100%;
 }
 
 #participant-search {
     width: 400px;
     flex: 1;
-    padding: 12px 16px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px 0 0 8px;
-    outline: none;
+    min-width: 0;      /* PREVENT wrapping */
+    padding: 12px 14px;
+    border: 1.5px solid #e0e0e0;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
     font-size: 14px;
-    transition: border-color 0.2s;
 }
 
 #participant-search:focus {
@@ -268,4 +269,149 @@
 @keyframes slideDown {
     from {transform: translateY(-20px); opacity: 0;}
     to {transform: translateY(0); opacity: 1;}
+}
+
+@media screen and (max-width: 768px) {
+
+    .search-container {
+        flex-direction: row;
+        max-width: 100%;
+    }
+
+    #participant-search {
+        font-size: 14px;
+    }
+
+    .search-submit-btn {
+        white-space: nowrap;
+    }
+
+    .participant-list {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        padding: 12px;
+        gap: 16px;
+    }
+
+    .participant-card {
+        flex-direction: row;
+    }
+
+    .card-left {
+        flex: 0 0 90px;
+    }
+
+    .card-left img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .p-name {
+        font-size: 16px;
+    }
+
+    .p-tp {
+        font-size: 13px;
+    }
+
+    .view-details-btn {
+        font-size: 12px;
+    }
+
+    .modal-content {
+        max-width: 420px;
+        padding: 20px;
+    }
+
+    .profile-header img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .profile-header h2 {
+        font-size: 22px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+
+    .search-container {
+        margin-left: -8px;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 100%;
+    }
+
+    #participant-search {
+        width: 100%;
+        border-radius: 10px;
+        border-right: 1.5px solid #e0e0e0;
+    }
+
+    .search-submit-btn {
+        width: 100%;
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    .participant-list {
+        grid-template-columns: 1fr;
+        padding: 10px;
+        gap: 14px;
+    }
+
+    .participant-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .card-left {
+        width: 100%;
+        background-color: transparent;
+        padding: 12px 0;
+    }
+
+    .card-left img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .card-right {
+        padding: 10px 15px 16px;
+        align-items: center;
+    }
+
+    .p-name {
+        font-size: 16px;
+    }
+
+    .p-tp {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .view-details-btn {
+        width: 100%;
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    /* MODAL */
+    .modal-content {
+        width: 95%;
+        padding: 18px;
+    }
+
+    .profile-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .stat-box {
+        margin: 0;
+    }
+
+    .activity-log ul {
+        max-height: 120px;
+    }
 }
