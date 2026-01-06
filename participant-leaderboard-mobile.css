@@ -1,4 +1,4 @@
-/* Container */
+/* ranking */
 .ranking-container {
   padding-top: 48px;
   display: flex;
@@ -6,8 +6,8 @@
   justify-content: center;
 }
 
-/* Card */
-.rank-card {
+/* bar */
+.rank-bar {
   position: relative;
   width: 100px;
   padding-top: 40px;
@@ -19,20 +19,19 @@
   box-shadow: 16px 12px 12px rgba(45, 106, 79, 0.15);
 }
 
-/* Heights */
-.rank-card.first {
+.rank-bar.first {
   height: 176px;
   background: radial-gradient(circle at top left, #1fa868, #2D6A4F);
 }
 
-.rank-card.second,
-.rank-card.third {
+.rank-bar.second,
+.rank-bar.third {
   height: 144px;
   background: radial-gradient(circle at top left, #65dfa6, #449772);
 }
 
 /* Avatar */
-.rank-card .avatar {
+.rank-bar .avatar {
   position: absolute;
   top: -32px;
   display: flex;
@@ -43,36 +42,34 @@
 }
 
 /* Avatar sizes */
-.rank-card.first .avatar {
+.rank-bar.first .avatar {
   width: 80px;
   height: 80px;
 
   border-radius: 50%;
 }
 
-.rank-card.second .avatar {
+.rank-bar.second .avatar {
   width: 64px;
   height: 64px;
 
   border-radius: 50%;
 }
 
-.rank-card.third .avatar {
+.rank-bar.third .avatar {
   width: 64px;
   height: 64px;
 
   border-radius: 50%;
 }
 
-/* Circular clip */
+/* avatar */
 .avatar-clip {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
 }
-
-/* Profile image — THIS fixes the square issue */
 .profile-img {
   width: 100%;
   height: 100%;
@@ -90,7 +87,6 @@
   pointer-events: none;
 }
 
-/* Content */
 .rank-content {
   margin-top: 24px;
   text-align: center;
@@ -114,7 +110,6 @@
   border: 2px solid rgba(255,255,255,0.35);
 }
 
-
 .rank-label {
   font-size: 16px;
   font-weight: 700;
@@ -123,23 +118,23 @@
   line-height: 1;
 }
 
-.rank-card.first .rank-medal {
+.rank-bar.first .rank-medal {
   transform: scale(1.05);
 }
 
-
-.rank-card.first .rank-medal {
+.rank-bar.first .rank-medal {
   background-color: #ffd700;
 }
 
-.rank-card.second .rank-medal {
+.rank-bar.second .rank-medal {
   background-color: #C0C0C0;
 }
 
-.rank-card.third .rank-medal {
+.rank-bar.third .rank-medal {
   background-color: #CD7F32;
 }
 
+/* top 100 or top 10 idk*/
 .top-100-container {
   margin: 24px 16px;
   display: flex;
@@ -152,7 +147,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* number+avatar+name left, points right */
+  justify-content: space-between; 
   padding: 8px 16px;
   margin: 4px 0;
   border-radius: 12px;
@@ -164,7 +159,7 @@
 .top-100-row {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* number+avatar+name left, points right */
+  justify-content: space-between; 
   padding: 8px 16px;
   margin: 4px 0;
   border-radius: 12px;
@@ -178,20 +173,19 @@
   text-align: center;
   font-weight: 600;
   font-size: 16px;
-  color: #2D6A4F;
+  color: var(--primary-green);
 }
 
-/* Top 100 avatars */
 .top-100-row .avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #2D6A4F;
+  border: 2px solid var(--primary-green);
   margin-right: 12px;
-  flex-shrink: 0; /* important in flex */
-  position: relative; /* override any absolute positioning */
-  background-color: #fff;
+  flex-shrink: 0; 
+  position: relative; 
+  background-color: var(--card-white);
 }
 
 .top-100-row .avatar .avatar-clip {
@@ -205,13 +199,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block; /* important */
+  display: block; 
 }
 
 .top-100-row .left-group {
   display: flex;
   align-items: center;
-  gap: 8px; /* spacing between number, avatar, name */
+  gap: 16px; 
 }
 
 
@@ -224,6 +218,6 @@
 .top-100-row .points {
   font-weight: 700;
   font-size: 16px;
-  color: #2D6A4F;
+  color: var(--primary-green);
 }
 

@@ -1,69 +1,69 @@
+/* hero */
 .hero {
-    position: relative;      /* needed for absolute positioning inside */
-    height: 250px;
+    position: relative; 
     width: 100%;
-    background-image: url('https://picsum.photos/600/400');
+    height: 250px;
     background-size: cover;
     background-position: center;
 }
 
 .hero .return-btn {
-    position: absolute;      /* sits on top of the hero image */
+    position: absolute; 
     top: 16px;
     left: 16px;
     z-index: 10;
 }
 
-/* White content section */
+/* article */
 .article-container {
     position: relative;
-    background-color: var(--card-white);
-    border-top-left-radius: 24px;   
-    border-top-right-radius: 24px;
-    padding: 16px;
-    margin-top: -34px;              
-    min-height: calc(100vh - 200px); 
-    border: 1px solid #99999910; 
-    box-shadow: 0 4px -12px rgba(45, 106, 79, 0.15);
     z-index: 5;
+    margin-top: -34px; 
+    padding: 16px;
+    min-height: calc(100vh - 200px);
+    background-color: var(--card-white);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border: 1px solid #99999910;
+    box-shadow: 0 4px -12px rgba(45, 106, 79, 0.15);
 }
 
 .news-tag {
     display: inline-block;
     align-self: flex-start;
+    margin-bottom: 6px;
     padding: 4px 8px;
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
     color: var(--secondary-green);
     background-color: var(--ice-mint);
     border-radius: 2px;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
 }
 
 .article-title {
+    margin-bottom: 16px;
     font-size: 24px;
     font-weight: 600;
     color: var(--primary-text);
-    margin-bottom: 16px;
     text-align: justify;
 }
 
 .article-container h2 {
+    margin-top: 24px;
+    margin-bottom: 8px;
     font-size: 20px;
     font-weight: 500;
-    margin-top: 24px;
     color: var(--primary-text);
-    margin-bottom: 8px;
     text-align: justify;
 }
 
 .article-container p {
+    margin-bottom: 16px;
     font-size: 16px;
     line-height: 1.5;
     color: var(--secondary-text);
-    margin-bottom: 16px;
     text-align: justify;
 }
 
@@ -71,4 +71,3 @@
     width: 100%;
     margin: 16px 0;
 }
-

@@ -1,31 +1,4 @@
-.pill-filter {
-    display: flex;
-    align-items: flex-start; 
-    flex-direction: row;   
-    padding: 0px 0px 8px 16px;
-    gap: 8px;
-    overflow-x: auto;
-}
-
-.category-pill {
-    flex-shrink: 0;
-    display: inline-block;
-    align-self: flex-start;
-    padding: 4px 8px;
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--secondary-text);
-    background-color: var(--card-white);
-    border: 1px solid var(--line-black);
-    border-radius: 6px;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-}
-
-.category-pill.active  {
-    border: 1px solid var(--secondary-green);
-    color: var(--secondary-green);
-}
+/* rewards */
 
 .rewards-container {
     padding: 8px 0px;
@@ -34,22 +7,22 @@
 }
 
 .rewards-card {
+    display: flex;
     height: 112px;
     margin: 0 16px 12px 16px;
-    background: var(--card-white);
-    border-radius: 6px;
-    display: flex;
     overflow: hidden;
+    background: var(--card-white);
     border: 1px solid #99999910;
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--shadow);
 }
 
 .rewards-image {
     width: 112px;
     height: 112px;
     object-fit: cover;
-    border-radius: 6px;
     background-color: var(--ice-mint);
+    border-radius: 6px;
 }
 
 .rewards-content {
@@ -57,25 +30,23 @@
     padding: 12px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly
+    justify-content: space-evenly;
 }
 
-
-
 .rewards-title {
+    margin: 0 0 4px 0;
     font-size: 16px;
     font-weight: 600;
-    color: var(--primary-text);
-    margin: 0 0 4px 0;
     line-height: 1.2;
+    color: var(--primary-text);
 }
 
 .rewards-text {
+    margin: 0;
+    overflow: hidden;
     font-size: 16px;
     font-weight: 600;
     color: var(--secondary-green);
-    margin: 0;
-    overflow: hidden;
 }
 
 .rewards-details {
@@ -87,28 +58,29 @@
 }
 
 .rewards-btn {
+    display: flex;
+    gap: 8px;
+    align-items: center;
     padding: 4px 8px;
     font-size: 16px;
     font-weight: 600;
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
-    border-radius: 6px;
+    white-space: nowrap;
+    cursor: pointer;
     background-color: var(--secondary-green);
     color: var(--card-white);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--shadow);
     transition: all 0.2s ease;
-    white-space: nowrap;    
 }
 
-.rewards-details a, .dailies-details a {
+/* interactions (kinda buggy idk) */
+.rewards-btn.active {
+    color: var(--primary-text);
+    background-color: #61616110;
+}
+
+.rewards-details a, 
+.dailies-details a {
     text-decoration: none;
     color: inherit;
-}
-
-
-.rewards-btn.active  {
-    background-color: #61616110; 
-    color: var(--primary-text);
 }

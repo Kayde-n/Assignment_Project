@@ -1,68 +1,36 @@
-/* header */
-.page-header {
-    height: 64px;
-    display: flex;
-    align-items: left;
-    padding: 16px;
-}
-
-.header-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--primary-green);
-}
-
-.return-btn {
-    width: 32px;
-    height: 32px;
-    margin: 0px 16px 0px 0px;
-    color: var(--secondary-text); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--card-white);
-    border-radius: 50%;
-    border: 1px solid #99999910; 
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
-    transition: all 0.2s ease;
-}
-
-
-
-.profile-page {
+/* padding */
+.faq-page {
     padding: 0px 16px;
 }
 
-
-/* Quick access */
-.quick-item {
+/* faq */
+.faq-item {
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgba(45, 106, 79, 0.154);
 }
 
-.quick-header {
+.faq-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
     gap: 12px;
     padding: 16px 16px 16px 24px;
     color: var(--primary-text);
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
 }
 
-.quick-item button {
-    background: none;
-    border: none;
+.faq-item button {
     padding: 0;
     margin: 0;
     font: inherit;
     color: inherit;
+    background: none;
+    border: none;
     cursor: pointer;
 }
 
-
-.quick-header span {    
+.faq-header span {    
     flex: 1;
     font-size: 16px;
     text-align: left;
@@ -72,14 +40,15 @@
     color: var(--primary-green);
 }
 
+/* faq opened */
 
 .panel {
-width: 100%;
-  padding: 0 16px 16px 24px;
-  background-color: white;
-  display: none;
-  overflow: hidden;
-  line-height: 1.5;
-  text-align: justify;
-  color: var(--secondary-text);
+    display: none;
+    width: 100%;
+    padding: 0 16px 16px 24px;
+    overflow: hidden;
+    line-height: 1.5;
+    color: var(--secondary-text);
+    background-color: white;
+    text-align: justify;
 }

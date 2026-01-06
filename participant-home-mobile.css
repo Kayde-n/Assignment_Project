@@ -1,45 +1,35 @@
-/* Reusable styles */
-/* 1. HEADER:  -*/
-/* 2. POINTS: - */
-/* 3. IMPACT:  Filter button*/
-/* 4. ECONEWS:  Circle button, News layout*/
-/* 5. ACTIVE STATE:  Responsive icons, Responsive buttons/cards, Selected state */
-
-/* ====================================================================
- 1. HEADER
- ====================================================================== */
+/* header (homepage specific) */
 .header {
-    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 80px;
     padding: 0 24px;
 }
 
-header h1, header h2, header p {
+header h1, 
+header h2, 
+header p {
     margin: 0;
     padding: 0;
 }
 
-
-/* ====================================================================
- 2. POINTS
- ====================================================================== */
+/* points banner */
 .banner {
-    height: 72px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at top left, #52B788, #2D6A4F);
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    height: 72px;
+    background: radial-gradient(circle at top left, var(--secondary-green), var(--primary-green));
+    box-shadow: 0 4px 12px var(--shadow);
 }
 
 .bannerpt {
     font-size: 40px;
     font-weight: 800;
-    color: var(--card-white);
     line-height: 1;
+    color: var(--card-white);
 }
 
 .bannerlbl {
@@ -48,9 +38,7 @@ header h1, header h2, header p {
     color: var(--card-white);
 }
 
-/* ====================================================================
-3. IMPACT
- ====================================================================== */
+/* your impact */
 .impact {
     display: flex;
     flex-direction: column;
@@ -59,30 +47,42 @@ header h1, header h2, header p {
 
 .impact-title {
     align-self: flex-start;
-    display: flex;
+    padding: 16px;
     font-size: 20px;
     font-weight: 600;
-    color: var(--primary-text);
     line-height: 1;
-    padding: 16px;
+    color: var(--primary-text);
 }
 
 .impact-boxes {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    padding: 0 16px;
     gap: 12px;
+    padding: 0 16px;
 }
 
 .impact-card {
     position: relative;
     height: 96px;
-    background: var(--card-white);
-    border-radius: 6px;
     padding: 16px;
-    border: 1px solid #99999910;
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
     overflow: hidden;
+    background: var(--card-white);
+    border: 1px solid #99999910;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.impact-value {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--primary-green);
+}
+
+.impact-label {
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--secondary-text);
 }
 
 .impact-img {
@@ -91,48 +91,12 @@ header h1, header h2, header p {
     pointer-events: none;
 }
 
-.card-co2 .impact-img {
-    bottom: -20px;
-    right: -20px;
-    width: 96px;
-    height: 96px;
-}
+.card-co2 .impact-img    { bottom: -20px; right: -20px; width: 96px;  height: 96px; }
+.card-waste .impact-img  { bottom: -36px; right: -50px; width: 112px; height: 112px; }
+.card-streak .impact-img { bottom: -24px; right: -24px; width: 96px;  height: 96px; }
+.card-trophy .impact-img { bottom: -32px; right: -40px; width: 112px; height: 112px; }
 
-.card-waste .impact-img {
-    bottom: -36px;
-    right: -50px;
-    width: 112px;
-    height: 112px;
-}
-
-.card-streak .impact-img {
-    bottom: -24px;
-    right: -24px;
-    width: 96px;
-    height: 96px;
-}
-
-.card-trophy .impact-img {
-    bottom: -32px;
-    right: -40px;
-    width: 112px;
-    height: 112px;
-}
-
-.impact-value {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--primary-green);
-    line-height: 1;
-}
-
-.impact-label {
-    font-size: 14px;
-    color: #666666;
-    margin-top: 4px;
-}
-
-/* Filter button */
+/* Filter Dropdown */
 .impact-dropdown {
     display: flex;
     justify-content: flex-end;
@@ -141,44 +105,35 @@ header h1, header h2, header p {
 }
 
 .impact-dropdown-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 600;
-    border: 1px solid #99999910;
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
-    border-radius: 6px;
-    background-color: var(--card-white);
-    color: var(--primary-text);
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-text);
+    background-color: var(--card-white);
+    border: 1px solid #99999910;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--shadow);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.arrow-icon {
-    font-size: 8px;
-    color: var(--secondary-green);
-}
-
-/* ====================================================================
- 4. ECONEWS 
- ====================================================================== */
-
-/* Circle button */
+/* econews*/
 .circle-btn {
-    margin-top: 2px;
-    width: 32px;
-    height: 32px;
-    background-color: var(--card-white);
-    color: var(--primary-green); 
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-top: 2px;
+    color: var(--primary-green);
     text-decoration: none;
-    border: 1px solid #99999910; 
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    background-color: var(--card-white);
+    border: 1px solid #99999910;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px var(--shadow);
     transition: all 0.2s ease;
 }
 
@@ -188,76 +143,66 @@ header h1, header h2, header p {
     stroke-width: 2.5;
 }
 
-/* News layout */
 .news-card {
+    display: flex;
     height: 120px;
     margin: 0 16px 12px 16px;
-    background: var(--card-white);
-    border-radius: 6px;
-    display: flex;
     overflow: hidden;
+    background: var(--card-white);
     border: 1px solid #99999910;
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.news-link {
+    display: flex;
+    flex: 1;
+    color: inherit;
+    text-decoration: none;
 }
 
 .news-image {
     width: 120px;
     height: 120px;
     object-fit: cover;
-    border-radius: 6px;
     background-color: var(--ice-mint);
+    border-radius: 6px;
 }
 
 .news-content {
     flex: 1;
-    padding: 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 12px;
 }
 
 .news-tag {
     display: inline-block;
     align-self: flex-start;
+    margin-bottom: 6px;
     padding: 4px 8px;
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
     color: var(--secondary-green);
     background-color: var(--ice-mint);
     border-radius: 2px;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
 }
 
 .news-title {
+    margin: 0 0 4px 0;
     font-size: 15px;
     font-weight: 600;
-    color: var(--primary-text);
-    margin: 0 0 4px 0;
     line-height: 1.2;
+    color: var(--primary-text);
 }
 
 .news-text {
+    margin: 0;
     font-size: 13px;
     color: var(--secondary-text);
-    margin: 0;
-
     overflow: hidden;
 }
-
-.news-link {
-    display: flex;     
-    color: inherit;      
-    text-decoration: none; 
-}
-
-
-
-
-
-
-
-
-
 

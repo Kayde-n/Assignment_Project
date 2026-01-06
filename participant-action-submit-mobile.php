@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Participant Home Mobile</title>
+    <title>Participant Log Action Mobile</title>
     <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-action-submit-mobile.css">    
+    <link rel="stylesheet" href="participant-action-mobile.css">    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-
-    <!-- navigation bar -->
+<!-- nav bar -->
     <nav class="bottom-nav">
         <a href="participant-home-mobile.php" class="nav-item">
             <i data-lucide="house" class="icon-btn"></i>
@@ -30,29 +29,33 @@
         </a>
     </nav>
 
-<!-- header -->
+<!-- title -->
     <div class="page-header">
         <div class="header-title">Log Action</div>     
     </div>
-    <!-- switch action -->
+
+<!-- switch to qr/log action -->
     <div class="switch-action-container">
         <div class="switch-btn-container">
             <a href="participant-action-submit-mobile.php" class="switch-btn-item active">
-            <i data-lucide="image" class="switch-btn"></i>
-        </a>
-        <a href="participant-action-qr-mobile.php" class="switch-btn-item">
-            <i data-lucide="qr-code" class="switch-btn"></i>
-        </a>
+                <i data-lucide="image" class="switch-btn"></i>
+            </a>
+            <a href="participant-action-qr-mobile.php" class="switch-btn-item">
+                <i data-lucide="qr-code" class="switch-btn"></i>
+            </a>
         </div>
     </div>
 
-    <!-- submit -->
-     <div class="submit-container">
+<!-- submit -->
+    <div class="submit-container">
+<!-- select challenges -->
         <div class="submit-select">
             <button class="submit-dropdown-btn">
-                <span>Select Challenge</span> <span class="arrow-icon">▼</span>
+                <span>Select Challenge</span> 
+                <span class="arrow-icon">▼</span>
             </button>
         </div>
+<!-- upload image -->
         <div class="submit-image">
             <label class="image-upload-box" for="imageInput">
                 <i data-lucide="image" class="upload-icon"></i>
@@ -60,16 +63,15 @@
                 <input type="file" id="imageInput" accept="image/*" style="display:none;">
             </label>
         </div>
+<!-- optional description -->
         <div class="submit-description">
-        <textarea placeholder="Add a description... (Optional)"></textarea>
+            <textarea placeholder="Add a description... (Optional)"></textarea>
         </div>  
-     </div>
-
+    </div>
+<!-- submit -->
     <div class="submit-btn-container">
         <button class="submit-btn">Submit For Review</button>
     </div>
-    
-
 
     <script>
         lucide.createIcons();
