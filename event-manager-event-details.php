@@ -104,7 +104,7 @@
             </div>
 
             <!-- View Attendees Button -->
-            <button class="btn-attendees" onclick="window.location.href='event-manager-event-attendees.php?events_id=<?php echo $eventId; ?>'">
+            <button class="btn-attendees" onclick="window.location.href='event-manager-attendees.php?events_id=<?php echo $eventId; ?>'">
                 View Attendees
             </button>
         </div>

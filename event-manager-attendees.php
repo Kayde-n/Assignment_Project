@@ -1,5 +1,59 @@
 <?php
     include("session.php");
+    include("Database.php");
+
+    if (isset($_GET['events_id'])) {
+    $eventId = $_GET['events_id'];  
+    echo "Event ID is: " . $eventId;
+    }
+
+    $specificevent_sql="SELECT events.events_id,events.event_name,events.max_participants,eco_news.image_path
+    FROM events
+    LEFT JOIN eco_news ON eco_news.events_id = events.events_id
+     WHERE events.events_id = '$eventId'";
+    
+    $event_result = mysqli_query($database, $specificevent_sql);
+    $event = mysqli_fetch_assoc($event_result);
+
+    $image=$event['image_path'];
+    $image = !empty($event['image_path'])
+    ? $event['image_path']
+    : 'images/default-event.jpg';
+
+
+    $present = "SELECT COUNT(attendance_id) as present_count 
+    FROM attendance 
+    WHERE events_id = '$eventId' 
+    AND event_attended = '1'";
+
+    $present_participants = mysqli_query($database, $present);
+    $present_count = mysqli_fetch_assoc($present_participants);
+
+    $max_participants = $event['max_participants'];
+
+    // Calculate the percentage for the progress bar
+    $attendance_percentage = ($max_participants > 0) ? ($present_count['present_count'] / $max_participants) * 100 : 0;
+
+// Free result
+mysqli_free_result($present_participants);
+
+
+    $participants_name = "SELECT 
+    u.user_full_name, 
+    p.participants_id,
+    COALESCE(a.event_attended, 0) AS event_attended
+    FROM participants p
+    JOIN user u 
+    ON u.user_id = p.user_id
+    LEFT JOIN attendance a 
+    ON p.participants_id = a.participants_id
+    AND a.events_id = '$eventId'";
+
+    $participants_name_result = mysqli_query($database, $participants_name);
+
+    if (!$participants_name_result) {
+    die("Query failed: " . mysqli_error($database));
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,17 +100,7 @@
         <div class="attendees-container">
             <!-- Event Image -->
             <div class="event-image-container">
-                <?php if (!empty($event['image_path']) && file_exists($event['image_path'])): ?>
-                    <img src="<?php echo htmlspecialchars($event['image_path']); ?>" alt="Event Image" class="event-image">
-                <?php else: ?>
-                    <div class="event-image-placeholder">
-                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#90A4AE" stroke-width="1.5">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                            <polyline points="21 15 16 10 5 21"></polyline>
-                        </svg>
-                    </div>
-                <?php endif; ?>
+                <img src="images/<?php echo $image; ?>" alt="Event Image" class="event-image">
             </div>
         </div>
 
@@ -66,9 +110,9 @@
         <!-- Progress -->
         <div class="progress-container">
             <div class="progress-bar">
-                <div class="progress-fill" style="width:70%"></div>
+                <div class="progress-fill" style="width: <?php echo round($attendance_percentage, 2); ?>%"></div>
             </div>
-            <span class="progress-text">10/14</span>
+            <span class="progress-text"><?php echo $present_count['present_count']; ?>/<?php echo $max_participants; ?></span>
         </div>
 
         <!-- Attendance Table -->
@@ -82,32 +126,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php 
+                    $counter = 1;
+                    while ($row = mysqli_fetch_assoc($participants_name_result)) { 
+                    ?>
                     <tr>
-                        <td>1.</td>
-                        <td>Liam</td>
-                        <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
+                        <td><?php echo $counter; ?>.</td>
+                        <td><?php echo htmlspecialchars($row['user_full_name']); ?></td>
+                        <td><label class="switch">
+                            <input type="checkbox"
+                            class="attendance-toggle"
+                            data-event-id="<?php echo htmlspecialchars($eventId); ?>"
+                            data-participant-id="<?php echo htmlspecialchars($row['participants_id']); ?>"
+                            <?php echo ($row['event_attended'] == 1) ? 'checked' : ''; ?>>
+                        <span class="slider"></span></label></td>
                     </tr>
-                    <tr>
-                        <td>2.</td>
-                        <td>Olivia</td>
-                        <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
-                    </tr>
-                    <tr>
-                        <td>3.</td>
-                        <td>Ethan</td>
-                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
-                    </tr>
-                    <tr>
-                        <td>4.</td>
-                        <td>Noah</td>
-                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
-                    </tr>
-                    <tr>
-                        <td>5.</td>
-                        <td>Emma</td>
-                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
-                    </tr>
+                    <?php $counter++; } ?>
+                    
                 </tbody>
+                <?php
+                    // Free result set
+                    mysqli_free_result($participants_name_result);
+                    ?>
             </table>
         </div>
 
