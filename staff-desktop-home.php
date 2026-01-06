@@ -1,3 +1,30 @@
+<?php
+    include("Database.php");
+
+    $sql_counts = "SELECT
+                    SUM(CASE WHEN challenges_status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
+                    SUM(CASE WHEN challenges_status = 'approved' THEN 1 ELSE 0 END) AS approved_count,
+                    SUM(CASE WHEN challenges_status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count
+                    FROM participants_challenges";
+    
+    $results_counts = mysqli_query($database, $sql_counts);
+    $counts = mysqli_fetch_assoc($results_counts);
+
+
+    $pendingCount = $counts['pending_count'] ?? 0;
+    $approvedCount = $counts['approved_count'] ?? 0;
+    $rejectedCount = $counts['rejected_count'] ?? 0;
+
+    $listQuery = "SELECT pc.*,pc.image_path AS proof_image,u.user_full_name,c.challenge_name,c.description,pc.date_accomplished
+        FROM participants_challenges pc
+        JOIN participants p ON pc.participants_id = p.participants_id
+        JOIN user u ON p.user_id = u.user_id
+        JOIN challenges c ON pc.challenges_id = c.challenges_id
+        WHERE pc.challenges_status = 'pending'";
+    
+    $pendingList = mysqli_query($database, $listQuery);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +35,6 @@
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-home-desktop.css">
-
 </head>
 
 <body>
@@ -57,42 +83,75 @@
         <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
         </p>
         <div class="text-box">
-            Application Impact
+            Submission Statistics 
         </div>
         <div class="impact-container">
-            <button class="impact-box">
-                <h3>
-                    <?= number_format($air_pollution); ?> kg CO₂e
-
-                </h3>
-            </button>
 
             <button class="impact-box">
-                <h3>
-                    <?= $user_impact_waste ?>
-                </h3>
+                <h3><?= $pendingCount; ?></h3>
+                <p>Pending Verifications</p>
             </button>
 
             <button class="impact-box">
-                <h3>
-                    <?= $challenges_count ?> Challenges Completed
-                </h3>
+                <h3><?= $approvedCount; ?></h3>
+                <p>Approved Challenges</p>
             </button>
 
             <button class="impact-box">
-                <h3>
-                    Daily Streak <br>
-                    <?= $streak ?>
-                </h3>
+                <h3><?= $rejectedCount; ?></h3>
+                <p>Rejected Challenges</p>
             </button>
-            <button class="impact-next-btn">
-                <img src="images/next.png" alt="Next" />
+
+            <button class="impact-box">
+                <h3><?= ($approvedCount + $pendingCount + $rejectedCount); ?></h3>
+                <p>Total Submissions</p>
             </button>
+
         </div>
         <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
             style="cursor: pointer;">
-            What News?
+            Verifications Queue
         </div>
+
+        <?php while ($row = mysqli_fetch_assoc($pendingList)): ?>
+
+            <div class="content-container"
+                onclick="window.location.href='staff-desktop-verification?id=<?= $row['participants_challenges_id']; ?>'">
+
+                <button class="image-holder">
+                    <img src="challenge_submission_uploads/<?= htmlspecialchars($row['proof_image']); ?>" alt="Proof Image">
+                </button>
+
+                <!-- u.user_full_name, c.challenge_name, c.description, pc.date_accomplished -->
+                <button class="content-text-box">
+                    <div class="text-inner">
+
+                        <h4 class="category-box">
+                            <?= htmlspecialchars($row['user_full_name']); ?>
+                        </h4>
+
+                        <h3 class="title-box">
+                            <?= htmlspecialchars($row['challenge_name']); ?>
+                        </h3>
+
+                        <h5>
+                            <?= date("d M Y", strtotime($row['date_accomplished'])); ?>
+                        </h5>
+
+                        <h5 class="description-box">
+                            <?= htmlspecialchars($row['description']); ?>
+                        </h5>
+
+                    </div>
+                </button>
+
+                <button class="next-btn">
+                    <img src="images/next.png" alt="Next Icon">
+                </button>
+
+            </div>
+
+        <?php endwhile; ?>
 
         <script>
             const searchInput = document.getElementById('search-input');
