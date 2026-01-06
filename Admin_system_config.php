@@ -2,11 +2,17 @@
 //include("session.php");
 include("database.php");
 date_default_timezone_set("Asia/Kuala_Lumpur");
+require_once 'config/system.php';
+
 
 // Check if maintenance mode is currently active
 $sql_check = "SELECT * FROM downtime WHERE admin_id = 1 AND end_time = '2099-12-31 23:59:59' LIMIT 1";
 $result_check = mysqli_query($database, $sql_check);
 $maintenance_active = mysqli_num_rows($result_check);
+
+//pre-input the green points settings for challenges
+$challenges_settings_sql="SELECT challenge_name,points_reward FROM Challenges";
+$green_points_check = mysqli_query($database,$challenges_settings_sql );
 
 ?>
 <!DOCTYPE html>
@@ -110,7 +116,7 @@ $maintenance_active = mysqli_num_rows($result_check);
             <div class="config-item">
                 <label for="system-color">System Color</label>
                 <div class="color-picker">
-                    <input type="text" id="system-color" name="system-color" value="#4CAF50" readonly>
+                    <input type="text" id="system-color" name="system-color" value="<?php echo $systemColor; ?>" readonly>
                     <button class="edit-btn">
                         <img src="Images/edit.png" alt="Edit">
                     </button>
@@ -120,20 +126,18 @@ $maintenance_active = mysqli_num_rows($result_check);
             <!-- Green Points Settings -->
             <div class="config-section">
                 <h3>Green Points Settings</h3>
-
-                <div class="input-field">
-                    <label for="recycle-points">Per 1st Recycle</label>
-                    <input type="number" id="recycle-points" name="recycle-points" value="10" min="0">
-                </div>
-
-                <div class="input-field">
-                    <label for="bus-checkin-points">Bus In-Campus</label>
-                    <input type="number" id="bus-checkin-points" name="bus-checkin-points" value="5" min="0">
-                </div>
-
-                <div class="input-field">
-                    <label for="event-checkin-points">Bus In-Campus</label>
-                    <input type="number" id="event-checkin-points" name="event-checkin-points" value="15" min="0">
+                <div class="points-grid">
+                <?php while ($row = mysqli_fetch_assoc($green_points_check)) : ?>
+                    <div class="input-field">
+                        <label><?= $row['challenge_name'] ?></label>
+                        <input 
+                            type="number"
+                            name="points[<?= $row['challenge_name'] ?>]"
+                            value="<?= $row['points_reward'] ?>"
+                            min="0"
+                        >
+                    </div>
+                <?php endwhile; ?>
                 </div>
             </div>
         </section>
