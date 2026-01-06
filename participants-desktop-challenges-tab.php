@@ -67,7 +67,7 @@
             FROM eco_news
             JOIN events ON eco_news.events_id = events.events_id
             LEFT JOIN attendance ON attendance.events_id = events.events_id AND attendance.participants_id = $participants_id
-            ORDER BY eco_news_id DESC LIMIT 10";
+            ORDER BY events.start_time DESC LIMIT 10";
 
         $events_result = mysqli_query($database, $events_sql);
 
@@ -255,6 +255,10 @@
                                     echo '<button class="btn-signedup" type="button" disabled>Signed Up</button>';
                                 }
                             } else {
+                                if ($event['start_time'] <= date('Y-m-d H:i:s')) {
+                                    // Event has already started/passed — no Join button
+                                    echo '<button class="btn-closed" type="button" disabled>Event_Over</button>';
+                                } else {
                                 // Not signed up yet — show Join button
                         ?>
                             <button class="btn-join" 
@@ -272,7 +276,8 @@
                                     onclick="showEventDetails(this)">
                                 Join
                             </button>
-                        <?php } ?>
+                        <?php }}
+                         ?>
                         </div>
                     </article>
                 <?php 
@@ -383,9 +388,7 @@
             const overlay = document.getElementById('eventDetailsOverlay');
             overlay.classList.remove('active');
             document.body.style.overflow = ''; // Restore scrolling
-        }
-
-        // Join event action (handled below with AJAX POST)
+        }   
         
 
     // Close overlay when clicking outside the container

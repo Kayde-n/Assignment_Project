@@ -129,18 +129,18 @@
     width: calc(100% - 74px);
 }
 
-.text-box {
-    height: 66px;
-    padding: 0 24px;
-    background-color: #53B757;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
+/* Page Header */
+.page-header {
+    margin-bottom: 24px;
+}
+
+.title-box {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 14px;
     font-weight: 500;
-    color: #ffffff;
-    margin-left: 16px;
-    margin-top: 48px;
+    margin-bottom: 16px;
 }

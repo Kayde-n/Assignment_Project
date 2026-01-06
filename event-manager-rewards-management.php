@@ -38,9 +38,9 @@ $sql_query_category = "SELECT ca"
 
     <div class="side-bar">
         <div class="event-manager-icon-container">
-            <button class="icon-btn" ><img src="images/home.png" alt="Home"></button>
-            <button class="icon-btn"><img src="images/calendar.png" alt="Calendar"></button>
-            <button class="icon-btn" ><img src="images/newspaper.png" alt="News"></button>
+            <button class="icon-btn" onclick="window.location.href='event-manager-home.php'"><img src="images/home.png" alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='event-manager-calendar.php'"><img src="images/calendar.png" alt="Calendar"></button>
+            <button class="icon-btn" onclick="window.location.href='event-manager-news.php'"><img src="images/newspaper.png" alt="News"></button>
             <div id="reward-icon-box">
                 <button class="icon-btn" onclick="window.location.href='event-manager-rewards-management.php'"><img
                         src="images/tag.png" alt="Rewards"></button>
@@ -50,14 +50,16 @@ $sql_query_category = "SELECT ca"
     </div>
     <div class="main-content">
 
-        <div class="text-box">Rewards</div>
+        <div class="page-header">
+            <div class="title-box"><h1>Rewards</h1></div>
+        </div>
 
         <div class="reward-categories">
             <button class="category-btn active">All Rewards</button>
             <button class="category-btn" onclick="filterRewards('Discount/Vouchers')">Discount/Vouchers</button>
             <button class="category-btn" onclick="filterRewards('Physical Rewards')">Physical Rewards</button>
             <div class="add-btn-container">
-                <button class="add-btn"><img src="images/add.png" alt="add rewards"></button>
+                <button class="add-btn" onclick="window.location.href='event-manager-new-reward-post.php'"><img src="images/add.png" alt="add rewards"></button>
                 <span class="tooltip">Add rewards</span>
             </div>
         </div>
