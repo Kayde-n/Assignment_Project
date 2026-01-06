@@ -14,9 +14,9 @@ $total_results = mysqli_num_rows($result);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Management</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="staff.css">
-    <link rel="stylesheet" href="staff-account-desktop.css">
+    <link rel="stylesheet" href="/assignment/global.css">
+    <link rel="stylesheet" href="/assignment/staff.css">
+    <link rel="stylesheet" href="/assignment/staff-account-desktop.css">
     
 </head>
 <body>
@@ -43,7 +43,7 @@ $total_results = mysqli_num_rows($result);
     </div>
 
     <div class="main-content">
-        <div class="text-box">Participants Management</div>
+        <div class="title_header">Participants Management</div>
 
         <div class="search-bar-container">
             <input type="text" class="search-input" id="participantSearch" placeholder="Search by Name or TP Number" oninput="filterParticipants()">

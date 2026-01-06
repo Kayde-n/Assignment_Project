@@ -2,6 +2,7 @@
 include('Database.php');
 $role = $_GET['role'] ?? 'Participants';
 
+
 if ($role === 'Participants') {
     $query = "SELECT u.user_full_name, u.email, u.account_status, p.TP_no FROM participants p JOIN user u ON p.user_id = u.user_id";
 } elseif ($role === 'Staff') {
@@ -21,10 +22,10 @@ echo '      <th style="padding: 12px;">Status</th></tr>';
 
 while ($row = mysqli_fetch_assoc($result)) {
     echo '<tr style="border-bottom: 1px solid #eee;">
-            <td style="padding: 12px;">'.htmlspecialchars($row['user_full_name']).'</td>
-            <td style="padding: 12px;">'.htmlspecialchars($row['email']).'</td>';
-    if ($role === 'Participants') echo '<td style="padding: 12px;">'.htmlspecialchars($row['TP_no']).'</td>';
-    echo '  <td style="padding: 12px;">'.htmlspecialchars($row['account_status']).'</td></tr>';
+            <td data-label="Name" style="padding: 12px;">'.htmlspecialchars($row['user_full_name']).'</td>
+            <td data-label="Email" style="padding: 12px;">'.htmlspecialchars($row['email']).'</td>';
+    if ($role === 'Participants') echo '<td data-label="TP Number" style="padding: 12px;">'.htmlspecialchars($row['TP_no']).'</td>';
+    echo '  <td data-label="Status" style="padding: 12px;">'.htmlspecialchars($row['account_status']).'</td></tr>';
 }
 echo '</table>';
 ?>
