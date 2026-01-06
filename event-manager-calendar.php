@@ -349,16 +349,16 @@
                     <h4>${event.title}</h4>
                     <p class="event-date">${formattedDate} • ${event.time}</p>
                 </div>
-                <button class="event-menu-btn" onclick="showEventMenu('${event.date}', '${event.title}')">
+                <button class="event-menu-btn" data-event-id="${event.eventId}" onclick="showEventMenu(this, '${event.title}')">
                     <img src="images/Trash.png" alt="Deletion" width="20" height="20">
                 </button>
             `;
             eventItem.addEventListener('click', function(e) {
                 if (!e.target.closest('.event-menu-btn')) {
-                    // Redirect to details page with eventId
                     window.location.href = `event-manager-event-details.php?events_id=${event.eventId}`;
                 }
             });
+
 
             
             return eventItem;
@@ -416,16 +416,10 @@
         }
 
         // Show event menu (edit/delete)
-        function showEventMenu(date, title) {
+        function showEventMenu(button, title) {
+            const eventId = button.dataset.eventId;
             if (confirm(`Options for "${title}":\n\nClick OK to delete this event`)) {
-                // Delete event
-                if (eventsData[date]) {
-                    eventsData[date] = eventsData[date].filter(e => e.title !== title);
-                    if (eventsData[date].length === 0) {
-                        delete eventsData[date];
-                    }
-                    generateCalendar();
-                }
+                 window.location.href = `delete_event.php?event_id=${eventId}`;
             }
         }
 
