@@ -28,27 +28,23 @@ $result = mysqli_query($database, $sql);
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
-                    src="images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><i data-lucide="user-round" class="icon-btn"></i></button>
+            <button class="icon-btn"><i data-lucide="bell" class="icon-btn"></i></button>
+            <button class="icon-btn"><i data-lucide="bolt" class="icon-btn"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
-                        src="images/home.png" alt="Home"></button>
-            </div>
-            <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
-                    src="images/scan.png" alt="Scan"></button>
-            <div id="reward-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
-                        src="images/tag.png" alt="Rewards"></button>
-            </div>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><i data-lucide="house" class="icon-btn"></i></button>
+                </div>
+                <button class="icon-btn"><i data-lucide="trophy" class="icon-btn"></i></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><i data-lucide="scan-line" class="icon-btn"></i></button>
+                <div id="reward-icon-box">
+                    <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><i data-lucide="badge-percent" class="icon-btn"></i></button>
+                </div>
+                <button class="icon-btn" id="logout"><i data-lucide="log-out" class="icon-btn"></i></button>
         </div>
     </div>
     <div class="main-content">
@@ -197,6 +193,11 @@ $result = mysqli_query($database, $sql);
 
         }
 
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
     </script>
 
 </body>

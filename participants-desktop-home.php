@@ -99,34 +99,30 @@
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
-                    src="images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><i data-lucide="user-round" class="icon-btn"></i></button>
+            <button class="icon-btn"><i data-lucide="bell" class="icon-btn"></i></button>
+            <button class="icon-btn"><i data-lucide="bolt" class="icon-btn"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
-                        src="images/home.png" alt="Home"></button>
-            </div>
-            <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
-                    src="images/scan.png" alt="Scan"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
-                    src="images/tag.png" alt="Rewards"></button>
-            <button class="icon-btn" id="logout" onclick="logout_confirm()">
-                <script>
-                    function logout_confirm() {
-                        if (confirm("Are you sure you want to logout?")) {
-                            window.location.href = "logout.php";
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><i data-lucide="house" class="icon-btn"></i></button>
+                </div>
+                <button class="icon-btn"><i data-lucide="trophy" class="icon-btn"></i></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><i data-lucide="scan-line" class="icon-btn"></i></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><i data-lucide="badge-percent" class="icon-btn"></i></button>
+                <button class="icon-btn" id="logout" onclick="logout_confirm()">
+                    <script>
+                        function logout_confirm() {
+                            if (confirm("Are you sure you want to logout?")) {
+                                window.location.href = "logout.php";
+                            }
                         }
-                    }
-                </script>
-                <img src="images/logout.png" alt="Logout">
-            </button>
+                    </script>
+                    <i data-lucide="log-out" class="icon-btn"></i>
+                </button>
         </div>
     </div>
     <div class="main-content">
@@ -161,7 +157,7 @@
                 </h3>
             </button>
             <button class="impact-next-btn">
-                <img src="images/next.png" alt="Next" />
+                <i data-lucide="chevron-right" class="icon-btn"></i>
             </button>
         </div>
             <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
@@ -192,7 +188,7 @@
                 </button>
 
                 <button class="next-btn">
-                    <img src="images/next.png" alt="Next Icon">
+                    <i data-lucide="chevron-right" class="icon-btn"></i>
                 </button>
 
             </div>
@@ -241,6 +237,11 @@
 
             searchResults.innerHTML = html;
         }
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
     </script>
 
 </body>

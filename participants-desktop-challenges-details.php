@@ -79,6 +79,9 @@
             <button class="nav-item nav-profile" id="navProfile" type="button">Profile</button>
         </nav>
     </div>
-</body>
+            <script src="https://unpkg.com/lucide@latest"></script>
+            <script src="desktop-icons.js"></script>
 
-</html>
+        </body>
+
+        </html>

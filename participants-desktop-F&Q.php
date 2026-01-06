@@ -17,9 +17,9 @@
     <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
     <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'"><h2>EcoXP</h2></button>
     <div class="default-icon-container">
-        <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
-        <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
-        <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><i data-lucide="user-round"></i></button>
+            <button class="icon-btn"><i data-lucide="bell"></i></button>
+            <button class="icon-btn"><i data-lucide="bolt"></i></button>
     </div>
 </div>
 
@@ -125,5 +125,9 @@ function toggleFaq(btn) {
 }
 </script>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+            <script>
+                lucide.createIcons();
+            </script>
 </body>
 </html>

@@ -56,23 +56,21 @@
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
-                    src="images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><i data-lucide="user-round" class="icon-btn"></i></button>
+            <button class="icon-btn"><i data-lucide="bell" class="icon-btn"></i></button>
+            <button class="icon-btn"><i data-lucide="bolt" class="icon-btn"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
-                        src="images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><i data-lucide="house" class="icon-btn"></i></button>
             </div>
-            <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img src="images/scan.png" alt="Scan"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img src="images/tag.png" alt="Rewards"></button>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+            <button class="icon-btn"><i data-lucide="trophy" class="icon-btn"></i></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><i data-lucide="scan-line" class="icon-btn"></i></button>
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><i data-lucide="badge-percent" class="icon-btn"></i></button>
+            <button class="icon-btn" id="logout"><i data-lucide="log-out" class="icon-btn"></i></button>
         </div>
     </div>
     <div class="main-content">
@@ -104,57 +102,57 @@
                 <li>
                     <a href="participants-desktop-challenges.php">
                         <div class="left">
-                            <img src="images/challanges.png" alt="Challenges Icon"> Challenges
+                            <i data-lucide="trophy"></i> Challenges
                         </div>
-                        <img src="images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="participants-desktop-econews.php">
                         <div class="left">
-                            <img src="images/newspaper.png" alt="Eco News Feed Icon"> Eco News Feed
+                            <i data-lucide="newspaper"></i> Eco News Feed
                         </div>
-                        <img src="images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="participants-desktop-rewards.php">
                         <div class="left">
-                            <img src="images/tag.png" alt="Rewards Icon"> Rewards
+                            <i data-lucide="badge-percent"></i> Rewards
                         </div>
-                        <img src="images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="participants-desktop-impact.php">
                         <div class="left">
-                            <img src="images/eco.png" alt="Your Impact Icon"> Your Impact
+                            <i data-lucide="leaf"></i> Your Impact
                         </div>
-                        <img src="images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="participants-desktop-leaderboard.php">
                         <div class="left">
-                            <img src="images/leaderboard.png" alt="Leaderboard Icon"> Leaderboard
+                            <i data-lucide="crown"></i> Leaderboard
                         </div>
-                        <img src="images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="participants-desktop-help.php">
                         <div class="left">
-                            <img src="images/help.png" alt="Help & FAQ Icon"> Help & FAQ
+                            <i data-lucide="help-circle"></i> Help & FAQ
                         </div>
-                        <img src="images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="participants-desktop-settings.php">
                         <div class="left">
-                            <img src="images/setting.png" alt="Settings Icon"> Settings
+                            <i data-lucide="bolt"></i> Settings
                         </div>
-                        <img src="images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
             </ul>
@@ -162,9 +160,14 @@
 
     </div>
 
-</body>
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script>
+            lucide.createIcons();
+        </script>
 
-</html>
+    </body>
+
+    </html>
 
 <!-- When linking to the profile page, pass the ID:
 
