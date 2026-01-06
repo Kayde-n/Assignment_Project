@@ -13,6 +13,7 @@
     cursor: pointer;
 }
 
+
 #account-icon-box:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
@@ -88,3 +89,52 @@
 .add-btn:hover {
     background-color: #45a049;
 }
+
+/*Existing participants*/
+#userTableContainer {
+    width: 100%;
+    overflow-x: auto; /* horizontal scroll if table too wide */
+    -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
+}
+
+#userTableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* optional, set min width for desktop table */
+}
+
+/*Responsive for the table*/
+#userTableContainer {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#userTableContainer {
+    width: 100%;
+    overflow-x: auto;               
+    -webkit-overflow-scrolling: touch; 
+}
+
+#userTableContainer table {
+    width: 100%;
+    min-width: 600px;               
+    border-collapse: collapse;
+}
+
+#userTableContainer th,
+#userTableContainer td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+#userTableContainer thead tr {
+    background-color: #53B757;
+    color: #fff;
+    text-align: left;
+}
+
+#userTableContainer tr:hover {
+    background-color: #f1f1f1;
+}
+
