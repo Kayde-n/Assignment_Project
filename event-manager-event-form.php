@@ -1,5 +1,27 @@
 <?php
 include("session.php");
+include("Database.php");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $event_name = $_POST['event_title'];
+    $description = $_POST['event_details'];
+    $points_rewarded = $_POST['points_awarded'];
+    $max_participants = $_POST['max_participants'];
+    $start_time = $_POST['start_date_time'];
+    $end_time = $_POST['end_date_time'];
+    $venue = $_POST['location'];
+    $organised_by = $_POST['organiser'];
+    $organizer_email = $_POST['organiser_email'];
+
+    $insert_sql = "INSERT INTO events (event_name, description, points_rewarded,venue,organised_by,organizer_email,start_time, end_time, max_participants) 
+    VALUES ('$event_name', '$description', '$points_rewarded', '$venue', '$organised_by', '$organizer_email', '$start_time', '$end_time', '$max_participants')";
+    if (mysqli_query($database, $insert_sql)) {
+        echo "<script>alert('New event created successfully.');</script>";
+    } else {
+        echo "Error: " . $insert_sql . "<br>" . mysqli_error($database);
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,17 +134,24 @@ include("session.php");
                 </div>
 
                 <div class = "row">
-                    <!-- Event Type Field -->
                     <div class="form-group">
-                        <label for="event-type">Event Type</label>
-                        <select id="event-type" name="event_type" required>
-                            <option value="" disabled selected>Select event type</option>
-                            <option value="Physical">Physical</option>
-                            <option value="Hybrid">Hybrid</option>
-                            <option value="Online">Online</option>
-                        </select>
+                        <label for="Organiser">Organiser</label>
+                        <input type="text" 
+                            id="organiser" 
+                            name="organiser" 
+                            placeholder="Enter The organiser" 
+                            required>
                     </div>
-
+                    <div class="form-group">
+                        <label for="Organiser Email">Organiser Email</label>
+                        <input type="text" 
+                            id="organiser_email" 
+                            name="organiser_email" 
+                            placeholder="Enter The organiser Email" 
+                            required>
+                    </div>
+                </div>
+                <div class = "row">
                     <!-- Location/Online Link -->
                     <div class="form-group">
                         <label for="location">Location/Online Link</label>
@@ -131,29 +160,8 @@ include("session.php");
                             name="location" 
                             placeholder="Enter location or online link" 
                             required>
-                    </div>
+                    </div>  
                 </div>
-                <!-- Upload Image Field -->
-                <div class="form-group">
-                    <label for="reward-image">Upload Image</label>
-                    <div class="upload-area" id="uploadArea">
-                        <input type="file" 
-                               id="reward-image" 
-                               name="reward_image" 
-                               accept="image/*" 
-                               onchange="handleImageUpload(event)">
-                        <div class="upload-placeholder" id="uploadPlaceholder">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#BDBDBD" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                                <polyline points="21 15 16 10 5 21"></polyline>
-                            </svg>
-                            <p>Click to upload image</p>
-                        </div>
-                        <img id="imagePreview" class="image-preview" style="display: none;">
-                    </div>
-                </div>
-
                 <!-- Submit Button -->
                 <button type="submit" class="btn-post">Post</button>
             </form>
