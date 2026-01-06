@@ -1,8 +1,8 @@
 <?php
-//include("session.php");
-include("Database.php");
+    include("session.php");
+    include("Database.php");
 
-//GET LATEST AVAILABLE MONTH (DEFAULT SELECTION)
+//Latest month as default
 $sql_latest = "SELECT DATE_FORMAT
         (MAX(date_accomplished), '%Y-%m') AS latest_month
         FROM participants_challenges";
@@ -11,7 +11,7 @@ $monthYear = $_GET['month_year'] ?? $latest['latest_month'];
 [$year, $month] = explode('-', $monthYear);
 
 
-//GET AVAILABLE MONTHS FOR DROPDOWN
+//get the avaiable months
 $sql_months = "SELECT DISTINCT 
             DATE_FORMAT(date_accomplished, '%Y-%m') AS ym,
             DATE_FORMAT(date_accomplished, '%M %Y') AS label
@@ -20,7 +20,7 @@ $sql_months = "SELECT DISTINCT
 $result_months = mysqli_query($database, $sql_months);
 
 
-//ENVIRONMENTAL IMPACT TOTALS (FILTERED BY MONTH)
+//Enviromental Impacts by month
 $sql = "SELECT 
             SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
             SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon emmision%' THEN impact_amount ELSE 0 END) AS carbon_emission,
@@ -30,7 +30,7 @@ $sql = "SELECT
             WHERE DATE_FORMAT(date_accomplished, '%Y-%m') = '$monthYear'";
 
 
-//GREEN POINTS AWARDED (APPROVED ONLY, BY MONTH)
+//green points by month + approved 
 $sql_points = "SELECT 
             SUM(c.points_reward) AS total_points
             FROM participants_challenges pc
@@ -42,7 +42,7 @@ $data_points = mysqli_fetch_assoc($result_points);
 $green_points = $data_points['total_points'] ?? 0;
 
 
-//FETCH ENVIRONMENTAL IMPACT RESULTS
+//fetch results
 $data = mysqli_fetch_assoc(mysqli_query($database, $sql));
 
 $air_pollution = $data['air_pollution'] ?? 0;
@@ -51,7 +51,7 @@ $item_recycled = $data['item_recycled'] ?? 0;
 $water_conserved = $data['water_conserved'] ?? 0;
 
 
-//USER PARTICIPATION STATISTICS (ACTIVE VS TOTAL)
+//participation percentage (active vs total)
 $sql_users = "SELECT 
             COUNT(DISTINCT u.user_id) AS total_users,
             COUNT(DISTINCT CASE WHEN u.account_status = 'active' THEN u.user_id END) AS active_users
@@ -64,7 +64,7 @@ $total_users = $data_users['total_users'] ?? 0;
 $active_users = $data_users['active_users'] ?? 0;
 $active_percent = ($total_users > 0) ? round(($active_users / $total_users) * 100) : 0;
 
-//EVENTS COUNT (BY SELECTED MONTH)
+//count event by month
 $sql_events = "SELECT COUNT(*) AS total_events
                 FROM events
                 WHERE YEAR(start_time) = $year

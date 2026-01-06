@@ -1,40 +1,40 @@
 <?php
-session_start();
-include("Database.php");
-include("check-maintenance-status.php");
-$sql_latest = "SELECT DATE_FORMAT
-        (MAX(date_accomplished), '%Y-%m') AS latest_month
-        FROM participants_challenges";
-$latest = mysqli_fetch_assoc(mysqli_query($database, $sql_latest));
-$monthYear = $_GET['month_year'] ?? $latest['latest_month'];
-[$year, $month] = explode('-', $monthYear);
+    session_start();
+    include("Database.php");
+    include("check-maintenance-status.php");
+    $sql_latest = "SELECT DATE_FORMAT
+            (MAX(date_accomplished), '%Y-%m') AS latest_month
+            FROM participants_challenges";
+    $latest = mysqli_fetch_assoc(mysqli_query($database, $sql_latest));
+    $monthYear = $_GET['month_year'] ?? $latest['latest_month'];
+    [$year, $month] = explode('-', $monthYear);
 
 
-//GET AVAILABLE MONTHS FOR DROPDOWN
-$sql_months = "SELECT DISTINCT 
-            DATE_FORMAT(date_accomplished, '%Y-%m') AS ym,
-            DATE_FORMAT(date_accomplished, '%M %Y') AS label
-            FROM participants_challenges
-            ORDER BY ym DESC";
-$result_months = mysqli_query($database, $sql_months);
+    //GET AVAILABLE MONTHS FOR DROPDOWN
+    $sql_months = "SELECT DISTINCT 
+                DATE_FORMAT(date_accomplished, '%Y-%m') AS ym,
+                DATE_FORMAT(date_accomplished, '%M %Y') AS label
+                FROM participants_challenges
+                ORDER BY ym DESC";
+    $result_months = mysqli_query($database, $sql_months);
 
 
-//ENVIRONMENTAL IMPACT TOTALS (FILTERED BY MONTH)
-$sql = "SELECT 
-            SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
-            SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon emmision%' THEN impact_amount ELSE 0 END) AS carbon_emission,
-            SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
-            SUM(CASE WHEN LOWER(impact_type) LIKE '%water pollution%' THEN impact_amount ELSE 0 END) AS water_conserved
-            FROM participants_challenges
-            WHERE DATE_FORMAT(date_accomplished, '%Y-%m') = '$monthYear'";
+    //ENVIRONMENTAL IMPACT TOTALS (FILTERED BY MONTH)
+    $sql = "SELECT 
+                SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
+                SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon emmision%' THEN impact_amount ELSE 0 END) AS carbon_emission,
+                SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
+                SUM(CASE WHEN LOWER(impact_type) LIKE '%water pollution%' THEN impact_amount ELSE 0 END) AS water_conserved
+                FROM participants_challenges
+                WHERE DATE_FORMAT(date_accomplished, '%Y-%m') = '$monthYear'";
 
 
-$data = mysqli_fetch_assoc(mysqli_query($database, $sql));
+    $data = mysqli_fetch_assoc(mysqli_query($database, $sql));
 
-$air_pollution = $data['air_pollution'] ?? 0;
-$carbon_emission = $data['carbon_emission'] ?? 0;
-$item_recycled = $data['item_recycled'] ?? 0;
-$water_conserved = $data['water_conserved'] ?? 0;
+    $air_pollution = $data['air_pollution'] ?? 0;
+    $carbon_emission = $data['carbon_emission'] ?? 0;
+    $item_recycled = $data['item_recycled'] ?? 0;
+    $water_conserved = $data['water_conserved'] ?? 0;
 ?>
 
 <!DOCTYPE html>
@@ -98,36 +98,31 @@ $water_conserved = $data['water_conserved'] ?? 0;
         <div class="text-box">
             Application Impact
         </div>
+
         <div class="impact-container">
-            <button class="impact-box">
-                <h3>
-                    <?= number_format($air_pollution); ?> kg CO₂e
 
-                </h3>
-            </button>
+            <div class="impact-box">
+                <h3><?= number_format($air_pollution); ?> kg CO₂e</h3>
+                <p>Reduced Air Pollution</p>
+            </div>
 
-            <button class="impact-box">
-                <h3>
-                    <?= $user_impact_waste ?>
-                </h3>
-            </button>
+            <div class="impact-box">
+                <h3><?= number_format($carbon_emission); ?> kg CO₂e</h3>
+                <p>Reduced Carbon Emission</p>
+            </div>
 
-            <button class="impact-box">
-                <h3>
-                    <?= $challenges_count ?> Challenges Completed
-                </h3>
-            </button>
+            <div class="impact-box">
+                <h3><?= number_format($item_recycled); ?> kg</h3>
+                <p>Total Garbage Recycled</p>
+            </div>
 
-            <button class="impact-box">
-                <h3>
-                    Daily Streak <br>
-                    <?= $streak ?>
-                </h3>
-            </button>
-            <button class="impact-next-btn">
-                <img src="images/next.png" alt="Next" />
-            </button>
+            <div class="impact-box">
+                <h3><?= number_format($water_conserved); ?> ℓ</h3>
+                <p>Reduced Water Pollution</p>
+            </div>
+
         </div>
+
         <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
             style="cursor: pointer;">
             What News?
