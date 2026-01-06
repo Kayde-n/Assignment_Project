@@ -18,13 +18,13 @@ include("session.php");
 
     <!-- SIDEBAR -->
     <div class="side-bar">
-        <div class="participant-icon-container">
+        <div class="admin-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
+                <button class="icon-btn" onclick="window.location.href='admin-desktop-home.php'"><img
                         src="images/home.png" alt="Home"></button>
             </div>
             <button class="icon-btn"><img src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
+            <button class="icon-btn" onclick="window.location.href='admin_system_analytics.php'"><img
                     src="images/scan.png" alt="Scan"></button>
             <button class="icon-btn"><img src="images/tag.png" alt="Rewards"></button>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
@@ -71,7 +71,8 @@ include("session.php");
                 <li>
                     <a href="Admin_system_anlytics.php">
                         <div class="left">
-                            <img src="images/system-analytics.png" alt="Arrow Icon">System Analytics
+                            <img src="images/system-analytics.png" alt="System Analytics Icon">
+                            System Analytics
                         </div>
                         <img src="images/arrow.png" alt="Arrow Icon">
                     </a>
@@ -79,7 +80,8 @@ include("session.php");
                 <li>
                     <a href="Admin_sustainability_report.php">
                         <div class="left">
-                            <img src="images/sustainability-report.png" alt="Arrow Icon">Sustainability Report
+                            <img src="images/sustainability-report.png" alt="Sustainability Report Icon">
+                            Sustainability Report
                         </div>
                         <img src="images/arrow.png" alt="Arrow Icon">
                     </a>
@@ -87,7 +89,8 @@ include("session.php");
                 <li>
                     <a href="Staff_account_management.php">
                         <div class="left">
-                            <img src="images/account-management.png" alt="Arrow Icon">System Analytics
+                            <img src="images/account-management.png" alt="Account Management Icon">
+                            System Analytics
                         </div>
                         <img src="images/arrow.png" alt="Arrow Icon">
                     </a>
@@ -95,7 +98,8 @@ include("session.php");
                 <li>
                     <a href="Admin_system_config.php">
                         <div class="left">
-                            <img src="images/system-config.png" alt="Arrow Icon">System Configuration
+                            <img src="images/system-config.png" alt="System Config Icon">
+                            System Configuration
                         </div>
                         <img src="images/arrow.png" alt="Arrow Icon">
                     </a>
@@ -103,13 +107,13 @@ include("session.php");
                 <li>
                     <a href="desktop-settings.php">
                         <div class="left">
-                            <img src="images/setting.png" alt="Settings Icon">Settings
+                            <img src="images/setting.png" alt="Settings Icon">
+                            Settings
                         </div>
                         <img src="images/arrow.png" alt="Arrow Icon">
                     </a>
                 </li>
             </ul>
-
         </div>
     </div>
 
