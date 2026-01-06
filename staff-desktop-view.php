@@ -1,3 +1,32 @@
+<?php
+    include("Database.php");
+
+    $search = $_POST['search'] ?? '';
+    $search = mysqli_real_escape_string($database, $search);
+
+    $sql = "SELECT u.user_full_name, u.profile_picture_path, p.TP_no
+            FROM participants p
+            JOIN user u ON p.user_id = u.user_id";
+
+    if (!empty($search)) {
+        $sql .= " WHERE u.user_full_name LIKE '%$search%' OR p.TP_no LIKE '%$search%'";
+    }
+
+    $sql .= " ORDER BY u.user_full_name ASC";
+
+    $result = mysqli_query($database, $sql);
+
+    $participants = [];
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $participants[] = $row;
+        }
+    }
+
+    
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,58 +64,48 @@
         <div class="text-box">Participant</div>
 
         <div class="search-container">
-            <form action="" method="GET">
-                <input type="text" name="search" placeholder="Search Name or TP Number..." id="participant-search">
+            <form method="POST">
+                <input type="text" name="search" placeholder="Search Name or TP Number..." id="participant-search" value="<?= htmlspecialchars($_POST['search'] ?? ''); ?>">
                 <button type="submit" class="search-submit-btn">Search</button>
             </form>
         </div>
 
         <div class="participant-list">
-            
-            <div class="participant-card">
-                <div class="card-left">
-                    <img src="images/profile.png" alt="Profile">
-                </div>
-                <div class="card-right">
-                    <p class="p-name">John Doe</p>
-                    <p class="p-tp">TP012345</p>
-                    <button class="view-details-btn"
-                        onclick="openModal(
-                            'John Doe',
-                            'images/profile.png',
-                            '10600',
-                            '#9',
-                            [
-                                'Redeemed 10% McDonald’s Voucher -2000GP',
-                                'Redeemed 10% KFC Voucher -2000GP',
-                                'Redeemed 10% Jollibee Voucher -2000GP',
-                                'Redeemed 10% Wendy\'s Voucher -2000GP',
-                                'Redeemed 10% McDonald’s Voucher -2000GP',
-                                'Redeemed 10% KFC Voucher -2000GP',
-                                'Redeemed 10% Jollibee Voucher -2000GP',
-                                'Redeemed 10% Wendy\'s Voucher -2000GP',
-                                'Redeemed 10% McDonald’s Voucher -2000GP',
-                                'Redeemed 10% KFC Voucher -2000GP',
-                                'Redeemed 10% Jollibee Voucher -2000GP',
-                                'Redeemed 10% Wendy\'s Voucher -2000GP'
-                            ]
-                        )">View Profile
-                    </button>
-                </div>
-            </div>
 
-            <div class="participant-card">
-                <div class="card-left">
-                    <img src="images/profile.png" alt="Profile">
-                </div>
-                <div class="card-right">
-                    <p class="p-name">Jane Smith</p>
-                    <p class="p-tp">TP067890</p>
-                    <button class="view-details-btn">View Profile</button>
-                </div>
-            </div>
+        <?php if (!empty($participants)): ?>
+            <?php foreach ($participants as $p): ?>
 
-        </div>
+                <div class="participant-card">
+                    <div class="card-left">
+                        <img src="<?= htmlspecialchars($p['profile_picture_path'] ?? 'images/profile.png'); ?>" alt="Profile">
+                    </div>
+
+                    <div class="card-right">
+                        <p class="p-name">
+                            <?= htmlspecialchars($p['user_full_name']); ?>
+                        </p>
+
+                        <p class="p-tp">
+                            <?= htmlspecialchars($p['TP_no']); ?>
+                        </p>
+
+                        <button class="view-details-btn"
+                            onclick="openModal(
+                                '<?= addslashes($p['user_full_name']); ?>',
+                                '<?= addslashes($p['profile_picture_path'] ?? 'images/profile.png'); ?>',
+                                '<?= $p['points'] ?? 0; ?>',
+                                '#<?= $p['ranking'] ?? '-'; ?>',
+                                [])">
+                            View Profile
+                        </button>
+                    </div>
+                </div>
+
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No participants found.</p>
+        <?php endif; ?>
+
         <div id="participantModal" class="modal-overlay">
             <div class="modal-content">
                 <span class="close-modal" onclick="closeModal()">&times;</span>
