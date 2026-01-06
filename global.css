@@ -9,6 +9,8 @@
     --primary-text: #444444;
     --secondary-text: #666666;
     --line-black: #999999;
+    --dynamic-sidebar-width: clamp(200px, 15vw, 280px);
+    --dynamic-topbar-height: clamp(60px, 8vh, 100px)
 }
 
 * {
@@ -36,14 +38,14 @@ body {
 }
 
 .icon-btn {
-    width: 32px;
-    height: 32px;
-    color: var(--primary-text);
+    width: 48px;
+    height: 48px;
+    color: var(--card-white);
     stroke-width: 1.5;
 }
 
 .nav-item.active .icon-btn {
-    stroke: var(--primary-green);
+    stroke: var(--card-white);
     stroke-width: 2.2;
 }
 

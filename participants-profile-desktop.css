@@ -5,7 +5,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('images/profilepage.png');
+    /* background-image: url('images/profilepage.png'); */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -32,7 +32,7 @@ body::before {
     height: 200px;
     border-radius: 50%;
     object-fit: cover;
-    border: 6px solid #53B757; 
+    border: 6px solid var(--secondary-green); 
 }
 
 .profile-info {
@@ -43,13 +43,13 @@ body::before {
 .profile-name {
     font-size: 64px;
     font-weight: 700;
-    color: #333;
+    color: var(--primary-text);
     margin: 0;
 }
 
 .profile-education {
     font-size: 32px;
-    color: #555;
+    color: var(--secondary-text);
     margin: 8px 0 0 0;
 }
 
@@ -62,13 +62,13 @@ body::before {
 .stat-box {
     display: flex;
     flex-direction: column;
-    border: 2px solid #53B757;
-    background-color: #ffffff;
+    border: 2px solid var(--secondary-green);
+    background-color: var(--card-white);
     border-radius: 8px;
     width: 800px;
     text-align: center;
     font-weight: 600;
-    color: #53B757;
+    color: var(--secondary-green);
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.4);
 }
@@ -81,7 +81,7 @@ body::before {
 
 .stat-upper {
     padding: 10px 0;
-    border-bottom: 2px solid #53B757;
+    border-bottom: 2px solid var(--secondary-green);
     font-size: 32px;
     font-weight: 1000;
 }
@@ -99,7 +99,7 @@ body::before {
 .quick-access h3 {
     font-size: 24px;
     font-weight: 700;
-    color: #333;
+    color: var(--primary-text);
     margin-bottom: 32px;
 }
 
@@ -122,7 +122,7 @@ body::before {
     padding: 12px 15px;
     width: 100%;
     text-decoration: none;
-    color: #333;
+    color: var(--primary-text);
     font-size: 18px;
     font-weight: 600;
     transition: background 0.2s;

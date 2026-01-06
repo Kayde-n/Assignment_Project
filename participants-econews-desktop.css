@@ -19,9 +19,9 @@ body::before {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
+    background-color: var(--card-white);
     border-radius: 20px;
-    border-color: #999999;
+    border-color: var(--line-black);
     box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
 }
 
@@ -39,7 +39,7 @@ body::before {
     all: unset; 
     width: 95%;
     height: 720px;
-    background-color: #ffffff;
+    background-color: var(--card-white);
     border-radius: 16px;
     overflow: hidden;
     margin-top: 40px;
@@ -76,13 +76,13 @@ body::before {
 .content-text-title {
     font-size: 32px;
     margin: 0;
-    color: #333333;
+    color: var(--primary-text);
 }
 
 .content-text-description {
     font-size: 20px;
     margin: 0;
-    color: #999999;
+    color: var(--line-black);
 }
 
 .content-holder:hover {
@@ -96,13 +96,13 @@ body::before {
     top: 16px;              /* spacing from top */
     left: 16px;             /* spacing from left */
 
-    border: 0.5px solid #666666;
+    border: 0.5px solid var(--line-black);
     padding: 8px 16px;
     border-radius: 6px;
     font-size: 16px;
     font-weight: 500;
     background-color: #EFEFEF;
-    color: #333333;
+    color: var(--primary-text);
 
     z-index: 10;            /* ✅ above image */
 }
