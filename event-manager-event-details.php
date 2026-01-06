@@ -1,3 +1,29 @@
+<?php
+    include("session.php");
+    include("Database.php");
+
+    if (isset($_GET['events_id'])) {
+    $eventId = $_GET['events_id'];  
+    echo "Event ID is: " . $eventId;
+    }
+
+    $specificevent_sql="SELECT events.events_id,events.event_name,events.description,events.venue,events.organised_by,events.organizer_email,events.start_time,events.end_time,events.max_participants,events.points_rewarded,eco_news.image_path
+    FROM events
+    LEFT JOIN eco_news ON eco_news.events_id = events.events_id
+     WHERE events.events_id = '$eventId'";
+    
+    $event_result = mysqli_query($database, $specificevent_sql);
+    $event = mysqli_fetch_assoc($event_result);
+
+    $start_datetime = date('d M Y, h:i A', strtotime($event['start_time']));
+    $end_datetime = date('d M Y, h:i A', strtotime($event['end_time']));
+    $image=$event['image_path'];
+    $image = !empty($event['image_path'])
+    ? $event['image_path']
+    : 'images/default-event.jpg';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,54 +66,27 @@
         <div class="event-details-container">
             <!-- Event Image -->
             <div class="event-image-container">
-                <?php if (!empty($event['image_path']) && file_exists($event['image_path'])): ?>
-                    <img src="<?php echo htmlspecialchars($event['image_path']); ?>" alt="Event Image" class="event-image">
-                <?php else: ?>
-                    <div class="event-image-placeholder">
-                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#90A4AE" stroke-width="1.5">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                            <polyline points="21 15 16 10 5 21"></polyline>
-                        </svg>
-                    </div>
-                <?php endif; ?>
+                    <img src="images/<?php echo htmlspecialchars($image); ?>"alt="Event Image" class="event-image">
             </div>
 
             <!-- Event Title -->
             <h2 class="event-title"><?php echo htmlspecialchars($event['event_name']); ?></h2>
 
-            <!-- Event Description -->
-            <div class="event-description">
-                <p><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
-                
-                <?php if (!empty($event['things_to_bring'])): ?>
-                    <p><strong>Things to bring:</strong> <?php echo htmlspecialchars($event['things_to_bring']); ?></p>
-                <?php endif; ?>
-                
-                <?php if (!empty($event['dress_code'])): ?>
-                    <p><strong>Dress code:</strong> <?php echo htmlspecialchars($event['dress_code']); ?></p>
-                <?php endif; ?>
-            </div>
 
             <!-- Event Info Grid -->
             <div class="event-info-grid">
                 <!-- Date & Time -->
                 <div class="info-item">
                     <div class="info-label">Date & Time</div>
-                    <div class="info-value">
-                        <?php 
-                            $start_date = date('d M Y, h:i A', strtotime($event['start_datetime']));
-                            $end_time = date('h:i A', strtotime($event['end_datetime']));
-                            echo $start_date . ' - ' . $end_time;
-                        ?>
-                    </div>
+                    <div><strong>Start:</strong> <?php echo $start_datetime; ?></div>
+                    <div><strong>End:</strong> <?php echo $end_datetime; ?></div>
                 </div>
 
                 <!-- Type & Location -->
                 <div class="info-item">
                     <div class="info-label">Type & Location</div>
                     <div class="info-value">
-                        <?php echo htmlspecialchars($event['event_type']); ?> - <?php echo htmlspecialchars($event['location']); ?>
+                        <?php echo htmlspecialchars($event['venue']); ?>
                     </div>
                 </div>
 
@@ -100,12 +99,12 @@
                 <!-- Points Awarded -->
                 <div class="info-item">
                     <div class="info-label">Points Awarded</div>
-                    <div class="info-value"><?php echo $event['points_awarded']; ?> GP</div>
+                    <div class="info-value"><?php echo $event['points_rewarded']; ?> GP</div>
                 </div>
             </div>
 
             <!-- View Attendees Button -->
-            <button class="btn-attendees" onclick="viewAttendees(<?php echo $event_id; ?>)">
+            <button class="btn-attendees" onclick="window.location.href='event-manager-event-attendees.php?events_id=<?php echo $eventId; ?>'">
                 View Attendees
             </button>
         </div>

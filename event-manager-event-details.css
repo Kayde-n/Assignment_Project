@@ -57,12 +57,14 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    object-fit: cover;
 }
 
 .event-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    display: block; 
 }
 
 .event-image-placeholder {

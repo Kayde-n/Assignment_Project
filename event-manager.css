@@ -93,11 +93,11 @@
 }
 
 .search-box {
-            margin-left: 16px;
-            margin-top: 44px;
-            margin-bottom: 16px;
-            position: relative;
-            width: 300px;
+    margin-left: 16px;
+    margin-top: 44px;
+    margin-bottom: 16px;
+    position: relative;
+    width: 300px;
 }
 
 #search-input {
@@ -143,4 +143,41 @@
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 16px;
+}
+
+@media screen and (max-width: 1024px) {
+    .side-bar {
+        display: none;
+    }
+    
+    .main-content{
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    .top-bar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;   
+        padding: 15px;    
+        width: 100%;      
+    }
+    .text-box {
+        height: 12vh;
+        font-size: 1.5rem;
+        padding: 0 3vw;
+        margin-left: 3vw;
+        margin-top: 4vh;
+    }
+    @media (max-width: 480px) {
+    .text-box {
+        height: 14vh;
+        font-size: 1.2rem;
+        padding: 0 2vw;
+        margin-left: 2vw;
+        margin-top: 3vh;
+    }
+}
 }
