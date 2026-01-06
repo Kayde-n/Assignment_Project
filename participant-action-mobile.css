@@ -1,0 +1,193 @@
+/* switch to qr/log action */
+.switch-action-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.switch-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 16px;
+    padding: 4px 8px 4px 8px;
+    background: radial-gradient(circle at top left, #52B788, #2D6A4F);
+    border-radius: 6px;
+}
+
+.switch-btn-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.switch-btn {
+    width: 32px;
+    height: 32px;
+    color: var(--card-white);
+    stroke-width: 2.5;
+}
+
+.switch-btn-item.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--card-white);
+    border-radius: 6px;
+}
+
+.switch-btn-item.active .switch-btn {
+    stroke: var(--primary-text);
+}
+
+/* otp */
+.otp-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.otp-box {
+    width: 56px;
+    height: 72px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: var(--card-white);
+    border: 1px solid var(--line-black);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.otp-box:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+}
+
+/* scan qr*/
+.scan-btn-container {
+    padding: 16px;
+}
+
+.scan-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--card-white);
+    background-color: var(--secondary-green);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* log action */
+.submit-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+}
+
+/* select challenges */
+.submit-dropdown-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-text);
+    background-color: var(--card-white);
+    border: 1px solid #99999910;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.arrow-icon {
+    font-size: 12px;
+    color: var(--secondary-green);
+}
+
+
+/* upload image */
+.image-upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--card-white);
+    border: 2px dashed var(--secondary-green);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.image-upload-box:hover {
+    background-color: var(--ice-mint);
+    border-color: var(--primary-green);
+}
+
+.upload-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--secondary-green);
+    stroke-width: 2;
+}
+
+.upload-text {
+    font-size: 14px;
+    color: var(--primary-text);
+    text-align: center;
+}
+
+/* optional description */
+.submit-description textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: var(--card-white);
+    border: 1px solid var(--line-black);
+    border-radius: 6px;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+/* submit */
+.submit-btn-container {
+    padding: 16px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--card-white);
+    background-color: var(--secondary-green);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}

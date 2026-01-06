@@ -1,0 +1,149 @@
+.switch-action-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.switch-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top left, #52B788, #2D6A4F);
+    border-radius: 6px;
+    margin: 0px 16px;
+    padding: 4px 4px 4px 8px;
+}
+
+.switch-btn-item {
+    display: flex;
+    padding: 4px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+}
+
+.switch-btn {
+    width: 32px;
+    height: 32px;
+    color: var(--card-white);
+    stroke-width: 2.5;
+}
+
+.switch-btn-item.active {
+    width: 40px;
+    height: 40px;
+    background: var(--card-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.switch-btn-item.active .switch-btn {
+    stroke: var(--primary-text);
+}
+
+/* submit */
+.submit-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+}
+
+    
+.submit-dropdown-btn {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #99999910;
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    border-radius: 6px;
+    background-color: var(--card-white);
+    color: var(--primary-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    justify-content: space-between;
+}
+
+.arrow-icon {
+    font-size: 12px;
+    color: var(--secondary-green);
+}
+
+/* submit image */
+.image-upload-box {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;          
+    aspect-ratio: 1 / 1;   
+    background-color: var(--card-white);
+    border: 2px dashed var(--secondary-green);
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    gap: 12px;
+    transition: all 0.2s ease;
+}
+
+.image-upload-box:hover {
+    background-color: var(--ice-mint);
+    border-color: var(--primary-green);
+}
+
+.upload-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--secondary-green);
+    stroke-width: 2;
+}
+
+.upload-text {
+    font-size: 14px;
+    color: var(--primary-text);
+    text-align: center;
+}
+
+/* submit description */
+.submit-description textarea {
+    width: 100%;
+    min-height: 120px;          /* starts small, grows */
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--line-black);
+    border-radius: 6px;
+    background-color: var(--card-white);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+/* Submit Button */
+.submit-btn-container {
+    padding: 16px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--secondary-green);
+    color: var(--card-white);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+

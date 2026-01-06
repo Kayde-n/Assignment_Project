@@ -1,0 +1,94 @@
+.switch-action-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.switch-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top left, #52B788, #2D6A4F);
+    border-radius: 6px;
+    margin: 0px 16px;
+    padding: 4px 4px 4px 8px;
+}
+
+.switch-btn-item {
+    display: flex;
+    padding: 4px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+}
+
+.switch-btn {
+    width: 32px;
+    height: 32px;
+    color: var(--card-white);
+    stroke-width: 2.5;
+}
+
+.switch-btn-item.active {
+    width: 40px;
+    height: 40px;
+    background: var(--card-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.switch-btn-item.active .switch-btn {
+    stroke: var(--primary-text);
+}
+
+/* OTP Input */
+.otp-container {
+    display: flex;
+    justify-content: center;   /* center on screen */
+    gap: 12px;                 /* space between boxes */
+    margin: 16px 0;
+}
+
+.otp-box {
+    margin-top: 32px;
+    margin-bottom: 32px;
+    width: 56px;
+    height: 72px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    border: 1px solid var(--line-black);
+    outline: none;
+    background-color: var(--card-white);   
+    transition: all 0.2s ease;
+}
+
+.otp-box:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+}
+
+
+/* Scan QR */
+.scan-btn-container {
+    padding: 16px;
+}
+
+.scan-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--secondary-green);
+    color: var(--card-white);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
