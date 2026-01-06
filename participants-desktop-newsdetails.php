@@ -28,7 +28,7 @@ $row = mysqli_fetch_assoc($result);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mewsDetails</title>
+    <title>NewsDetails</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-newsdetails-desktop.css">
@@ -64,6 +64,9 @@ $row = mysqli_fetch_assoc($result);
         </div>
     </div>
     <div class="main-content">
+        <div class="page-header">
+            <div class="title-box"><h1>What's New?</h1></div>
+        </div>
 
         <div class="news-image">
             <img src="images/<?php echo $row['image_path']; ?>" alt="sample image">

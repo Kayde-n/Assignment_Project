@@ -1,5 +1,26 @@
 <?php
-    include("session.php");
+include("session.php");
+include("Database.php");
+
+if (!isset($_GET['id'])) {
+    echo "<script>alert('Invalid news ID'); window.location.href='participants-desktop-home.php';</script>";
+    exit();
+}
+
+$news_id = intval($_GET['id']);
+
+$sql = "SELECT eco_news_id, title, description, venue, organised_by, image_path
+            FROM eco_news
+            WHERE eco_news_id = $news_id";
+
+$result = mysqli_query($database, $sql);
+
+if (mysqli_num_rows($result) === 0) {
+    echo "<script>alert('News not found'); window.location.href='participants-desktop-home.php';</script>";
+    exit();
+}
+
+$row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,10 +49,10 @@
     <div class="side-bar">
         <div class="event-manager-icon-container">
             <button class="icon-btn" onclick="window.location.href='event-manager-home.php'"><img src="images/home.png" alt="Home"></button>
-            <div id="calendar-icon-box">
-                <button class="icon-btn" onclick="window.location.href='event-manager-calendar.php'"><img src="images/calendar.png" alt="Calendar"></button>
+            <button class="icon-btn" onclick="window.location.href='event-manager-calendar.php'"><img src="images/calendar.png" alt="Calendar"></button>
+            <div id="news-icon-box">
+                <button class="icon-btn" onclick="window.location.href='event-manager-news.php'"><img src="images/newspaper.png" alt="News"></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='event-manager-news.php'"><img src="images/newspaper.png" alt="News"></button>
             <button class="icon-btn" onclick="window.location.href='event-manager-rewards-management.php'"><img src="images/tag.png" alt="Rewards"></button>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
@@ -43,14 +64,52 @@
         <div class="page-header">
             <div class="title-box"><h1>What's New?</h1></div>
         </div>
+        <div class="news-image">
+            <img src="images/<?php echo $row['image_path']; ?>" alt="sample image">
+        </div>
 
+        <div class="news-text-container">
 
-        
+            <h2 class="news-title">
+                <?php
+                echo $row['title'];
+                ?><!-- title -->
+            </h2>
 
+            <p class="news-paragraph">
+                <br>
+                Organised by:
+                <br>
+                <?php
+                echo $row['organised_by'];
+                ?><!-- organised by-->
+            </p>
 
-        
+            <p class="news-paragraph">
+                Venue:
+                <br>
+                <?php
+                echo $row['venue'];
+                ?> <!--- venue --->
+            </p>
 
+            <p class="news-paragraph">
+                Full description:
+                <br>
+                <?php
+                echo $row['description'];
+                ?> <!-- description -->
+            </p>
 
+            <div class="quote-box">
+                <p>
+                    “Ask yourself: ‘How long will this device truly serve me?’
+                    Don’t just chase the newest model. A device that is well-built
+                    with good core specifications will last longer.”
+                </p>
+            </div>
+
+        </div>
     </div>
 </body>
 </html>

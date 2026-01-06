@@ -43,12 +43,84 @@
         <div class="page-header">
             <div class="title-box"><h1>View Attendees</h1></div>
         </div>
+        <div class="attendees-container">
+            <!-- Event Image -->
+            <div class="event-image-container">
+                <?php if (!empty($event['image_path']) && file_exists($event['image_path'])): ?>
+                    <img src="<?php echo htmlspecialchars($event['image_path']); ?>" alt="Event Image" class="event-image">
+                <?php else: ?>
+                    <div class="event-image-placeholder">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#90A4AE" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
+        <!-- Event Title -->
+        <h2 class="event-title"><?php echo htmlspecialchars($event['event_name']); ?></h2>
+
+        <!-- Progress -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width:70%"></div>
+            </div>
+            <span class="progress-text">10/14</span>
+        </div>
+
+        <!-- Attendance Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td>Liam</td>
+                        <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td>Olivia</td>
+                        <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td>Ethan</td>
+                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td>Noah</td>
+                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td>5.</td>
+                        <td>Emma</td>
+                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>
 
         
 
 
-        
+
 
 
     </div>
