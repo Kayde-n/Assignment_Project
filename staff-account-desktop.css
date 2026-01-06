@@ -1,28 +1,25 @@
-#account-icon-box {
+#account-icon {
     width: 116px;
     height: 76px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     border: 1px solid #999999;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-    transform: translateY(-3px);
-    transition: all 0.2s ease;
-    cursor: pointer;
+    box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
 }
 
-#account-icon-box:hover {
+#account-icon:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
     transition: all 0.2s ease;
 }
 
-#account-icon-box img {
-    filter: brightness(0) saturate(100%) invert(47%) sepia(57%)
-            saturate(582%) hue-rotate(78deg)
-            brightness(95%) contrast(92%);
+#account-icon img {
+    filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
 }
 
 .search-bar-container {
