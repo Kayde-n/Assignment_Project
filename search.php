@@ -2,8 +2,8 @@
 include("Database.php");
 header('Content-Type: application/json');
 
-$query  = $_GET['query']  ?? '';
-$source = $_GET['source'] ?? ''; 
+$query = $_GET['query'] ?? '';
+$source = $_GET['source'] ?? '';
 $results = [];
 
 $query = mysqli_real_escape_string($database, $query);
@@ -20,10 +20,9 @@ if ($source === 'eco_news') {
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
             $results[] = $row;
+        }
     }
-}
-}
-elseif($source === 'home'){ 
+} elseif ($source === 'home') {
     $items = [
         [
             'title' => 'Eco News',
@@ -39,6 +38,60 @@ elseif($source === 'home'){
             'title' => 'LeaderBoard',
             'description' => 'Participants Green Points Leaderboard',
             'url' => 'participants-desktop-leaderboard.php'
+        ]
+    ];
+
+    foreach ($items as $item) {
+        if (
+            stripos($item['title'], $query) !== false ||
+            stripos($item['description'], $query) !== false
+        ) {
+            $results[] = $item;
+        }
+    }
+} elseif ($source === 'admin') {
+    $items = [
+        [
+            'title' => 'System Settings',
+            'description' => 'System Settings allows administratorsto configure core system preferences',
+            'url' => 'Admin_system_config.php'
+        ],
+        [
+            'title' => 'System Analytics',
+            'description' => 'System Analytics provides insights into system usage',
+            'url' => 'Admin_system_analytics.php'
+        ],
+        [
+            'title' => 'Settings',
+            'description' => 'User Settings allows users to manage personal preferences',
+            'url' => 'admin_user_settings.php'
+        ]
+    ];
+
+    foreach ($items as $item) {
+        if (
+            stripos($item['title'], $query) !== false ||
+            stripos($item['description'], $query) !== false
+        ) {
+            $results[] = $item;
+        }
+    }
+} elseif ($source === 'event_manager') {
+    $items = [
+        [
+            'title' => 'System Settings',
+            'description' => 'System Settings allows administratorsto configure core system preferences',
+            'url' => 'Admin_system_config.php'
+        ],
+        [
+            'title' => 'System Analytics',
+            'description' => 'System Analytics provides insights into system usage',
+            'url' => 'Admin_system_analytics.php'
+        ],
+        [
+            'title' => 'Settings',
+            'description' => 'User Settings allows users to manage personal preferences',
+            'url' => 'admin_user_settings.php'
         ]
     ];
 

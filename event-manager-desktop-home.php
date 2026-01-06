@@ -1,42 +1,3 @@
-<?php
-session_start();
-include("Database.php");
-include("check-maintenance-status.php");
-$sql_latest = "SELECT DATE_FORMAT
-        (MAX(date_accomplished), '%Y-%m') AS latest_month
-        FROM participants_challenges";
-$latest = mysqli_fetch_assoc(mysqli_query($database, $sql_latest));
-$monthYear = $_GET['month_year'] ?? $latest['latest_month'];
-[$year, $month] = explode('-', $monthYear);
-
-
-//GET AVAILABLE MONTHS FOR DROPDOWN
-$sql_months = "SELECT DISTINCT 
-            DATE_FORMAT(date_accomplished, '%Y-%m') AS ym,
-            DATE_FORMAT(date_accomplished, '%M %Y') AS label
-            FROM participants_challenges
-            ORDER BY ym DESC";
-$result_months = mysqli_query($database, $sql_months);
-
-
-//ENVIRONMENTAL IMPACT TOTALS (FILTERED BY MONTH)
-$sql = "SELECT 
-            SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
-            SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon emmision%' THEN impact_amount ELSE 0 END) AS carbon_emission,
-            SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
-            SUM(CASE WHEN LOWER(impact_type) LIKE '%water pollution%' THEN impact_amount ELSE 0 END) AS water_conserved
-            FROM participants_challenges
-            WHERE DATE_FORMAT(date_accomplished, '%Y-%m') = '$monthYear'";
-
-
-$data = mysqli_fetch_assoc(mysqli_query($database, $sql));
-
-$air_pollution = $data['air_pollution'] ?? 0;
-$carbon_emission = $data['carbon_emission'] ?? 0;
-$item_recycled = $data['item_recycled'] ?? 0;
-$water_conserved = $data['water_conserved'] ?? 0;
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -144,7 +105,7 @@ $water_conserved = $data['water_conserved'] ?? 0;
                 // Only search if user typed at least 2 characters
                 if (query.length >= 2) {
                     // Send AJAX request to PHP
-                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=admin')
+                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=event_manager')
                         .then(response => response.json())
                         .then(data => {
 
