@@ -1,5 +1,5 @@
 <?php
-include("session.php");
+//include("session.php");
 include("Database.php");
 
 //GET LATEST AVAILABLE MONTH (DEFAULT SELECTION)

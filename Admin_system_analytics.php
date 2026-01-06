@@ -1,8 +1,9 @@
 <?php
-    include("session.php");
+//include("session.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +12,16 @@
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="admin-system-analytics.css">
 </head>
+
 <body>
     <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'"><h2>EcoXP</h2></button>
+        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'">
+            <h2>EcoXP</h2>
+        </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png"
+                    alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
         </div>
@@ -24,21 +29,27 @@
 
     <div class="side-bar">
         <div class="admin-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png" alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png"
+                    alt="Home"></button>
             <div id="system-analytics-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img src="images/system-analytics.png" alt="System Analytics"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
+                        src="images/system-analytics.png" alt="System Analytics"></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img src="images/sustainability-report.png" alt="Sustainability Report"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img src="images/system-config.png" alt="System Config"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
+                    src="images/sustainability-report.png" alt="Sustainability Report"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
+                    src="images/system-config.png" alt="System Config"></button>
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
     </div>
-        
-        <!-- Main Content -->
+
+    <!-- Main Content -->
     <div class="main-content">
         <!-- Page Header -->
         <div class="page-header">
-            <div class="title-box"><h1>System Analytics</h1></div>
+            <div class="title-box">
+                <h1>System Analytics</h1>
+            </div>
         </div>
 
         <!-- Analytics Grid -->
@@ -153,4 +164,5 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <script src="admin-system-analytics.js"></script>
 </body>
+
 </html>
