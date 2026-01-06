@@ -4,7 +4,6 @@
 
     if (isset($_GET['events_id'])) {
     $eventId = $_GET['events_id'];  
-    echo "Event ID is: " . $eventId;
     }
 
     $specificevent_sql="SELECT events.events_id,events.event_name,events.max_participants,eco_news.image_path
