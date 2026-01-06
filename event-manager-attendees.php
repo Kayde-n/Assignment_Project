@@ -29,31 +29,32 @@
     $present_participants = mysqli_query($database, $present);
     $present_count = mysqli_fetch_assoc($present_participants);
 
-    $max_participants = $event['max_participants'];
+    
 
-    // Calculate the percentage for the progress bar
-    $attendance_percentage = ($max_participants > 0) ? ($present_count['present_count'] / $max_participants) * 100 : 0;
 
-// Free result
 mysqli_free_result($present_participants);
 
 
-    $participants_name = "SELECT 
-    u.user_full_name, 
-    p.participants_id,
-    COALESCE(a.event_attended, 0) AS event_attended
-    FROM participants p
-    JOIN user u 
-    ON u.user_id = p.user_id
-    LEFT JOIN attendance a 
-    ON p.participants_id = a.participants_id
-    AND a.events_id = '$eventId'";
+    $participants_name = "SELECT participants.participants_id, user.user_full_name, attendance.event_attended, events.events_id
+                        FROM participants
+                        JOIN user ON participants.user_id = user.user_id
+                        JOIN attendance ON participants.participants_id = attendance.participants_id
+                        JOIN events ON attendance.events_id = events.events_id
+                        WHERE events.events_id = '$eventId'";
+
 
     $participants_name_result = mysqli_query($database, $participants_name);
 
     if (!$participants_name_result) {
     die("Query failed: " . mysqli_error($database));
-}
+    }
+
+    $total_participants= mysqli_num_rows($participants_name_result);
+
+
+    $attendance_percentage = ($total_participants > 0) 
+        ? ($present_count['present_count'] / $total_participants) * 100 
+        : 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,12 +109,22 @@ mysqli_free_result($present_participants);
         <h2 class="event-title"><?php echo htmlspecialchars($event['event_name']); ?></h2>
 
         <!-- Progress -->
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: <?php echo round($attendance_percentage, 2); ?>%"></div>
-            </div>
-            <span class="progress-text"><?php echo $present_count['present_count']; ?>/<?php echo $max_participants; ?></span>
-        </div>
+        <?php
+            if ($total_participants == 0) {
+                echo '<p class="no-attendance-message">No attendance records yet for this event.</p>';
+            } else {
+                // Show progress bar
+                ?>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: <?php echo round($attendance_percentage, 2); ?>%;"></div>
+                    </div>
+                    <span class="progress-text"><?php echo $present_count['present_count']; ?>/<?php echo $total_participants; ?></span>
+                </div>
+                <?php
+            }
+            ?>
+
 
         <!-- Attendance Table -->
         <div class="table-container">
