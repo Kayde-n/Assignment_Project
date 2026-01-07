@@ -160,31 +160,6 @@
                 echo '<p>No rewards available at the moment.</p>';
             } ?>
 
-        <div class="rewards-card" data-category="Physical">
-            <img src="https://picsum.photos/120/120?random=2" alt="rewards image" class="rewards-image">
-            <div class="rewards-content">
-                <h4 class="rewards-title">Eco-friendly Tote Bag</h4>
-                <div class="rewards-details">
-                    <p class="rewards-text">1200GP</p>                
-                    <div class="rewards-btn" id="openModalBtn">Redeem</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="rewards-card">
-            <img src="https://picsum.photos/120/120?random=3" alt="rewards image" class="rewards-image">
-            <div class="rewards-content">
-                <h4 class="rewards-title">Plant a Tree Donation</h4>
-                <div class="rewards-details">
-                    <p class="rewards-text">2000GP</p>                
-                    <a href="participant-rewards-details-mobile.php">
-                        <div class="rewards-btn">Redeem</div>
-                    </a>
-                </div>
-            </div>
-        </div> -->
-        
-        
     <!-- ===== POPUP MODAL ===== -->
     <div id="rewardModal" class="modal-overlay">
         <div class="modal-box">
@@ -374,10 +349,6 @@
         function openModal(title, description, rewardId, rewardCost) {
             rewardCost = parseInt(rewardCost);
 
-            if (USER_POINTS < rewardCost) {
-                alert("You do not have enough points to redeem this reward.");
-                return; // stop here
-            }
 
             currentRewardId = rewardId;
             document.getElementById("modalTitle").innerText = title;
@@ -460,33 +431,13 @@
                 card.style.display = (card.dataset.category === category) ? 'flex' : 'none';
             }
         });
+
+        const modal = document.getElementById("rewardModal");
     }
 
     </script>
     </div>
 </main>
-
-    <script>
-        lucide.createIcons();
-        const openBtn = document.getElementById("openModalBtn");
-        const modal = document.getElementById("redeemModal");
-        const closeBtn = document.querySelector(".close-btn");
-
-        openBtn.onclick = function() {
-            modal.style.display = "block";
-        }
-
-        closeBtn.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-
 </body>
 </html>
 
