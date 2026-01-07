@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 07, 2026 at 07:08 AM
+-- Generation Time: Jan 07, 2026 at 09:08 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -523,31 +523,31 @@ CREATE TABLE IF NOT EXISTS `system_log` (
 --
 
 INSERT INTO `system_log` (`system_log_id`, `timestamp`, `action_performed`, `description`, `user_id`) VALUES
-(1, '2025-12-21 14:40:24', 'User used feature challenge submission', 'User has uploaded 1 photo for challenge submission', 2),
-(2, '2025-12-21 14:45:10', 'User logged in', 'User successfully logged into the system', 1),
-(3, '2025-12-21 14:48:32', 'User joined event', 'User registered for the APU gotong-royong event', 3),
-(4, '2025-12-21 14:52:05', 'User redeemed reward', 'User redeemed reward: Campus Cafeteria Voucher', 4),
-(5, '2025-12-21 14:55:47', 'User completed challenge', 'User completed the Daily Carpool challenge', 5),
+(1, '2025-12-21 14:40:24', 'User used feature challenge submission', 'User has uploaded 1 photo for challenge submission', 20),
+(2, '2025-12-21 14:45:10', 'User logged in', 'User successfully logged into the system', 11),
+(3, '2025-12-21 14:48:32', 'User joined event', 'User registered for the APU gotong-royong event', 20),
+(4, '2025-12-21 14:52:05', 'User redeemed reward', 'User redeemed reward: Campus Cafeteria Voucher', 20),
+(5, '2025-12-21 14:55:47', 'User completed challenge', 'User completed the Daily Carpool challenge', 11),
 (6, '2025-12-21 15:01:18', 'User updated profile', 'User updated profile picture and personal details', 6),
 (7, '2025-12-21 15:05:10', 'User logged in', 'User successfully logged into the system', 2),
-(8, '2025-12-21 15:07:34', 'User viewed event', 'User viewed event details for APU gotong-royong', 3),
-(9, '2025-12-21 15:09:02', 'User joined event', 'User registered for APU Blood Donation Drive', 1),
-(10, '2025-12-21 15:11:28', 'User submitted challenge', 'User submitted evidence for Daily Carpool challenge', 4),
-(11, '2025-12-21 15:13:55', 'User logged out', 'User logged out of the system', 2),
-(12, '2025-12-21 15:16:10', 'User logged in', 'User successfully logged into the system', 5),
+(8, '2025-12-21 15:07:34', 'User viewed event', 'User viewed event details for APU gotong-royong', 9),
+(9, '2025-12-21 15:09:02', 'User joined event', 'User registered for APU Blood Donation Drive', 9),
+(10, '2025-12-21 15:11:28', 'User submitted challenge', 'User submitted evidence for Daily Carpool challenge', 9),
+(11, '2025-12-21 15:13:55', 'User logged out', 'User logged out of the system', 9),
+(12, '2025-12-21 15:16:10', 'User logged in', 'User successfully logged into the system', 10),
 (13, '2025-12-21 15:18:42', 'User updated profile', 'User updated contact information', 6),
 (14, '2025-12-21 15:21:06', 'User redeemed reward', 'User redeemed reward: Printing Credits', 3),
-(15, '2025-12-21 15:23:39', 'User viewed eco news', 'User viewed news article: Beach Clean-up', 1),
-(16, '2025-12-21 15:26:11', 'User completed challenge', 'User completed Bring Your Own Bottle challenge', 4),
-(17, '2025-12-21 15:28:45', 'User logged out', 'User logged out of the system', 5),
+(15, '2025-12-21 15:23:39', 'User viewed eco news', 'User viewed news article: Beach Clean-up', 8),
+(16, '2025-12-21 15:26:11', 'User completed challenge', 'User completed Bring Your Own Bottle challenge', 10),
+(17, '2025-12-21 15:28:45', 'User logged out', 'User logged out of the system', 8),
 (18, '2025-12-21 15:31:02', 'User logged in', 'User successfully logged into the system', 6),
-(19, '2025-12-21 15:33:27', 'User joined event', 'User registered for APU Tech Awareness Workshop', 2),
-(20, '2025-12-21 15:36:10', 'User submitted challenge', 'User uploaded 2 photos for Weekly Public Transport challenge', 1),
+(19, '2025-12-21 15:33:27', 'User joined event', 'User registered for APU Tech Awareness Workshop', 11),
+(20, '2025-12-21 15:36:10', 'User submitted challenge', 'User uploaded 2 photos for Weekly Public Transport challenge', 8),
 (21, '2025-12-21 15:38:58', 'User viewed reward', 'User viewed reward details: Free Parking', 3),
 (22, '2025-12-21 15:41:20', 'User redeemed reward', 'User redeemed reward: Library Late Fee Waiver', 6),
 (23, '2025-12-21 15:44:03', 'User viewed event', 'User viewed event details for Tree Planting Day', 4),
 (24, '2025-12-21 15:46:35', 'User updated settings', 'User updated notification preferences', 2),
-(25, '2025-12-21 15:49:12', 'User completed challenge', 'User completed Weekly No-Print challenge', 5),
+(25, '2025-12-21 15:49:12', 'User completed challenge', 'User completed Weekly No-Print challenge', 10),
 (26, '2025-12-21 15:52:40', 'User logged out', 'User logged out of the system', 1);
 
 -- --------------------------------------------------------
@@ -591,7 +591,7 @@ INSERT INTO `user` (`user_id`, `user_full_name`, `email`, `hash_password`, `prof
 (16, 'Ryan Tan', 'ryan.tan@gmail.com', 'Zx9@P!2L', 'images/profile.png', 'Active'),
 (17, 'Nur Izzati', 'nur.izzati@gmail.com', 'M@9x!P2L', 'images/profile.png', 'Active'),
 (18, 'Daniel Chong', 'daniel.chong@gmail.com', 'P!9xL@2M', 'images/profile.png', 'Deactivated'),
-(19, 'vernice', 'vernice.heong@gmail.com', '$2y$10$JJTy7S4fnhUD/t74oEJkz.TqGVCHXa5wlZBfMyg/2kC/zVh.eIu8.', '/uploads/Google.jpg', 'Active'),
+(19, 'vernice', 'vernice.heong@gmail.com', '$2y$10$JJTy7S4fnhUD/t74oEJkz.TqGVCHXa5wlZBfMyg/2kC/zVh.eIu8.', 'images/profile.png', 'Active'),
 (20, 'Anne', 'Anne@yahoo.com', '$2y$10$9W0fGJM/8BtyADBZZDS47Oce0IgqQH8WUPYXqt4KO.I9XvsfyYsR.', 'images/profile.png', 'Active');
 
 --
