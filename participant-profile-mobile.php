@@ -76,9 +76,47 @@ $ranking = 0;
 foreach ($user_total_points as $rank) {
     if ($rank['participant_id'] == $participant_id) {
         $ranking = $rankCount;
+        $user_points = $rank['total_points'];
 
     }
     $rankCount++;
+}
+/*echo '<pre>';
+print_r($user_total_points);
+echo '</pre>';
+echo $rankCount;
+exit();*/
+
+if (!empty($_FILES['avatar']['name'])) {
+
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!in_array($_FILES['avatar']['type'], $allowedTypes)) {
+        exit('Invalid file type');
+    }
+
+    $uploadDir = 'images/';
+    $fileName = time() . '_' . basename($_FILES['avatar']['name']);
+    $targetPath = $uploadDir . $fileName;
+
+    if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetPath)) {
+        // Delete old avatar
+        if (!empty($avatarPath) && file_exists($avatarPath)) {
+            unlink($avatarPath);
+        }
+
+        // Save full path in DB
+        $updatesql = "
+                UPDATE user u
+                JOIN participants p ON p.user_id = u.user_id
+                SET u.profile_picture_path = '$targetPath'
+                WHERE p.participants_id  = $participant_id
+            ";
+        mysqli_query($database, $updatesql);
+
+        // Update variable for display
+        $avatarPath = $targetPath;
+    }
+
 }
 ?>
 <!DOCTYPE html>
@@ -195,10 +233,19 @@ foreach ($user_total_points as $rank) {
         <!-- profile -->
         <div class="profile-page">
             <div class="profile-header">
-                <label class="avatar upload-avatar">
-                    <input type="file" accept="image/*" hidden id="avatarInput">
-                    <span class="avatar-text">Upload Photo</span>
-                </label>
+                <form method="POST" enctype="multipart/form-data">
+                    <label class="avatar upload-avatar">
+                        <?php if (!empty($avatarPath)): ?>
+                            <img src="<?= htmlspecialchars($avatarPath) ?>" alt="Avatar" class="avatar-img">
+                            <span class="avatar-text">Change Photo</span>
+                        <?php else: ?>
+                            <span class="avatar-text">Upload Photo</span>
+                        <?php endif; ?>
+
+                        <input type="file" name="avatar" accept="image/*" hidden onchange="this.form.submit()">
+
+                    </label>
+                </form>
 
                 <h2 class="profile-name"><?php echo htmlspecialchars($profile['user_full_name']) ?></h2>
                 <p class="profile-id"></p>
@@ -207,12 +254,12 @@ foreach ($user_total_points as $rank) {
             <div class="profile-stats">
                 <div class="stat-card">
                     <span class="stat-title">Points</span>
-                    <span class="stat-value"><?php echo $total_points ?></span>
+                    <span class="stat-value"><?php echo $user_points ?></span>
                 </div>
 
                 <div class="stat-card">
                     <span class="stat-title">Ranking</span>
-                    <span class="stat-value"><?php echo $rankCount ?></span>
+                    <span class="stat-value"><?php echo $ranking ?></span>
                 </div>
             </div>
             <!-- quick access -->
