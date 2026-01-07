@@ -11,8 +11,6 @@ if (!isset($_SESSION['user_role_id'])) {
 }
 
 $participant_id = (int) $_SESSION['user_role_id'];
-
-$participant_id = (int) $_SESSION['user_role_id'];
 $sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
 
 $sql_query_daily_streak = "SELECT date_accomplished FROM participants_challenges 
