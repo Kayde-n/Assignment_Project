@@ -6,8 +6,6 @@ include("database.php");
 $sql = "SELECT rewards_id, reward_name, description, points_required, quantity, category FROM rewards";
 $result = mysqli_query($database, $sql);
 
-
-
 // fetch total points per person
 $participant_id = (int) $_SESSION['user_role_id'];
 
@@ -23,7 +21,6 @@ $points_sql = "SELECT COALESCE(SUM(c.points_reward), 0)- COALESCE(SUM(r.points_r
     LEFT JOIN rewards r
         ON rr.rewards_id = r.rewards_id
     WHERE p.participants_id = $participant_id";
-
 
 $result_points = mysqli_query($database, $points_sql);
 $row_points = mysqli_fetch_assoc($result_points);
@@ -145,7 +142,7 @@ $total_points = (int) $row_points['total_points'];
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                     <div class="rewards-card" data-category="<?php echo $row['category']; ?>">
-
+                        <img src="images/voucher.png" alt="rewards image" class="rewards-image">
                         <div class="rewards-content">
                             <h4 class="rewards-title">
                                 <?php echo $row['reward_name']; ?>
@@ -171,22 +168,6 @@ $total_points = (int) $row_points['total_points'];
             } else {
                 echo '<p>No rewards available at the moment.</p>';
             } ?>
-
-
-
-            <!-- <div class="rewards-card">
-            <img src="https://picsum.photos/120/120?random=3" alt="rewards image" class="rewards-image">
-            <div class="rewards-content">
-                <h4 class="rewards-title">Plant a Tree Donation</h4>
-                <div class="rewards-details">
-                    <p class="rewards-text">2000GP</p>                
-                    <a href="participant-rewards-details-mobile.php">
-                        <div class="rewards-btn">Redeem</div>
-                    </a>
-                </div>
-            </div>
-        </div> -->
-
 
             <!-- ===== POPUP MODAL ===== -->
             <div id="rewardModal" class="modal-overlay">
@@ -222,7 +203,7 @@ $total_points = (int) $row_points['total_points'];
 
                     <div class="modal-header">
                         <h3>Redeem QR Code</h3>
-                        <span class="close-btn" onclick="closeQrModal()">&times;</span>
+
                     </div>
 
                     <div style="margin:20px 0;">
@@ -270,7 +251,9 @@ $total_points = (int) $row_points['total_points'];
 
                     if (timeLeft <= 0) {
                         clearInterval(timerInterval);
-                        expireRedemption();
+                        alert("QR expired, quitting pop-up");
+                        document.getElementById("qrModal").classList.remove("show");
+
                     } else {
                         timeLeft--;
                     }
@@ -305,78 +288,17 @@ $total_points = (int) $row_points['total_points'];
                 }
 
 
-                // Expire redemption when timer runs out
-                function expireRedemption() {
-                    if (!currentRedemptionId) {
-                        alert('No active redemption found.');
-                        document.getElementById("qrModal").classList.remove("show");
-                        return;
-                    }
 
-                    fetch('expire-redemption.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `redemption_id=${currentRedemptionId}`
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Redemption time expired. QR code is no longer valid.');
-                                document.getElementById("qrModal").classList.remove("show");
-                                location.reload(); // Refresh to update points
-                            } else {
-                                alert('Error: ' + data.message);
-                                document.getElementById("qrModal").classList.remove("show");
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('An error occurred while expiring redemption.');
-                            document.getElementById("qrModal").classList.remove("show");
-                        });
-                }
+
 
                 function endRedemption() {
-                    if (!confirm('Are you sure you want to end this redemption?')) {
-                        return;
-                    }
 
                     stopTimer();
-
-                    if (!currentRedemptionId) {
-                        document.getElementById("qrModal").classList.remove("show");
-                        return;
-                    }
-
-                    fetch('end-redemption.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `redemption_id=${currentRedemptionId}`
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Redemption ended successfully.');
-                                document.getElementById("qrModal").classList.remove("show");
-                                location.reload(); // Refresh page
-                            } else {
-                                alert('Error: ' + data.message);
-                                document.getElementById("qrModal").classList.remove("show");
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('An error occurred. Please try again.');
-                        });
+                    document.getElementById("qrModal").classList.remove("show");
                 }
 
                 function openModal(title, description, rewardId, rewardCost) {
                     rewardCost = parseInt(rewardCost);
-
                     if (USER_POINTS < rewardCost) {
                         alert("You do not have enough points to redeem this reward.");
                         return; // stop here
@@ -395,38 +317,38 @@ $total_points = (int) $row_points['total_points'];
 
                 function confirmRedeem() {
                     // Check if checkbox is checked
-                    /*if (!document.getElementById("agreeCheckbox").checked) {
+                    if (!document.getElementById("agreeCheckbox").checked) {
                         alert("Please agree to the terms & conditions");
-                        return;*/
-                }
-                fetch("set-reward-session.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: "reward_id=" + encodeURIComponent(currentRewardId)
-                })
-                    .then(response => response.text())
-                    .then(data => {
-                        if (data === "OK") {
-                            // Now generate QR
-                            return fetch("qr-image-generation.php");//"return" keyword essentially for chaining promises in following async operations
-                        } else {
-                            alert("Failed to start redemption");
-                        }
+                        return;
+                    }
+                    fetch("set-reward-session.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: "reward_id=" + encodeURIComponent(currentRewardId)
                     })
-                    .then(response => response.text())
-                    .then(qrUrl => {
-                        console.log("QR URL:", qrUrl);
-                        alert("QR URL: " + qrUrl);
-                        document.getElementById("qrCodeImg").src = qrUrl;
-                        closeModal(); // Close first modal
-                        document.getElementById("qrModal").classList.add("show"); // Open QR modal
-                        startTimer();
-                    })
-                    .catch(error => {
-                        alert(error.message);
-                    });
+                        .then(response => response.text())
+                        .then(data => {
+                            if (data === "OK") {
+                                // Now generate QR
+                                return fetch("qr-image-generation.php");//"return" keyword essentially for chaining promises in following async operations
+                            } else {
+                                alert("Failed to start redemption");
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(qrUrl => {
+                            console.log("QR URL:", qrUrl);
+                            alert("QR URL: " + qrUrl);
+                            document.getElementById("qrCodeImg").src = qrUrl;
+                            closeModal(); // Close first modal
+                            document.getElementById("qrModal").classList.add("show"); // Open QR modal
+                            startTimer();
+                        })
+                        .catch(error => {
+                            alert(error.message);
+                        });
                 }
 
                 function closeQrModal() {
@@ -463,33 +385,13 @@ $total_points = (int) $row_points['total_points'];
                             card.style.display = (card.dataset.category === category) ? 'flex' : 'none';
                         }
                     });
+
+                    const modal = document.getElementById("rewardModal");
                 }
 
             </script>
         </div>
     </main>
-
-    <script>
-        lucide.createIcons();
-        const openBtn = document.getElementById("openModalBtn");
-        const modal = document.getElementById("redeemModal");
-        const closeBtn = document.querySelector(".close-btn");
-
-        openBtn.onclick = function () {
-            modal.style.display = "block";
-        }
-
-        closeBtn.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-
 </body>
 
 </html>

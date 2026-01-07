@@ -1,5 +1,5 @@
 <?php
-$sql_retrieve_news_details = "SELECT "
+$sql_retrieve_news_details = "SELECT *"
     ?>
 <!DOCTYPE html>
 <html lang="en">

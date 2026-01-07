@@ -275,17 +275,13 @@ foreach ($user_total_points as $rank) {
     </div>
 
     <main class="main-content">
-        <div class="search-bar">
-            <form method="POST">
-                <input type="text" name="search" placeholder="Search news..."
-                    value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>">
-                <button class="search-btn" type="submit">
-                    <i data-lucide="search"></i>
-                </button>
-            </form>
-        </div>
-        <div class="impact-title">Your Impact</div>
-
+        <div class="search-container">
+                <div class="search-box">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" placeholder="Search news..." id="search-input">
+                </div>
+                <div id="search-results"></div> 
+            </div>
         <div class="impact-boxes">
             <div class="impact-card card-co2">
                 <img src="images/bush.png" class="impact-img" alt="CO₂ image">
@@ -357,6 +353,64 @@ foreach ($user_total_points as $rank) {
     </main>
 
     <script>
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+
+            // Trigger search on every keystroke
+            searchInput.addEventListener('input', function () {
+                const query = this.value;
+
+                // Only search if user typed at least 2 characters
+                if (query.length >= 2) {
+                    // Send AJAX request to PHP
+                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=home')
+                        .then(response => response.json())
+                        .then(data => {
+
+                            displayResults(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching search results:', error);
+                        });
+                } else {
+                    searchResults.innerHTML = ''; // Clear results if less than 2 chars
+                }
+            });
+
+            function displayResults(results) { //builds HTML search results
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<p>No results found</p>';
+                    return;
+                }
+
+                let html = '<div class="search-results-container">';
+                results.forEach(item => {
+                    // Determine redirect URL
+                    let redirectUrl = '';
+                    if (item.url) {
+                        // For home search results with predefined url
+                        redirectUrl = item.url;
+                    } else if (item.eco_news_id) {
+                        // For eco news results
+                        redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                    }
+
+                    html += `
+                <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
+                    <h4>${item.title}</h4>
+                </div>
+            `;
+                });
+                html += '</div>';
+
+                searchResults.innerHTML = html;
+            }
+
+            function redirectToResult(url) {
+                if (url) {
+                    window.location.href = url;
+                }
+            }
         lucide.createIcons();
     </script>
 

@@ -265,19 +265,9 @@ while (true) {
 
                 searchResults.innerHTML = html;
             }
-<<<<<<< Updated upstream
-
-            function redirectToResult(url) {
-                if (url) {
-                    window.location.href = url;
-                }
-            }
-        </script>
-=======
         }
         lucide.createIcons();
     </script>
->>>>>>> Stashed changes
 
 </body>
 
