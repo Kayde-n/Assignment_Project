@@ -1,3 +1,32 @@
+<?php
+    include("session.php");
+    include("database.php");
+
+    // Fetch all rewards from database
+    $sql = "SELECT rewards_id, reward_name, description, points_required, quantity, category FROM rewards";
+    $result = mysqli_query($database, $sql);
+
+    // fetch total points per person
+    $participant_id = (int)$_SESSION['user_role_id'];
+
+    $points_sql = "SELECT COALESCE(SUM(c.points_reward), 0)- COALESCE(SUM(r.points_required), 0) AS total_points
+    FROM participants p
+    LEFT JOIN participants_challenges pc
+        ON p.participants_id = pc.participants_id
+        AND pc.challenges_status = 'approved'
+    LEFT JOIN challenges c
+        ON pc.challenges_id = c.challenges_id
+    LEFT JOIN reward_redemption rr
+        ON rr.participants_id = p.participants_id
+    LEFT JOIN rewards r
+        ON rr.rewards_id = r.rewards_id
+    WHERE p.participants_id = $participant_id";
+
+    $result_points = mysqli_query($database, $points_sql);
+    $row_points = mysqli_fetch_assoc($result_points);
+    $total_points = (int)$row_points['total_points'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,27 +119,48 @@
     </div>
 <!-- category filter -->
     <div class="pill-filter">
-        <div class="category-pill active">All Rewards</div>
-        <div class="category-pill">Discount</div>
-        <div class="category-pill">Physical Items</div>
+        <div class="category-pill active" onclick="filterRewards(this, 'all')">All Rewards</div>
+        <div class="category-pill" onclick="filterRewards(this, 'Vouchers')">Discount/Vouchers</div>
+        <div class="category-pill" onclick="filterRewards(this, 'Physical')">Physical Rewards</div>
     </div>
 <!-- rewards -->
     <div class="rewards-container">
-        
-        <div class="rewards-card">
-            <img src="https://picsum.photos/120/120?random=1" alt="rewards image" class="rewards-image">
-            <div class="rewards-content">
-                <h4 class="rewards-title">10% cafeteria voucher</h4>
-                <div class="rewards-details">
-                    <p class="rewards-text">500GP</p>                
-                    <a href="participant-rewards-details-mobile.php">
-                        <div class="rewards-btn">Redeem</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="rewards-card">
+
+        <?php
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <div class="rewards-card" data-category="<?php echo $row['category']; ?>">
+                        <img src="images/voucher.png" alt="rewards image" class="rewards-image">
+                        <div class="rewards-content">
+                            <h4 class="rewards-title">
+                                <?php echo $row['reward_name']; ?>
+                            </h4>
+                            <div class="rewards-details">
+                                <p class="rewards-text"><?php echo $row['points_required']; ?>GP</p>                
+                                <div class="rewards-btn"
+                                    data-title="<?php echo htmlspecialchars($row['reward_name']); ?>"
+                                    data-description="<?php echo htmlspecialchars($row['description']); ?>"
+                                    data-id="<?php echo $row['rewards_id']; ?>"
+                                    data-cost="<?php echo $row['points_required']; ?>"
+                                    onclick="openModal(
+                                        this.dataset.title,
+                                        this.dataset.description,
+                                        this.dataset.id,
+                                        this.dataset.cost
+                                    )">
+                                    Redeem
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                <?php }
+            } else {
+                echo '<p>No rewards available at the moment.</p>';
+            } ?>
+
+        <div class="rewards-card" data-category="Physical">
             <img src="https://picsum.photos/120/120?random=2" alt="rewards image" class="rewards-image">
             <div class="rewards-content">
                 <h4 class="rewards-title">Eco-friendly Tote Bag</h4>
@@ -121,7 +171,7 @@
             </div>
         </div>
 
-        <div class="rewards-card">
+        <!-- <div class="rewards-card">
             <img src="https://picsum.photos/120/120?random=3" alt="rewards image" class="rewards-image">
             <div class="rewards-content">
                 <h4 class="rewards-title">Plant a Tree Donation</h4>
@@ -132,42 +182,287 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </div> -->
         
-        <div class="rewards-card">
-            <img src="https://picsum.photos/120/120?random=4" alt="rewards image" class="rewards-image">
-            <div class="rewards-content">
-                <h4 class="rewards-title">Metal Straw Set</h4>
-                <div class="rewards-details">
-                    <p class="rewards-text">800GP</p>                
-                    <div class="rewards-btn">Redeem</div>
-                </div>
+        
+    <!-- ===== POPUP MODAL ===== -->
+    <div id="rewardModal" class="modal-overlay">
+        <div class="modal-box">
+
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
             </div>
-        </div>
 
-        <div id="redeemModal" class="modal">
-
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        
-        <img src="https://picsum.photos/120/120?random=2" class="modal-img">
-        
-        <h3>30% cafeteria voucher</h3>
-
-        <div class="terms-box">
-            <h4>Terms & Conditions:</h4>
-            <p>1. Eligibility...</p>
+            <div class="modal-image">
+                <img src="images/voucher.png" style="width:120px;">
             </div>
+
+            <p id="modalDescription">
+                <strong>Terms & Conditions:</strong>
+                <span id="termsText"></span>
+            </p>
+
+            <label>
+                <input type="checkbox" id="agreeCheckbox"> I agree to the terms & conditions
+            </label>
 
             <div class="modal-footer">
-                <label>
-                    <input type="checkbox" id="agreeCheck"> I have read and agree...
-                </label>
-                <button id="finalRedeem" class="redeem-action-btn" disabled>Redeem</button>
+                <button onclick="confirmRedeem()">Redeem</button>
             </div>
+
         </div>
     </div>
-        
+
+    <div id="qrModal" class="modal-overlay">
+        <div class="modal-box" style="width:420px; text-align:center;">
+
+            <div class="modal-header">
+                <h3>Redeem QR Code</h3>
+                <span class="close-btn" onclick="closeQrModal()">&times;</span>
+            </div>
+
+            <div style="margin:20px 0;">
+                <img id="qrCodeImg" src=" " alt="QR Code" style="width:180px;">
+
+            </div>
+
+            <p id="timerDisplay" style="color:#53B757; font-weight:600;">10:00</p>
+
+            <button class="redeem-btn" onclick="closeQrModal()">End Redeem</button>
+
+        </div>
+    </div>
+    
+    <script>
+        const USER_POINTS = <?php echo $total_points; ?>;
+    </script>
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        let currentRewardId = null;
+        let currentRedemptionId = null;
+        let timeLeft = 600; // 10 minutes in seconds
+        let timerInterval = null;
+
+        // Format time as MM:SS
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Update timer display
+        function updateTimer() {
+            const timerElement = document.getElementById('timerDisplay');
+            timerElement.textContent = formatTime(timeLeft);
+            
+            // Change color when time is running out (last minute)
+            if (timeLeft <= 60) {
+                timerElement.style.color = '#F44336';
+                timerElement.classList.add('expiring');
+            } else {
+                timerElement.style.color = '#4CAF50';
+                timerElement.classList.remove('expiring');
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                expireRedemption();
+            } else {
+                timeLeft--;
+            }
+        }
+
+        // Start the countdown timer
+        function startTimer() {
+            // Clear any existing timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            // Reset to 10 minutes
+            timeLeft = 600;
+            
+            // Update display immediately
+            const timerElement = document.getElementById('timerDisplay');
+            timerElement.textContent = formatTime(timeLeft);
+            timerElement.style.color = '#4CAF50';
+            timerElement.classList.remove('expiring');
+            
+            // Start countdown
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // Stop the timer
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+
+        // Expire redemption when timer runs out
+        function expireRedemption() {
+            if (!currentRedemptionId) {
+                alert('No active redemption found.');
+                document.getElementById("qrModal").classList.remove("show");
+                return;
+            }
+
+            fetch('expire-redemption.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `redemption_id=${currentRedemptionId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Redemption time expired. QR code is no longer valid.');
+                    document.getElementById("qrModal").classList.remove("show");
+                    location.reload(); // Refresh to update points
+                } else {
+                    alert('Error: ' + data.message);
+                    document.getElementById("qrModal").classList.remove("show");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while expiring redemption.');
+                document.getElementById("qrModal").classList.remove("show");
+            });
+        }
+
+        function endRedemption() {
+            if (!confirm('Are you sure you want to end this redemption?')) {
+                return;
+            }
+
+            stopTimer();
+
+            if (!currentRedemptionId) {
+                document.getElementById("qrModal").classList.remove("show");
+                return;
+            }
+
+            fetch('end-redemption.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `redemption_id=${currentRedemptionId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Redemption ended successfully.');
+                    document.getElementById("qrModal").classList.remove("show");
+                    location.reload(); // Refresh page
+                } else {
+                    alert('Error: ' + data.message);
+                    document.getElementById("qrModal").classList.remove("show");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+
+        function openModal(title, description, rewardId, rewardCost) {
+            rewardCost = parseInt(rewardCost);
+
+            if (USER_POINTS < rewardCost) {
+                alert("You do not have enough points to redeem this reward.");
+                return; // stop here
+            }
+
+            currentRewardId = rewardId;
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("termsText").innerHTML = description.replace(/\n/g, '<br>');
+            document.getElementById("agreeCheckbox").checked = false;
+            document.getElementById("rewardModal").classList.add("show");
+        }
+
+        function closeModal() {
+            document.getElementById("rewardModal").classList.remove("show");
+        }
+
+        function confirmRedeem() {
+            // Check if checkbox is checked
+            if (!document.getElementById("agreeCheckbox").checked) {
+                alert("Please agree to the terms & conditions");
+                return;
+            }
+            fetch("set-reward-session.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "reward_id=" + encodeURIComponent(currentRewardId)
+            })
+                .then(response => response.text())
+                .then(data => {
+                    if (data === "OK") {
+                        // Now generate QR
+                        return fetch("qr-image-generation.php");//"return" keyword essentially for chaining promises in following async operations
+                    } else {
+                        alert("Failed to start redemption");
+                    }
+                })
+                .then(response => response.text())
+                .then(qrUrl => {
+                    console.log("QR URL:", qrUrl);
+                    alert("QR URL: " + qrUrl);
+                    document.getElementById("qrCodeImg").src = qrUrl;
+                    closeModal(); // Close first modal
+                    document.getElementById("qrModal").classList.add("show"); // Open QR modal
+                    startTimer();
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
+
+        function closeQrModal() {
+            if (confirm('Closing will end your redemption. Continue?')) {
+                stopTimer();
+                endRedemption();
+            }
+        }
+
+
+        // Prevent accidental page close
+        window.onbeforeunload = function() {
+            if (document.getElementById("qrModal").classList.contains("show")) {
+                e.preventDefault();
+                return "Your redemption is still active. Are you sure you want to leave?";
+            }
+        };
+
+        function filterRewards(el, category) {
+        const cards = document.querySelectorAll('.rewards-card');
+        const pills = document.querySelectorAll('.category-pill');
+
+        // Remove "active" class from all pills
+        pills.forEach(p => p.classList.remove('active'));
+
+        // Add "active" class to clicked pill
+        el.classList.add('active');
+
+        // Show/hide cards
+        cards.forEach(card => {
+            if (category === 'all') {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = (card.dataset.category === category) ? 'flex' : 'none';
+            }
+        });
+    }
+
+    </script>
     </div>
 </main>
 
@@ -194,3 +489,9 @@
 
 </body>
 </html>
+
+<?php
+if ($database) {
+    mysqli_close($database);
+}
+?>
