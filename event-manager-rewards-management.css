@@ -1,107 +1,303 @@
-/* 1. MATCHING BACKGROUND & SPACING */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('images/tree.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.2; /* Same as Participant */
-    z-index: -1;
+body {
+    background-color: var(--ice-mint);
+}
+#reward-icon-box {
+    width: 116px;
+    height: 76px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 20px;
+    border-color: #999999;
+    box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
 }
 
-.main-content {
-    margin-top: 72px; 
-    padding: 16px 0;
-}
-
-/* 2. CATEGORY PILLS (Changed radius from 20px to 6px) */
-.category-pill {
-    padding: 6px 14px;
-    border: 1px solid var(--line-black);
-    background-color: var(--card-white);
-    border-radius: 6px; /* MATCHED TO PARTICIPANT RADIUS */
-    font-size: 14px;
-    cursor: pointer;
+#reward-icon-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
     transition: all 0.2s ease;
-    color: var(--secondary-text);
 }
 
-.category-pill.active {
-    background-color: var(--ice-mint) !important; /* MATCHED COLOR */
-    color: var(--secondary-green) !important;
-    border: 1px solid var(--secondary-green) !important;
+#reward-icon-box img{
+    filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
 }
 
-/* 3. REWARDS CARD (Inheriting Participant Styles) */
-.rewards-card {
+.reward-categories {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.category-btn {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none; 
+    color: #333;  
+}
+
+.category-btn:visited {
+    color: #333;            
+}
+
+.category-btn.active, .category-btn:hover {
+    background-color: #53B757;
+    color: #fff;
+    border-color: #53B757;
+}
+
+.add-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.add-btn-container {
+    padding: 0;
+    border: 2px solid #53B757;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    width: 35px;
+    height: 35px;
+    box-shadow: 0 2px 4px rgba(83, 183, 87, 0.1);
+    transition: all 0.2s ease;
+    position: relative; 
+}
+
+.add-btn-container:hover,
+.add-btn:hover {
+    background-color: #53B757;  
+    border-color: #45a049;
+    box-shadow: 0 4px 8px rgba(83, 183, 87, 0.2);
+}
+
+
+.add-btn-container:hover img,
+.add-btn:hover img {
+    filter: brightness(0) invert(1); 
+}
+
+
+.add-btn.no-hover:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.add-btn img {
+    width: 15px;
+    height: auto;
+}
+
+
+/* Tooltip hidden by default */
+.tooltip {
+    visibility: hidden;
+    background-color: #333;  /* dark background */
+    color: #fff;
+    text-align: center;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    position: absolute;
+    bottom: 120%;   /* above the button */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;  /* prevents tooltip from blocking hover */
+}
+
+/* Show tooltip on hover */
+.add-btn-container:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.result-count {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 16px;
+}
+
+.reward-container {
+    display: flex;
+    flex-wrap: wrap;        /* Allows cards to wrap to next line */
+    gap: 16px;              /* Space between cards */
+    justify-content: flex-start;
+}
+.reward-card {
+    display: flex;
+    width: 280px;              
+    min-height: 156px;         
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     position: relative;
-    background: var(--card-white);
-    border: 1px solid #99999910;
-    border-radius: 6px; /* MATCHED */
-    box-shadow: 0 4px 12px var(--shadow);
+    flex-shrink: 0;           
 }
 
-/* 4. MANAGEMENT ICONS (TRASH & ADD) */
+
 .reward-card-trash-icon {
     position: absolute;
     top: 8px;
     right: 8px;
-    z-index: 10;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: transparent;
+    border: none;          
+    outline: none;         
+    border-radius: 50%;
     cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.reward-card-trash-icon:hover {
+    background-color: rgba(100, 100, 100, 0.2);
+    transform: scale(1.1);
 }
 
 .reward-card-trash-icon img {
-    width: 14px;
+    width: 16px;
+    height: 16px;
     filter: invert(40%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(60%) contrast(100%);
 }
 
-.reward-categories {
+
+.reward-img img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.reward-info h3 {
+    margin: 0;
+    font-size:16px;
+    font-weight: 600;
+}
+
+.reward-points {
+    margin: 4px 0;
+    font-size: 16px;
+    color: #53B757;
+    font-weight: 500;
+}
+/*
+.unavailible-btn {
+    margin-top: 8px;
+    padding: 6px 12px;
+    background-color: #53B757;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+*/
+.redeem-btn:hover {
+    background-color: #449e50;
+}
+
+/*===================== SIDE BAR ICON CONTAINER =================*/
+.event-manager-icon-container {
+    margin-top: 142px;
+    margin-left: 16px;
+    margin-right: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    height: 100%;
+}
+
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-overlay.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ===== MODAL BOX ===== */
+.modal-box {
+    width: 650px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+/* Header */
+.modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px 16px 16px;
 }
 
-.add-btn-container {
-    border: 2px solid var(--secondary-green);
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
+.close-btn {
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Image */
+.modal-image {
+    height: 160px;
+    background: #eee;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    margin: 15px 0;
+    border-radius: 8px;
 }
 
-.add-btn-container:hover { background-color: var(--secondary-green); }
-.add-btn-container:hover img { filter: brightness(0) invert(1); }
-.add-btn img { width: 14px; }
+/* Footer */
+.modal-footer {
+    text-align: right;
+    margin-top: 15px;
+}
 
-.tooltip {
-    visibility: hidden;
-    background: #333;
+.modal-footer button {
+    background: #4CAF50;
     color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.2s;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
 }
-
-.add-btn-container:hover .tooltip { visibility: visible; opacity: 1; }
