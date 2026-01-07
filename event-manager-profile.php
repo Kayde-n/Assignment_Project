@@ -1,3 +1,59 @@
+<?php
+include("session.php");
+include("Database.php");
+
+$event_manager_id = $_SESSION['user_role_id'];
+
+echo "<script>console.log('Event Manager ID: " . $event_manager_id . "');</script>";
+
+
+// Get current avatar
+$sql = "
+    SELECT u.profile_picture_path,u.user_full_name
+    FROM user u
+    JOIN event_manager em ON em.user_id = u.user_id
+    WHERE em.event_manager_id = $event_manager_id
+";
+$result = mysqli_query($database, $sql);
+$row = mysqli_fetch_array($result);
+$avatarPath = $row['profile_picture_path'] ?? '';
+$fullName   = $row['user_full_name'] ?? '';
+
+// Handle upload
+if (!empty($_FILES['avatar']['name'])) {
+
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!in_array($_FILES['avatar']['type'], $allowedTypes)) {
+        exit('Invalid file type');
+    }
+
+    $uploadDir = 'images/';
+    $fileName = time() . '_' . basename($_FILES['avatar']['name']);
+    $targetPath = $uploadDir . $fileName;
+
+        if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetPath)) {
+            // Delete old avatar
+            if (!empty($avatarPath) && file_exists($avatarPath)) {
+                unlink($avatarPath);
+            }
+
+            // Save full path in DB
+            $updatesql = "
+                UPDATE user u
+                JOIN event_manager em ON em.user_id = u.user_id
+                SET u.profile_picture_path = '$targetPath'
+                WHERE em.event_manager_id = $event_manager_id
+            ";
+            mysqli_query($database, $updatesql);
+
+            // Update variable for display
+            $avatarPath = $targetPath;
+        }
+
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,25 +149,23 @@
 <!-- profile -->
     <div class="profile-page">
         <div class="profile-header">
-            <label class="avatar upload-avatar">
-                <input type="file" accept="image/*" hidden id="avatarInput">
-                <span class="avatar-text">Upload Photo</span>
-            </label>
+            <form method="POST" enctype="multipart/form-data">
+                <label class="avatar upload-avatar">
+                    <?php if (!empty($avatarPath)) : ?>
+                        <img src="<?= htmlspecialchars($avatarPath) ?>" alt="Avatar" class="avatar-img">
+                        <span class="avatar-text">Change Photo</span>
+                    <?php else : ?>
+                        <span class="avatar-text">Upload Photo</span>
+                    <?php endif; ?>
 
-            <h2 class="profile-name">John Doe</h2>
-            <p class="profile-id">TP012345</p>
-        </div>
-<!-- stats -->
-        <div class="profile-stats">
-            <div class="stat-card">
-                <span class="stat-title">Points</span>
-                <span class="stat-value">6767</span>
-            </div>
+                    <input type="file" name="avatar" accept="image/*" hidden onchange="this.form.submit()">
 
-            <div class="stat-card">
-                <span class="stat-title">Ranking</span>
-                <span class="stat-value">#67</span>
-            </div>
+                </label>
+            </form>
+
+            <h2 class="profile-name"><?= htmlspecialchars($fullName) ?></h2>
+            <p class="profile-id">Admin</p>
+            <p class="profile-id">Event Manager ID = <?= htmlspecialchars($event_manager_id) ?></p>
         </div>
 <!-- quick access -->
         <div class="quick-access">

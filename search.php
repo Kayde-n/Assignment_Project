@@ -38,22 +38,22 @@ if ($source === 'eco_news') {
             'title' => 'LeaderBoard',
             'description' => 'Participants Green Points Leaderboard',
             'url' => 'participants-leaderboard-mobile.php'
-        ]
+        ],
         [
             'title' => 'Log Action',
             'description' => 'Participants Log Action Subbmission Page',
             'url' => 'participants-action-submit-mobile.php'
-        ]
+        ],
         [
             'title' => 'Profile',
             'description' => 'Participants Profile Page',
             'url' => 'participants-profile-mobile.php'
-        ]
+        ],
         [
             'title' => 'Rewards',
             'description' => 'Participants Rewards Page',
             'url' => 'participants-rewards-mobile.php'
-        ]
+        ],
         [
             'title' => 'FAQ',
             'description' => 'Participants Help and Questions Page',
@@ -93,6 +93,11 @@ if ($source === 'eco_news') {
             'title' => 'Eco News Management',
             'description' => 'Eco News Management enables administrators to create, update, and publish environmental news and announcements.',
             'url' => 'event-manager-news.php'
+        ],
+        [
+            'title' => 'Profile',
+            'description' => 'Eco News Management enables administrators to view profile',
+            'url' => 'event-manager-profile.php'
         ]
     ];
 } elseif ($source === 'staff') {
