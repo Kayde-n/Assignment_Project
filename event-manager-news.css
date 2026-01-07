@@ -1,16 +1,5 @@
-body::before {
-    content: "";
-    position: fixed; /* stays fixed while scrolling */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('images/news.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0.2; /* 20% visible */
-    z-index: -1; /* behind all content */
+body {
+    background-color: var(--ice-mint);
 }
 
 #news-icon-box {
@@ -49,7 +38,7 @@ body::before {
     font-size: 24px;
     font-weight: 600;
     color: #fff;
-    background-color: #4caf50;
+    background-color: var(--secondary-green);
     padding: 10px 20px;
     border-radius: 8px;
     margin: 0;
@@ -58,7 +47,7 @@ body::before {
 .add-news-btn {
     width: 50px;
     height: 50px;
-    background-color: #4caf50;
+    background-color: var(--secondary-green);
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -203,7 +192,7 @@ body::before {
     padding: 12px;
     border-radius: 12px;
     background-color: #ffffff;
-    border: 2px solid #4CAF50;
+    border: 2px solid var(--secondary-green);
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
 }
 
@@ -225,7 +214,7 @@ body::before {
 
 .search-result-box:hover {
     background-color: #f5f5f5;
-    border-color: #4CAF50;
+    border-color: var(--secondary-green);
     transform: translateX(4px);
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
