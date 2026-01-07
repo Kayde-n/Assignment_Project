@@ -27,39 +27,47 @@ if ($source === 'eco_news') {
         [
             'title' => 'Eco News',
             'description' => 'Latest environmental news and updates',
-            'url' => 'participants-econews-mobile.php'
+            'url' => 'participant-econews-mobile.php'
         ],
         [
             'title' => 'Challenges',
             'description' => 'Challenges tab',
-            'url' => 'participants-challenges-mobile.php'
+            'url' => 'participant-challenges-mobile.php'
         ],
         [
             'title' => 'LeaderBoard',
             'description' => 'Participants Green Points Leaderboard',
-            'url' => 'participants-leaderboard-mobile.php'
+            'url' => 'participant-leaderboard-mobile.php'
         ],
         [
             'title' => 'Log Action',
             'description' => 'Participants Log Action Subbmission Page',
-            'url' => 'participants-action-submit-mobile.php'
+            'url' => 'participant-action-submit-mobile.php'
         ],
         [
             'title' => 'Profile',
             'description' => 'Participants Profile Page',
-            'url' => 'participants-profile-mobile.php'
+            'url' => 'participant-profile-mobile.php'
         ],
         [
             'title' => 'Rewards',
             'description' => 'Participants Rewards Page',
-            'url' => 'participants-rewards-mobile.php'
+            'url' => 'participant-rewards-mobile.php'
         ],
         [
             'title' => 'FAQ',
             'description' => 'Participants Help and Questions Page',
-            'url' => 'participants-help-mobile.php'
+            'url' => 'participant-help-mobile.php'
         ]
     ];
+    foreach ($items as $item) {
+        if (
+            stripos($item['title'], $query) !== false ||
+            stripos($item['description'], $query) !== false
+        ) {
+            $results[] = $item;
+        }
+    }
 
 } elseif ($source === 'admin') {
     $items = [
@@ -75,6 +83,14 @@ if ($source === 'eco_news') {
         ],
 
     ];
+    foreach ($items as $item) {
+        if (
+            stripos($item['title'], $query) !== false ||
+            stripos($item['description'], $query) !== false
+        ) {
+            $results[] = $item;
+        }
+    }
 
 
 } elseif ($source === 'event_manager') {
@@ -100,6 +116,15 @@ if ($source === 'eco_news') {
             'url' => 'event-manager-profile.php'
         ]
     ];
+    foreach ($items as $item) {
+        if (
+            stripos($item['title'], $query) !== false ||
+            stripos($item['description'], $query) !== false
+        ) {
+            $results[] = $item;
+        }
+    }
+
 } elseif ($source === 'staff') {
     $items = [
 
@@ -119,6 +144,14 @@ if ($source === 'eco_news') {
             'url' => 'staff-desktop-verification.php'
         ]
     ];
+    foreach ($items as $item) {
+        if (
+            stripos($item['title'], $query) !== false ||
+            stripos($item['description'], $query) !== false
+        ) {
+            $results[] = $item;
+        }
+    }
 
 }else{
     foreach ($items as $item) {
