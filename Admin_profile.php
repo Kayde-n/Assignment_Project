@@ -104,15 +104,7 @@ include("session.php");
                         <img src="images/arrow.png" alt="Arrow Icon">
                     </a>
                 </li>
-                <li>
-                    <a href="desktop-settings.php">
-                        <div class="left">
-                            <img src="images/setting.png" alt="Settings Icon">
-                            Settings
-                        </div>
-                        <img src="images/arrow.png" alt="Arrow Icon">
-                    </a>
-                </li>
+                >
             </ul>
         </div>
     </div>
