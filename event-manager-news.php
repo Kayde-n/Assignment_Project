@@ -48,13 +48,15 @@ $result = mysqli_query($database, $sql);
 
             <input type="text" placeholder="Search..." id="search-input">
 
-            <div id="search-results"></div> <!-- placeholder for search results -->
+            <div id="search-results"></div> 
 
         </div>
        
         <div class="title-box">
             <h1>What's New?</h1>
+            <button class="add-news-btn" onclick="window.location.href='event-manager-news-post-form.php'">+</button>
         </div>
+
     </div>
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
 
@@ -65,9 +67,14 @@ $result = mysqli_query($database, $sql);
                 </div>
 
                 <div class="content-text-box">
+                    <div class="event_title-row">
                     <h3 class="content-text-title">
                         <?php echo $row['title']; ?>
                     </h3>
+                    <span class="trash-icon" onclick="deleteNews(event, <?php echo $row['eco_news_id']; ?>)" title="Delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </span>
+                    </div>
 
                     <p class="content-text-description">
                         <?php echo substr($row['description'], 0, 200); ?>...
@@ -131,6 +138,15 @@ $result = mysqli_query($database, $sql);
                 window.location.href = url;
             }
         }
+
+        function deleteNews(e, eco_news_id) {
+            e.stopPropagation(); 
+
+            if (confirm("Are you sure you want to delete this news item?")) {
+                window.location.href = "delete_news.php?eco_news_id=" + eco_news_id;
+        }
+    }
+
     </script>
 </body>
 </html>
