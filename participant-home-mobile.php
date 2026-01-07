@@ -42,8 +42,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         $total_impact_amount2 += $row['impact_amount'];
     }
 }
-$user_impact_emissions = $total_impact_amount . " kg of CO2 Reduced Emissions";
-$user_impact_waste = $total_impact_amount2 . " kg of Waste Recycled";
+$user_impact_emissions = $total_impact_amount . 'kg';
+$user_impact_waste = $total_impact_amount2 . 'kg';
 
 while ($row = mysqli_fetch_assoc($streak_result)) {
     $dates[] = $row['date_accomplished']; // push each date into array
@@ -90,6 +90,51 @@ $result_points = mysqli_query($database, $sql_points);
 
 if ($result_points && $row = mysqli_fetch_assoc($result_points)) {
     $total_points = (int) $row['total_points'];
+}
+
+
+/* TOTAL POINTS */
+$points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) AS total_eco_points,
+                p.participants_id AS participant_id,
+                COALESCE(SUM(r.points_required), 0) AS redeemed_points
+                FROM participants p
+                LEFT JOIN participants_challenges pc 
+                    ON p.participants_id = pc.participants_id
+                    AND pc.challenges_status = 'approved'
+                LEFT JOIN challenges c 
+                    ON pc.challenges_id = c.challenges_id
+                LEFT JOIN reward_redemption rr
+                    ON rr.participants_id = p.participants_id
+                LEFT JOIN rewards r
+                    ON rr.rewards_id = r.rewards_id
+                    GROUP BY p.participants_id";
+
+
+
+$points_result = mysqli_query($database, $points_sql);
+while ($points_row = mysqli_fetch_assoc($points_result)) {
+    $points_info[] = [
+        'earned_points' => $points_row['total_eco_points'],
+        'redeemed_points' => $points_row['redeemed_points'],
+        'participant_id' => $points_row['participant_id']
+
+    ];
+}
+
+foreach ($points_info as $p) {
+    $total_points = $p['earned_points'] - $p['redeemed_points'];
+    $user_total_points[] = [
+        'participant_id' => $p['participant_id'],
+        'total_points' => $total_points
+    ];
+
+}
+foreach ($user_total_points as $rank) {
+    if ($rank['participant_id'] == $participant_id) {
+        $user_points = $rank['total_points'];
+
+    }
+
 }
 
 ?>
@@ -225,11 +270,20 @@ if ($result_points && $row = mysqli_fetch_assoc($result_points)) {
 
     <!-- banner points (full width) -->
     <div class="banner">
-        <div class="bannerpt"><?= number_format($total_points ?? 0) ?></div>
+        <div class="bannerpt"><?= $user_points ?></div>
         <div class="bannerlbl">Green Points</div>
     </div>
 
     <main class="main-content">
+        <div class="search-bar">
+            <form method="POST">
+                <input type="text" name="search" placeholder="Search news..."
+                    value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>">
+                <button class="search-btn" type="submit">
+                    <i data-lucide="search"></i>
+                </button>
+            </form>
+        </div>
         <div class="impact-title">Your Impact</div>
 
         <div class="impact-boxes">

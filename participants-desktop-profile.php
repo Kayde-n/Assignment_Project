@@ -83,6 +83,7 @@ $ranking = 0;
 foreach ($user_total_points as $rank) {
     if ($rank['participant_id'] == $participant_id) {
         $ranking = $rankCount;
+        $user_points = $rank['user_total_points'];
 
     }
     $rankCount++;
