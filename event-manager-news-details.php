@@ -110,7 +110,7 @@
 
     <!-- Image section -->
     <div class="content-image">
-        <img src="<?php echo $news['image_path']; ?>" alt="News Image">
+        <img src="images/<?php echo $news['image_path']; ?>" alt="News Image">
     </div>
 
     <!-- Text section -->
