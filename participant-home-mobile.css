@@ -21,6 +21,9 @@ header p {
     align-items: center;
     justify-content: center;
     height: 72px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     background: radial-gradient(circle at top left, var(--secondary-green), var(--primary-green));
     box-shadow: 0 4px 12px var(--shadow);
 }
@@ -59,11 +62,16 @@ header p {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     padding: 0 16px;
+    align-items: stretch;
 }
 
 .impact-card {
     position: relative;
-    height: 96px;
+    min-height: 96px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 16px;
     overflow: hidden;
     background: var(--card-white);
@@ -145,7 +153,8 @@ header p {
 
 .news-card {
     display: flex;
-    height: 120px;
+    min-height: 120px;
+    height: auto;
     margin: 0 16px 12px 16px;
     overflow: hidden;
     background: var(--card-white);
