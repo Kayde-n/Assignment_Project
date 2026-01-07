@@ -62,6 +62,16 @@ foreach ($points_info as $p) {
     ];
 }
 
+echo "<pre>";
+print_r($user_total_points);  // Displays the array contents
+echo "</pre>";
+
+
+
+
+
+
+
 /*RANKING */
 usort($user_total_points, function ($a, $b) {
     return $b['total_points'] <=> $a['total_points'];
