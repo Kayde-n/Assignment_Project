@@ -1,29 +1,56 @@
 <?php
     include("Database.php");
 
+    function getActivityLog($database, $user_id) {
+        $logs = [];
+
+        $sql = "SELECT timestamp, action_performed, description
+            FROM system_log
+            WHERE user_id = $user_id
+            ORDER BY timestamp DESC
+            LIMIT 5";
+
+        $result = mysqli_query($database, $sql);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $logs[] = date('d M Y H:i', strtotime($row['timestamp'])) .
+                    " - " . $row['action_performed'];
+        }
+
+        return $logs;
+    }
+
     $search = $_POST['search'] ?? '';
     $search = mysqli_real_escape_string($database, $search);
 
-    $sql = "SELECT u.user_full_name, u.profile_picture_path, p.TP_no
-            FROM participants p
-            JOIN user u ON p.user_id = u.user_id";
+    $sql = "SELECT u.user_id,u.user_full_name,u.profile_picture_path,p.TP_no,COALESCE(SUM(c.points_reward), 0) AS total_points,RANK() OVER (ORDER BY COALESCE(SUM(c.points_reward), 0) DESC) AS ranking
+        FROM participants p
+        JOIN user u ON p.user_id = u.user_id
+        LEFT JOIN participants_challenges pc ON p.participants_id = pc.participants_id AND pc.challenges_status = 'approved'
+        LEFT JOIN challenges c ON pc.challenges_id = c.challenges_id";
 
     if (!empty($search)) {
         $sql .= " WHERE u.user_full_name LIKE '%$search%' OR p.TP_no LIKE '%$search%'";
     }
 
-    $sql .= " ORDER BY u.user_full_name ASC";
+    $sql .= " GROUP BY u.user_id, u.user_full_name, u.profile_picture_path, p.TP_no
+            ORDER BY ranking ASC";
+
 
     $result = mysqli_query($database, $sql);
 
-    $participants = [];
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $participants[] = $row;
-        }
+    if (!$result) {
+        die("SQL Error: " . mysqli_error($database));
     }
 
-    
+    //participants array
+    $participants = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $row['activity_log'] = getActivityLog($database, $row['user_id']);
+        $participants[] = $row;
+    }
+
 ?>
 
 
@@ -90,12 +117,12 @@
                         </p>
 
                         <button class="view-details-btn"
-                            onclick="openModal(
-                                '<?= addslashes($p['user_full_name']); ?>',
-                                '<?= addslashes($p['profile_picture_path'] ?? 'images/profile.png'); ?>',
-                                '<?= $p['points'] ?? 0; ?>',
-                                '#<?= $p['ranking'] ?? '-'; ?>',
-                                [])">
+                            onclick='openModal(
+                                <?= json_encode($p["user_full_name"]); ?>,
+                                <?= json_encode($p["profile_picture_path"] ?? "images/profile.png"); ?>,
+                                <?= (int)$p["total_points"]; ?>,
+                                "#<?= $p["ranking"]; ?>",
+                                <?= json_encode($p["activity_log"]); ?>)'>
                             View Profile
                         </button>
                     </div>
@@ -113,18 +140,17 @@
                     <div class="modal-body">
                         <div class="profile-header">
                             <img id="modalProfilePic" src="images/profile.png" alt="Profile">
-                            <h2 id="modalName">Ivan</h2>
-                            <p id="modalDept">Environmental Studies</p>
+                            <h2 id="modalName">-</h2>
                         </div>
 
                         <div class="profile-stats">
                             <div class="stat-box">
                                 <span class="stat-label">Points</span>
-                                <span class="stat-number" id="modalPoints">10600</span>
+                                <span class="stat-number" id="modalPoints">0</span>
                             </div>
                             <div class="stat-box">
                                 <span class="stat-label">Ranking</span>
-                                <span class="stat-number" id="modalRanking">#9</span>
+                                <span class="stat-number" id="modalRanking">-</span>
                             </div>
                         </div>
 
@@ -146,11 +172,16 @@
 
                 const ul = document.getElementById('modalActivityLog');
                 ul.innerHTML = '';
-                activityLog.forEach(item => {
-                    const li = document.createElement('li');
-                    li.textContent = item;
-                    ul.appendChild(li);
-                });
+
+                if (activityLog.length === 0) {
+                    ul.innerHTML = '<li>No activity recorded</li>';
+                } else {
+                    activityLog.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = item;
+                        ul.appendChild(li);
+                    });
+                }
 
                 document.getElementById('participantModal').style.display = "flex";
             }
