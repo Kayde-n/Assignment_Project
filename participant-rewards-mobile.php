@@ -116,7 +116,7 @@
                 <h4 class="rewards-title">Eco-friendly Tote Bag</h4>
                 <div class="rewards-details">
                     <p class="rewards-text">1200GP</p>                
-                    <div class="rewards-btn">Redeem</div>
+                    <div class="rewards-btn" id="openModalBtn">Redeem</div>
                 </div>
             </div>
         </div>
@@ -144,12 +144,52 @@
                 </div>
             </div>
         </div>
+
+        <div id="redeemModal" class="modal">
+
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        
+        <img src="https://picsum.photos/120/120?random=2" class="modal-img">
+        
+        <h3>30% cafeteria voucher</h3>
+
+        <div class="terms-box">
+            <h4>Terms & Conditions:</h4>
+            <p>1. Eligibility...</p>
+            </div>
+
+            <div class="modal-footer">
+                <label>
+                    <input type="checkbox" id="agreeCheck"> I have read and agree...
+                </label>
+                <button id="finalRedeem" class="redeem-action-btn" disabled>Redeem</button>
+            </div>
+        </div>
+    </div>
         
     </div>
 </main>
 
     <script>
         lucide.createIcons();
+        const openBtn = document.getElementById("openModalBtn");
+        const modal = document.getElementById("redeemModal");
+        const closeBtn = document.querySelector(".close-btn");
+
+        openBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 
 </body>
