@@ -2,8 +2,15 @@
 session_start();
 include("Database.php");
 include("check-maintenance-status.php");
+
 date_default_timezone_set("Asia/Kuala_Lumpur");
-$participant_id = $_SESSION['user_role_id'];
+
+if (!isset($_SESSION['user_role_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$participant_id = (int) $_SESSION['user_role_id'];
 $sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
 
 $sql_query_daily_streak = "SELECT date_accomplished FROM participants_challenges 
@@ -14,7 +21,6 @@ $dates = [];
 $streak = 0;
 
 $challenges_count = 0;
-$impact = [];
 $total_impact_amount = 0; // total CO2 reduction
 $total_impact_amount2 = 0; // total waste recycled
 $result = mysqli_query($database, $sql_query_impact);
@@ -28,24 +34,13 @@ if (!$result) {
     exit();
 }
 while ($row = mysqli_fetch_assoc($result)) {
-    $challenges_count += 1;
-}
-while ($row = mysqli_fetch_assoc($result)) {
-    $impact[$row['impact_type']] = $row['impact_amount'];
-}
-$row_count = count($impact);
-$count = 0;
+    $challenges_count++;
 
-while ($count < $row_count) {
-    // Check impact type and add corresponding impact amount
-    if ($impact['impact_type'] == 'reduced carbon emission') {
-        $total_impact_amount = $impact['impact_amount'] + $total_impact_amount;
-
-    } else if ($impact['impact_type'] == 'recycling trash') {
-        $total_impact_amount2 = $impact['impact_amount'] + $total_impact_amount2;
-
+    if ($row['impact_type'] === 'reduced carbon emission') {
+        $total_impact_amount += $row['impact_amount'];
+    } elseif ($row['impact_type'] === 'recycling trash') {
+        $total_impact_amount2 += $row['impact_amount'];
     }
-    $count++;
 }
 $user_impact_emissions = $total_impact_amount . " kg of CO2 Reduced Emissions";
 $user_impact_waste = $total_impact_amount2 . " kg of Waste Recycled";
