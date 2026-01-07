@@ -4,15 +4,15 @@
     if(isset($_GET['id'])){
         $news_id = $_GET['id'];
         $sql = "SELECT eco_news_id, title, description, image_path, venue, organised_by FROM eco_news WHERE eco_news_id = $news_id";
-        $result = mysqli_query($database, $sql);  // Fixed: was "myqli_query"
+        $result = mysqli_query($database, $sql);  
         if(mysqli_num_rows($result) > 0){
             $news = mysqli_fetch_assoc($result);
         } else {
-            echo "<script>alert('News not found.'); window.location.href = 'participants-home.php'; </script>";  // Fixed: was "windows"
+            echo "<script>alert('News not found.'); window.location.href = 'participants-home.php'; </script>";  
             exit();
-        }  // Added missing closing brace
+        }  
     } else {
-        echo "<script>alert('Invalid news ID.'); window.location.href = 'participants-home.php';</script>";  // Added missing semicolon
+        echo "<script>alert('Invalid news ID.'); window.location.href = 'participants-home.php';</script>"; 
         exit();
     }
 ?>

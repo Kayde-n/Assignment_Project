@@ -1,3 +1,44 @@
+<?php
+    session_start();
+    include("Database.php");
+
+    if (!isset($_SESSION['user_role_id'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $event_manager_id = $_SESSION['user_role_id'];
+
+    $sql = "SELECT u.user_full_name
+        FROM event_manager em
+        JOIN user u ON u.user_id = em.user_id
+        WHERE em.event_manager_id = $event_manager_id";
+
+    $result_name = mysqli_query($database, $sql);
+
+    $row_name = null;
+    if ($result_name && mysqli_num_rows($result_name) > 0) {
+        $row_name = mysqli_fetch_assoc($result_name);
+    }
+    
+    $sql_news = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
+    $result_news = mysqli_query($database, $sql_news);
+
+        // total number of events
+    $sql_events = "SELECT COUNT(*) AS total_events FROM events";
+    $result_events = mysqli_query($database, $sql_events);
+    $row_events = mysqli_fetch_assoc($result_events);
+    $total_events = $row_events['total_events'] ?? 0;
+
+    // total participation (only attended)
+    $sql_participation = "SELECT COUNT(*) AS total_participation
+        FROM attendance
+        WHERE event_attended = 1";
+    $result_participation = mysqli_query($database, $sql_participation);
+    $row_participation = mysqli_fetch_assoc($result_participation);
+    $total_participation = $row_participation['total_participation'] ?? 0;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,44 +95,86 @@
             <input type="text" placeholder="Search..." id="search-input">
             <div id="search-results"></div> <!-- placeholder for search results -->
         </div>
-        <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
+        <p style="color: green; font-size: 24px; margin-left: 16px;">
+            Welcome back,
+            <?php
+                if ($row_name) {
+                    echo $row_name['user_full_name'];
+                } else {
+                    echo "Event Manager";
+                }
+            ?>
         </p>
+
         <div class="text-box">
-            Application Impact
+            Event Statistics
         </div>
         <div class="impact-container">
             <button class="impact-box">
                 <h3>
-                    <?= number_format($air_pollution); ?> kg CO₂e
+                <?php echo $total_events; ?> events held
 
                 </h3>
             </button>
 
             <button class="impact-box">
                 <h3>
-                    <?= $user_impact_waste ?>
+                <?php echo $total_participation; ?> participation in all events
                 </h3>
             </button>
 
             <button class="impact-box">
                 <h3>
-                    <?= $challenges_count ?> Challenges Completed
+                not available
                 </h3>
             </button>
 
             <button class="impact-box">
                 <h3>
-                    Daily Streak <br>
-                    <?= $streak ?>
+                not available
                 </h3>
             </button>
-            <button class="impact-next-btn">
-                <img src="images/next.png" alt="Next" />
-            </button>
+
         </div>
         <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
             style="cursor: pointer;">
-            What News?
+            What's New?
+        </div>
+        <?php while ($row = mysqli_fetch_assoc($result_news)) { ?>
+
+            <div class="content-container"
+                onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
+
+                <button class="image-holder">
+                    <img src="images/<?php echo $row['image_path']; ?>" alt="News Image">
+                </button>
+
+                <button class="content-text-box">
+                    <div class="text-inner">
+                        <h4 class="category-box">Environment</h4>
+
+                        <h3 class="title-box">
+                            <?php echo htmlspecialchars($row['title']); ?>
+                        </h3>
+
+                        <h5 class="description-box">
+                            <?php echo substr(strip_tags($row['description']), 0, 200); ?>...
+                        </h5>
+                    </div>
+                </button>
+
+                <button class="next-btn">
+                    <img src="images/next.png" alt="Next Icon">
+                </button>
+
+            </div>
+
+        <?php } ?>
+
+            <button class="next-btn">
+                <img src="images/next.png" alt="Next Icon">
+            </button>
+
         </div>
 
         <script>
