@@ -61,7 +61,7 @@ $result = mysqli_query($database, $sql);
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
 
             <button class="content-holder"
-                onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
+                onclick="window.location.href='event-manager-news-details.php?id=<?php echo $row['eco_news_id']; ?>'">
                 <div class="content-image">
                     <img src="images/<?php echo $row['image_path']; ?>">
                 </div>
@@ -119,7 +119,7 @@ $result = mysqli_query($database, $sql);
             let html = '<div class="search-results-container">';
             results.forEach(item => {
                 // For eco news results, use eco_news_id to construct URL
-                let redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                let redirectUrl = 'event-manager-news-details.php?id=' + item.eco_news_id;
                 
                 html += `
                 <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
