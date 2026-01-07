@@ -1,8 +1,8 @@
 .top-bar {
     position: fixed;
     width: 100%;
-    height: 74px;
-    background-color: var(--card-white);
+    height: 88px;
+    background-color: var(--primary-green);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -45,6 +45,11 @@
     height: auto;
 }
 
+.icon-btn svg {
+    width: 40px;
+    height: auto;
+}
+
 .eco-logo {
     width: 70px;
     height: auto;
@@ -53,14 +58,14 @@
 
 .top-bar h2 {
     font-size: 40px; 
-    color: var(--primary-green);
+    color: #53B757;
     font-weight: 500;
 }
 
 .side-bar {
     position: fixed;
     height: 100%;
-    width: 74px;
+    width: 250px;
     background-color: var(--primary-green);
     display: flex;
     flex-direction: column;
@@ -132,7 +137,7 @@
 .text-box {
     height: 66px;
     padding: 0 24px;
-    background-color: var(--primary-green);
+    background-color: #53B757;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: inline-flex;

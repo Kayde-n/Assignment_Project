@@ -10,8 +10,7 @@ $profile_id = $_SESSION['mySession'];
 $participant_id = $_SESSION['user_role_id'];
 
 /* PROFILE INFO */
-$sql_profile_info = "SELECT u.user_full_name,
-                        u.profile_picture_path
+$sql_profile_info = "SELECT u.user_full_name,u.profile_picture_path
                         FROM user u 
                         WHERE u.user_id = $profile_id";
 
@@ -30,9 +29,7 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 /* TOTAL POINTS */
-$points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) AS total_eco_points,
-                p.participants_id AS participant_id,
-                COALESCE(SUM(r.points_required), 0) AS redeemed_points
+$points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) AS total_eco_points,p.participants_id AS participant_id,COALESCE(SUM(r.points_required), 0) AS redeemed_points
                 FROM participants p
                 LEFT JOIN participants_challenges pc 
                     ON p.participants_id = pc.participants_id
@@ -63,7 +60,6 @@ foreach ($points_info as $p) {
         'participant_id' => $p['participant_id'],
         'total_points' => $total_points
     ];
-
 }
 
 echo "<pre>";

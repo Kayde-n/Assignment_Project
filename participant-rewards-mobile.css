@@ -1,9 +1,16 @@
 /* rewards */
-
 .rewards-container {
     padding: 8px 0px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .rewards-container {
+        grid-template-columns: repeat(2, 1fr);
+        margin:  auto;
+    }
 }
 
 .rewards-card {
