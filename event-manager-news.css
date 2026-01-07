@@ -35,6 +35,54 @@ body::before {
     filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
 }
 
+.title-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: transparent; 
+    border:none;
+}
+
+.title-box h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #4caf50;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin: 0;
+}
+
+.add-news-btn {
+    width: 50px;
+    height: 50px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 32px;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.add-news-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.add-news-btn:active {
+    transform: scale(0.95);
+}
+
+
 .content-holder {
     all: unset; 
     width: 100%;
@@ -78,6 +126,41 @@ body::before {
     margin: 0;
     color: #333333;
 }
+.event_title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.content-text-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.trash-icon {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.trash-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: white;
+    transition: fill 0.2s ease, transform 0.2s ease;
+}
+
+.trash-icon:hover svg {
+    fill: #f58b7f;
+    transform: scale(1.1);
+}
+
 
 .content-text-description {
     font-size: 20px;
