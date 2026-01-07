@@ -1,16 +1,5 @@
-body::before {
-    content: "";
-    position: fixed; /* stays fixed while scrolling */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('images/tree.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0.2; /* 20% visible */
-    z-index: -1; /* behind all content */
+body {
+    background-color: var(--ice-mint);
 }
 
 #calendar-icon-box {
@@ -71,7 +60,7 @@ body::before {
 .event-title {
     font-size: 20px;
     font-weight: 600;
-    color: #4CAF50;
+    color: var(--secondary-green);
     text-align: center;
     margin: 0 0 20px 0;
 }
@@ -178,7 +167,7 @@ th {
 }
 
 input:checked + .slider {
-    background: #4caf50;
+    background: var(--secondary-green);
 }
 
 input:checked + .slider::before {

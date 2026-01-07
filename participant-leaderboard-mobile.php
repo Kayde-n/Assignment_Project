@@ -56,9 +56,6 @@
         <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
         </a>
 
-        <a class="icon-link active sidebar-icon" href="participant-profile-mobile.php" aria-label="Profile">
-        <button class="icon-btn"><i data-lucide="user-round"></i></button>
-        </a>
     </div>
 
     <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">

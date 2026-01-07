@@ -1,3 +1,29 @@
+<?php
+    include("session.php");
+    include("Database.php");
+
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+
+    $search = "";
+    if (isset($_POST['search']) && !empty($_POST['search'])) {
+        $search = mysqli_real_escape_string($database, $_POST['search']);
+    }
+
+    $sql = "SELECT eco_news.eco_news_id,eco_news.title,eco_news.description,eco_news.image_path,events.start_time,events.end_time
+        FROM eco_news
+        INNER JOIN events ON eco_news.events_id = events.events_id
+        WHERE events.start_time >= NOW()";
+
+    if (!empty($search)) {
+        $sql .= " AND (eco_news.title LIKE '%$search%'
+                OR eco_news.description LIKE '%$search%')";
+    }
+
+$sql .= " ORDER BY events.start_time ASC";
+
+
+    $result = mysqli_query($database, $sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,9 +82,7 @@
         <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
         </a>
 
-        <a class="icon-link sidebar-icon" href="participant-profile-mobile.php" aria-label="Profile">
-        <button class="icon-btn"><i data-lucide="user-round"></i></button>
-        </a>
+
     </div>
 
     <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
@@ -95,9 +119,12 @@
     </div>
 <!-- search bar -->
     <div class="search-bar">
-        <form>
-            <input type="text" placeholder="Search news...">
-            <button class="search-btn">
+        <form method="POST">
+            <input type="text" 
+                name="search"
+                placeholder="Search news..." 
+                value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>">
+            <button class="search-btn" type="submit">
                 <i data-lucide="search"></i>
             </button>
         </form>
@@ -107,120 +134,30 @@
         <div class="section-header">
             <div class="section-title">What's New</div>
         </div>
+        
     </div>
 
     <div class="news-list">
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
 
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
+        <!-- if no results found -->
+        <?php if (mysqli_num_rows($result) == 0) { ?>
+            <p class="no-results">No news found.</p>
+        <?php } ?>
 
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
-
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
-
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
-
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
-
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
-
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
+        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+            <div class="news-card">
+                <a href="participant-econews-example-mobile.php?id=<?php echo (int)$row['eco_news_id']; ?>" class="news-link">
+                    <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
+                    <div class="news-content">
+                        <div class="news-tag">Upcoming Event</div>
+                        <h3 class="news-title"><?php echo $row['title']; ?></h3>
+                        <p class="news-text">
+                            <?php echo substr($row['description'], 0, 200); ?>...
+                        </p>
+                    </div>
+                </a>
+            </div>
+        <?php } ?>
 
         <div class="news-card">
             <a href="participant-econews-example-mobile.php" class="news-link">

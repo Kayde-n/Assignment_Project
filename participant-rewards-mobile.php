@@ -85,9 +85,7 @@
         <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
         </a>
 
-        <a class="icon-link sidebar-icon" href="participant-profile-mobile.php" aria-label="Profile">
-        <button class="icon-btn"><i data-lucide="user-round"></i></button>
-        </a>
+
     </div>
 
     <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
@@ -168,7 +166,7 @@
                 <h4 class="rewards-title">Eco-friendly Tote Bag</h4>
                 <div class="rewards-details">
                     <p class="rewards-text">1200GP</p>                
-                    <div class="rewards-btn">Redeem</div>
+                    <div class="rewards-btn" id="openModalBtn">Redeem</div>
                 </div>
             </div>
         </div>
@@ -470,6 +468,23 @@
 
     <script>
         lucide.createIcons();
+        const openBtn = document.getElementById("openModalBtn");
+        const modal = document.getElementById("redeemModal");
+        const closeBtn = document.querySelector(".close-btn");
+
+        openBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 
 </body>

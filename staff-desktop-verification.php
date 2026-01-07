@@ -140,7 +140,6 @@ if ($result) {
                 <div id="verification-icon">
                     <button class="icon-btn"><img src="images/verification.png" alt="Verification"></button>
                 </div>
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-news.php'"><img src="images/newspaper.png" alt="Scan"></button>
                 <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="images/account-management.png" alt="Account"></button>
                 <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
             </div>
