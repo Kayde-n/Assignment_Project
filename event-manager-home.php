@@ -45,14 +45,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Reward Post</title>
+    <title>Home</title>
     <link rel="stylesheet" href="mobile.css">
-
-    <link rel="stylesheet" href="event-manager-new-reward-post.css">
+    <link rel="stylesheet" href="event-manager-home.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
+    
         <!-- top bar -->
     <header class="top-bar" role="banner">
     <div class="top-left">
@@ -64,35 +64,67 @@
             </svg>
             <h2 class="top-title">EcoXP</h2>
         </button>
-        <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
-                    src="images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
-        </div>
     </div>
 
-    <div class="side-bar">
-        <div class="participant-icon-container">
-            <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='event-manager-home.php'"><img
-                        src="images/home.png" alt="Home"></button>
-            </div>
-            <button class="icon-btn" onclick="window.location.href='event-manager-calendar.php'"><img src="images/calendar.png" alt="Calendar"></button>
-            <button class="icon-btn" onclick="window.location.href='event-manager-news.php'"><img src="images/newspaper.png" alt="News"></button>
-            <button class="icon-btn" onclick="window.location.href='event-manager-rewards-management.php'"><img src="images/tag.png" alt="Rewards"></button>
-            <button class="icon-btn" id="logout" onclick="logout_confirm()">
-                <script>
-                    function logout_confirm() {
-                        if (confirm("Are you sure you want to logout?")) {
-                            window.location.href = "logout.php";
-                        }
-                    }
-                </script>
-                <img src="images/logout.png" alt="Logout">
-            </button>
-        </div>
+    <div class="top-center">
     </div>
+
+    <div class="top-right">
+        <a href="event-manager-profile.php" aria-label="Profile" class="topbar-icon">
+            <button class="icon-btn" aria-label="Profile">
+                <i data-lucide="user-round"></i>
+            </button>
+        </a>
+    </div>
+    </header>
+
+<!-- side bar -->
+    <nav class="side-bar" role="navigation" aria-label="Main">
+    <div class="participant-icon-container">
+        <div id="home-icon-box">
+        <a href="event-manager-home.php" class="icon-link active sidebar-icon" aria-label="Home">
+            <button class="icon-btn"><i data-lucide="house"></i></button>
+        </a>
+        </div>
+
+        <a class="icon-link sidebar-icon" href="event-manager-calendar.php" aria-label="Challenges">
+        <button class="icon-btn"><i data-lucide="calendar-fold"></i></button>
+        </a>
+
+        <a class="icon-link sidebar-icon" href="event-manager-news.php" aria-label="Scan / Log Action">
+        <button class="icon-btn"><i data-lucide="newspaper"></i></button>
+        </a>
+
+        <a class="icon-link sidebar-icon" href="event-manager-rewards-management.php" aria-label="Rewards">
+        <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
+        </a>
+
+    </div>
+
+    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+        <button class="icon-btn"><i data-lucide="log-out"></i></button>
+    </a>
+    </nav>
+
+    <!-- nav bar -->
+    <nav class="bottom-nav">
+        <a href="event-manager-home.php" class="nav-item active">
+            <i data-lucide="house" class="icon-btn"></i>
+        </a>
+        <a href="event-manager-calendar.php" class="nav-item">
+            <i data-lucide="calendar-fold" class="icon-btn"></i>
+        </a>
+        <a href="event-manager-news.php" class="nav-item">
+            <i data-lucide="newspaper" class="icon-btn"></i>
+        </a>
+        <a href="event-manager-rewards-management.php" class="nav-item">
+            <i data-lucide="badge-percent" class="icon-btn"></i>
+        </a>
+        <a href="participant-profile-mobile.php" class="nav-item">
+            <i data-lucide="user-round" class="icon-btn"></i>
+        </a>
+        
+    </nav>
     <div class="main-content">
         <div class="search-box">
             <input type="text" placeholder="Search..." id="search-input">
@@ -139,14 +171,14 @@
             </button>
 
         </div>
-        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
+        <div class="text-box" onclick="window.location.href='event-manager-news-details.php'"
             style="cursor: pointer;">
             What's New?
         </div>
         <?php while ($row = mysqli_fetch_assoc($result_news)) { ?>
 
             <div class="content-container"
-                onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
+                onclick="window.location.href='event-manager-news-details.php?id=<?php echo $row['eco_news_id']; ?>'">
 
                 <button class="image-holder">
                     <img src="images/<?php echo $row['image_path']; ?>" alt="News Image">
@@ -165,19 +197,13 @@
                     </div>
                 </button>
 
-                <button class="next-btn">
-                    <img src="images/next.png" alt="Next Icon">
-                </button>
+                
 
             </div>
-            <script>lucide.createIcons();</script>
-            </body>
 
         <?php } ?>
 
-            <button class="next-btn">
-                <img src="images/next.png" alt="Next Icon">
-            </button>
+            
 
         </div>
 
@@ -241,6 +267,8 @@
                     window.location.href = url;
                 }
             }
+
+            lucide.createIcons();
         </script>
 
 </body>
