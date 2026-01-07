@@ -11,8 +11,8 @@ $result_check = mysqli_query($database, $sql_check);
 $maintenance_active = mysqli_num_rows($result_check);
 
 //pre-input the green points settings for challenges
-$challenges_settings_sql="SELECT challenge_name,points_reward FROM Challenges";
-$green_points_check = mysqli_query($database,$challenges_settings_sql );
+$challenges_settings_sql = "SELECT challenge_name,points_reward FROM Challenges";
+$green_points_check = mysqli_query($database, $challenges_settings_sql);
 
 ?>
 <!DOCTYPE html>
@@ -95,49 +95,24 @@ $green_points_check = mysqli_query($database,$challenges_settings_sql );
                     </div>
                 </div>
 
-                <!-- Notification Message -->
-                <div class="notification-field">
-                    <label for="notification-msg">Send Push Notification</label>
-                    <textarea id="notification-msg" name="notification-msg" rows="3"
-                        placeholder="Enter notification message..."></textarea>
-                </div>
 
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="btn-secondary">Clear System Notification</button>
-                </div>
         </section>
 
         <!-- System Configurations Section -->
         <section class="system-configurations">
             <h2>System Configurations</h2>
 
-            <!-- System Color -->
-            <div class="config-item">
-                <label for="system-color">System Color</label>
-                <div class="color-picker">
-                    <input type="text" id="system-color" name="system-color" value="<?php echo $systemColor; ?>" readonly>
-                    <button class="edit-btn">
-                        <img src="Images/edit.png" alt="Edit">
-                    </button>
-                </div>
-            </div>
-
             <!-- Green Points Settings -->
             <div class="config-section">
                 <h3>Green Points Settings</h3>
                 <div class="points-grid">
-                <?php while ($row = mysqli_fetch_assoc($green_points_check)) : ?>
-                    <div class="input-field">
-                        <label><?= $row['challenge_name'] ?></label>
-                        <input 
-                            type="number"
-                            name="points[<?= $row['challenge_name'] ?>]"
-                            value="<?= $row['points_reward'] ?>"
-                            min="0"
-                        >
-                    </div>
-                <?php endwhile; ?>
+                    <?php while ($row = mysqli_fetch_assoc($green_points_check)): ?>
+                        <div class="input-field">
+                            <label><?= $row['challenge_name'] ?></label>
+                            <input type="number" name="points[<?= $row['challenge_name'] ?>]"
+                                value="<?= $row['points_reward'] ?>" min="0">
+                        </div>
+                    <?php endwhile; ?>
                 </div>
             </div>
         </section>
