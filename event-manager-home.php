@@ -1,8 +1,47 @@
 <?php
-include("session.php");
+    session_start();
+    include("Database.php");
+
+    if (!isset($_SESSION['user_role_id'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $event_manager_id = $_SESSION['user_role_id'];
+
+    $sql = "SELECT u.user_full_name
+        FROM event_manager em
+        JOIN user u ON u.user_id = em.user_id
+        WHERE em.event_manager_id = $event_manager_id";
+
+    $result_name = mysqli_query($database, $sql);
+
+    $row_name = null;
+    if ($result_name && mysqli_num_rows($result_name) > 0) {
+        $row_name = mysqli_fetch_assoc($result_name);
+    }
+    
+    $sql_news = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
+    $result_news = mysqli_query($database, $sql_news);
+
+        // total number of events
+    $sql_events = "SELECT COUNT(*) AS total_events FROM events";
+    $result_events = mysqli_query($database, $sql_events);
+    $row_events = mysqli_fetch_assoc($result_events);
+    $total_events = $row_events['total_events'] ?? 0;
+
+    // total participation (only attended)
+    $sql_participation = "SELECT COUNT(*) AS total_participation
+        FROM attendance
+        WHERE event_attended = 1";
+    $result_participation = mysqli_query($database, $sql_participation);
+    $row_participation = mysqli_fetch_assoc($result_participation);
+    $total_participation = $row_participation['total_participation'] ?? 0;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +51,7 @@ include("session.php");
     <link rel="stylesheet" href="event-manager-new-reward-post.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
         <!-- top bar -->
     <header class="top-bar" role="banner">
@@ -24,70 +64,86 @@ include("session.php");
             </svg>
             <h2 class="top-title">EcoXP</h2>
         </button>
-    </div>
-
-    <div class="top-center">
-    </div>
-
-    <div class="top-right">
-        <a href="participant-profile-mobile.php" aria-label="Profile" class="topbar-icon">
-            <button class="icon-btn" aria-label="Profile">
-                <i data-lucide="user-round"></i>
-            </button>
-        </a>
-    </div>
-    </header>
-
-<!-- side bar -->
-    <nav class="side-bar" role="navigation" aria-label="Main">
-    <div class="participant-icon-container">
-        <div id="home-icon-box">
-        <a href="event-manager-desktop-home.php" class="icon-link sidebar-icon" aria-label="Home">
-            <button class="icon-btn"><i data-lucide="house"></i></button>
-        </a>
+        <div class="default-icon-container">
+            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
+                    src="images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
+            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
         </div>
-
-        <a class="icon-link sidebar-icon" href="event-manager-calendar.php" aria-label="Challenges">
-        <button class="icon-btn"><i data-lucide="calendar-fold"></i></button>
-        </a>
-
-        <a class="icon-link active sidebar-icon" href="event-manager-news.php" aria-label="Scan / Log Action">
-        <button class="icon-btn"><i data-lucide="newspaper"></i></button>
-        </a>
-
-        <a class="icon-link sidebar-icon" href="event-manager-rewards-management.php" aria-label="Rewards">
-        <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
-        </a>
-
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
-        <button class="icon-btn"><i data-lucide="log-out"></i></button>
-    </a>
-    </nav>
+    <div class="side-bar">
+        <div class="participant-icon-container">
+            <div id="home-icon-box">
+                <button class="icon-btn" onclick="window.location.href='event-manager-home.php'"><img
+                        src="images/home.png" alt="Home"></button>
+            </div>
+            <button class="icon-btn" onclick="window.location.href='event-manager-calendar.php'"><img src="images/calendar.png" alt="Calendar"></button>
+            <button class="icon-btn" onclick="window.location.href='event-manager-news.php'"><img src="images/newspaper.png" alt="News"></button>
+            <button class="icon-btn" onclick="window.location.href='event-manager-rewards-management.php'"><img src="images/tag.png" alt="Rewards"></button>
+            <button class="icon-btn" id="logout" onclick="logout_confirm()">
+                <script>
+                    function logout_confirm() {
+                        if (confirm("Are you sure you want to logout?")) {
+                            window.location.href = "logout.php";
+                        }
+                    }
+                </script>
+                <img src="images/logout.png" alt="Logout">
+            </button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="search-box">
+            <input type="text" placeholder="Search..." id="search-input">
+            <div id="search-results"></div> <!-- placeholder for search results -->
+        </div>
+        <p style="color: green; font-size: 24px; margin-left: 16px;">
+            Welcome back,
+            <?php
+                if ($row_name) {
+                    echo $row_name['user_full_name'];
+                } else {
+                    echo "Event Manager";
+                }
+            ?>
+        </p>
 
-    <!-- nav bar -->
-    <nav class="bottom-nav">
-        <a href="event-manager-desktop-home.php" class="nav-item">
-            <i data-lucide="house" class="icon-btn"></i>
-        </a>
-        <a href="event-manager-calendar.php" class="nav-item">
-            <i data-lucide="calendar-fold" class="icon-btn"></i>
-        </a>
-        <a href="event-manager-news.php" class="nav-item active">
-            <i data-lucide="newspaper" class="icon-btn"></i>
-        </a>
-        <a href="event-manager-rewards-management.php" class="nav-item">
-            <i data-lucide="badge-percent" class="icon-btn"></i>
-        </a>
-        <a href="participant-profile-mobile.php" class="nav-item">
-            <i data-lucide="user-round" class="icon-btn"></i>
-        </a>
-        
-    </nav>
+        <div class="text-box">
+            Event Statistics
+        </div>
+        <div class="impact-container">
+            <button class="impact-box">
+                <h3>
+                <?php echo $total_events; ?> events held
 
-    <main class="main-content">
-            <?php while ($row = mysqli_fetch_assoc($result_news)) { ?>
+                </h3>
+            </button>
+
+            <button class="impact-box">
+                <h3>
+                <?php echo $total_participation; ?> participation in all events
+                </h3>
+            </button>
+
+            <button class="impact-box">
+                <h3>
+                not available
+                </h3>
+            </button>
+
+            <button class="impact-box">
+                <h3>
+                not available
+                </h3>
+            </button>
+
+        </div>
+        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
+            style="cursor: pointer;">
+            What's New?
+        </div>
+        <?php while ($row = mysqli_fetch_assoc($result_news)) { ?>
 
             <div class="content-container"
                 onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
@@ -98,7 +154,6 @@ include("session.php");
 
                 <button class="content-text-box">
                     <div class="text-inner">
-                        <h4 class="category-box">Environment</h4>
 
                         <h3 class="title-box">
                             <?php echo htmlspecialchars($row['title']); ?>
@@ -109,7 +164,7 @@ include("session.php");
                         </h5>
                     </div>
                 </button>
-                
+
                 <button class="next-btn">
                     <img src="images/next.png" alt="Next Icon">
                 </button>
@@ -119,3 +174,75 @@ include("session.php");
             </body>
 
         <?php } ?>
+
+            <button class="next-btn">
+                <img src="images/next.png" alt="Next Icon">
+            </button>
+
+        </div>
+
+        <script>
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+
+            // Trigger search on every keystroke
+            searchInput.addEventListener('input', function () {
+                const query = this.value;
+
+                // Only search if user typed at least 2 characters
+                if (query.length >= 2) {
+                    // Send AJAX request to PHP
+                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=event_manager')
+                        .then(response => response.json())
+                        .then(data => {
+
+                            displayResults(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching search results:', error);
+                        });
+                } else {
+                    searchResults.innerHTML = ''; // Clear results if less than 2 chars
+                }
+            });
+
+            function displayResults(results) { //builds HTML search results
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<p>No results found</p>';
+                    return;
+                }
+
+                let html = '<div class="search-results-container">';
+                results.forEach(item => {
+                    // Determine redirect URL
+                    let redirectUrl = '';
+                    if (item.url) {
+                        // For home search results with predefined url
+                        redirectUrl = item.url;
+                    } else if (item.eco_news_id) {
+                        // For eco news results
+                        redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                    }
+
+                    html += `
+                <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
+                    <h4>${item.title}</h4>
+                    <p>${item.description || ''}</p>
+                </div>
+            `;
+                });
+                html += '</div>';
+
+                searchResults.innerHTML = html;
+            }
+
+            function redirectToResult(url) {
+                if (url) {
+                    window.location.href = url;
+                }
+            }
+        </script>
+
+</body>
+
+</html>

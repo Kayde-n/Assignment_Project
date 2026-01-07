@@ -35,7 +35,6 @@ body {
     border-radius: 16px;
     overflow: hidden;
     margin-top: 100px;
-    margin-left: 48px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -185,22 +184,4 @@ body {
     transform: translateX(-3px);
 }
 
-/* Bottom navigation */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 12px;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: space-around;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
-}
 
-.bottom-nav button {
-    background: none;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-}

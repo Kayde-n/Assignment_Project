@@ -65,7 +65,7 @@
     <nav class="side-bar" role="navigation" aria-label="Main">
     <div class="participant-icon-container">
         <div id="home-icon-box">
-        <a href="event-manager-desktop-home.php" class="icon-link sidebar-icon" aria-label="Home">
+        <a href="event-manager-home.php" class="icon-link sidebar-icon" aria-label="Home">
             <button class="icon-btn"><i data-lucide="house"></i></button>
         </a>
         </div>
@@ -91,7 +91,7 @@
 
     <!-- nav bar -->
     <nav class="bottom-nav">
-        <a href="event-manager-desktop-home.php" class="nav-item">
+        <a href="event-manager-home.php" class="nav-item">
             <i data-lucide="house" class="icon-btn"></i>
         </a>
         <a href="event-manager-calendar.php" class="nav-item active">

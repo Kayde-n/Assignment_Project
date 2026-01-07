@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>newsdetails</title>
+    <title>Participant Profile Mobile</title>
     <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participants-home-desktop.css">
+    <link rel="stylesheet" href="participant-profile-mobile.css">    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-
 </head>
-
 <body>
-        <!-- top bar -->
+    <!-- top bar -->
     <header class="top-bar" role="banner">
     <div class="top-left">
-        <button class="icon-btn no-hover topbar-icon" onclick="window.location.href='participant-home-mobile.php'" style="display:flex;align-items:center;gap:8px;">
+        <button class="icon-btn no-hover topbar-icon" onclick="window.location.href='event-manager-home.php'" style="display:flex;align-items:center;gap:8px;">
             <svg width="56" height="56" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <path d="M17.0278 55.17C17.9238 56.03 18.8788 56.833 19.8928 57.579C23.3048 55.1141 26.0849 51.8767 28.0058 48.1313C29.9267 44.386 30.9338 40.2392 30.9448 36.03C30.9448 27.216 26.5978 19.398 19.8748 14.478C18.8713 15.2154 17.9201 16.0213 17.0278 16.89C20.2462 18.9439 22.8981 21.7722 24.7408 25.1159C26.5835 28.4597 27.5583 32.2122 27.5758 36.03C27.5758 44.016 23.3968 51.042 17.0278 55.17Z" fill="var(--primary-green)"/>
                 <path d="M57.0119 19.125C55.1822 23.1625 52.2267 26.5866 48.4997 28.9864C44.7728 31.3863 40.4326 32.6601 35.9999 32.655C31.5676 32.6595 27.2281 31.3854 23.5018 28.9856C19.7754 26.5858 16.8203 23.1621 14.9909 19.125C14.1119 20.205 13.3199 21.366 12.6299 22.578C15.0031 26.6727 18.4119 30.0707 22.5141 32.4309C26.6162 34.7911 31.2672 36.0303 35.9999 36.024C40.7325 36.0303 45.3835 34.7911 49.4857 32.4309C53.5878 30.0707 56.9967 26.6727 59.3699 22.578C58.6743 21.3678 57.886 20.2133 57.0119 19.125ZM30.9449 62.427C31.2809 47.787 43.0769 36.027 57.5669 36.027C59.3783 36.0212 61.1852 36.2063 62.9579 36.579C62.929 37.7587 62.8227 38.9352 62.6399 40.101C60.8168 39.6325 58.9422 39.3947 57.0599 39.393C54.0149 39.4167 51.005 40.0462 48.2057 41.2447C45.4064 42.4432 42.8736 44.1869 40.7549 46.374C38.6374 48.5623 36.9773 51.1506 35.8714 53.9878C34.7655 56.8249 34.236 59.854 34.3139 62.898C33.1812 62.8209 32.0553 62.6635 30.9449 62.427Z" fill="var(--primary-green)"/>
@@ -41,16 +39,16 @@
     <nav class="side-bar" role="navigation" aria-label="Main">
     <div class="participant-icon-container">
         <div id="home-icon-box">
-        <a href="event-manager-desktop-home.php" class="icon-link active sidebar-icon" aria-label="Home">
+        <a href="event-manager-home.php" class="icon-link sidebar-icon" aria-label="Home">
             <button class="icon-btn"><i data-lucide="house"></i></button>
         </a>
         </div>
 
-        <a class="icon-link sidebar-icon" href="event-manager-calendar.php" aria-label="Challenges">
+        <a class="icon-link sidebar-icon" href="event-manager-calendar.php" aria-label="Calendar">
         <button class="icon-btn"><i data-lucide="calendar-fold"></i></button>
         </a>
 
-        <a class="icon-link sidebar-icon" href="event-manager-news.php" aria-label="Scan / Log Action">
+        <a class="icon-link sidebar-icon" href="event-manager-news.php" aria-label="Eco News Feed">
         <button class="icon-btn"><i data-lucide="newspaper"></i></button>
         </a>
 
@@ -58,6 +56,9 @@
         <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
         </a>
 
+        <a class="icon-link active sidebar-icon" href="event-manager-profile.php" aria-label="Profile">
+        <button class="icon-btn"><i data-lucide="user-round"></i></button>
+        </a>
     </div>
 
     <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
@@ -65,9 +66,9 @@
     </a>
     </nav>
 
-    <!-- nav bar -->
+<!-- nav bar -->
     <nav class="bottom-nav">
-        <a href="event-manager-desktop-home.php" class="nav-item active">
+        <a href="event-manager-home.php" class="nav-item">
             <i data-lucide="house" class="icon-btn"></i>
         </a>
         <a href="event-manager-calendar.php" class="nav-item">
@@ -79,120 +80,72 @@
         <a href="event-manager-rewards-management.php" class="nav-item">
             <i data-lucide="badge-percent" class="icon-btn"></i>
         </a>
-        <a href="participant-profile-mobile.php" class="nav-item">
+        <a href="event-manager-profile.php" class="nav-item active">
             <i data-lucide="user-round" class="icon-btn"></i>
         </a>
-        
     </nav>
 
-    <main class="main-content">
-        <div class="search-box">
-            <input type="text" placeholder="Search..." id="search-input">
-            <div id="search-results"></div> <!-- placeholder for search results -->
+<main class="main-content">
+<!-- title -->
+    <div class="page-header">
+        <div class="header-title">Profile</div>     
+    </div>
+<!-- profile -->
+    <div class="profile-page">
+        <div class="profile-header">
+            <label class="avatar upload-avatar">
+                <input type="file" accept="image/*" hidden id="avatarInput">
+                <span class="avatar-text">Upload Photo</span>
+            </label>
+
+            <h2 class="profile-name">John Doe</h2>
+            <p class="profile-id">TP012345</p>
         </div>
-        <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
-        </p>
-        <div class="text-box">
-            Application Impact
+<!-- stats -->
+        <div class="profile-stats">
+            <div class="stat-card">
+                <span class="stat-title">Points</span>
+                <span class="stat-value">6767</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-title">Ranking</span>
+                <span class="stat-value">#67</span>
+            </div>
         </div>
-        <div class="impact-container">
-            <button class="impact-box">
-                <h3>
-                    <?= number_format($air_pollution); ?> kg CO₂e
+<!-- quick access -->
+        <div class="quick-access">
+            <h4 class="section-title">Quick Access</h4>
 
-                </h3>
-            </button>
+            <a href="event-manager-calendar.php" class="quick-item">
+                <i data-lucide="calendar-fold"></i>
+                <span>Calendar</span>
+                <i data-lucide="chevron-right" class="chevron"></i>
+            </a>
 
-            <button class="impact-box">
-                <h3>
-                    <?= $user_impact_waste ?>
-                </h3>
-            </button>
+            <a href="event-manager-news.php" class="quick-item">
+                <i data-lucide="newspaper"></i>
+                <span>Eco News Feed</span>
+                <i data-lucide="chevron-right" class="chevron"></i>
+            </a>
 
-            <button class="impact-box">
-                <h3>
-                    <?= $challenges_count ?> Challenges Completed
-                </h3>
-            </button>
+            <a href="event-manager-rewards-management.php" class="quick-item">
+                <i data-lucide="badge-percent"></i>
+                <span>Rewards</span>
+                <i data-lucide="chevron-right" class="chevron"></i>
+            </a>
 
-            <button class="impact-box">
-                <h3>
-                    Daily Streak <br>
-                    <?= $streak ?>
-                </h3>
-            </button>
-            <button class="impact-next-btn">
-                <img src="images/next.png" alt="Next" />
-            </button>
+<!-- logout -->
+            <div class="quick-item logout">
+                <i data-lucide="log-out"></i>
+                <span>Logout</span>
+            </div>
         </div>
-        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
-            style="cursor: pointer;">
-            What News?
-        </div>
-
-        <script>
-            const searchInput = document.getElementById('search-input');
-            const searchResults = document.getElementById('search-results');
-
-            // Trigger search on every keystroke
-            searchInput.addEventListener('input', function () {
-                const query = this.value;
-
-                // Only search if user typed at least 2 characters
-                if (query.length >= 2) {
-                    // Send AJAX request to PHP
-                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=event_manager')
-                        .then(response => response.json())
-                        .then(data => {
-
-                            displayResults(data);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching search results:', error);
-                        });
-                } else {
-                    searchResults.innerHTML = ''; // Clear results if less than 2 chars
-                }
-            });
-
-            function displayResults(results) { //builds HTML search results
-                if (results.length === 0) {
-                    searchResults.innerHTML = '<p>No results found</p>';
-                    return;
-                }
-
-                let html = '<div class="search-results-container">';
-                results.forEach(item => {
-                    // Determine redirect URL
-                    let redirectUrl = '';
-                    if (item.url) {
-                        // For home search results with predefined url
-                        redirectUrl = item.url;
-                    } else if (item.eco_news_id) {
-                        // For eco news results
-                        redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
-                    }
-
-                    html += `
-                <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
-                    <h4>${item.title}</h4>
-                    <p>${item.description || ''}</p>
-                </div>
-            `;
-                });
-                html += '</div>';
-
-                searchResults.innerHTML = html;
-            }
-
-            function redirectToResult(url) {
-                if (url) {
-                    window.location.href = url;
-                }
-            }
-            lucide.createIcons();
-        </script>
+    </div>
+</main>
+    <script>
+        lucide.createIcons();
+    </script>
 
 </body>
-
 </html>

@@ -9,7 +9,7 @@
         $organised_by = mysqli_real_escape_string($database, $_POST['news_organiser']);
         $image_path = '';
 
-        $posted_by = $_SESSION['user_id'];
+        $posted_by = $_SESSION['user_role_id'];
 
         if (isset($_FILES['news_image']) && $_FILES['news_image']['error'] === 0) {
             $image_path = mysqli_real_escape_string($database, $_FILES['news_image']['name']);
@@ -79,7 +79,7 @@
     <nav class="side-bar" role="navigation" aria-label="Main">
     <div class="participant-icon-container">
         <div id="home-icon-box">
-        <a href="event-manager-desktop-home.php" class="icon-link sidebar-icon" aria-label="Home">
+        <a href="event-manager-home.php" class="icon-link sidebar-icon" aria-label="Home">
             <button class="icon-btn"><i data-lucide="house"></i></button>
         </a>
         </div>
@@ -105,7 +105,7 @@
 
     <!-- nav bar -->
     <nav class="bottom-nav">
-        <a href="event-manager-desktop-home.php" class="nav-item">
+        <a href="event-manager-home.php" class="nav-item">
             <i data-lucide="house" class="icon-btn"></i>
         </a>
         <a href="event-manager-calendar.php" class="nav-item">

@@ -27,17 +27,37 @@ if ($source === 'eco_news') {
         [
             'title' => 'Eco News',
             'description' => 'Latest environmental news and updates',
-            'url' => 'participants-desktop-econews.php'
+            'url' => 'participants-econews-mobile.php'
         ],
         [
             'title' => 'Challenges',
             'description' => 'Challenges tab',
-            'url' => 'participants-desktop-challenges-tab.php'
+            'url' => 'participants-challenges-mobile.php'
         ],
         [
             'title' => 'LeaderBoard',
             'description' => 'Participants Green Points Leaderboard',
-            'url' => 'participants-desktop-leaderboard.php'
+            'url' => 'participants-leaderboard-mobile.php'
+        ]
+        [
+            'title' => 'Log Action',
+            'description' => 'Participants Log Action Subbmission Page',
+            'url' => 'participants-action-submit-mobile.php'
+        ]
+        [
+            'title' => 'Profile',
+            'description' => 'Participants Profile Page',
+            'url' => 'participants-profile-mobile.php'
+        ]
+        [
+            'title' => 'Rewards',
+            'description' => 'Participants Rewards Page',
+            'url' => 'participants-rewards-mobile.php'
+        ]
+        [
+            'title' => 'FAQ',
+            'description' => 'Participants Help and Questions Page',
+            'url' => 'participants-help-mobile.php'
         ]
     ];
 
