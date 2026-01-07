@@ -69,7 +69,7 @@ foreach ($points_info as $p) {
 echo "<pre>";
 print_r($user_total_points);  // Displays the array contents
 echo "</pre>";
-exit();
+
 
 
 

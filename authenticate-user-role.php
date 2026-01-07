@@ -44,11 +44,11 @@ if (mysqli_num_rows($result) == 1) {
 if (isset($_SESSION['user_role_id'])) {
     echo "$_SESSION[user_role_id]";
     if ($_SESSION['user_role'] == 'participant') {
-        header("location: participants-desktop-home.php");
+        header("location: participant-home-mobile.php");
     } else if ($_SESSION['user_role'] == 'admin') {
         header("location: admin-desktop-home.php");
     } else if ($_SESSION['user_role'] == 'event_manager') {
-        header("location: event-manager-desktop-home.php");
+        header("location: event-manager-home.php");
     } else if ($_SESSION['user_role'] == 'staff') {
         header("location: staff-desktop-home.php");
 
