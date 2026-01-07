@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 06, 2026 at 03:02 PM
+-- Generation Time: Jan 07, 2026 at 07:08 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ecoxp database`
+-- Database: `eco_xp`
 --
 
 -- --------------------------------------------------------
@@ -400,17 +400,17 @@ CREATE TABLE IF NOT EXISTS `participants_challenges` (
 --
 
 INSERT INTO `participants_challenges` (`participants_challenges_id`, `participants_id`, `challenges_id`, `date_accomplished`, `verified_date`, `challenges_status`, `impact_type`, `image_path`, `impact_amount`, `Challenge_notes`, `staff_id`) VALUES
-(1, 5, 2, '2025-12-05', '2025-12-06', 'approved', 'reduced water pollution', NULL, 5, '', 1),
-(2, 2, 1, '2025-12-17', '2025-12-18', 'pending', 'reduced carbon emmision', NULL, 2, '', 3),
-(3, 3, 4, '2025-12-17', '2025-12-19', 'rejected', 'recycling trash', NULL, 3, '', 6),
-(4, 5, 3, '2025-12-24', '2025-12-31', 'approved', 'reduced carbon emmision', NULL, 6, '', 4),
-(5, 4, 5, '2025-12-25', '2025-12-29', 'approved', 'reduced air pollution', NULL, 12, '', 1),
-(6, 7, 2, '2026-01-04', '2026-01-04', 'approved', 'reduced pollution', 'null', 6, '', 4),
-(7, 7, 6, '2026-01-04', '2026-01-04', 'rejected', 'reduced pollution', 'Null', 90, '', 2),
-(8, 7, 2, '2026-01-01', '2026-01-02', 'rejected', 'reduced pollution', 'Null', 90, 'Null', 2),
-(10, 7, 1, '2026-01-05', '2026-01-05', 'pending', 'Reduced Pollution', 'null', 190, 'null', 6),
-(11, 7, 2, '2026-01-05', '2026-01-05', 'pending', 'Reduced Pollution', 'NULL', 190, 'NULL', 1),
-(12, 7, 1, '2026-01-06', NULL, 'pending', NULL, 'challenge_submission_uploads/img_695c988fa07a63.73827008.png', NULL, '', 3);
+(1, 5, 2, '2025-12-05', '2025-12-06', 'approved', 'reduced water pollution', 'img_695b394b7bbe24.19717501.jpg', 5, '', 1),
+(2, 2, 1, '2025-12-17', '2025-12-18', 'pending', 'reduced carbon emmision', 'img_695b394b7bbe24.19717501.jpg', 2, '', 3),
+(3, 3, 4, '2025-12-17', '2025-12-19', 'rejected', 'recycling trash', 'img_695b394b7bbe24.19717501.jpg', 3, '', 6),
+(4, 5, 3, '2025-12-24', '2025-12-31', 'approved', 'reduced carbon emmision', 'img_695b394b7bbe24.19717501.jpg', 6, '', 4),
+(5, 4, 5, '2025-12-25', '2025-12-29', 'approved', 'reduced air pollution', 'img_695b394b7bbe24.19717501.jpg', 12, '', 1),
+(6, 7, 2, '2026-01-04', '2026-01-04', 'approved', 'reduced pollution', 'img_695b394b7bbe24.19717501.jpg', 6, '', 4),
+(7, 7, 6, '2026-01-04', '2026-01-04', 'rejected', 'reduced pollution', 'img_695b394b7bbe24.19717501.jpg', 90, '', 2),
+(8, 7, 2, '2026-01-01', '2026-01-02', 'rejected', 'reduced pollution', 'img_695b394b7bbe24.19717501.jpg', 90, 'Null', 2),
+(10, 7, 1, '2026-01-05', '2026-01-05', 'pending', 'Reduced Pollution', 'img_695b394b7bbe24.19717501.jpg', 190, 'null', 6),
+(11, 7, 2, '2026-01-05', '2026-01-05', 'pending', 'Reduced Pollution', 'img_695b394b7bbe24.19717501.jpg', 190, 'NULL', 1),
+(12, 7, 1, '2026-01-06', NULL, 'pending', NULL, 'img_695c988fa07a63.73827008.png', NULL, '', 3);
 
 -- --------------------------------------------------------
 

@@ -46,21 +46,21 @@ if ($result) {
     $approvedCount = $counts['approved_count'] ?? 0;
     $rejectedCount = $counts['rejected_count'] ?? 0;
 
-    $listQuery = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished 
+    $listQuery = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
                 FROM participants_challenges pc
                 JOIN participants p ON pc.participants_id = p.participants_id
                 JOIN user u ON p.user_id = u.user_id
                 JOIN challenges c ON pc.challenges_id = c.challenges_id
                 WHERE pc.challenges_status = 'pending'";
 
-    $listQueryApporve = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished 
+    $listQueryApporve = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
                         FROM participants_challenges pc 
                         JOIN participants p ON pc.participants_id = p.participants_id 
                         JOIN user u ON p.user_id = u.user_id 
                         JOIN challenges c ON pc.challenges_id = c.challenges_id 
                         WHERE pc.challenges_status = 'approved'";
     
-    $listQueryRejected = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished 
+    $listQueryRejected = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
                       FROM participants_challenges pc
                       JOIN participants p ON pc.participants_id = p.participants_id
                       JOIN user u ON p.user_id = u.user_id
@@ -101,7 +101,7 @@ if ($result) {
                     </div>
                     <div style="text-align: center; border-top: 1px solid #eee; pt: 15px;">
                         <p style="font-weight: bold; margin-bottom: 10px;">Submitted Proof Image:</p>
-                        <img src="images/placeholder.png" style="width: 100%; max-height: 250px; object-fit: contain; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <img src="challenge_submission_uploads/${data.image_path}" style="width: 100%; max-height: 250px; object-fit: contain; border-radius: 5px;" onerror="this.src='challenge_submission_uploads/default.png'">
                     </div>
                 </div>
             `;
@@ -164,13 +164,13 @@ if ($result) {
                         <?php while($row = mysqli_fetch_assoc($pendingList)): ?>
                             <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
                                 <div class="item-details">
-                                    <img src="images/profile.png" class="user-pfp">
+                                    <img src="<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp">
                                     <div class="user-text">
                                         <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
                                         <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
                                     </div>
                                 </div>
-                                <img src="images/placeholder.png" class="proof-img">
+                                <img src="challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']); ?>" class="proof-img">
                             </div>
                         <?php endwhile; ?>
                     </div>
@@ -182,14 +182,14 @@ if ($result) {
                             <?php while($row = mysqli_fetch_assoc($approvedList)): ?>
                                 <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
                                     <div class="item-details">
-                                        <img src="images/profile.png" class="user-pfp">
+                                        <img src="<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp">
                                         <div class="user-text">
                                             <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
                                             <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
                                             <span style="color: green; font-weight: bold;">✓ Approved</span>
                                         </div>
                                     </div>
-                                    <img src="images/placeholder.png" class="proof-img">
+                                    <img src="challenge_submission_uploads/ <?php echo htmlspecialchars($row['image_path']) ?>" class="proof-img">
                                 </div>
                             <?php endwhile; ?>
                         <?php else: ?>
@@ -204,14 +204,14 @@ if ($result) {
                             <?php while($row = mysqli_fetch_assoc($rejectedList)): ?>
                                 <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
                                     <div class="item-details">
-                                        <img src="images/profile.png" class="user-pfp">
+                                        <img src="<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp"> 
                                         <div class="user-text">
                                             <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
                                             <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
                                             <span style="color: red; font-weight: bold;">✕ Rejected</span>
                                         </div>
                                     </div>
-                                    <img src="images/placeholder.png" class="proof-img">
+                                    <img src='challenge_submission_uploads/<?= htmlspecialchars($row['image_path']) ?>' class="proof-img">
                                 </div>
                             <?php endwhile; ?>
                         <?php else: ?>
@@ -227,6 +227,7 @@ if ($result) {
                         <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
                         
                         <div id="modal-body">
+
                             </div>
 
                         <div class="button-group-modal">

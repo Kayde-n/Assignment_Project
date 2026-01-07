@@ -69,10 +69,11 @@ section {
 }
 
 section h2 {
+
   font-size: 18px;
   font-weight: 600;
   color: #212121;
-  margin: 0 0 24px 0;
+  margin-bottom: 14px;
 }
 
 section h3 {
@@ -196,134 +197,16 @@ input:not(:checked) + .slider:before {
   box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
-/* Notification Field */
-.notification-field {
-  margin-bottom: 20px;
-}
-
-.notification-field label {
-  display: block;
-  font-size: 13px;
-  color: #757575;
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-
-.notification-field textarea {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #E0E0E0;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #212121;
-  font-family: inherit;
-  resize: vertical;
-  min-height: 120px;
-  box-sizing: border-box;
-  transition: border-color 0.2s;
-}
-
-.notification-field textarea:focus {
-  outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-}
-
-.notification-field textarea::placeholder {
-  color: #BDBDBD;
-}
-
-/* Action Buttons */
-.action-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.btn-secondary {
-  padding: 11px 22px;
-  background-color: #FFFFFF;
-  color: #757575;
-  border: 1px solid #E0E0E0;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-secondary:hover {
-  background-color: #F5F5F5;
-  border-color: #BDBDBD;
-}
-
 /* System Configurations Section */
 .system-configurations {
   width: 100%;
   max-width: 1312px;
 }
 
-.config-item {
-  margin-bottom: 28px;
-}
-
-.config-item label {
-  display: block;
-  font-size: 13px;
-  color: #757575;
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-
-.color-picker {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.color-picker input[type="text"] {
-  flex: 1;
-  padding: 12px 14px;
-  border: 1px solid #E0E0E0;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #4CAF50;
-  font-weight: 600;
-  background-color: #FFFFFF;
-  transition: border-color 0.2s;
-}
-
-.color-picker input[type="text"]:focus {
-  outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-}
-
-.edit-btn {
-  padding: 11px 14px;
-  background-color: #FFFFFF;
-  border: 1px solid #E0E0E0;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.edit-btn:hover {
-  background-color: #F5F5F5;
-  border-color: #BDBDBD;
-}
-
-.edit-btn img {
-  width: 18px;
-  height: 18px;
-}
 
 /* Config Section */
 .config-section {
-  margin-top: 28px;
+  
   padding-top: 28px;
   border-top: 1px solid #E0E0E0;
 }
@@ -401,13 +284,25 @@ input:not(:checked) + .slider:before {
     background-color: var(--secondary-green);
 }
 
-
+@media (min-width: 769px) and (max-width: 1023px){
+  .side-bar /*hide side bar*/ {
+        display: none;
+    }
+    .top-bar{
+        display: none;
+    }
+     .main-content{
+      margin: 0;
+      padding: 18px;
+      min-height: calc(100vh);
+      width: 100%;
+  }
+    
+}
 
 
 @media (min-width: 426px) and (max-width: 768px) {
-  .analytics-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  
     .side-bar /*hide side bar*/ {
         display: none;
     }
@@ -455,6 +350,13 @@ input:not(:checked) + .slider:before {
     justify-content: center;
     gap: 10px;
   }
+  .datetime-group{
+    
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+ 
+  }
 }
 
 
@@ -477,7 +379,7 @@ input:not(:checked) + .slider:before {
     margin-bottom: 20px;
   }
 
-  .datetime-group {
+.datetime-group {
     display: flex;
     flex-direction: column;
     gap: 20px;

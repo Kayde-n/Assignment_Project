@@ -41,14 +41,6 @@ if ($source === 'eco_news') {
         ]
     ];
 
-    foreach ($items as $item) {
-        if (
-            stripos($item['title'], $query) !== false ||
-            stripos($item['description'], $query) !== false
-        ) {
-            $results[] = $item;
-        }
-    }
 } elseif ($source === 'admin') {
     $items = [
         [
@@ -61,49 +53,61 @@ if ($source === 'eco_news') {
             'description' => 'System Analytics provides insights into system usage',
             'url' => 'Admin_system_analytics.php'
         ],
-        [
-            'title' => 'Settings',
-            'description' => 'User Settings allows users to manage personal preferences',
-            'url' => 'admin_user_settings.php'
-        ]
+
     ];
 
-    foreach ($items as $item) {
-        if (
-            stripos($item['title'], $query) !== false ||
-            stripos($item['description'], $query) !== false
-        ) {
-            $results[] = $item;
-        }
-    }
+
 } elseif ($source === 'event_manager') {
     $items = [
         [
-            'title' => 'System Settings',
-            'description' => 'System Settings allows administratorsto configure core system preferences',
-            'url' => 'Admin_system_config.php'
+            'title' => 'Event Calendar',
+            'description' => 'Event Calendar enables administrators to create, manage, and track scheduled events and activities.',
+            'url' => 'event-manager-calendar.php'
         ],
         [
-            'title' => 'System Analytics',
-            'description' => 'System Analytics provides insights into system usage',
-            'url' => 'Admin_system_analytics.php'
+            'title' => 'Rewards Management',
+            'description' => 'Rewards Management allows administrators to manage reward programs, points, and redemption rules.',
+            'url' => 'event-manager-rewards-management.php'
         ],
         [
-            'title' => 'Settings',
-            'description' => 'User Settings allows users to manage personal preferences',
-            'url' => 'admin_user_settings.php'
+            'title' => 'Eco News Management',
+            'description' => 'Eco News Management enables administrators to create, update, and publish environmental news and announcements.',
+            'url' => 'event-manager-news.php'
+        ]
+    ];
+} elseif ($source === 'staff') {
+    $items = [
+
+        [
+            'title' => 'Eco News Management',
+            'description' => 'Eco News Management enables administrators to create, update, and publish environmental news and announcements.',
+            'url' => 'event-manager-news.php'
+        ],
+        [
+            'title' => 'Participants Management',
+            'description' => 'Participants Management enables administrators to manage participant accounts, profiles, and participation records.',
+            'url' => 'staff-desktop-account-.php'
+        ],
+        [
+            'title' => 'Challenge Submission Verifications',
+            'description' => 'Challenge Submission Verifications enables administrators to review, verify, and approve participant challenge submissions.',
+            'url' => 'staff-desktop-verification.php'
         ]
     ];
 
-    foreach ($items as $item) {
-        if (
-            stripos($item['title'], $query) !== false ||
-            stripos($item['description'], $query) !== false
-        ) {
-            $results[] = $item;
-        }
+}
+
+foreach ($items as $item) {
+    if (
+        stripos($item['title'], $query) !== false ||
+        stripos($item['description'], $query) !== false
+    ) {
+        $results[] = $item;
     }
 }
+
+
+
 
 echo json_encode($results);
 mysqli_close($database);
