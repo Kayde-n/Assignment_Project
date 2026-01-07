@@ -1,3 +1,98 @@
+<?php
+    session_start();
+    include("Database.php");
+    include("check-maintenance-status.php");
+
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+
+    if (!isset($_SESSION['user_role_id'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $participant_id = (int) $_SESSION['user_role_id'];
+    $sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
+
+    $sql_query_daily_streak = "SELECT date_accomplished FROM participants_challenges 
+                WHERE participants_id = $participant_id
+                ORDER BY date_accomplished DESC";
+    $streak_result = mysqli_query($database, $sql_query_daily_streak);
+    $dates = [];
+    $streak = 0;
+
+    $challenges_count = 0;
+    $total_impact_amount = 0; // total CO2 reduction
+    $total_impact_amount2 = 0; // total waste recycled
+    $result = mysqli_query($database, $sql_query_impact);
+
+    // news 
+    $sql_news = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
+    $result_news = mysqli_query($database, $sql_news);
+
+    if (!$result) {
+        error_log("Database query failed: " . mysqli_error($database));
+        exit();
+    }
+    while ($row = mysqli_fetch_assoc($result)) {
+        $challenges_count++;
+
+        if ($row['impact_type'] === 'reduced carbon emission') {
+            $total_impact_amount += $row['impact_amount'];
+        } elseif ($row['impact_type'] === 'recycling trash') {
+            $total_impact_amount2 += $row['impact_amount'];
+        }
+    }
+    $user_impact_emissions = $total_impact_amount . " kg of CO2 Reduced Emissions";
+    $user_impact_waste = $total_impact_amount2 . " kg of Waste Recycled";
+
+    while ($row = mysqli_fetch_assoc($streak_result)) {
+        $dates[] = $row['date_accomplished']; // push each date into array
+    }
+
+    $today = new DateTime('today'); // Get today's date (no time, only date)
+    $current_day = clone $today;
+
+
+    // Convert date strings into DateTime objects
+    $dates = array_map(function ($d) {
+        return new DateTime($d);
+    }, $dates);
+
+
+    while (true) {
+        $found = false;
+        foreach ($dates as $d) {
+            if ($d->format('Y-m-d') == $current_day->format('Y-m-d')) {
+                $found = true;
+                break;
+            }
+        }
+        if ($found) {
+            $streak++;
+            $current_day->modify('-1 day'); // go to previous day
+        } else {
+            // Streak breaks when a day is missing
+            break;
+        }
+    }
+
+    $total_points = 0;
+
+    $sql_points = "
+        SELECT COALESCE(SUM(c.points_reward), 0) AS total_points
+        FROM participants_challenges pc
+        JOIN challenges c ON pc.challenges_id = c.challenges_id
+        WHERE pc.participants_id = $participant_id
+        AND pc.challenges_status = 'approved'
+    ";
+
+    $result_points = mysqli_query($database, $sql_points);
+
+    if ($result_points && $row = mysqli_fetch_assoc($result_points)) {
+        $total_points = (int) $row['total_points'];
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,7 +210,7 @@
 
 <!-- banner points (full width) -->
     <div class="banner">
-        <div class="bannerpt">6,767</div>
+        <div class="bannerpt"><?= number_format($total_points ?? 0) ?></div>
         <div class="bannerlbl">Green Points</div>
     </div>
 
@@ -126,7 +221,7 @@
             <div class="impact-card card-co2">
                 <img src="images/bush.png" class="impact-img" alt="CO₂ image">
                 <div class="impact-content">
-                    <div class="impact-value">3 kg</div>
+                    <div class="impact-value"><?= $user_impact_emissions ?></div>
                     <div class="impact-label">CO₂ Saved</div>
                 </div>
             </div>
@@ -134,7 +229,7 @@
             <div class="impact-card card-waste">
                 <img src="images/trash-can.webp" class="impact-img" alt="Waste image">
                 <div class="impact-content">
-                    <div class="impact-value">1.2kg</div>
+                    <div class="impact-value"><?= $user_impact_waste ?></div>
                     <div class="impact-label">Waste Diverted</div>
                 </div>
             </div>
@@ -142,7 +237,7 @@
             <div class="impact-card card-streak">
                 <img src="images/flame.png" class="impact-img" alt="Streak image">
                 <div class="impact-content">
-                    <div class="impact-value">3</div>
+                    <div class="impact-value"><?= $streak ?></div>
                     <div class="impact-label">Daily Streak</div>
                 </div>
             </div>
@@ -150,7 +245,7 @@
             <div class="impact-card card-trophy">
                 <img src="images/trophy.png" class="impact-img" alt="Trophy image">
                 <div class="impact-content">
-                    <div class="impact-value">8</div>
+                    <div class="impact-value"><?= $challenges_count ?></div>
                     <div class="impact-label">Challenges <br> Completed</div>
                 </div>
             </div>
@@ -172,18 +267,20 @@
             </a>
         </div>
 
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link"> 
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Join the latest campus initiative to reduce carbon footprint and win rewards.
-                    </p>
-                </div>
-            </a>
-        </div>
+        <?php while ($row = mysqli_fetch_assoc($result_news)) { ?>
+            <div class="news-card">
+                <a href="participant-econews-example-mobile.php?id=<?php echo $row['eco_news_id']; ?>" class="news-link"> 
+                    <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="News image" class="news-image">
+                    <div class="news-content">
+                        <div class="news-tag">Sustainability</div>
+                        <h3 class="news-title"><?php echo htmlspecialchars($row['title']); ?></h3>
+                        <p class="news-text">
+                             <?php echo substr(strip_tags($row['description']), 0, 120); ?>...
+                        </p>
+                    </div>
+                </a>
+            </div>
+        <?php } ?>
         
         <div class="news-card">
             <a href="#" class="news-link">
