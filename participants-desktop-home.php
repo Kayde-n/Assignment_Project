@@ -2,6 +2,7 @@
 session_start();
 include("Database.php");
 include("check-maintenance-status.php");
+date_default_timezone_set("Asia/Kuala_Lumpur");
 $participant_id = $_SESSION['user_role_id'];
 $sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
 
@@ -230,36 +231,36 @@ while (true) {
                     return;
                 }
 
-            let html = '<div class="search-results-container">';
-            results.forEach(item => {
-                // Determine redirect URL
-                let redirectUrl = '';
-                if (item.url) {
-                    // For home search results with predefined url
-                    redirectUrl = item.url;
-                } else if (item.eco_news_id) {
-                    // For eco news results
-                    redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
-                }
-                
-                html += `
+                let html = '<div class="search-results-container">';
+                results.forEach(item => {
+                    // Determine redirect URL
+                    let redirectUrl = '';
+                    if (item.url) {
+                        // For home search results with predefined url
+                        redirectUrl = item.url;
+                    } else if (item.eco_news_id) {
+                        // For eco news results
+                        redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                    }
+
+                    html += `
                 <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
                     <h4>${item.title}</h4>
                     <p>${item.description || ''}</p>
                 </div>
             `;
-            });
-            html += '</div>';
+                });
+                html += '</div>';
 
-            searchResults.innerHTML = html;
-        }
-
-        function redirectToResult(url) {
-            if (url) {
-                window.location.href = url;
+                searchResults.innerHTML = html;
             }
-        }
-    </script>
+
+            function redirectToResult(url) {
+                if (url) {
+                    window.location.href = url;
+                }
+            }
+        </script>
 
 </body>
 
