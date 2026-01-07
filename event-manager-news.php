@@ -28,7 +28,7 @@ $result = mysqli_query($database, $sql);
             </button>
         </div>
         <div class="top-right">
-            <a href="participant-profile-mobile.php" class="topbar-icon">
+            <a href="event-manager-profile.php" class="topbar-icon">
                 <button class="icon-btn"><i data-lucide="user-round"></i></button>
             </a>
         </div>
@@ -87,7 +87,7 @@ $result = mysqli_query($database, $sql);
         <a href="event-manager-calendar.php" class="nav-item"><i data-lucide="calendar-fold"></i></a>
         <a href="event-manager-news.php" class="nav-item active"><i data-lucide="newspaper"></i></a>
         <a href="event-manager-rewards-management.php" class="nav-item"><i data-lucide="badge-percent"></i></a>
-        <a href="participant-profile-mobile.php" class="nav-item"><i data-lucide="user-round"></i></a>
+        <a href="event-manager-profile.php" class="nav-item"><i data-lucide="user-round"></i></a>
     </nav>
 
     <script>

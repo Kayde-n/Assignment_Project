@@ -40,11 +40,11 @@
 <body>
     <div class="top-bar">
         <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'">
+        <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'">
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img
                     src="images/profile.png" alt="Profile Logo"></button>
             <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
             <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
@@ -54,15 +54,15 @@
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img
                         src="images/home.png" alt="Home"></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-challenges-tab.php'"><img
-                    src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
-                    src="images/scan.png" alt="Scan"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
-                    src="images/tag.png" alt="Rewards"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img
+                    src="images/verification.png" alt="Verification"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-news.php'"><img
+                    src="images/newspaper.png" alt="News"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img
+                    src="images/account-management.png" alt="Account"></button>
             <button class="icon-btn" id="logout" onclick="logout_confirm()">
                 <script>
                     function logout_confirm() {

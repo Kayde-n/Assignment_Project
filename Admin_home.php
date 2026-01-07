@@ -43,7 +43,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>newsdetails</title>
+    <title>Admin Home</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="participants-home-desktop.css">
