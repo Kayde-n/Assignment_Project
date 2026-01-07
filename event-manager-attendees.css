@@ -60,7 +60,7 @@ body {
 .event-title {
     font-size: 20px;
     font-weight: 600;
-    color: #4CAF50;
+    color: var(--secondary-green);
     text-align: center;
     margin: 0 0 20px 0;
 }
@@ -167,7 +167,7 @@ th {
 }
 
 input:checked + .slider {
-    background: #4caf50;
+    background: var(--secondary-green);
 }
 
 input:checked + .slider::before {

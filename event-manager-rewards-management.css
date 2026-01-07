@@ -294,7 +294,7 @@ body {
 }
 
 .modal-footer button {
-    background: #4CAF50;
+    background: var(--secondary-green);
     color: #fff;
     border: none;
     padding: 8px 18px;

@@ -127,7 +127,7 @@ body {
 }
 
 .day-cell.has-event {
-    background-color: #4CAF50;
+    background-color: var(--secondary-green);
     color: #FFFFFF;
     font-weight: 600;
 }
@@ -137,19 +137,19 @@ body {
 }
 
 .day-cell.active {
-    background-color: #2E7D32;
+    background-color: var(--primary-green);
     color: #FFFFFF;
     font-weight: 600;
 }
 
 .day-cell.today {
-    border: 2px solid #4CAF50;
+    border: 2px solid var(--secondary-green);
     font-weight: 600;
 }
 
 .day-cell.today.has-event {
     border-color: #FFFFFF;
-    box-shadow: 0 0 0 2px #4CAF50;
+    box-shadow: 0 0 0 2px var(--secondary-green);
 }
 
 /* Events Section */
@@ -181,7 +181,7 @@ body {
 .add-event-btn {
     width: 32px;
     height: 32px;
-    background-color: #4CAF50;
+    background-color: var(--secondary-green);
     border: none;
     border-radius: 6px;
     cursor: pointer;

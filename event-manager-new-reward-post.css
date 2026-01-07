@@ -68,7 +68,7 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #4CAF50;
+    border-color: var(--secondary-green);
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
@@ -110,7 +110,7 @@ body {
 }
 
 .upload-area:hover {
-    border-color: #4CAF50;
+    border-color: var(--secondary-green);
     background-color: #F1F8F4;
 }
 
@@ -155,7 +155,7 @@ body {
 .btn-post {
     width: 100%;
     padding: 14px 24px;
-    background-color: #4CAF50;
+    background-color: var(--secondary-green);
     color: #FFFFFF;
     border: none;
     border-radius: 8px;
@@ -179,7 +179,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .main-content {
-        margin-left: 74px;
+        
         padding: 16px;
     }
 
