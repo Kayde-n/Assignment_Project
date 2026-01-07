@@ -120,15 +120,15 @@ if ($source === 'eco_news') {
         ]
     ];
 
-}
-
-foreach ($items as $item) {
+}else{
+    foreach ($items as $item) {
     if (
         stripos($item['title'], $query) !== false ||
         stripos($item['description'], $query) !== false
     ) {
         $results[] = $item;
     }
+}
 }
 
 
