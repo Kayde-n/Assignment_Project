@@ -3,10 +3,14 @@ session_start();
 include("Database.php");
 include("check-maintenance-status.php");
 
+date_default_timezone_set("Asia/Kuala_Lumpur");
+
 if (!isset($_SESSION['user_role_id'])) {
     header("Location: login.php");
     exit();
 }
+
+$participant_id = (int) $_SESSION['user_role_id'];
 
 $participant_id = (int) $_SESSION['user_role_id'];
 $sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
