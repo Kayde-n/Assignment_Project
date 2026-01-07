@@ -2,26 +2,11 @@
 include("session.php");
 include("Database.php");
 
-if (!isset($_GET['id'])) {
-    echo "<script>alert('Invalid news ID'); window.location.href='participants-desktop-home.php';</script>";
-    exit();
-}
 
-$news_id = intval($_GET['id']);
-
-$sql = "SELECT eco_news_id, title, description, venue, organised_by, image_path
-            FROM eco_news
-            WHERE eco_news_id = $news_id";
-
+$sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
 $result = mysqli_query($database, $sql);
-
-if (mysqli_num_rows($result) === 0) {
-    echo "<script>alert('News not found'); window.location.href='participants-desktop-home.php';</script>";
-    exit();
-}
-
-$row = mysqli_fetch_assoc($result);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +15,7 @@ $row = mysqli_fetch_assoc($result);
     <title>Eco News Feed</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="event-manager.css">
-    <link rel="stylesheet" href="event-manager-attendees.css">
+    <link rel="stylesheet" href="event-manager-news.css">
 </head>
 <body>
     <div class="top-bar">
@@ -57,59 +42,95 @@ $row = mysqli_fetch_assoc($result);
             <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
         </div>
     </div>
-    
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="title-box"><h1>What's New?</h1></div>
+    <div class="page-header">
+        <div class="search-box">
+
+            <input type="text" placeholder="Search..." id="search-input">
+
+            <div id="search-results"></div> <!-- placeholder for search results -->
+
         </div>
-        <div class="news-image">
-            <img src="images/<?php echo $row['image_path']; ?>" alt="sample image">
-        </div>
-
-        <div class="news-text-container">
-
-            <h2 class="news-title">
-                <?php
-                echo $row['title'];
-                ?><!-- title -->
-            </h2>
-
-            <p class="news-paragraph">
-                <br>
-                Organised by:
-                <br>
-                <?php
-                echo $row['organised_by'];
-                ?><!-- organised by-->
-            </p>
-
-            <p class="news-paragraph">
-                Venue:
-                <br>
-                <?php
-                echo $row['venue'];
-                ?> <!--- venue --->
-            </p>
-
-            <p class="news-paragraph">
-                Full description:
-                <br>
-                <?php
-                echo $row['description'];
-                ?> <!-- description -->
-            </p>
-
-            <div class="quote-box">
-                <p>
-                    “Ask yourself: ‘How long will this device truly serve me?’
-                    Don’t just chase the newest model. A device that is well-built
-                    with good core specifications will last longer.”
-                </p>
-            </div>
-
+       
+        <div class="title-box">
+            <h1>What's New?</h1>
         </div>
     </div>
+        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+
+            <button class="content-holder"
+                onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
+                <div class="content-image">
+                    <img src="images/<?php echo $row['image_path']; ?>">
+                </div>
+
+                <div class="content-text-box">
+                    <h3 class="content-text-title">
+                        <?php echo $row['title']; ?>
+                    </h3>
+
+                    <p class="content-text-description">
+                        <?php echo substr($row['description'], 0, 200); ?>...
+                    </p>
+                </div>
+
+            </button>
+
+        <?php } ?>
+
+    </div>
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        // Trigger search on every keystroke
+        searchInput.addEventListener('input', function () {
+            const query = this.value;
+
+            // Only search if user typed at least 2 characters
+            if (query.length >= 2) {
+                // Send AJAX request to PHP
+                fetch('search.php?query=' + encodeURIComponent(query) + '&source=eco_news')
+                    .then(response => response.json())
+                    .then(data => {
+                        displayResults(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                    });
+            } else {
+                searchResults.innerHTML = ''; // Clear results if less than 2 chars
+            }
+        });
+
+        function displayResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<p>No results found</p>';
+                return;
+            }
+
+            let html = '<div class="search-results-container">';
+            results.forEach(item => {
+                // For eco news results, use eco_news_id to construct URL
+                let redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                
+                html += `
+                <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
+                    <h4>${item.title}</h4>
+                    <p>${item.description ? item.description.substring(0, 30) : ''}...</p>
+                </div>
+            `;
+            });
+            html += '</div>';
+
+            searchResults.innerHTML = html;
+        }
+
+        function redirectToResult(url) {
+            if (url) {
+                window.location.href = url;
+            }
+        }
+    </script>
 </body>
 </html>

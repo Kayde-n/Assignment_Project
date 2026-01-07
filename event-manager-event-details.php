@@ -20,7 +20,7 @@
     $image=$event['image_path'];
     $image = !empty($event['image_path'])
     ? $event['image_path']
-    : 'images/default-event.jpg';
+    : 'default-event.jpg';
 
 ?>
 

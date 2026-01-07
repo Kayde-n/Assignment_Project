@@ -73,10 +73,8 @@ $result = mysqli_query($database, $sql);
             <button class="content-holder"
                 onclick="window.location.href='participants-desktop-newsdetails.php?id=<?php echo $row['eco_news_id']; ?>'">
 
-                <div class="category-box">Environment</div>
-
                 <div class="content-image">
-                    <img src="/Assignment_Project/images/<?php echo $row['image_path']; ?>">
+                    <img src="images/<?php echo $row['image_path']; ?>">
                 </div>
 
                 <div class="content-text-box">
