@@ -9,7 +9,7 @@
         $organised_by = mysqli_real_escape_string($database, $_POST['news_organiser']);
         $image_path = '';
 
-        $posted_by = $_SESSION['user_id'];
+        $posted_by = $_SESSION['user_role_id'];
 
         if (isset($_FILES['news_image']) && $_FILES['news_image']['error'] === 0) {
             $image_path = mysqli_real_escape_string($database, $_FILES['news_image']['name']);
