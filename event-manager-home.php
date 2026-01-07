@@ -45,7 +45,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Event Manager Home</title>
     <link rel="stylesheet" href="mobile.css">
     <link rel="stylesheet" href="event-manager-home.css">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -120,7 +120,7 @@
         <a href="event-manager-rewards-management.php" class="nav-item">
             <i data-lucide="badge-percent" class="icon-btn"></i>
         </a>
-        <a href="participant-profile-mobile.php" class="nav-item">
+        <a href="event-manager-profile.php" class="nav-item">
             <i data-lucide="user-round" class="icon-btn"></i>
         </a>
         

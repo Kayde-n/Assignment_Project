@@ -84,7 +84,7 @@ mysqli_free_result($present_participants);
     </div>
 
     <div class="top-right">
-        <a href="participant-profile-mobile.php" aria-label="Profile" class="topbar-icon">
+        <a href="event-manager-profile.php" aria-label="Profile" class="topbar-icon">
             <button class="icon-btn" aria-label="Profile">
                 <i data-lucide="user-round"></i>
             </button>
@@ -134,7 +134,7 @@ mysqli_free_result($present_participants);
         <a href="event-manager-rewards-management.php" class="nav-item">
             <i data-lucide="badge-percent" class="icon-btn"></i>
         </a>
-        <a href="participant-profile-mobile.php" class="nav-item">
+        <a href="event-manager-profile.php" class="nav-item">
             <i data-lucide="user-round" class="icon-btn"></i>
         </a>
         

@@ -83,7 +83,7 @@ if (!empty($_FILES['avatar']['name'])) {
     </div>
 
     <div class="top-right">
-        <a href="participant-profile-mobile.php" aria-label="Profile" class="topbar-icon">
+        <a href="event-manager-profile.php" aria-label="Profile" class="topbar-icon">
             <button class="icon-btn" aria-label="Profile">
                 <i data-lucide="user-round"></i>
             </button>
