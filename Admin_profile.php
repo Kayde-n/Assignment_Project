@@ -1,5 +1,5 @@
 <?php
-//include("session.php");
+include("session.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Profile</title>
     <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="participant.css">
     <link rel="stylesheet" href="admin-profile-desktop.css">
 </head>
 
@@ -104,7 +104,15 @@
                         <img src="images/arrow.png" alt="Arrow Icon">
                     </a>
                 </li>
-
+                <li>
+                    <a href="desktop-settings.php">
+                        <div class="left">
+                            <img src="images/setting.png" alt="Settings Icon">
+                            Settings
+                        </div>
+                        <img src="images/arrow.png" alt="Arrow Icon">
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
