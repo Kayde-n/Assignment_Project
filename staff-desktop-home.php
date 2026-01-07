@@ -134,7 +134,7 @@
                             <?= htmlspecialchars($row['challenge_name']); ?>
                         </h3>
 
-                        <h5>
+                        <h5 class="description-box">
                             <?= date("d M Y", strtotime($row['date_accomplished'])); ?>
                         </h5>
 
