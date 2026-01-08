@@ -4,6 +4,12 @@
     if (isset($_GET['event_id'])) {
         $event_id = $_GET['event_id'];  
 
+        $deleteAttendance = "DELETE FROM attendance WHERE events_id = $event_id";
+        mysqli_query($database, $deleteAttendance);
+
+        $deleteEcoNews = "DELETE FROM eco_news WHERE events_id = $event_id";
+            mysqli_query($database, $deleteEcoNews);
+
         $delete_sql = "DELETE FROM events WHERE events_id = '$event_id'";
         if (mysqli_query($database, $delete_sql)) {
             echo "<script>alert('Event deleted successfully.'); window.location.href='event-manager-calendar.php';</script>";
