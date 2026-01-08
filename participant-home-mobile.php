@@ -339,7 +339,7 @@ foreach ($user_total_points as $rank) {
                         <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="News image"
                             class="news-image">
                         <div class="news-content">
-                            <div class="news-tag">Sustainability</div>
+
                             <h3 class="news-title"><?php echo htmlspecialchars($row['title']); ?></h3>
                             <p class="news-text">
                                 <?php echo substr(strip_tags($row['description']), 0, 120); ?>...
@@ -349,18 +349,6 @@ foreach ($user_total_points as $rank) {
                 </div>
             <?php } ?>
 
-            <div class="news-card">
-                <a href="#" class="news-link">
-                    <img src="https://picsum.photos/120/120?random=1" alt="News image" class="news-image">
-                    <div class="news-content">
-                        <div class="news-tag">Community</div>
-                        <h3 class="news-title">New Recycling Hubs</h3>
-                        <p class="news-text">
-                            Discover the newly installed electronic waste recycling hubs across campus.
-                        </p>
-                    </div>
-                </a>
-            </div>
         </section>
     </main>
 
