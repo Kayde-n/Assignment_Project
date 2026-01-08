@@ -1,27 +1,28 @@
 <?php
-include("session.php");
-include("Database.php");
+    include("session.php");
+    include("Database.php");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $event_name = $_POST['event_title'];
-    $description = $_POST['event_details'];
-    $points_rewarded = $_POST['points_awarded'];
-    $max_participants = $_POST['max_participants'];
-    $start_time = $_POST['start_date_time'];
-    $end_time = $_POST['end_date_time'];
-    $venue = $_POST['location'];
-    $organised_by = $_POST['organiser'];
-    $organizer_email = $_POST['organiser_email'];
+    // run if the user has submitted a form
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $event_name = $_POST['event_title'];
+        $description = $_POST['event_details'];
+        $points_rewarded = $_POST['points_awarded'];
+        $max_participants = $_POST['max_participants'];
+        $start_time = $_POST['start_date_time'];
+        $end_time = $_POST['end_date_time'];
+        $venue = $_POST['location'];
+        $organised_by = $_POST['organiser'];
+        $organizer_email = $_POST['organiser_email'];
 
-    $insert_sql = "INSERT INTO events (event_name, description, points_rewarded,venue,organised_by,organizer_email,start_time, end_time, max_participants) 
-    VALUES ('$event_name', '$description', '$points_rewarded', '$venue', '$organised_by', '$organizer_email', '$start_time', '$end_time', '$max_participants')";
-    if (mysqli_query($database, $insert_sql)) {
-        echo "<script>alert('New event created successfully.');</script>";
-    } else {
-        echo "Error: " . $insert_sql . "<br>" . mysqli_error($database);
+        // sql insert data into table
+        $insert_sql = "INSERT INTO events (event_name, description, points_rewarded,venue,organised_by,organizer_email,start_time, end_time, max_participants) 
+        VALUES ('$event_name', '$description', '$points_rewarded', '$venue', '$organised_by', '$organizer_email', '$start_time', '$end_time', '$max_participants')";
+        if (mysqli_query($database, $insert_sql)) {
+            echo "<script>alert('New event created successfully.');</script>";
+        } else {
+            echo "Error: " . $insert_sql . "<br>" . mysqli_error($database);
+        }
     }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

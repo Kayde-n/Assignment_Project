@@ -2,11 +2,13 @@
     include("session.php");
     include("Database.php");
 
+    // get start time, event name 
     $calender_events="SELECT events.events_id, events.event_name, events.start_time
     FROM events";
 
     $result = mysqli_query($database, $calender_events);
 
+    // create array for date and time
     $eventsArray = [];
         while ($row = mysqli_fetch_assoc($result)) {
             //this is to get date and time separately form the database
@@ -22,9 +24,7 @@
                 'time' => $time,
                 'eventId' => $row['events_id']
             ];
-}
-
-
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,7 +1,7 @@
 <?php
     include("session.php");
     include("Database.php");
-
+    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = mysqli_real_escape_string($database, $_POST['news_title']);
         $description = mysqli_real_escape_string($database, $_POST['news_description']);
@@ -9,6 +9,7 @@
         $organised_by = mysqli_real_escape_string($database, $_POST['news_organiser']);
         $image_path = '';
 
+        // handle image upload
         $posted_by = $_SESSION['user_role_id'];
 
         if (isset($_FILES['news_image']) && $_FILES['news_image']['error'] === 0) {
@@ -29,6 +30,7 @@
 
         $events_id = !empty($_POST['events_id']) ? intval($_POST['events_id']) : 'NULL';
 
+        //save to db
         $insert_sql = "INSERT INTO eco_news (title, description, image_path, venue, organised_by, events_id, posted_by) 
         VALUES ('$title', '$description', '$image_path', '$venue', '$organised_by', '$events_id', '$posted_by')";
         

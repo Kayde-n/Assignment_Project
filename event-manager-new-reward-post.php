@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = $_POST['quantity'];
     $description = $_POST['description'];
 
+    // sql insert into database
     $insert_sql = "INSERT INTO rewards (reward_name, description, points_required, quantity, category) 
     VALUES ('$reward_name', '$description', '$points_required', '$quantity','$category')";
     if (mysqli_query($database, $insert_sql)) {
