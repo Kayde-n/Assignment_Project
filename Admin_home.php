@@ -1,16 +1,19 @@
 <?php
     session_start();
     include("Database.php");
+    // check if its on maintenance
     include("check-maintenance-status.php");
-    $sql_latest = "SELECT DATE_FORMAT
-            (MAX(date_accomplished), '%Y-%m') AS latest_month
+
+    // Most reason month in db
+    $sql_latest = "SELECT DATE_FORMAT(MAX(date_accomplished), '%Y-%m') AS latest_month
             FROM participants_challenges";
+
     $latest = mysqli_fetch_assoc(mysqli_query($database, $sql_latest));
-    $monthYear = $_GET['month_year'] ?? $latest['latest_month'];
-    [$year, $month] = explode('-', $monthYear);
+    $monthYear = $_GET['month_year'] ?? $latest['latest_month']; 
+    [$year, $month] = explode('-', $monthYear); // it splits 2023-10 to year and month
 
 
-    //GET AVAILABLE MONTHS FOR DROPDOWN
+    // get all months that has data
     $sql_months = "SELECT DISTINCT 
                 DATE_FORMAT(date_accomplished, '%Y-%m') AS ym,
                 DATE_FORMAT(date_accomplished, '%M %Y') AS label
@@ -19,7 +22,7 @@
     $result_months = mysqli_query($database, $sql_months);
 
 
-    //ENVIRONMENTAL IMPACT TOTALS (FILTERED BY MONTH)
+    // calc data for selected month
     $sql = "SELECT 
                 SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
                 SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon emmision%' THEN impact_amount ELSE 0 END) AS carbon_emission,
