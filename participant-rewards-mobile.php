@@ -389,6 +389,7 @@ $total_points = (int) $row_points['total_points'];
                     const modal = document.getElementById("rewardModal");
                 }
 
+                lucide.createIcons()
             </script>
         </div>
     </main>
