@@ -1,8 +1,8 @@
 .top-bar {
     position: fixed;
     width: 100%;
-    height: 88px;
-    background-color: var(--primary-green);
+    height: 74px;
+    background-color: #ffffff;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -65,8 +65,8 @@
 .side-bar {
     position: fixed;
     height: 100%;
-    width: 250px;
-    background-color: var(--primary-green);
+    width: 74px;
+    background-color: #53B757;
     display: flex;
     flex-direction: column;
     align-items: center;
