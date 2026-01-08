@@ -339,7 +339,7 @@ exit();*/
                     <canvas id="performanceChart1" width="400px" height="400px"></canvas>
                 </div>
             </div>
-            <div class="large-analytics-card">
+            <div class="large-analytics-card-2">
                 <h3 class="card-title">Monthly Sales</h3>
                 <p>*Sales are based on redeemed rewards</p>
                 <div class="card-content">
