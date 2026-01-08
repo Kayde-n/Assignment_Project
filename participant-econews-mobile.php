@@ -5,25 +5,29 @@
     date_default_timezone_set("Asia/Kuala_Lumpur");
 
     $search = "";
+    // Check if search input exists
     if (isset($_POST['search']) && !empty($_POST['search'])) {
         $search = mysqli_real_escape_string($database, $_POST['search']);
     }
 
+    // query for upcoming events (start time now or later)
     $sql = "SELECT eco_news.eco_news_id,eco_news.title,eco_news.description,eco_news.image_path,events.start_time,events.end_time
         FROM eco_news
         INNER JOIN events ON eco_news.events_id = events.events_id
         WHERE events.start_time >= NOW()";
 
+    // If search is used, filter by title or description
     if (!empty($search)) {
         $sql .= " AND (eco_news.title LIKE '%$search%'
                 OR eco_news.description LIKE '%$search%')";
     }
 
+    // query upcoming events (earliest first)
     $sql .= " ORDER BY events.start_time ASC";
-
 
     $result = mysqli_query($database, $sql);
 
+    // query pass events
     $sql_past = "SELECT eco_news.eco_news_id, eco_news.title, eco_news.description, eco_news.image_path,
                         events.start_time, events.end_time
                 FROM eco_news
@@ -35,8 +39,8 @@
                     OR eco_news.description LIKE '%$search%')";
     }
 
+    // query pass events (latest first)
     $sql_past .= " ORDER BY events.start_time DESC";
-
     $result_past = mysqli_query($database, $sql_past);
 
 ?>
@@ -159,7 +163,8 @@
         <?php if (mysqli_num_rows($result) == 0) { ?>
             <p class="no-results">No news found.</p>
         <?php } ?>
-
+        
+        <!-- show one by one if there is results -->
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <div class="news-card">
                 <a href="participant-econews-example-mobile.php?id=<?php echo (int)$row['eco_news_id']; ?>" class="news-link">
@@ -175,22 +180,7 @@
             </div>
         <?php } ?>
 
-        <div class="news-card">
-            <a href="participant-econews-example-mobile.php" class="news-link">
-                <img src="https://picsum.photos/120/120" alt="News image" class="news-image">
-                <div class="news-content">
-                    <div class="news-tag">Sustainability</div>
-                    <h3 class="news-title">Campus Green Challenge Launched</h3>
-                    <p class="news-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </a>
-        </div>
-
-    </div>
-
+    <!-- Past events -->
     <div class="econews-header">
         <div class="section-header">
             <div class="section-title">Past Events</div>
