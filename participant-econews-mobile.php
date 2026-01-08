@@ -19,10 +19,26 @@
                 OR eco_news.description LIKE '%$search%')";
     }
 
-$sql .= " ORDER BY events.start_time ASC";
+    $sql .= " ORDER BY events.start_time ASC";
 
 
     $result = mysqli_query($database, $sql);
+
+    $sql_past = "SELECT eco_news.eco_news_id, eco_news.title, eco_news.description, eco_news.image_path,
+                        events.start_time, events.end_time
+                FROM eco_news
+                INNER JOIN events ON eco_news.events_id = events.events_id
+                WHERE events.start_time < NOW()";
+
+    if (!empty($search)) {
+        $sql_past .= " AND (eco_news.title LIKE '%$search%'
+                    OR eco_news.description LIKE '%$search%')";
+    }
+
+    $sql_past .= " ORDER BY events.start_time DESC";
+
+    $result_past = mysqli_query($database, $sql_past);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -174,6 +190,36 @@ $sql .= " ORDER BY events.start_time ASC";
         </div>
 
     </div>
+
+    <div class="econews-header">
+        <div class="section-header">
+            <div class="section-title">Past Events</div>
+        </div>
+    </div>
+
+    <div class="news-list">
+
+        <?php if (mysqli_num_rows($result_past) == 0) { ?>
+            <p class="no-results">No past events found.</p>
+        <?php } ?>
+
+        <?php while ($row = mysqli_fetch_assoc($result_past)) { ?>
+            <div class="news-card past-event">
+                <a href="participant-econews-example-mobile.php?id=<?php echo (int)$row['eco_news_id']; ?>" class="news-link">
+                    <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
+                    <div class="news-content">
+                        <div class="news-tag">Past Event</div>
+                        <h3 class="news-title"><?php echo $row['title']; ?></h3>
+                        <p class="news-text">
+                            <?php echo substr($row['description'], 0, 200); ?>...
+                        </p>
+                    </div>
+                </a>
+            </div>
+        <?php } ?>
+
+    </div>
+
 </main>
 
     <script>

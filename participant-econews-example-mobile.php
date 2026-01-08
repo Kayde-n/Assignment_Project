@@ -1,9 +1,27 @@
+<?php
+    include("session.php");
+    include("Database.php");
+    if(isset($_GET['id'])){
+        $news_id = (int) $_GET['id'];
+        $sql = "SELECT eco_news_id, title, description, image_path, venue, organised_by FROM eco_news WHERE eco_news_id = $news_id";
+        $result = mysqli_query($database, $sql);  
+        if(mysqli_num_rows($result) > 0){
+            $news = mysqli_fetch_assoc($result);
+        } else {
+            echo "<script>alert('News not found.'); window.location.href = 'participants-home.php'; </script>"; 
+            exit();
+        }  
+    } else {
+        echo "<script>alert('Invalid news ID.'); window.location.href = 'participants-home.php';</script>";  
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Participant Econews Mobile</title>
+    <title>News Details</title>
     <link rel="stylesheet" href="mobile.css">
     <link rel="stylesheet" href="participant-econews-example-mobile.css">    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
@@ -112,7 +130,9 @@
 <main class="main-content">
 <!-- background hero -->
     <div class="hero">
-         <div class="hero" style="background-image: url('https://picsum.photos/600/400');">
+        <!-- top for event image down -->
+        <div class="hero" style="background-image: url('https://picsum.photos/600/400');">
+
         <a href="participant-econews-mobile.php" class="return-btn" aria-label="Return button">
             <i data-lucide="arrow-left"></i>
         </a>    
@@ -120,29 +140,25 @@
 <!-- article -->
     <div class="article-container">
         <div class="news-tag">Sustainability</div>
-        <h1 class="article-title">Top 5 Green Tips for Reducing E-Waste</h1>
+        <h1 class="article-title"><?php echo $news['title']; ?></h1>
 
+        <h2>Organised by</h2>
         <p>
-            UK businesses and households produce 1.45 million tonnes of e-waste a year. 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod 
-            tempor incididunt ut labore et dolore magna aliqua.
+            <?php echo $news['organised_by']; ?>
         </p>
 
-        <h2>Tip 1: Buy Less</h2>
+        <h2>Venue</h2>
         <p>
-            Only purchase devices you really need. Lorem ipsum dolor sit amet, 
-            consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut 
-            labore et dolore magna aliqua.
+            <?php echo $news['venue'];?>
         </p>
 
-        <h2>Tip 2: Recycle Properly</h2>
+        <h2>Description</h2>
         <p>
-            Always drop old electronics at certified recycling points. Lorem ipsum 
-            dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
-            incididunt ut labore et dolore magna aliqua.
+            <?php echo nl2br($news['description']); ?>
         </p>
 
-        <img src="https://picsum.photos/400/200" alt="E-waste image" class="article-img">
+        <img src="images/<?php echo htmlspecialchars($news['image_path']); ?>" alt="News image" class="article-img">
+
     </div>
 </main>
 
