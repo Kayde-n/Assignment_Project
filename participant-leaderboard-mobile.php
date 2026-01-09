@@ -1,3 +1,58 @@
+<?php
+    include("session.php");
+    include("database.php");
+    $participant_id = $_SESSION['user_role_id'];
+
+    $sql_query = "SELECT u.profile_picture_path,u.user_full_name,COALESCE(SUM(c.points_reward), 0) AS total_eco_points FROM user u
+                RIGHT JOIN participants p 
+                    ON u.user_id = p.user_id
+                LEFT JOIN participants_challenges pc 
+                    ON p.participants_id = pc.participants_id
+                    AND pc.challenges_status = 'approved'
+                LEFT JOIN challenges c 
+                    ON pc.challenges_id = c.challenges_id
+                WHERE u.account_status = 'Active'
+                GROUP BY u.user_id, u.user_full_name, u.profile_picture_path
+                ORDER BY total_eco_points DESC;";
+
+    $result = mysqli_query($database, $sql_query);
+
+    if (!$result) {
+        die("Database query failed: " . mysqli_error($database));
+    }
+
+    $leaderstats = [];
+
+    if (mysqli_num_rows($result) == 0) {
+        echo "<script>alert('Insufficient leaderboard data found.'); window.location.href = 'participants-desktop-home.php'; </script>";
+        exit();
+    }
+    while ($row = mysqli_fetch_assoc($result)) {
+        $leaderstats[$row['user_full_name']] = $row['total_eco_points'];
+        $images[] = $row['profile_picture_path'];
+    }
+    $total_slots = 20;
+    $empty_space = $total_slots - count($leaderstats);
+    $filled_space = 0;
+    while ($filled_space < $empty_space) {
+        $leaderstats['Spot Open ' . (count($leaderstats) + 1)] = 0;
+        $images[] = 'images/profile.png';
+        $filled_space++;
+    }
+
+    $topThree = array_slice($leaderstats, 0, 3, true);
+
+    $topThreeArrays = [];
+
+    foreach ($topThree as $name => $points) {
+        $topThreeArrays[] = [
+            'user_full_name' => $name,
+            'total_eco_points' => $points
+        ]; //convert to array within an array 
+
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,47 +144,50 @@
         <div class="header-title">Leaderboard</div>     
     </div>
 
+    <!-- RANKING 2nd place -->
     <div class="ranking-container">
         <div class="rank-bar second">
             <div class="avatar">
                 <div class="avatar-clip">
-                    <img src="https://picsum.photos/800/800" alt="test" class="profile-img">
+                    <img src="<?php echo $images[1]; ?>" alt="test" class="profile-img">
                 </div>
             </div>
             <div class="rank-content">
-                <p class="name">Emma</p>
-                <p class="score">18000</p>
+                <p class="name"><?php echo $topThreeArrays[1]['user_full_name']; ?></p>
+                <p class="score"><?php echo $topThreeArrays[1]['total_eco_points']; ?></p>
             </div>
             <div class="rank-medal">
                 <div class="rank-label">2</div>
             </div>
         </div>
 
+        <!-- RANKING 1st place -->
         <div class="rank-bar first">
             <div class="avatar">
                 <div class="avatar-clip">
-                    <img src="https://picsum.photos/800/800" alt="test" class="profile-img">
+                    <img src="<?php echo 'photo/' . basename($images[0]); ?>" alt="test" class="profile-img">
                 </div>
             </div>
             <img src="images/crown.png" class="impact-img" alt="CO₂ image">
             <div class="rank-content">
-                <p class="name">Eiden</p>
-                <p class="score">20000</p>
+                <p class="name"><?php echo $topThreeArrays[0]['user_full_name']; ?></p>
+                <p class="score"><?php echo $topThreeArrays[0]['total_eco_points']; ?></p>
             </div>
             <div class="rank-medal">
                 <div class="rank-label">1</div>
             </div>
         </div>
 
+        <!-- RANKING 3rd place -->
         <div class="rank-bar third">
             <div class="avatar">
                 <div class="avatar-clip">
-                    <img src="https://picsum.photos/800/800" alt="test" class="profile-img">
+                    <img src="<?php echo 'photo/' . basename($images[2]); ?>" alt="test" class="profile-img">
                 </div>
             </div>
             <div class="rank-content">
-                <p class="name">Emma</p>
-                <p class="score">17999</p>
+                <p class="name"><?php echo $topThreeArrays[2]['user_full_name']; ?></p>
+                <p class="score"><?php echo $topThreeArrays[2]['total_eco_points']; ?></p>
             </div>
             <div class="rank-medal">
                 <div class="rank-label">3</div>
@@ -138,214 +196,40 @@
     </div>
 
     <div class="top-100-container">
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/48/48" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
+    <?php
+    $rank = 4; // start from 4th place
+    $counter = 0;
+    $index = 3; // first 3 indices are topThree, so start from 3
 
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
+    foreach ($leaderstats as $name => $points) {
+        if ($counter < 3) { // skip top 3
+            $counter++;
+            continue;
+        }
 
+    $img_src = isset($images[$index]) ? 'photo/' . basename($images[$index]) : 'photo/profile.png';
+        echo '
         <div class="top-100-row">
             <div class="left-group">
-                <div class="rank-number">4</div>
+                <div class="rank-number">' . $rank . '</div>
                 <div class="avatar">
                     <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
+                        <img src="' . htmlspecialchars($img_src) . '" alt="profile" class="profile-img">
                     </div>
                 </div>
-                <div class="name">Alice</div>
+                <div class="name">' . htmlspecialchars($name) . '</div>
             </div>
-            <div class="points">15000</div>
+            <div class="points">' . (int)$points . '</div>
         </div>
+        ';
 
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
-
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">4</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="https://picsum.photos/800/800" alt="profile" class="profile-img">
-                    </div>
-                </div>
-                <div class="name">Alice</div>
-            </div>
-            <div class="points">15000</div>
-        </div>
+        $rank++;
+        $index++;
+    }
+    ?>
     </div>
+
+
 </main>
 
     <script>
