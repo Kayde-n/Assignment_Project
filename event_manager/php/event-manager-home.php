@@ -1,9 +1,9 @@
 <?php
     session_start();
-    include("Database.php");
+    require_once __DIR__ . "/../../config/Database.php";
 
     if (!isset($_SESSION['user_role_id'])) {
-        header("Location: login.php");
+        header("Location: /../../login.php");
         exit();
     }
 
@@ -48,8 +48,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Manager Home</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="event-manager-home.css">
+    <link rel="stylesheet" href="../../mobile.css">
+    <link rel="stylesheet" href="../css/event-manager-home.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -103,7 +103,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="/../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -182,7 +182,7 @@
                 onclick="window.location.href='event-manager-news-details.php?id=<?php echo $row['eco_news_id']; ?>'">
 
                 <button class="image-holder">
-                    <img src="images/<?php echo $row['image_path']; ?>" alt="News Image">
+                    <img src="../../images/<?php echo $row['image_path']; ?>" alt="News Image">
                 </button>
 
                 <button class="content-text-box">
@@ -219,7 +219,7 @@
                 // Only search if user typed at least 2 characters
                 if (query.length >= 2) {
                     // Send AJAX request to PHP
-                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=event_manager')
+                    fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=event_manager')
                         .then(response => response.json())
                         .then(data => {
 
@@ -248,7 +248,7 @@
                         redirectUrl = item.url;
                     } else if (item.eco_news_id) {
                         // For eco news results
-                        redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                        redirectUrl = '/../..participants-desktop-newsdetails.php?id=' + item.eco_news_id;
                     }
 
                     html += `

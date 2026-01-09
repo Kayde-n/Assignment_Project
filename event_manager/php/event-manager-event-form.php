@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/Database.php";
 
     // run if the user has submitted a form
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,9 +30,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Event Post</title>
-    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="../../mobile.css">
 
-    <link rel="stylesheet" href="event-manager-event-form.css">
+    <link rel="stylesheet" href="../css/event-manager-event-form.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>

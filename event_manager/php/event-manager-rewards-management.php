@@ -1,36 +1,50 @@
 <?php
-include("session.php");
-include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/Database.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $reward_name = $_POST['reward_title'];
-    $category = $_POST['reward_category'];
-    $points_required = $_POST['points_required'];
-    $quantity = $_POST['quantity'];
-    $description = $_POST['description'];
+    // if no category then 'all rewards'
+    $active_category = $_GET['category'] ?? 'All Rewards';
+    $result = null;
 
-    // sql insert into database
-    $insert_sql = "INSERT INTO rewards (reward_name, description, points_required, quantity, category) 
-    VALUES ('$reward_name', '$description', '$points_required', '$quantity','$category')";
-    if (mysqli_query($database, $insert_sql)) {
-        echo "<script>alert('New reward posted successfully.'); window.location.href='event-manager-rewards-management.php';</script>";
-    } else {
-        echo "Error: " . $insert_sql . "<br>" . mysqli_error($database);
+    // if user wanna see anything
+    if ($active_category === 'All Rewards') {
+
+        $sql = "SELECT rewards_id, reward_name, description, points_required 
+                FROM rewards";
+        $result = mysqli_query($database, $sql);
+    // if user clicked on 'Physical rewards'
+    } elseif ($active_category === 'Physical Rewards') {
+
+        $sql = "SELECT rewards_id, reward_name, description, points_required 
+                FROM rewards 
+                WHERE category LIKE '%Physical%'";
+        $result = mysqli_query($database, $sql);
+    // if user clicked on 'Discount / Voucher'
+    } elseif ($active_category === 'Discount/Vouchers') {
+
+        $sql = "SELECT rewards_id, reward_name, description, points_required 
+                FROM rewards 
+                WHERE category LIKE '%Vouchers%'";
+        $result = mysqli_query($database, $sql);
+
     }
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Reward Post</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="event-manager-new-reward-post.css">
+    <title>Rewards</title>
+    <link rel="stylesheet" href="../../mobile.css">
+    <link rel="stylesheet" href="../css/event-manager-rewards-management.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
+
 <body>
-        <!-- top bar -->
+    <!-- top bar -->
     <header class="top-bar" role="banner">
     <div class="top-left">
         <button class="icon-btn no-hover topbar-icon" onclick="window.location.href='event-manager-home.php'" style="display:flex;align-items:center;gap:8px;">
@@ -68,17 +82,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button class="icon-btn"><i data-lucide="calendar-fold"></i></button>
         </a>
 
-        <a class="icon-link active sidebar-icon" href="event-manager-news.php" aria-label="Scan / Log Action">
+        <a class="icon-link sidebar-icon" href="event-manager-news.php" aria-label="Scan / Log Action">
         <button class="icon-btn"><i data-lucide="newspaper"></i></button>
         </a>
 
-        <a class="icon-link sidebar-icon" href="event-manager-rewards-management.php" aria-label="Rewards">
+        <a class="icon-link active sidebar-icon" href="event-manager-rewards-management.php" aria-label="Rewards">
         <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
         </a>
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -91,10 +105,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="event-manager-calendar.php" class="nav-item">
             <i data-lucide="calendar-fold" class="icon-btn"></i>
         </a>
-        <a href="event-manager-news.php" class="nav-item active">
+        <a href="event-manager-news.php" class="nav-item">
             <i data-lucide="newspaper" class="icon-btn"></i>
         </a>
-        <a href="event-manager-rewards-management.php" class="nav-item">
+        <a href="event-manager-rewards-management.php" class="nav-item active">
             <i data-lucide="badge-percent" class="icon-btn"></i>
         </a>
         <a href="event-manager-profile.php" class="nav-item">
@@ -104,76 +118,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </nav>
 
     <main class="main-content">
-        <!-- Page Header -->
+
         <div class="page-header">
-            <div class="title-box"><h1>New Reward Post</h1></div>
+            <div class="title-box"><h1>Rewards</h1></div>
         </div>
 
-        <!-- Reward Form -->
-        <div class="reward-form-container">
-            <form id="rewardForm" method="POST" enctype="multipart/form-data" onsubmit="return handleSubmit(event)">
-                
-                <!-- Title Field -->
-                <div class="form-group">
-                    <label for="reward-title">Reward Name</label>
-                    <input type="text" 
-                           id="reward-title" 
-                           name="reward_title" 
-                           placeholder="Enter reward title" 
-                           required>
-                </div>
+        <div class="reward-categories">
+            <form method="GET" style="display:flex; gap:12px;">
+                <button type="submit" name="category" value="All Rewards"
+                    class="category-btn <?php echo ($active_category === 'All Rewards') ? 'active' : ''; ?>">
+                    All Rewards
+                </button>
 
-                <!-- Category Field -->
-                <div class="form-group">
-                    <label for="reward-category">Category</label>
-                    <select id="reward-category" name="reward_category" required>
-                        <option value="" disabled selected>Select category</option>
-                        <option value="Discount/Vouchers">Discount/Vouchers</option>
-                        <option value="Physical Rewards">Physical Rewards</option>
-                    </select>
-                </div>
+                <button type="submit" name="category" value="Discount/Vouchers"
+                    class="category-btn <?php echo ($active_category === 'Discount/Vouchers') ? 'active' : ''; ?>">
+                    Discount/Vouchers
+                </button>
 
-                <!-- Points Required Field -->
-                <div class="form-group">
-                    <label for="points-required">Points Required</label>
-                    <input type="number" 
-                           id="points-required" 
-                           name="points_required" 
-                           placeholder="Enter points required" 
-                           min="1" 
-                           required>
-                </div>
-
-                <!-- Quantity Field -->
-                <div class="form-group">
-                    <label for="quantity">Quantity</label>
-                    <input type="number" 
-                           id="quantity" 
-                           name="quantity" 
-                           placeholder="Enter quantity available" 
-                           min="1" 
-                           required>
-                </div>
-
-                <!-- Description Field -->
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" 
-                              name="description" 
-                              rows="4" 
-                              placeholder="Enter reward description and terms & conditions" 
-                              required></textarea>
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn-post">Post</button>
+                <button type="submit" name="category" value="Physical Rewards"
+                    class="category-btn <?php echo ($active_category === 'Physical Rewards') ? 'active' : ''; ?>">
+                    Physical Rewards
+                </button>
             </form>
-        </div>
-    </div>
 
+            <div class="add-btn-container">
+                <button class="add-btn" onclick="window.location.href='event-manager-new-reward-post.php'">
+                    <img src="../../images/add.png" alt="add rewards">
+                </button>
+                <span class="tooltip">Add rewards</span>
+            </div>
+        </div>
+    
+
+
+
+        <p class="result-count">
+            <?php echo ($result) ? mysqli_num_rows($result) : 0; ?> results
+        </p>
+            <div class="reward-container">
+            <?php
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <div class="reward-card">
+                        <button class="reward-card-trash-icon" 
+                                onclick="deleteReward(<?php echo $row['rewards_id']; ?>)" 
+                                title="Delete reward">
+                            <img src="../../images/trash.png" alt="Delete">
+                            <span class="tooltip">Delete Rewards</span>
+                        </button>
+                        <div class="reward-img"><img src="../../images/voucher.png"></div>
+                        <div class="reward-info">
+                            <h3><?php echo $row['reward_name']; ?></h3>
+                            <p class="reward-points"><?php echo $row['points_required']; ?>GP</p>
+                            <button class="unavailible-btn" disabled >Unavailable</button>
+                        </div>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo '<p>No rewards available at the moment.</p>';
+            }
+            ?>
+            </div>
+        </main>
     <script>
+        function deleteReward(rewards_id) {
+            if (confirm("Are you sure you want to delete this reward?")) {
+                window.location.href = `delete_reward.php?rewards_id=${rewards_id}`;
+            }
+        }
+
         lucide.createIcons();
-        </script>
+    </script>
+
 </body>
 
 </html>

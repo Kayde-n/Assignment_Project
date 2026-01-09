@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/Database.php";
 
     // check id in URL
     if(isset($_GET['id'])){
@@ -27,8 +27,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $news['title']; ?> - News Details</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="event-manager-news-details.css">
+    <link rel="stylesheet" href="../../mobile.css">
+    <link rel="stylesheet" href="../css/event-manager-news-details.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -81,7 +81,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -114,7 +114,7 @@
 
         <!-- Image section -->
         <div class="content-image">
-            <img src="images/<?php echo $news['image_path']; ?>" alt="News Image">
+            <img src="../../images/<?php echo $news['image_path']; ?>" alt="News Image">
         </div>
 
         <!-- Text section -->

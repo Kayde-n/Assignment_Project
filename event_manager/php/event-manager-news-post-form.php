@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/Database.php";
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = mysqli_real_escape_string($database, $_POST['news_title']);
@@ -17,7 +17,7 @@
             $tmpName   = $_FILES['news_image']['tmp_name'];
 
             // Create images directory if it doesn't exist
-            $upload_dir = "images/";
+            $upload_dir = "../../images/";
             if (!file_exists($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
@@ -47,8 +47,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New News Post</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="event-manager-news-post-form.css">
+    <link rel="stylesheet" href="../../mobile.css">
+    <link rel="stylesheet" href="../css/event-manager-news-post-form.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -100,7 +100,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>

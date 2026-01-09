@@ -48,7 +48,7 @@ if (isset($_SESSION['user_role_id'])) {
     } else if ($_SESSION['user_role'] == 'admin') {
         header("location: admin/php/admin_home.php");
     } else if ($_SESSION['user_role'] == 'event_manager') {
-        header("location: event-manager-home.php");
+        header("location: event_manager/php/event-manager-home.php");
     } else if ($_SESSION['user_role'] == 'staff') {
         header("location: Staff/php/staff-desktop-home.php");
 

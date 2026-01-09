@@ -43,6 +43,19 @@ body {
     transform: translateX(-3px);
 }
 
+@media (max-width: 1024px) {
+    .back-bttn {
+        position: fixed;       
+        top: 16px;             
+        left: 16px;            
+        margin: 0;             
+        max-width: none;       
+        font-size: 1rem;      
+        padding: 8px 12px;     
+        z-index: 200;          
+    }
+}
+
 /* Event Details Container */
 .event-details-container {
     background-color: #FFFFFF;

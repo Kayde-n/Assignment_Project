@@ -1,5 +1,5 @@
 <?php
-    include("Database.php");
+    require_once __DIR__ . "/../../config/Database.php";
 
     if (isset($_GET['event_id'])) {
         $event_id = $_GET['event_id'];  

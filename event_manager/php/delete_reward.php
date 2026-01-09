@@ -1,5 +1,5 @@
 <?php
-include("Database.php");
+require_once __DIR__ . "/../../config/Database.php";
 
 if (isset($_GET['rewards_id'])) {
     $rewards_id = $_GET['rewards_id']; 

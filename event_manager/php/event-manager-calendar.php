@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/Database.php";
 
     // get start time, event name 
     $calender_events="SELECT events.events_id, events.event_name, events.start_time
@@ -32,9 +32,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events Calendar</title>
-    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="../../mobile.css">
 
-    <link rel="stylesheet" href="event-manager-calendar.css">
+    <link rel="stylesheet" href="../css/event-manager-calendar.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -86,7 +86,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="/../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -192,7 +192,7 @@
                 <div class="events-header">
                     <h3>Events</h3>
                     <button class="add-event-btn" onclick="window.location.href='event-manager-event-form.php'">
-                        <img src="images/add.png" alt="More options" width="20" height="20" class="white-icon">
+                        <img src="../../images/add.png" alt="More options" width="20" height="20" class="white-icon">
                         </svg>
                     </button>
                 </div>
@@ -389,7 +389,7 @@
             
             eventItem.innerHTML = `
                 <div class="event-icon">
-                    <img src="images/event-icon.png" alt="Event" onerror="this.style.display='none'">
+                    <img src="../../images/event-icon.png" alt="Event" onerror="this.style.display='none'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendars-icon lucide-calendars"><path d="M12 2v2"/><path d="M15.726 21.01A2 2 0 0 1 14 22H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2"/><path d="M18 2v2"/><path d="M2 13h2"/><path d="M8 8h14"/><rect x="8" y="3" width="14" height="14" rx="2"/></svg>
                 </div>
                 <div class="event-details">
@@ -397,7 +397,7 @@
                     <p class="event-date">${formattedDate} • ${event.time}</p>
                 </div>
                 <button class="event-menu-btn" data-event-id="${event.eventId}" onclick="showEventMenu(this, '${event.title}')">
-                    <img src="images/Trash.png" alt="Deletion" width="20" height="20">
+                    <img src="../../images/Trash.png" alt="Deletion" width="20" height="20">
                 </button>
             `;
             eventItem.addEventListener('click', function(e) {

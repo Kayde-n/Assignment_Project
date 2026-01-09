@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/Database.php";
 
     $event_manager_id = $_SESSION['user_role_id'];
 
@@ -27,7 +27,7 @@
             exit('Invalid file type');
         }
 
-        $uploadDir = 'images/';
+        $uploadDir = '../../images/';
         $fileName = time() . '_' . basename($_FILES['avatar']['name']);
         $targetPath = $uploadDir . $fileName;
 
@@ -58,8 +58,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Profile Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-profile-mobile.css">    
+    <link rel="stylesheet" href="../../mobile.css">
+    <link rel="stylesheet" href="../../participant-profile-mobile.css">    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -115,7 +115,7 @@
         </a>
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -188,7 +188,7 @@
             </a>
 
 <!-- logout -->
-            <a class="quick-item logout" href="logout.php" id="logout" aria-label="Logout">
+            <a class="quick-item logout" href="../../logout.php" id="logout" aria-label="Logout">
                 <button class="icon-btn"><i data-lucide="log-out"></i></button>
                 <span>Logout</span>
               </a>
