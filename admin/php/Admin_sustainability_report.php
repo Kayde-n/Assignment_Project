@@ -10,7 +10,6 @@ $latest = mysqli_fetch_assoc(mysqli_query($database, $sql_latest));
 $monthYear = $_GET['month_year'] ?? $latest['latest_month'];
 [$year, $month] = explode('-', $monthYear);
 
-
 //get the avaiable months
 $sql_months = "SELECT DISTINCT 
             DATE_FORMAT(date_accomplished, '%Y-%m') AS ym,
@@ -18,7 +17,6 @@ $sql_months = "SELECT DISTINCT
             FROM participants_challenges
             ORDER BY ym DESC";
 $result_months = mysqli_query($database, $sql_months);
-
 
 //Enviromental Impacts by month
 $sql = "SELECT 
@@ -40,7 +38,6 @@ $sql_points = "SELECT
 $result_points = mysqli_query($database, $sql_points);
 $data_points = mysqli_fetch_assoc($result_points);
 $green_points = $data_points['total_points'] ?? 0;
-
 
 //fetch results
 $data = mysqli_fetch_assoc(mysqli_query($database, $sql));
@@ -194,8 +191,8 @@ $total_events = $data_events['total_events'] ?? 0;
                 </div>
                 <div class="stat-bar">
                     <?php
-                    $max_points = 100000;
-                    $points_percent = ($green_points > 0) ? min(100, round(($green_points / $max_points) * 100)) : 0;
+                    $max_points = 10000;
+                    $points_percent = ($green_points > 0) ? min(100, round(num: ($green_points / $max_points) * 100)) : 0; // min val to not make it exceed over 100
                     ?>
                     <div class="stat-fill" style="width: <?php echo $points_percent; ?>%;"></div>
                 </div>
