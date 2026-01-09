@@ -91,9 +91,19 @@ while ($row = mysqli_fetch_assoc($result)) {
 
         </div>
 
-        <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
-            <button class="icon-btn"><i data-lucide="log-out"></i></button>
+        <a class="icon-link sidebar-icon" id="logout" style="cursor: pointer;">
+            <button class="icon-btn" onclick="logout_confirm()">
+                <i data-lucide="log-out"></i>
+            </button>
         </a>
+
+        <script>
+        function logout_confirm() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "../../logout.php";
+            }
+        }
+        </script>
     </nav>
 
     <!-- nav bar -->

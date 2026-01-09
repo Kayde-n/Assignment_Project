@@ -182,17 +182,19 @@ if (!empty($_FILES['avatar']['name'])) {
             </a>
         </div>
 
-        <a class="icon-link sidebar-icon" id="logout" aria-label="Logout">
-            <button class="icon-btn" onclick="logout_confirm()"><i data-lucide="log-out"></i>
-                <script>
-                    function logout_confirm() {
-                        if (confirm("Are you sure you want to logout?")) {
-                            window.location.href = "../../logout.php";
-                        }
-                    }
-                </script>
+        <a class="icon-link sidebar-icon" id="logout" style="cursor: pointer;">
+            <button class="icon-btn" onclick="logout_confirm()">
+                <i data-lucide="log-out"></i>
             </button>
         </a>
+
+        <script>
+        function logout_confirm() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "../../logout.php";
+            }
+        }
+        </script>
     </nav>
 
     <!-- nav bar -->
