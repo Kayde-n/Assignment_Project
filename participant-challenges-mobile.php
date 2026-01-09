@@ -4,18 +4,8 @@
     $user_id = $_SESSION['user_id'];
     $participants_id = $_SESSION['user_role_id'];
 
-    // DEBUG - Check what's in $_GET
-    echo "<!-- GET array: ";
-    print_r($_GET);
-    echo " -->";
-    
-    echo "<!-- isset GET tab: " . (isset($_GET['tab']) ? 'YES' : 'NO') . " -->";
-    echo "<!-- GET tab value: " . (isset($_GET['tab']) ? $_GET['tab'] : 'NOTHING') . " -->";
-
     $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'ongoing';
     
-    echo "<!-- active_tab variable: " . $active_tab . " -->";
-
     if ($active_tab == 'ongoing') {
         $sql = "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status, participants_challenges.date_accomplished
         FROM challenges
@@ -189,9 +179,6 @@
                 $percent = ($daily_total > 0) ? ($completed_daily_total / $daily_total) * 100 : 0;
                 ?>
                 <div class="streak-fill" style="width: <?php echo $percent; ?>%;"></div>
-                <label for="dailyProgressMeter" class="streak-bar">
-                    <?php echo $completed_daily_total; ?>/<?php echo $daily_total; ?>
-                </label>
             </div>
             <div class="streak-info">
                 <span class="streak-text"><?php echo $completed_daily_total; ?>/<?php echo $daily_total; ?></span>

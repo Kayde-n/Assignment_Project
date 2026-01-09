@@ -18,7 +18,7 @@
         $insert_sql = "INSERT INTO events (event_name, description, points_rewarded,venue,organised_by,organizer_email,start_time, end_time, max_participants) 
         VALUES ('$event_name', '$description', '$points_rewarded', '$venue', '$organised_by', '$organizer_email', '$start_time', '$end_time', '$max_participants')";
         if (mysqli_query($database, $insert_sql)) {
-            echo "<script>alert('New event created successfully.');</script>";
+            echo "<script>alert('New event created successfully.'); window.location.href='event-manager-calendar.php';</script>";
         } else {
             echo "Error: " . $insert_sql . "<br>" . mysqli_error($database);
         }

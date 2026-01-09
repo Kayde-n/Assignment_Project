@@ -188,10 +188,10 @@
             </a>
 
 <!-- logout -->
-            <div class="quick-item logout">
-                <i data-lucide="log-out"></i>
+            <a class="quick-item logout" href="logout.php" id="logout" aria-label="Logout">
+                <button class="icon-btn"><i data-lucide="log-out"></i></button>
                 <span>Logout</span>
-            </div>
+              </a>
         </div>
     </div>
 </main>

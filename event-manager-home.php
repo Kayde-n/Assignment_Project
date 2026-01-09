@@ -173,8 +173,7 @@
             </button>
 
         </div>
-        <div class="text-box" onclick="window.location.href='event-manager-news-details.php'"
-            style="cursor: pointer;">
+        <div class="text-box" >
             What's New?
         </div>
         <?php while ($row = mysqli_fetch_assoc($result_news)) { ?>
