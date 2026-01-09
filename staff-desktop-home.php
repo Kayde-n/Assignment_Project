@@ -1,8 +1,8 @@
 <?php
     include("Database.php");
 
-    $sql_counts = "SELECT
-                    SUM(CASE WHEN challenges_status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
+    // general statistics 
+    $sql_counts = "SELECT SUM(CASE WHEN challenges_status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
                     SUM(CASE WHEN challenges_status = 'approved' THEN 1 ELSE 0 END) AS approved_count,
                     SUM(CASE WHEN challenges_status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count
                     FROM participants_challenges";
@@ -15,6 +15,7 @@
     $approvedCount = $counts['approved_count'] ?? 0;
     $rejectedCount = $counts['rejected_count'] ?? 0;
 
+    // query pending challengse  
     $listQuery = "SELECT pc.*,pc.image_path AS proof_image,u.user_full_name,c.challenge_name,c.description,pc.date_accomplished
         FROM participants_challenges pc
         JOIN participants p ON pc.participants_id = p.participants_id

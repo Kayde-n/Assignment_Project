@@ -24,6 +24,25 @@ body {
     filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
 }
 
+.back-bttn {
+    position: fixed;
+    top: 80px;
+    left: 80px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.back-bttn:hover {
+    transform: translateX(-3px);
+}
+
 /* Event Details Container */
 .event-details-container {
     background-color: #FFFFFF;
@@ -33,6 +52,7 @@ body {
     max-width: 1350px;
     width: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    margin-top: 30px;
 }
 
 /* Event Image */

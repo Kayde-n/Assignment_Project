@@ -1,6 +1,7 @@
 <?php
     session_start();
     include("Database.php");
+    // check if its on maintenance
     include("check-maintenance-status.php");
 
     // query overvall enviroment impact

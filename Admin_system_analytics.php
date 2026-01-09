@@ -13,15 +13,12 @@ if ($today) {
 
 }
 
-
-
 $sql_active_users1 = "SELECT *
                     from participants_challenges 
                     WHERE date_accomplished = '$todayString'
                     ";
 $result = mysqli_query($database, $sql_active_users1);
 $todays_users = mysqli_num_rows($result);
-
 
 $sql_active_users2 = "SELECT * 
                     from participants_challenges 
