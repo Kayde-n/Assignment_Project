@@ -301,7 +301,7 @@ $total_points = (int) $row_points['total_points'];
                     rewardCost = parseInt(rewardCost);
                     if (USER_POINTS < rewardCost) {
                         alert("You do not have enough points to redeem this reward.");
-                        return; // stop here
+                        return;
                     }
 
                     currentRewardId = rewardId;
