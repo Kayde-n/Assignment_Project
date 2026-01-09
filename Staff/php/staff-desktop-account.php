@@ -74,7 +74,6 @@
                 while($row = mysqli_fetch_assoc($result)) {
                     $status_label = $row['account_status'];
 
-                    // if status deactivated red, active then green
                     $status_class = (strtolower($status_label) == 'deactivated') ? 'suspended' : 'active';
                     ?>
                     <div class="user-card" onclick="openModal('<?php echo $row['user_id']; ?>', '<?php echo addslashes($row['user_full_name']); ?>', '<?php echo $row['TP_no']; ?>', '<?php echo $row['profile_picture_path']; ?>', '<?php echo $status_label; ?>')">

@@ -84,11 +84,12 @@ input[type="radio"]:checked + .tab-box {
 
 .participants-grid {
     display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* responsive columns */
+     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
 }
 
 .user-card {
+    width: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;

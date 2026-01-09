@@ -35,28 +35,33 @@
     $pending_data = mysqli_fetch_assoc($pending_res);
     $pending_count = $pending_data['total'] ?? 0;
 
-    // coint active participants
     $active_q = "SELECT COUNT(*) as total 
                 FROM user u 
                 JOIN participants p ON u.user_id = p.user_id 
                 WHERE u.account_status = 'Active'";
     $active_res = mysqli_query($database, $active_q);
     $active_data = mysqli_fetch_assoc($active_res);
-    $active_count = $active_data['total'] ?? 0; //exception handling it will show 0 if no query results
+    $active_count = $active_data['total'] ?? 0;
 
     if (isset($_POST['save_profile'])) {
-        $new_name = $_POST['update_name'];
-        $new_email = $_POST['update_email'];
-        
-        $update_sql = "UPDATE user SET user_full_name = ?, email = ? WHERE user_id = ?";
-        $upd_stmt = mysqli_prepare($database, $update_sql);
-        mysqli_stmt_bind_param($upd_stmt, "ssi", $new_name, $new_email, $current_user_id);
-        
-        if (mysqli_stmt_execute($upd_stmt)) {
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        }
+    $new_name = $_POST['update_name'];
+    $new_email = $_POST['update_email'];
+
+    $update_sql = "UPDATE user u
+                   JOIN staff s ON u.user_id = s.user_id
+                   SET u.user_full_name = ?, u.email = ?
+                   WHERE s.staff_id = ?";
+
+    $upd_stmt = mysqli_prepare($database, $update_sql);
+    mysqli_stmt_bind_param($upd_stmt, "ssi", $new_name, $new_email, $current_user_id);
+
+    if (mysqli_stmt_execute($upd_stmt)) {
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } else {
+        echo "Error updating profile: " . mysqli_error($database);
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
