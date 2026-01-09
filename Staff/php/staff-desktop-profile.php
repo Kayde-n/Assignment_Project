@@ -1,5 +1,5 @@
 <?php
-include('Database.php');
+require_once __DIR__ . "/../../config/database.php";
 
     $current_user_id = 3;
 
@@ -56,29 +56,29 @@ include('Database.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="staff.css">
-    <link rel="stylesheet" href="staff-profile-desktop.css">
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="../css/staff.css">
+    <link rel="stylesheet" href="../css/staff-profile-desktop.css">
     </head>
 <body>
     <div class="top-bar">
-        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="images/profile.png" alt="Profile"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="../../images/profile.png" alt="Profile"></button>
+            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification"></button>
+            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting"></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="staff-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="images/verification.png" alt="Verification"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="../../images/home.png" alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="../../images/verification.png" alt="Verification"></button>
             <div id="account-icon-box">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="images/account-management.png" alt="Account"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="../../images/account-management.png" alt="Account"></button>
             </div>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
         </div>
     </div>
 
@@ -127,7 +127,7 @@ include('Database.php');
                     <span class="stat-number"><?php echo $pending_count; ?></span>
                     <span class="stat-text">Pending Verification</span>
                 </div>
-                <img src="images/verification.png" alt="Icon">
+                <img src="../../images/verification.png" alt="Icon">
             </div>
 
             <div class="stat-box" onclick="window.location.href='staff-desktop-account.php'">
@@ -135,7 +135,7 @@ include('Database.php');
                     <span class="stat-number"><?php echo $active_count; ?></span>
                     <span class="stat-text">Participant Overview (Active)</span>
                 </div>
-                <img src="images/account-management.png" alt="Icon">
+                <img src="../../images/account-management.png" alt="Icon">
             </div>
         </div>
     </div>

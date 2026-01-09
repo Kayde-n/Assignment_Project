@@ -1,0 +1,137 @@
+#account-icon {
+    width: 116px;
+    height: 76px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid #999999;
+    box-shadow: 4px 4px 5px rgba(0,0,0,0.1);
+}
+
+#account-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+}
+
+#account-icon img {
+    filter: brightness(0) saturate(100%) invert(47%) sepia(57%) saturate(582%) hue-rotate(78deg) brightness(95%) contrast(92%);
+}
+
+.create-user-container {
+    max-width: 100%;
+    padding: 20px;
+}
+
+.create-user-container h3 {
+    color: #53B757;
+    font-size: 28px;
+    margin-bottom: 24px;
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 20px;
+    color: #555555;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid #C8E6C9; 
+    border-radius: 12px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+    color: #BDBDBD;
+}
+
+.form-group input:focus {
+    border-color: #53B757;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.add-btn {
+    background-color: #53B757;
+    color: white;
+    padding: 12px 80px;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #45a049;
+}
+
+/*Existing participants*/
+#userTableContainer {
+    width: 100%;
+    overflow-x: auto; /* horizontal scroll if table too wide */
+    -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
+}
+
+#userTableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* optional, set min width for desktop table */
+}
+
+#userTableContainer {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#userTableContainer {
+    width: 100%;
+    overflow-x: auto;               
+    -webkit-overflow-scrolling: touch; 
+}
+
+#userTableContainer table {
+    width: 100%;
+    min-width: 600px;               
+    border-collapse: collapse;
+}
+
+#userTableContainer th,
+#userTableContainer td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+#userTableContainer thead tr {
+    background-color: #53B757;
+    color: #fff;
+    text-align: left;
+}
+
+#userTableContainer tr:hover {
+    background-color: #f1f1f1;
+}
+

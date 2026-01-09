@@ -46,11 +46,11 @@ if (isset($_SESSION['user_role_id'])) {
     if ($_SESSION['user_role'] == 'participant') {
         header("location: participant-home-mobile.php");
     } else if ($_SESSION['user_role'] == 'admin') {
-        header("location: admin-desktop-home.php");
+        header("location: admin/php/admin_home.php");
     } else if ($_SESSION['user_role'] == 'event_manager') {
         header("location: event-manager-home.php");
     } else if ($_SESSION['user_role'] == 'staff') {
-        header("location: staff-desktop-home.php");
+        header("location: Staff/php/staff-desktop-home.php");
 
     }
 

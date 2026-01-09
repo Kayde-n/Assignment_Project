@@ -1,5 +1,5 @@
 <?php
-include('Database.php');
+require_once __DIR__ . "/../../config/database.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = mysqli_real_escape_string($database, $_POST['user_id']);

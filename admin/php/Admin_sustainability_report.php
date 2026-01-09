@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/database.php";
 
 //Latest month as default
 $sql_latest = "SELECT DATE_FORMAT
@@ -80,9 +80,9 @@ $total_events = $data_events['total_events'] ?? 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sustainability Report</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="admin-sustainability-report.css">
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/admin-sustainability-report.css">
 </head>
 
 <body>
@@ -101,17 +101,17 @@ $total_events = $data_events['total_events'] ?? 0;
 
     <div class="side-bar">
         <div class="admin-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="images/home.png"
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="../../images/home.png"
                     alt="Home"></button>
             <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
-                    src="images/system-analytics.png" alt="System Analytics"></button>
+                    src="../../images/system-analytics.png" alt="System Analytics"></button>
             <div id="sustainability-report-icon-box">
                 <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
-                        src="images/sustainability-report.png" alt="Sustainability Report"></button>
+                        src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
             </div>
             <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
-                    src="images/system-config.png" alt="System Config"></button>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+                    src="../../images/system-config.png" alt="System Config"></button>
+            <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
         </div>
     </div>
 

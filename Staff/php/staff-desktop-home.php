@@ -1,5 +1,5 @@
 <?php
-    include("Database.php");
+    require_once __DIR__ . "/../../config/database.php";
 
     // general statistics 
     $sql_counts = "SELECT SUM(CASE WHEN challenges_status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
@@ -33,22 +33,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>newsdetails</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="participant.css">
-    <link rel="stylesheet" href="participants-home-desktop.css">
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="../../participant.css">
+    <link rel="stylesheet" href="../../participants-home-desktop.css">
 </head>
 
 <body>
     <div class="top-bar">
-        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'">
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img
-                    src="images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+                    src="../../images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification Logo"></button>
+            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting Logo"></button>
         </div>
     </div>
 
@@ -56,14 +56,12 @@
         <div class="participant-icon-container">
             <div id="home-icon-box">
                 <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img
-                        src="images/home.png" alt="Home"></button>
+                        src="../../images/home.png" alt="Home"></button>
             </div>
             <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img
-                    src="images/verification.png" alt="Verification"></button>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-news.php'"><img
-                    src="images/newspaper.png" alt="News"></button>
+                    src="../../images/verification.png" alt="Verification"></button>
             <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img
-                    src="images/account-management.png" alt="Account"></button>
+                    src="../../images/account-management.png" alt="Account"></button>
             <button class="icon-btn" id="logout" onclick="logout_confirm()">
                 <script>
                     function logout_confirm() {
@@ -72,7 +70,7 @@
                         }
                     }
                 </script>
-                <img src="images/logout.png" alt="Logout">
+                <img src="../../images/logout.png" alt="Logout">
             </button>
         </div>
     </div>
@@ -109,7 +107,7 @@
             </button>
 
         </div>
-        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
+        <div class="text-box" onclick="window.location.href='participants/php/participants-desktop-econews.php'"
             style="cursor: pointer;">
             Verifications Queue
         </div>
@@ -147,7 +145,7 @@
                 </button>
 
                 <button class="next-btn">
-                    <img src="images/next.png" alt="Next Icon">
+                    <img src="../../images/next.png" alt="Next Icon">
                 </button>
 
             </div>

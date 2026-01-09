@@ -1,5 +1,5 @@
 <?php
-include("Database.php");
+require_once __DIR__ . "/config/database.php";
 date_default_timezone_set("Asia/Kuala_Lumpur");
 $current_time = date("Y-m-d H:i:s");
 $sql = "SELECT * FROM downtime 

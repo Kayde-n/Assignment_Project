@@ -1,6 +1,5 @@
 <?php
-    include("Database.php");
-
+    require_once __DIR__ . "/../../config/database.php";
     // Get 5 most recent actions performed
     function getActivityLog($database, $user_id) {
         $logs = [];
@@ -64,29 +63,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Participant</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="staff.css">
-    <link rel="stylesheet" href="staff-view-desktop.css">
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="../css/staff.css">
+    <link rel="stylesheet" href="../css/staff-view-desktop.css">
     </head>
 <body>
     <div class="top-bar">
-        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="images/profile.png" alt="Profile"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="../../images/profile.png" alt="Profile"></button>
+            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification"></button>
+            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting"></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="staff-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="images/verification.png" alt="Verification"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="../../images/home.png" alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="../../images/verification.png" alt="Verification"></button>
             <div id="account-icon">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="images/account-management.png" alt="Account"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="../../images/account-management.png" alt="Account"></button>
             </div>
-            <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
         </div>
     </div>
 
@@ -142,7 +141,7 @@
 
                     <div class="modal-body">
                         <div class="profile-header">
-                            <img id="modalProfilePic" src="images/profile.png" alt="Profile">
+                            <img id="modalProfilePic" src="../../images/profile.png" alt="Profile">
                             <h2 id="modalName">-</h2>
                         </div>
 

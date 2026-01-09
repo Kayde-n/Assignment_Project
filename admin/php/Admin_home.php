@@ -1,8 +1,8 @@
 <?php
     session_start();
-    include("Database.php");
+    require_once __DIR__ . "/../../config/database.php";
     // check if its on maintenance
-    include("check-maintenance-status.php");
+    require_once __DIR__ . "/../../check-maintenance-status.php";
 
     // query overvall enviroment impact
     $sql = "SELECT SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
@@ -35,47 +35,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="participant.css">
-    <link rel="stylesheet" href="participants-home-desktop.css">
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="../../participant.css">
+    <link rel="stylesheet" href="../../participants-home-desktop.css">
 
 </head>
 
 <body>
     <div class="top-bar">
-        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
-        <button class="icon-btn no-hover" onclick="window.location.href='participants-desktop-home.php'">
+        <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'">
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-profile.php'"><img
-                    src="images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img
+                    src="../../images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification Logo"></button>
+            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting Logo"></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='participants-desktop-home.php'"><img
-                        src="images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img
+                        src="../../images/home.png" alt="Home"></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-challenges-tab.php'"><img
-                    src="images/challanges.png" alt="Challenges"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-logaction.php'"><img
-                    src="images/scan.png" alt="Scan"></button>
-            <button class="icon-btn" onclick="window.location.href='participants-desktop-rewards.php'"><img
-                    src="images/tag.png" alt="Rewards"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
+                    src="../../images/system-analytics.png" alt="System Analytics"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
+                    src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
+                    src="../../images/system-config.png" alt="System Config"></button>
             <button class="icon-btn" id="logout" onclick="logout_confirm()">
                 <script>
                     function logout_confirm() {
                         if (confirm("Are you sure you want to logout?")) {
-                            window.location.href = "logout.php";
+                            window.location.href = "../../logout.php";
                         }
                     }
                 </script>
-                <img src="images/logout.png" alt="Logout">
+                <img src="../../images/logout.png" alt="Logout">
             </button>
         </div>
     </div>
@@ -122,7 +122,7 @@
         <div class="content-container">
 
             <button class="image-holder">
-                <img src="challenge_submission_uploads/sample-proof-1.jpg" alt="Proof Image">
+                <img src="../../challenge_submission_uploads/sample-proof-1.jpg" alt="Proof Image">
             </button>
 
             <button class="content-text-box">
@@ -148,7 +148,7 @@
             </button>
 
             <button class="next-btn">
-                <img src="images/next.png" alt="Next Icon">
+                <img src="../../images/next.png" alt="Next Icon">
             </button>
 
         </div>
@@ -164,7 +164,7 @@
                 // Only search if user typed at least 2 characters
                 if (query.length >= 2) {
                     // Send AJAX request to PHP
-                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=admin')
+                    fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=admin')
                         .then(response => response.json())
                         .then(data => {
 
@@ -193,7 +193,7 @@
                         redirectUrl = item.url;
                     } else if (item.eco_news_id) {
                         // For eco news results
-                        redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
+                        redirectUrl = '../../participant/php/participants-desktop-newsdetails.php?id=' + item.eco_news_id;
                     }
 
                     html += `
