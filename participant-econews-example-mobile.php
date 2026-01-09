@@ -1,9 +1,15 @@
 <?php
     include("session.php");
     include("Database.php");
+
+    // Check if id get from URL get req
     if(isset($_GET['id'])){
         $news_id = (int) $_GET['id'];
-        $sql = "SELECT eco_news_id, title, description, image_path, venue, organised_by FROM eco_news WHERE eco_news_id = $news_id";
+
+        // query details from eco_news
+        $sql = "SELECT eco_news_id, title, description, image_path, venue, organised_by 
+            FROM eco_news 
+            WHERE eco_news_id = $news_id";
         $result = mysqli_query($database, $sql);  
         if(mysqli_num_rows($result) > 0){
             $news = mysqli_fetch_assoc($result);
