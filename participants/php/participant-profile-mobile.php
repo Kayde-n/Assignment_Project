@@ -94,10 +94,10 @@ if (!empty($_FILES['avatar']['name'])) {
         }
 
         // Save full path in DB
-        $updatesql = "UPDATE user u
-                    JOIN event_manager em ON em.user_id = u.user_id
-                    SET u.profile_picture_path = '$targetPath'
-                    WHERE em.event_manager_id = $event_manager_id";
+        $updatesql = "UPDATE user
+            SET profile_picture_path = '$targetPath'
+            WHERE user_id = $profile_id";
+
 
         mysqli_query($database, $updatesql);
 
