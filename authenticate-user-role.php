@@ -1,7 +1,8 @@
 <?php
+ini_set('session.cookie_path', '/');
 session_start();
 
-include("Database.php");
+require_once __DIR__ . "/config/database.php";
 
 
 $sql_query = "SELECT participants_id from participants where user_id = " . $_SESSION['mySession'];
