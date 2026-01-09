@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/database.php";
     $participant_id = $_SESSION['user_role_id'];
 
     $sql_query = "SELECT u.profile_picture_path,u.user_full_name,COALESCE(SUM(c.points_reward), 0) AS total_eco_points FROM user u
@@ -36,7 +36,7 @@
     $filled_space = 0;
     while ($filled_space < $empty_space) {
         $leaderstats['Spot Open ' . (count($leaderstats) + 1)] = 0;
-        $images[] = 'images/profile.png';
+        $images[] = '../../images/profile.png';
         $filled_space++;
     }
 
@@ -59,8 +59,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Leaderboard Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-leaderboard-mobile.css">    
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-leaderboard-mobile.css">    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -113,7 +113,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -168,7 +168,7 @@
                     <img src="<?php echo 'photo/' . basename($images[0]); ?>" alt="test" class="profile-img">
                 </div>
             </div>
-            <img src="images/crown.png" class="impact-img" alt="CO₂ image">
+            <img src="../../images/crown.png" class="impact-img" alt="CO₂ image">
             <div class="rank-content">
                 <p class="name"><?php echo $topThreeArrays[0]['user_full_name']; ?></p>
                 <p class="score"><?php echo $topThreeArrays[0]['total_eco_points']; ?></p>

@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/database.php";
     $user_id = $_SESSION['user_id'];
     $participants_id = $_SESSION['user_role_id'];
 
@@ -70,8 +70,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Challenges Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-challenges-mobile.css">    
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-challenges-mobile.css">    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -125,7 +125,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -241,10 +241,10 @@
 
         <?php while ($event = mysqli_fetch_assoc($events_result)): ?>
             <div class="specials-card">
-                <img src="images/<?php echo htmlspecialchars($event['image_path']); ?>"
+                <img src="../../images/<?php echo htmlspecialchars($event['image_path']); ?>"
                     class="specials-image"
                     alt="event image"
-                    onerror="this.src='images/event-placeholder.png'">
+                    onerror="this.src='../../images/event-placeholder.png'">
 
                 <div class="specials-content">
                     <h4 class="specials-title">
@@ -276,7 +276,7 @@
                                             data-eco-news-id="' . htmlspecialchars($event['eco_news_id']) . '"
                                             data-title="' . htmlspecialchars($event['title']) . '"
                                             data-description="' . htmlspecialchars($event['description']) . '"
-                                            data-image="images/' . htmlspecialchars($event['image_path']) . '"
+                                            data-image="../../images/' . htmlspecialchars($event['image_path']) . '"
                                             data-venue="' . htmlspecialchars($event['venue']) . '"
                                             data-organizer="' . htmlspecialchars($event['organised_by']) . '"
                                             data-date="' . date('M d, Y', strtotime($event['start_time'])) . '"

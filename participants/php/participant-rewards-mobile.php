@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/database.php";
 
     // sql all data from rewards
     $sql = "SELECT rewards_id, reward_name, description, points_required, quantity, category FROM rewards";
@@ -36,8 +36,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Rewards Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-rewards-mobile.css">
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-rewards-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -101,7 +101,7 @@
 
         </div>
 
-        <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+        <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
             <button class="icon-btn"><i data-lucide="log-out"></i></button>
         </a>
     </nav>
@@ -144,7 +144,7 @@
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                     <div class="rewards-card" data-category="<?php echo $row['category']; ?>">
-                        <img src="images/voucher.png" alt="rewards image" class="rewards-image">
+                        <img src="../../images/voucher.png" alt="rewards image" class="rewards-image">
                         <div class="rewards-content">
                             <h4 class="rewards-title">
                                 <?php echo $row['reward_name']; ?>
@@ -181,7 +181,7 @@
                     </div>
 
                     <div class="modal-image">
-                        <img src="images/voucher.png" style="width:120px;">
+                        <img src="../../images/voucher.png" style="width:120px;">
                     </div>
 
                     <p id="modalDescription">

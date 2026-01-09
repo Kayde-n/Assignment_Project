@@ -151,7 +151,7 @@
                     <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="../../images/verification.png" alt="Verification"></button>
                 </div>
                 <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="../../images/account-management.png" alt="Account"></button>
-                <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
+                <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
             </div>
         </div>
 

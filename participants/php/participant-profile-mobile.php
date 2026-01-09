@@ -1,6 +1,6 @@
 <?php
-include("session.php");
-include("database.php");
+require_once __DIR__ . "/../../session.php";
+require_once __DIR__ . "/../../config/database.php";
 if (!isset($_SESSION['mySession'])) {
     echo "<script>alert('Invalid profile ID.'); window.location.href='participants-desktop-home.php';</script>";
     exit();
@@ -83,7 +83,7 @@ if (!empty($_FILES['avatar']['name'])) {
         exit('Invalid file type');
     }
 
-    $uploadDir = 'images/';
+    $uploadDir = '../../images/';
     $fileName = time() . '_' . basename($_FILES['avatar']['name']);
     $targetPath = $uploadDir . $fileName;
 
@@ -115,8 +115,8 @@ if (!empty($_FILES['avatar']['name'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Profile Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-profile-mobile.css">
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-profile-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -187,7 +187,7 @@ if (!empty($_FILES['avatar']['name'])) {
                 <script>
                     function logout_confirm() {
                         if (confirm("Are you sure you want to logout?")) {
-                            window.location.href = "logout.php";
+                            window.location.href = "../../logout.php";
                         }
                     }
                 </script>

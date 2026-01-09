@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/database.php";
 
     // Check if id get from URL get req
     if(isset($_GET['id'])){
@@ -29,8 +29,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Details</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-econews-example-mobile.css">
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-econews-example-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -94,7 +94,7 @@
 
         </div>
 
-        <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+        <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
             <button class="icon-btn"><i data-lucide="log-out"></i></button>
         </a>
     </nav>
@@ -174,7 +174,7 @@
             <?php echo nl2br($news['description']); ?>
         </p>
 
-        <img src="images/<?php echo htmlspecialchars($news['image_path']); ?>" alt="News image" class="article-img">
+        <img src="../../images/<?php echo htmlspecialchars($news['image_path']); ?>" alt="News image" class="article-img">
 
     </div>
 </main>

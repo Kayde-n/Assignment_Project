@@ -111,7 +111,7 @@ $total_events = $data_events['total_events'] ?? 0;
             </div>
             <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
                     src="../../images/system-config.png" alt="System Config"></button>
-            <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
         </div>
     </div>
 

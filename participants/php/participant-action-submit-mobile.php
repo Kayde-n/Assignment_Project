@@ -1,5 +1,5 @@
 <?php
-include("database.php");
+require_once __DIR__ . "/../../config/database.php";
 session_start();
 if (isset($_SESSION['popup_message'])): ?>
     <script>
@@ -26,8 +26,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Log Action Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-action-mobile.css">
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-action-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -91,7 +91,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
         </div>
 
-        <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+        <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
             <button class="icon-btn"><i data-lucide="log-out"></i></button>
         </a>
     </nav>
