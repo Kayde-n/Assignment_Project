@@ -1,25 +1,41 @@
 <?php 
+    session_start();
     include('Database.php'); 
 
-    // query approval or rejection actions
-    if (isset($_POST['action']) && isset($_POST['id'])) {
-        $id = mysqli_real_escape_string($database, $_POST['id']);
-        $newStatus = ($_POST['action'] === 'approve') ? 'approved' : 'rejected';
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+    
+    if (!isset($_SESSION['staff_id'])) {
+        header("Location: login.php");
+        exit();
+    }
 
-       // update db with new status and set verify date
-        $updateSql = "UPDATE participants_challenges 
-                    SET challenges_status = '$newStatus', 
-                        verified_date = NOW() 
-                    WHERE participants_challenges_id = '$id'";
-        
+    $staff_id = (int) $_SESSION['staff_id'];
+    // query approval or rejection actions
+
+    if (isset($_POST['action']) && isset($_POST['id'])) {
+
+        $challenge_id = (int) $_POST['id'];
+        if (!in_array($_POST['action'], ['approve', 'reject'])) {
+            exit('Invalid action');
+        }
+
+    $newStatus = ($_POST['action'] === 'approve') ? 'approved' : 'rejected';
+
+
+        $updateSql = "UPDATE participants_challenges
+                    SET challenges_status = '$newStatus',
+                        verified_date = NOW(),
+                        staff_id = $staff_id
+                    WHERE participants_challenges_id = $challenge_id AND challenges_status = 'pending'";
+
         if (mysqli_query($database, $updateSql)) {
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } else {
-            echo "Error updating record: " . mysqli_error($database);
+            echo "Error: " . mysqli_error($database);
         }
     }
-    // get category statistics (no off rejected and active)
+    // get category statistics (no. of rejected and active)
     $query = "SELECT 
                 SUM(CASE WHEN challenges_status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
                 SUM(CASE WHEN challenges_status = 'approved' THEN 1 ELSE 0 END) AS approved_count,
@@ -183,7 +199,7 @@
                                             <span style="color: green; font-weight: bold;">✓ Approved</span>
                                         </div>
                                     </div>
-                                    <img src="challenge_submission_uploads/ <?php echo htmlspecialchars($row['image_path']) ?>" class="proof-img">
+                                    <img src="challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']) ?>" class="proof-img">
                                 </div>
                             <?php endwhile; ?>
                         <?php else: ?>
@@ -205,7 +221,7 @@
                                             <span style="color: red; font-weight: bold;">✕ Rejected</span>
                                         </div>
                                     </div>
-                                    <img src='challenge_submission_uploads/<?= htmlspecialchars($row['image_path']) ?>' class="proof-img">
+                                    <img src="challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']); ?>" class="proof-img">
                                 </div>
                             <?php endwhile; ?>
                         <?php else: ?>
