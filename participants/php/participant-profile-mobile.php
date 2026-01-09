@@ -72,39 +72,48 @@ foreach ($user_total_points as $rank) {
     $rankCount++;
 }
 
-// Get current avatar
-$avatarPath = $profile["profile_picture_path"];
+    // Get current avatar db path
+    $avatarPath = $profile["profile_picture_path"];
 
-// Handle upload
-if (!empty($_FILES['avatar']['name'])) {
+    // Handle upload
+    if (!empty($_FILES['avatar']['name'])) {
 
-    $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    if (!in_array($_FILES['avatar']['type'], $allowedTypes)) {
-        exit('Invalid file type');
-    }
-
-    $uploadDir = '../../images/';
-    $fileName = time() . '_' . basename($_FILES['avatar']['name']);
-    $targetPath = $uploadDir . $fileName;
-
-    if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetPath)) {
-        // Delete old avatar
-        if (!empty($avatarPath) && file_exists($avatarPath)) {
-            unlink($avatarPath);
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!in_array($_FILES['avatar']['type'], $allowedTypes)) {
+            exit('Invalid file type');
         }
 
-        // Save full path in DB
-        $updatesql = "UPDATE user
-            SET profile_picture_path = '$targetPath'
-            WHERE user_id = $profile_id";
+        // Physical folder on server
+        $uploadDir = __DIR__ . '/../../images/';
 
+        // Path saved into DB (NO ../../)
+        $dbPath = 'images/' . time() . '_' . basename($_FILES['avatar']['name']);
 
-        mysqli_query($database, $updatesql);
+        // Actual file target
+        $targetPath = $uploadDir . basename($dbPath);
 
-        // Update variable for display
-        $avatarPath = $targetPath;
+        if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetPath)) {
+
+            // Delete old avatar (convert DB path → real path)
+            if (!empty($avatarPath)) {
+                $oldFile = __DIR__ . '/../../' . $avatarPath;
+                if (file_exists($oldFile)) {
+                    unlink($oldFile);
+                }
+            }
+
+            // Save clean path to DB
+            $updatesql = "
+                UPDATE user
+                SET profile_picture_path = '$dbPath'
+                WHERE user_id = $profile_id
+            ";
+            mysqli_query($database, $updatesql);
+
+            // Update variable for display
+            $avatarPath = $dbPath;
+        }
     }
-}
 ?>
 
 ?>
@@ -225,7 +234,7 @@ if (!empty($_FILES['avatar']['name'])) {
                 <form method="POST" enctype="multipart/form-data">
                     <label class="avatar upload-avatar">
                         <?php if (!empty($avatarPath)): ?>
-                            <img src="<?= htmlspecialchars($avatarPath) ?>" alt="Avatar" class="avatar-img">
+                            <img src="<?= '../../' . $avatarPath ?>" class="avatar-img">
                             <span class="avatar-text">Change Photo</span>
                         <?php else: ?>
                             <span class="avatar-text">Upload Photo</span>

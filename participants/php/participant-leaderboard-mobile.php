@@ -3,6 +3,11 @@
     require_once __DIR__ . "/../../config/database.php";
     $participant_id = $_SESSION['user_role_id'];
 
+    if (!isset($_SESSION['user_role_id'])) {
+    header("Location: ../../login.php");
+    exit();
+}
+
     $sql_query = "SELECT u.profile_picture_path,u.user_full_name,COALESCE(SUM(c.points_reward), 0) AS total_eco_points FROM user u
                 RIGHT JOIN participants p 
                     ON u.user_id = p.user_id
@@ -24,7 +29,7 @@
     $leaderstats = [];
 
     if (mysqli_num_rows($result) == 0) {
-        echo "<script>alert('Insufficient leaderboard data found.'); window.location.href = 'participants-desktop-home.php'; </script>";
+        echo "<script>alert('Insufficient leaderboard data found.'); window.location.href = 'participants/php/participant-home-mobile.php'; </script>";
         exit();
     }
     while ($row = mysqli_fetch_assoc($result)) {
@@ -149,7 +154,7 @@
         <div class="rank-bar second">
             <div class="avatar">
                 <div class="avatar-clip">
-                    <img src="<?php echo $images[1]; ?>" alt="test" class="profile-img">
+                    <img src="../../<?php echo $images[1]; ?>" alt="test" class="profile-img">
                 </div>
             </div>
             <div class="rank-content">
@@ -165,7 +170,7 @@
         <div class="rank-bar first">
             <div class="avatar">
                 <div class="avatar-clip">
-                    <img src="<?php echo 'photo/' . basename($images[0]); ?>" alt="test" class="profile-img">
+                    <img src="../../<?php echo $images[0]; ?>" alt="test" class="profile-img">
                 </div>
             </div>
             <img src="../../images/crown.png" class="impact-img" alt="CO₂ image">
@@ -182,7 +187,7 @@
         <div class="rank-bar third">
             <div class="avatar">
                 <div class="avatar-clip">
-                    <img src="<?php echo 'photo/' . basename($images[2]); ?>" alt="test" class="profile-img">
+                    <img src="../../<?php echo $images[2]; ?>" alt="test" class="profile-img">
                 </div>
             </div>
             <div class="rank-content">
@@ -197,36 +202,43 @@
 
     <div class="top-100-container">
     <?php
-    $rank = 4; // start from 4th place
-    $counter = 0;
-    $index = 3; // first 3 indices are topThree, so start from 3
+        $rank = 4;       // start from 4th place
+        $counter = 0;    // to skip top 3
+        $index = 3;      // images[0–2] = top 3, start at images[3]
 
-    foreach ($leaderstats as $name => $points) {
-        if ($counter < 3) { // skip top 3
-            $counter++;
-            continue;
-        }
+        foreach ($leaderstats as $name => $points) {
+            if ($counter < 3) {
+                $counter++;
+                continue;
+            }
 
-    $img_src = isset($images[$index]) ? 'photo/' . basename($images[$index]) : 'photo/profile.png';
-        echo '
-        <div class="top-100-row">
-            <div class="left-group">
-                <div class="rank-number">' . $rank . '</div>
-                <div class="avatar">
-                    <div class="avatar-clip">
-                        <img src="' . htmlspecialchars($img_src) . '" alt="profile" class="profile-img">
+            // Image from DB
+            $img_src = '../../' . $images[$index];
+        ?>
+            <div class="top-100-row">
+                <div class="left-group">
+                    <div class="rank-number"><?php echo $rank; ?></div>
+
+                    <div class="avatar">
+                        <div class="avatar-clip">
+                            <img src="<?php echo htmlspecialchars($img_src); ?>"
+                                alt="profile"
+                                class="profile-img">
+                        </div>
                     </div>
-                </div>
-                <div class="name">' . htmlspecialchars($name) . '</div>
-            </div>
-            <div class="points">' . (int)$points . '</div>
-        </div>
-        ';
 
-        $rank++;
-        $index++;
-    }
+                    <div class="name"><?php echo htmlspecialchars($name); ?></div>
+                </div>
+
+                <div class="points"><?php echo (int)$points; ?></div>
+            </div>
+        <?php
+            $rank++;
+            $index++;   
+        }
     ?>
+
+
     </div>
 
 
