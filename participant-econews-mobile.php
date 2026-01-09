@@ -1,116 +1,127 @@
 <?php
-    include("session.php");
-    include("Database.php");
+include("session.php");
+include("Database.php");
 
-    date_default_timezone_set("Asia/Kuala_Lumpur");
+date_default_timezone_set("Asia/Kuala_Lumpur");
 
-    $search = "";
-    // Check if search input exists
-    if (isset($_POST['search']) && !empty($_POST['search'])) {
-        $search = mysqli_real_escape_string($database, $_POST['search']);
-    }
+$search = "";
+// Check if search input exists
+if (isset($_POST['search']) && !empty($_POST['search'])) {
+    $search = mysqli_real_escape_string($database, $_POST['search']);
+}
 
-    // query for upcoming events (start time now or later)
-    $sql = "SELECT eco_news.eco_news_id,eco_news.title,eco_news.description,eco_news.image_path,events.start_time,events.end_time
+// query for upcoming events (start time now or later)
+$sql = "SELECT eco_news.eco_news_id,eco_news.title,eco_news.description,eco_news.image_path,events.start_time,events.end_time
         FROM eco_news
         INNER JOIN events ON eco_news.events_id = events.events_id
         WHERE events.start_time >= NOW()";
 
-    // If search is used, filter by title or description
-    if (!empty($search)) {
-        $sql .= " AND (eco_news.title LIKE '%$search%'
+// If search is used, filter by title or description
+if (!empty($search)) {
+    $sql .= " AND (eco_news.title LIKE '%$search%'
                 OR eco_news.description LIKE '%$search%')";
-    }
+}
 
-    // query upcoming events (earliest first)
-    $sql .= " ORDER BY events.start_time ASC";
+// query upcoming events (earliest first)
+$sql .= " ORDER BY events.start_time ASC";
 
-    $result = mysqli_query($database, $sql);
+$result = mysqli_query($database, $sql);
 
-    // query pass events
-    $sql_past = "SELECT eco_news.eco_news_id, eco_news.title, eco_news.description, eco_news.image_path,
+// query pass events
+$sql_past = "SELECT eco_news.eco_news_id, eco_news.title, eco_news.description, eco_news.image_path,
                         events.start_time, events.end_time
                 FROM eco_news
                 INNER JOIN events ON eco_news.events_id = events.events_id
                 WHERE events.start_time < NOW()";
 
-    if (!empty($search)) {
-        $sql_past .= " AND (eco_news.title LIKE '%$search%'
+if (!empty($search)) {
+    $sql_past .= " AND (eco_news.title LIKE '%$search%'
                     OR eco_news.description LIKE '%$search%')";
-    }
+}
 
-    // query pass events (latest first)
-    $sql_past .= " ORDER BY events.start_time DESC";
-    $result_past = mysqli_query($database, $sql_past);
+// query pass events (latest first)
+$sql_past .= " ORDER BY events.start_time DESC";
+$result_past = mysqli_query($database, $sql_past);
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Econews Mobile</title>
     <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-econews-mobile.css">    
+    <link rel="stylesheet" href="participant-econews-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
-<!-- top bar -->
+    <!-- top bar -->
     <header class="top-bar" role="banner">
-    <div class="top-left">
-        <button class="icon-btn no-hover topbar-icon" onclick="window.location.href='participant-home-mobile.php'" style="display:flex;align-items:center;gap:8px;">
-            <svg width="56" height="56" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <path d="M17.0278 55.17C17.9238 56.03 18.8788 56.833 19.8928 57.579C23.3048 55.1141 26.0849 51.8767 28.0058 48.1313C29.9267 44.386 30.9338 40.2392 30.9448 36.03C30.9448 27.216 26.5978 19.398 19.8748 14.478C18.8713 15.2154 17.9201 16.0213 17.0278 16.89C20.2462 18.9439 22.8981 21.7722 24.7408 25.1159C26.5835 28.4597 27.5583 32.2122 27.5758 36.03C27.5758 44.016 23.3968 51.042 17.0278 55.17Z" fill="var(--primary-green)"/>
-                <path d="M57.0119 19.125C55.1822 23.1625 52.2267 26.5866 48.4997 28.9864C44.7728 31.3863 40.4326 32.6601 35.9999 32.655C31.5676 32.6595 27.2281 31.3854 23.5018 28.9856C19.7754 26.5858 16.8203 23.1621 14.9909 19.125C14.1119 20.205 13.3199 21.366 12.6299 22.578C15.0031 26.6727 18.4119 30.0707 22.5141 32.4309C26.6162 34.7911 31.2672 36.0303 35.9999 36.024C40.7325 36.0303 45.3835 34.7911 49.4857 32.4309C53.5878 30.0707 56.9967 26.6727 59.3699 22.578C58.6743 21.3678 57.886 20.2133 57.0119 19.125ZM30.9449 62.427C31.2809 47.787 43.0769 36.027 57.5669 36.027C59.3783 36.0212 61.1852 36.2063 62.9579 36.579C62.929 37.7587 62.8227 38.9352 62.6399 40.101C60.8168 39.6325 58.9422 39.3947 57.0599 39.393C54.0149 39.4167 51.005 40.0462 48.2057 41.2447C45.4064 42.4432 42.8736 44.1869 40.7549 46.374C38.6374 48.5623 36.9773 51.1506 35.8714 53.9878C34.7655 56.8249 34.236 59.854 34.3139 62.898C33.1812 62.8209 32.0553 62.6635 30.9449 62.427Z" fill="var(--primary-green)"/>
-                <path d="M59.5382 37.509C58.7462 49.572 48.2161 59.616 36.0001 59.616C35.0881 59.618 34.1841 59.561 33.2881 59.445L32.8681 62.817C36.416 63.2333 40.0111 62.9403 43.4447 61.955C46.8783 60.9697 50.0817 59.3118 52.8689 57.0776C55.6561 54.8433 57.9715 52.0774 59.6803 48.9405C61.3892 45.8036 62.4575 42.3584 62.8232 38.805L59.5892 37.695L59.5382 37.491V37.509ZM58.8152 21.639C55.7076 16.6761 51.0676 12.8608 45.5977 10.7707C40.1278 8.6807 34.1259 8.42974 28.5007 10.0558C22.8754 11.682 17.9332 15.0966 14.4221 19.7827C10.911 24.4689 9.02242 30.1715 9.04215 36.027C9.04215 44.382 12.8521 51.867 18.8131 56.802L21.5791 54.492C18.7623 52.3004 16.4753 49.5023 14.8882 46.3056C13.301 43.1089 12.4544 39.5958 12.4111 36.027C12.4111 23.322 23.2951 12.438 36.0001 12.438C40.1006 12.4994 44.1165 13.6131 47.6629 15.6723C51.2092 17.7316 54.1672 20.6673 56.2531 24.198L58.8152 21.639Z" fill="var(--primary-green)"/>
-            </svg>
-            <h2 class="top-title">EcoXP</h2>
-        </button>
-    </div>
-
-    <div class="top-center">
-    </div>
-
-    <div class="top-right">
-        <a href="participant-profile-mobile.php" aria-label="Profile" class="topbar-icon">
-            <button class="icon-btn" aria-label="Profile">
-                <i data-lucide="user-round"></i>
+        <div class="top-left">
+            <button class="icon-btn no-hover topbar-icon" onclick="window.location.href='participant-home-mobile.php'"
+                style="display:flex;align-items:center;gap:8px;">
+                <svg width="56" height="56" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                    focusable="false">
+                    <path
+                        d="M17.0278 55.17C17.9238 56.03 18.8788 56.833 19.8928 57.579C23.3048 55.1141 26.0849 51.8767 28.0058 48.1313C29.9267 44.386 30.9338 40.2392 30.9448 36.03C30.9448 27.216 26.5978 19.398 19.8748 14.478C18.8713 15.2154 17.9201 16.0213 17.0278 16.89C20.2462 18.9439 22.8981 21.7722 24.7408 25.1159C26.5835 28.4597 27.5583 32.2122 27.5758 36.03C27.5758 44.016 23.3968 51.042 17.0278 55.17Z"
+                        fill="var(--primary-green)" />
+                    <path
+                        d="M57.0119 19.125C55.1822 23.1625 52.2267 26.5866 48.4997 28.9864C44.7728 31.3863 40.4326 32.6601 35.9999 32.655C31.5676 32.6595 27.2281 31.3854 23.5018 28.9856C19.7754 26.5858 16.8203 23.1621 14.9909 19.125C14.1119 20.205 13.3199 21.366 12.6299 22.578C15.0031 26.6727 18.4119 30.0707 22.5141 32.4309C26.6162 34.7911 31.2672 36.0303 35.9999 36.024C40.7325 36.0303 45.3835 34.7911 49.4857 32.4309C53.5878 30.0707 56.9967 26.6727 59.3699 22.578C58.6743 21.3678 57.886 20.2133 57.0119 19.125ZM30.9449 62.427C31.2809 47.787 43.0769 36.027 57.5669 36.027C59.3783 36.0212 61.1852 36.2063 62.9579 36.579C62.929 37.7587 62.8227 38.9352 62.6399 40.101C60.8168 39.6325 58.9422 39.3947 57.0599 39.393C54.0149 39.4167 51.005 40.0462 48.2057 41.2447C45.4064 42.4432 42.8736 44.1869 40.7549 46.374C38.6374 48.5623 36.9773 51.1506 35.8714 53.9878C34.7655 56.8249 34.236 59.854 34.3139 62.898C33.1812 62.8209 32.0553 62.6635 30.9449 62.427Z"
+                        fill="var(--primary-green)" />
+                    <path
+                        d="M59.5382 37.509C58.7462 49.572 48.2161 59.616 36.0001 59.616C35.0881 59.618 34.1841 59.561 33.2881 59.445L32.8681 62.817C36.416 63.2333 40.0111 62.9403 43.4447 61.955C46.8783 60.9697 50.0817 59.3118 52.8689 57.0776C55.6561 54.8433 57.9715 52.0774 59.6803 48.9405C61.3892 45.8036 62.4575 42.3584 62.8232 38.805L59.5892 37.695L59.5382 37.491V37.509ZM58.8152 21.639C55.7076 16.6761 51.0676 12.8608 45.5977 10.7707C40.1278 8.6807 34.1259 8.42974 28.5007 10.0558C22.8754 11.682 17.9332 15.0966 14.4221 19.7827C10.911 24.4689 9.02242 30.1715 9.04215 36.027C9.04215 44.382 12.8521 51.867 18.8131 56.802L21.5791 54.492C18.7623 52.3004 16.4753 49.5023 14.8882 46.3056C13.301 43.1089 12.4544 39.5958 12.4111 36.027C12.4111 23.322 23.2951 12.438 36.0001 12.438C40.1006 12.4994 44.1165 13.6131 47.6629 15.6723C51.2092 17.7316 54.1672 20.6673 56.2531 24.198L58.8152 21.639Z"
+                        fill="var(--primary-green)" />
+                </svg>
+                <h2 class="top-title">EcoXP</h2>
             </button>
-        </a>
-    </div>
-    </header>
-
-<!-- side bar -->
-    <nav class="side-bar" role="navigation" aria-label="Main">
-    <div class="participant-icon-container">
-        <div id="home-icon-box">
-        <a href="participant-home-mobile.php" class="icon-link active sidebar-icon" aria-label="Home">
-            <button class="icon-btn"><i data-lucide="house"></i></button>
-        </a>
         </div>
 
-        <a class="icon-link sidebar-icon" href="participant-challenges-mobile.php" aria-label="Challenges">
-        <button class="icon-btn"><i data-lucide="trophy"></i></button>
+        <div class="top-center">
+        </div>
+
+        <div class="top-right">
+            <a href="participant-profile-mobile.php" aria-label="Profile" class="topbar-icon">
+                <button class="icon-btn" aria-label="Profile">
+                    <i data-lucide="user-round"></i>
+                </button>
+            </a>
+        </div>
+    </header>
+
+    <!-- side bar -->
+    <nav class="side-bar" role="navigation" aria-label="Main">
+        <div class="participant-icon-container">
+            <div id="home-icon-box">
+                <a href="participant-home-mobile.php" class="icon-link active sidebar-icon" aria-label="Home">
+                    <button class="icon-btn"><i data-lucide="house"></i></button>
+                </a>
+            </div>
+
+            <a class="icon-link sidebar-icon" href="participant-challenges-mobile.php" aria-label="Challenges">
+                <button class="icon-btn"><i data-lucide="trophy"></i></button>
+            </a>
+
+            <a class="icon-link sidebar-icon" href="participant-action-submit-mobile.php"
+                aria-label="Scan / Log Action">
+                <button class="icon-btn"><i data-lucide="scan-line"></i></button>
+            </a>
+
+            <a class="icon-link sidebar-icon" href="participant-rewards-mobile.php" aria-label="Rewards">
+                <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
+            </a>
+
+
+        </div>
+
+        <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+            <button class="icon-btn"><i data-lucide="log-out"></i></button>
         </a>
-
-        <a class="icon-link sidebar-icon" href="participant-action-submit-mobile.php" aria-label="Scan / Log Action">
-        <button class="icon-btn"><i data-lucide="scan-line"></i></button>
-        </a>
-
-        <a class="icon-link sidebar-icon" href="participant-rewards-mobile.php" aria-label="Rewards">
-        <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
-        </a>
-
-
-    </div>
-
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
-        <button class="icon-btn"><i data-lucide="log-out"></i></button>
-    </a>
     </nav>
 
-<!-- nav bar -->
+    <!-- nav bar -->
     <nav class="bottom-nav">
         <a href="participant-home-mobile.php" class="nav-item">
             <i data-lucide="house" class="icon-btn"></i>
@@ -129,92 +140,117 @@
         </a>
     </nav>
 
-<main class="main-content">
-<!-- title -->
-    <div class="page-header">
-        <a href="participant-home-mobile.php" class="return-btn" aria-label="Return button">
-            <i data-lucide="arrow-left"></i>
-        </a>
-        <div class="header-title">Eco News Feed</div>     
-    </div>
-<!-- search bar -->
-    <div class="search-bar">
-        <form method="POST">
-            <input type="text" 
-                name="search"
-                placeholder="Search news..." 
-                value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>">
-            <button class="search-btn" type="submit">
-                <i data-lucide="search"></i>
-            </button>
-        </form>
-    </div>
-<!-- econews -->
-    <div class="econews-header">
-        <div class="section-header">
-            <div class="section-title">What's New</div>
+    <main class="main-content">
+        <!-- title -->
+        <div class="page-header">
+            <a href="participant-home-mobile.php" class="return-btn" aria-label="Return button">
+                <i data-lucide="arrow-left"></i>
+            </a>
+            <div class="header-title">Eco News Feed</div>
         </div>
-        
-    </div>
-
-    <div class="news-list">
-
-        <!-- if no results found -->
-        <?php if (mysqli_num_rows($result) == 0) { ?>
-            <p class="no-results">No news found.</p>
-        <?php } ?>
-        
-        <!-- show one by one if there is results -->
-        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-            <div class="news-card">
-                <a href="participant-econews-example-mobile.php?id=<?php echo (int)$row['eco_news_id']; ?>" class="news-link">
-                    <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
-                    <div class="news-content">
-                        <div class="news-tag">Upcoming Event</div>
-                        <h3 class="news-title"><?php echo $row['title']; ?></h3>
-                        <p class="news-text">
-                            <?php echo substr($row['description'], 0, 200); ?>...
-                        </p>
-                    </div>
-                </a>
+        <!-- search bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" placeholder="Search news..." id="search-input">
             </div>
-        <?php } ?>
-
-    <!-- Past events -->
-    <div class="econews-header">
-        <div class="section-header">
-            <div class="section-title">Past Events</div>
+            <div id="search-results"></div>
         </div>
-    </div>
-
-    <div class="news-list">
-
-        <?php if (mysqli_num_rows($result_past) == 0) { ?>
-            <p class="no-results">No past events found.</p>
-        <?php } ?>
-
-        <?php while ($row = mysqli_fetch_assoc($result_past)) { ?>
-            <div class="news-card past-event">
-                <a href="participant-econews-example-mobile.php?id=<?php echo (int)$row['eco_news_id']; ?>" class="news-link">
-                    <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
-                    <div class="news-content">
-                        <div class="news-tag">Past Event</div>
-                        <h3 class="news-title"><?php echo $row['title']; ?></h3>
-                        <p class="news-text">
-                            <?php echo substr($row['description'], 0, 200); ?>...
-                        </p>
-                    </div>
-                </a>
+        <!-- econews -->
+        <div class="econews-header">
+            <div class="section-header">
+                <div class="section-title">What's New</div>
             </div>
-        <?php } ?>
 
-    </div>
+        </div>
 
-</main>
+        <div class="news-list">
+
+            <!-- if no results found -->
+            <?php if (mysqli_num_rows($result) == 0) { ?>
+                <p class="no-results">No news found.</p>
+            <?php } ?>
+
+            <!-- show one by one if there is results -->
+            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                <div class="news-card">
+                    <a href="participant-econews-example-mobile.php?id=<?php echo (int) $row['eco_news_id']; ?>"
+                        class="news-link">
+                        <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
+                        <div class="news-content">
+                            <div class="news-tag">Upcoming Event</div>
+                            <h3 class="news-title"><?php echo $row['title']; ?></h3>
+                            <p class="news-text">
+                                <?php echo substr($row['description'], 0, 200); ?>...
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            <?php } ?>
+
+            <!-- Past events -->
+            <div class="econews-header">
+                <div class="section-header">
+                    <div class="section-title">Past Events</div>
+                </div>
+            </div>
+
+            <div class="news-list">
+
+                <?php if (mysqli_num_rows($result_past) == 0) { ?>
+                    <p class="no-results">No past events found.</p>
+                <?php } ?>
+
+                <?php while ($row = mysqli_fetch_assoc($result_past)) { ?>
+                    <div class="news-card past-event">
+                        <a href="participant-econews-example-mobile.php?id=<?php echo (int) $row['eco_news_id']; ?>"
+                            class="news-link">
+                            <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
+                            <div class="news-content">
+                                <div class="news-tag">Past Event</div>
+                                <h3 class="news-title"><?php echo $row['title']; ?></h3>
+                                <p class="news-text">
+                                    <?php echo substr($row['description'], 0, 200); ?>...
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                <?php } ?>
+
+            </div>
+
+    </main>
 
     <script>
+        // Search logic
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        searchInput.addEventListener('input', function () {
+            const query = this.value;
+            if (query.length >= 2) {
+                fetch('search.php?query=' + encodeURIComponent(query) + '&source=eco_news')
+                    .then(response => response.json())
+                    .then(data => displayResults(data));
+            } else { searchResults.innerHTML = ''; }
+        });
+
+        function displayResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-dropdown"><p style="padding:10px">No news found</p></div>';
+                return;
+            }
+            let html = '<div class="search-dropdown">';
+            results.forEach(item => {
+                html += `<div class="search-item" onclick="location.href='event-manager-news-details.php?id=${item.eco_news_id}'">
+                            <strong>${item.title}</strong>
+                         </div>`;
+            });
+            html += '</div>';
+            searchResults.innerHTML = html;
+        }
         lucide.createIcons();
     </script>
 
 </body>
+
 </html>

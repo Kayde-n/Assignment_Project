@@ -248,12 +248,9 @@ foreach ($user_total_points as $rank) {
 
     <!-- Main points -->
     <main class="main-content">
-        <div class="search-container">
-            <div class="search-box">
-                <i data-lucide="search" class="search-icon"></i>
-                <input type="text" placeholder="Search news..." id="search-input">
-            </div>
-            <div id="search-results"></div>
+        <div class="search-box">
+            <input type="text" placeholder="Search..." id="search-input">
+            <div id="search-results"></div> <!-- placeholder for search results -->
         </div>
         <div class="impact-boxes">
             <div class="impact-card card-co2">

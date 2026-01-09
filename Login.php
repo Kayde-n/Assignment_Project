@@ -22,13 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['mySession'] = $row['user_id'];
         $_SESSION['user_id'] = $row['user_full_name'];
         echo '<script>console.log("Login success");</script>';
+        header("location: authenticate-user-role.php");
 
     } else {
         // Password is incorrect
         echo '<script>alert("Your Email or Password is invalid. Please re-login.");</script>';
 
     }
-    header("location: authenticate-user-role.php");
+
 
 
 

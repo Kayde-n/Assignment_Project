@@ -318,11 +318,13 @@ body {
     background-color: var(--card-white);
     border: 1px solid var(--line-black);
     border-radius: 6px;
+    cursor: pointer;
 }
 
 .category-pill.active {
     color: var(--secondary-green);
     border: 1px solid var(--secondary-green);
+    cursor: pointer;
 }
 
 /* Navigation */
