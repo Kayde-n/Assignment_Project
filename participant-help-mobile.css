@@ -3,13 +3,14 @@
     padding: 0px 16px;
 }
 
-/* faq */
+/* Each FAQ item container */
 .faq-item {
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgba(45, 106, 79, 0.154);
 }
 
+/* The clickable question area */
 .faq-header {
     display: flex;
     align-items: center;
@@ -20,6 +21,7 @@
     cursor: pointer;
 }
 
+/* Remove default button styles */
 .faq-item button {
     padding: 0;
     margin: 0;
@@ -30,6 +32,7 @@
     cursor: pointer;
 }
 
+/* FAQ question text */
 .faq-header span {    
     flex: 1;
     font-size: 16px;
@@ -40,8 +43,7 @@
     color: var(--primary-green);
 }
 
-/* faq opened */
-
+/* hidden FAQ answer panel  */
 .panel {
     display: none;
     width: 100%;

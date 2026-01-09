@@ -1,3 +1,14 @@
+:root {
+    --primary-green: #2D6A4F;
+    --secondary-green: #52B788;
+    --ice-mint: #f0f7f4;
+    --shadow: rgba(45, 106, 79, 0.1);
+    --card-white: #FFFFFF;
+    --primary-text: #444444;
+    --secondary-text: #666666;
+    --line-black: #999999;
+}
+
 .top-bar {
     position: fixed;
     width: 100%;

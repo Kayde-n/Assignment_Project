@@ -223,6 +223,7 @@ input[type="radio"]:checked + .tab-box {
     box-sizing: border-box;
 }
 
+/* Define animation */
 @keyframes modalFade {
     from {
         opacity: 0;

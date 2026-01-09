@@ -1,8 +1,12 @@
 <?php
     include("session.php");
     include("Database.php");
+
+    // check id in URL
     if(isset($_GET['id'])){
         $news_id = $_GET['id'];
+
+        // find data referring to id
         $sql = "SELECT eco_news_id, title, description, image_path, venue, organised_by FROM eco_news WHERE eco_news_id = $news_id";
         $result = mysqli_query($database, $sql);  
         if(mysqli_num_rows($result) > 0){

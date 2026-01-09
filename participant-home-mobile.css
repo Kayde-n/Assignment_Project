@@ -28,6 +28,7 @@ header p {
     box-shadow: 0 4px 12px var(--shadow);
 }
 
+/* Large points number */
 .bannerpt {
     font-size: 40px;
     font-weight: 800;
@@ -41,13 +42,14 @@ header p {
     color: var(--card-white);
 }
 
-/* your impact */
+/* Main impact container */
 .impact {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
+/* Impact section title */
 .impact-title {
     align-self: flex-start;
     padding: 16px;
@@ -99,6 +101,7 @@ header p {
     pointer-events: none;
 }
 
+/* position image */
 .card-co2 .impact-img    { bottom: -20px; right: -20px; width: 96px;  height: 96px; }
 .card-waste .impact-img  { bottom: -36px; right: -50px; width: 112px; height: 112px; }
 .card-streak .impact-img { bottom: -24px; right: -24px; width: 96px;  height: 96px; }

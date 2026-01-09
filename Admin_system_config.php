@@ -1,18 +1,20 @@
 <?php
-//include("session.php");
-include("database.php");
-date_default_timezone_set("Asia/Kuala_Lumpur");
-require_once 'config/system.php';
+    include("session.php");
+    include("database.php");
+
+    // set timezone 
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+    require_once 'config/system.php';
 
 
-// Check if maintenance mode is currently active
-$sql_check = "SELECT * FROM downtime WHERE admin_id = 1 AND end_time = '2099-12-31 23:59:59' LIMIT 1";
-$result_check = mysqli_query($database, $sql_check);
-$maintenance_active = mysqli_num_rows($result_check);
+    // Check if maintenance mode is currently active
+    $sql_check = "SELECT * FROM downtime WHERE admin_id = 1 AND end_time = '2099-12-31 23:59:59' LIMIT 1";
+    $result_check = mysqli_query($database, $sql_check);
+    $maintenance_active = mysqli_num_rows($result_check);
 
-//pre-input the green points settings for challenges
-$challenges_settings_sql = "SELECT challenge_name,points_reward FROM Challenges";
-$green_points_check = mysqli_query($database, $challenges_settings_sql);
+    //pre-input the green points settings for challenges
+    $challenges_settings_sql = "SELECT challenge_name,points_reward FROM Challenges";
+    $green_points_check = mysqli_query($database, $challenges_settings_sql);
 
 ?>
 <!DOCTYPE html>

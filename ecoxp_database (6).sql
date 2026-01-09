@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 07, 2026 at 09:26 AM
+-- Generation Time: Jan 08, 2026 at 01:27 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   UNIQUE KEY `attendance_id` (`attendance_id`),
   KEY `participants_id` (`participants_id`),
   KEY `events_id` (`events_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `attendance`
@@ -75,34 +75,8 @@ INSERT INTO `attendance` (`attendance_id`, `participants_id`, `events_id`, `time
 (4, 4, 2, '2025-12-26 10:58:53', 1),
 (5, 5, 3, '2025-12-28 14:58:53', 1),
 (6, 7, 2, NULL, 0),
-(7, 7, 1, NULL, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `badges`
---
-
-DROP TABLE IF EXISTS `badges`;
-CREATE TABLE IF NOT EXISTS `badges` (
-  `badges_id` int NOT NULL AUTO_INCREMENT,
-  `badge_name` varchar(50) NOT NULL,
-  `badge_description` text NOT NULL,
-  `badges_pic` varchar(255) NOT NULL,
-  PRIMARY KEY (`badges_id`),
-  UNIQUE KEY `badges_id` (`badges_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `badges`
---
-
-INSERT INTO `badges` (`badges_id`, `badge_name`, `badge_description`, `badges_pic`) VALUES
-(1, 'Recycling Hero', 'Badge is obtained by recycling more than 100 items', '/badges/Recycling_Hero.png'),
-(2, 'Eco Commuter', 'Badge is obtained by using eco-friendly transport (walking, cycling, or carpooling) for 10 trips', '/badges/Eco_Commuter.png'),
-(3, 'Energy Saver', 'Badge is obtained by reducing electricity consumption on campus for a month', '/badges/Energy_Saver.png'),
-(4, 'Water Warrior', 'Badge is obtained by participating in water conservation activities and challenges', '/badges/Water_Warrior.png'),
-(5, 'Community Helper', 'Badge is obtained by volunteering for at least 5 campus community events', '/badges/Community_Helper.png');
+(7, 7, 1, NULL, 0),
+(8, 10, 5, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -182,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `eco_news` (
   UNIQUE KEY `eco_news_id` (`eco_news_id`),
   KEY `events_id` (`events_id`),
   KEY `posted_by` (`posted_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `eco_news`
@@ -190,9 +164,9 @@ CREATE TABLE IF NOT EXISTS `eco_news` (
 
 INSERT INTO `eco_news` (`eco_news_id`, `title`, `description`, `image_path`, `venue`, `organised_by`, `events_id`, `posted_by`) VALUES
 (1, 'Beach Clean-up', 'Beach clean-up is an annual event where students clean up beaches along the coast of Klang', 'beach_cleanup.jpg', 'Kawasan Perindustrian Selat Klang Utara, 42000 Port Klang, Selangor', 'Petronas', 1, 3),
-(4, 'Dorm Cleaning Day', 'The Day where participants can come and help to clean the dorms', 'dorm_cleaning_day.png', 'APU Campus', 'APU DORM Community', 4, 3),
 (17, 'Tree Planting Day', 'Students and staff join to plant trees around the campus to promote greenery and reduce carbon footprint', 'tree_planting.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Green Club', 3, 2),
-(20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', 'recycling_event.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1);
+(20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', 'recycling_event.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1),
+(22, 'awdawdawd', 'wadawdawd', 'lcd page 1.jpg', 'wddawdawd', 'awdawdawd', 5, 6);
 
 -- --------------------------------------------------------
 
@@ -271,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `event_manager` (
   PRIMARY KEY (`event_manager_id`),
   UNIQUE KEY `event_manager_id` (`event_manager_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `event_manager`
@@ -281,7 +255,10 @@ INSERT INTO `event_manager` (`event_manager_id`, `user_id`) VALUES
 (1, 12),
 (2, 13),
 (3, 14),
-(4, 15);
+(4, 15),
+(5, 21),
+(6, 22),
+(7, 23);
 
 -- --------------------------------------------------------
 
@@ -325,7 +302,7 @@ CREATE TABLE IF NOT EXISTS `participants` (
   PRIMARY KEY (`participants_id`),
   UNIQUE KEY `participant_id` (`participants_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `participants`
@@ -338,36 +315,8 @@ INSERT INTO `participants` (`participants_id`, `user_id`, `TP_no`) VALUES
 (4, 10, 'TP00004'),
 (5, 11, 'TP00005'),
 (6, 19, ''),
-(7, 20, '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `participants_badges`
---
-
-DROP TABLE IF EXISTS `participants_badges`;
-CREATE TABLE IF NOT EXISTS `participants_badges` (
-  `participant_badges_id` int NOT NULL AUTO_INCREMENT,
-  `participants_id` int NOT NULL,
-  `badges_id` int NOT NULL,
-  `date_obtained` date NOT NULL,
-  PRIMARY KEY (`participant_badges_id`),
-  UNIQUE KEY `participant_badges_id` (`participant_badges_id`),
-  KEY `participants_id` (`participants_id`),
-  KEY `badges_id` (`badges_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `participants_badges`
---
-
-INSERT INTO `participants_badges` (`participant_badges_id`, `participants_id`, `badges_id`, `date_obtained`) VALUES
-(1, 1, 1, '2025-12-22'),
-(2, 2, 2, '2025-12-24'),
-(3, 3, 3, '2025-12-25'),
-(4, 4, 5, '2025-12-17'),
-(5, 5, 4, '2025-12-05');
+(7, 20, ''),
+(10, 24, '');
 
 -- --------------------------------------------------------
 
@@ -566,7 +515,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `account_status` varchar(50) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
@@ -592,7 +541,11 @@ INSERT INTO `user` (`user_id`, `user_full_name`, `email`, `hash_password`, `prof
 (17, 'Nur Izzati', 'nur.izzati@gmail.com', 'M@9x!P2L', 'images/profile.png', 'Active'),
 (18, 'Daniel Chong', 'daniel.chong@gmail.com', 'P!9xL@2M', 'images/profile.png', 'Deactivated'),
 (19, 'vernice', 'vernice.heong@gmail.com', '$2y$10$JJTy7S4fnhUD/t74oEJkz.TqGVCHXa5wlZBfMyg/2kC/zVh.eIu8.', 'images/profile.png', 'Active'),
-(20, 'Anne', 'Anne@yahoo.com', '$2y$10$9W0fGJM/8BtyADBZZDS47Oce0IgqQH8WUPYXqt4KO.I9XvsfyYsR.', 'images/profile.png', 'Active');
+(20, 'Anne', 'Anne@yahoo.com', '$2y$10$9W0fGJM/8BtyADBZZDS47Oce0IgqQH8WUPYXqt4KO.I9XvsfyYsR.', 'images/profile.png', 'Active'),
+(21, 'Albert', 'Albert@mail.com', '$2y$10$eW5x5O1nYj1kT3P2H4uJXeOQfT/ZxvVQ6zN1B6oQHxC0Vtq8M/1vK', 'NULL', 'active'),
+(22, 'Ku Wei Jun', 'Ku@mail.com', '$2y$10$WCEgiFOJgx3nd9zWPt9C/.xxiGfOu.eYlxS1vUXo5Fza2fxgekOW6', 'images/profile.png', 'Active'),
+(23, 'Hi', 'Hi@mail.com', '$2y$10$1qqmjhhCyZT9nI1WBjFb7etNCKO0dhNxgUL.Yu3hpCpEw7UTdtGo2', 'images/1767861274_roof open.jpg', 'Active'),
+(24, 'Bye', 'Bye@mail.com', '$2y$10$mcLc9xaqpLYyteoCZIjlDuryWHJ.JrZTpkYUjPUskuPAj4WHIEiku', 'images/profile.png', 'Active');
 
 --
 -- Constraints for dumped tables
@@ -643,13 +596,6 @@ ALTER TABLE `event_manager`
 --
 ALTER TABLE `participants`
   ADD CONSTRAINT `participants_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `participants_badges`
---
-ALTER TABLE `participants_badges`
-  ADD CONSTRAINT `participants_badges_ibfk_1` FOREIGN KEY (`participants_id`) REFERENCES `participants` (`participants_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `participants_badges_ibfk_2` FOREIGN KEY (`badges_id`) REFERENCES `badges` (`badges_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `participants_challenges`

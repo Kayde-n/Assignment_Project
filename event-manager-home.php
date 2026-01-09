@@ -9,6 +9,7 @@
 
     $event_manager_id = $_SESSION['user_role_id'];
 
+    // query for event manager data 
     $sql = "SELECT u.user_full_name
         FROM event_manager em
         JOIN user u ON u.user_id = em.user_id
@@ -21,16 +22,17 @@
         $row_name = mysqli_fetch_assoc($result_name);
     }
     
+    // query eco news table data
     $sql_news = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
     $result_news = mysqli_query($database, $sql_news);
 
-        // total number of events
+    // total number of events
     $sql_events = "SELECT COUNT(*) AS total_events FROM events";
     $result_events = mysqli_query($database, $sql_events);
     $row_events = mysqli_fetch_assoc($result_events);
     $total_events = $row_events['total_events'] ?? 0;
 
-    // total participation (only attended)
+    // total participation (attended the event only)
     $sql_participation = "SELECT COUNT(*) AS total_participation
         FROM attendance
         WHERE event_attended = 1";

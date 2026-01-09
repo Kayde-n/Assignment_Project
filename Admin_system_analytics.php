@@ -13,15 +13,12 @@ if ($today) {
 
 }
 
-
-
 $sql_active_users1 = "SELECT *
                     from participants_challenges 
                     WHERE date_accomplished = '$todayString'
                     ";
 $result = mysqli_query($database, $sql_active_users1);
 $todays_users = mysqli_num_rows($result);
-
 
 $sql_active_users2 = "SELECT * 
                     from participants_challenges 
@@ -339,7 +336,7 @@ exit();*/
                     <canvas id="performanceChart1" width="400px" height="400px"></canvas>
                 </div>
             </div>
-            <div class="large-analytics-card">
+            <div class="large-analytics-card-2">
                 <h3 class="card-title">Monthly Sales</h3>
                 <p>*Sales are based on redeemed rewards</p>
                 <div class="card-content">

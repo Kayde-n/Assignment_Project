@@ -1,123 +1,107 @@
 <?php
-include("session.php");
-include("database.php");
-if (!isset($_SESSION['mySession'])) {
-    echo "<script>alert('Invalid profile ID.'); window.location.href='participants-desktop-home.php';</script>";
-    exit();
-}
+    include("session.php");
+    include("database.php");
+    if (!isset($_SESSION['mySession'])) {
+        echo "<script>alert('Invalid profile ID.'); window.location.href='participants-desktop-home.php';</script>";
+        exit();
+    }
 
-$profile_id = $_SESSION['mySession'];
-$participant_id = $_SESSION['user_role_id'];
+    $profile_id = $_SESSION['mySession'];
+    $participant_id = $_SESSION['user_role_id'];
 
-/* PROFILE INFO */
-$sql_profile_info = "SELECT u.user_full_name,
-                        u.profile_picture_path
+    /* PROFILE INFO */
+    $sql_profile_info = "SELECT u.user_full_name,u.profile_picture_path
                         FROM user u 
                         WHERE u.user_id = $profile_id";
 
 
-$result = mysqli_query($database, $sql_profile_info);
-$row = mysqli_fetch_assoc($result);
-$profile = [];
-if (mysqli_num_rows($result) > 0) {
-    $profile = [
-        "user_full_name" => $row['user_full_name'],
-        "profile_picture_path" => $row['profile_picture_path']
-    ];
-} else {
-    echo "<script>alert('Profile not found');</script>";
-    exit();
-}
+    $result = mysqli_query($database, $sql_profile_info);
+    $row = mysqli_fetch_assoc($result);
+    $profile = [];
+    if (mysqli_num_rows($result) > 0) {
+        $profile = [
+            "user_full_name" => $row['user_full_name'],
+            "profile_picture_path" => $row['profile_picture_path']
+        ];
+    } else {
+        echo "<script>alert('Profile not found');</script>";
+        exit();
+    }
 
-/* TOTAL POINTS */
-$points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) AS total_eco_points,
-                p.participants_id AS participant_id,
-                COALESCE(SUM(r.points_required), 0) AS redeemed_points
-                FROM participants p
-                LEFT JOIN participants_challenges pc 
-                    ON p.participants_id = pc.participants_id
-                    AND pc.challenges_status = 'approved'
-                LEFT JOIN challenges c 
-                    ON pc.challenges_id = c.challenges_id
-                LEFT JOIN reward_redemption rr
-                    ON rr.participants_id = p.participants_id
-                LEFT JOIN rewards r
-                    ON rr.rewards_id = r.rewards_id
+    /* TOTAL POINTS */
+    $points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) AS total_eco_points,p.participants_id AS participant_id,COALESCE(SUM(r.points_required), 0) AS redeemed_points
+                    FROM participants p
+                    LEFT JOIN participants_challenges pc ON p.participants_id = pc.participants_id AND pc.challenges_status = 'approved'
+                    LEFT JOIN challenges c ON pc.challenges_id = c.challenges_id
+                    LEFT JOIN reward_redemption rr ON rr.participants_id = p.participants_id
+                    LEFT JOIN rewards r ON rr.rewards_id = r.rewards_id
                     GROUP BY p.participants_id";
 
+    $points_result = mysqli_query($database, $points_sql);
+    while ($points_row = mysqli_fetch_assoc($points_result)) {
+        $points_info[] = [
+            'earned_points' => $points_row['total_eco_points'],
+            'redeemed_points' => $points_row['redeemed_points'],
+            'participant_id' => $points_row['participant_id']
 
-
-$points_result = mysqli_query($database, $points_sql);
-while ($points_row = mysqli_fetch_assoc($points_result)) {
-    $points_info[] = [
-        'earned_points' => $points_row['total_eco_points'],
-        'redeemed_points' => $points_row['redeemed_points'],
-        'participant_id' => $points_row['participant_id']
-
-    ];
-}
-
-foreach ($points_info as $p) {
-    $total_points = $p['earned_points'] - $p['redeemed_points'];
-    $user_total_points[] = [
-        'participant_id' => $p['participant_id'],
-        'total_points' => $total_points
-    ];
-
-}
-/*RANKING */
-usort($user_total_points, function ($a, $b) {
-    return $b['total_points'] <=> $a['total_points'];
-});
-
-
-$rankCount = 1;
-$ranking = 0;
-foreach ($user_total_points as $rank) {
-    if ($rank['participant_id'] == $participant_id) {
-        $ranking = $rankCount;
-        $user_points = $rank['total_points'];
-
-    }
-    $rankCount++;
-}
-/*echo '<pre>';
-print_r($user_total_points);
-echo '</pre>';
-echo $rankCount;
-exit();*/
-
-if (!empty($_FILES['avatar']['name'])) {
-
-    $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    if (!in_array($_FILES['avatar']['type'], $allowedTypes)) {
-        exit('Invalid file type');
+        ];
     }
 
-    $uploadDir = 'images/';
-    $fileName = time() . '_' . basename($_FILES['avatar']['name']);
-    $targetPath = $uploadDir . $fileName;
+    foreach ($points_info as $p) {
+        $total_points = $p['earned_points'] - $p['redeemed_points'];
+        $user_total_points[] = [
+            'participant_id' => $p['participant_id'],
+            'total_points' => $total_points
+        ];
 
-    if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetPath)) {
-        // Delete old avatar
-        if (!empty($avatarPath) && file_exists($avatarPath)) {
-            unlink($avatarPath);
+    }
+    
+    /*RANKING */
+    usort($user_total_points, function ($a, $b) {
+        return $b['total_points'] <=> $a['total_points'];
+    });
+
+    $rankCount = 1;
+    $ranking = 0;
+    foreach ($user_total_points as $rank) {
+        if ($rank['participant_id'] == $participant_id) {
+            $ranking = $rankCount;
+            $user_points = $rank['total_points'];
+
+        }
+        $rankCount++;
+    }
+
+    if (!empty($_FILES['avatar']['name'])) {
+
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!in_array($_FILES['avatar']['type'], $allowedTypes)) {
+            exit('Invalid file type');
         }
 
-        // Save full path in DB
-        $updatesql = "
-                UPDATE user u
-                JOIN participants p ON p.user_id = u.user_id
-                SET u.profile_picture_path = '$targetPath'
-                WHERE p.participants_id  = $participant_id
-            ";
-        mysqli_query($database, $updatesql);
+        $uploadDir = 'images/';
+        $fileName = time() . '_' . basename($_FILES['avatar']['name']);
+        $targetPath = $uploadDir . $fileName;
 
-        // Update variable for display
-        $avatarPath = $targetPath;
+        if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetPath)) {
+            // Delete old avatar
+            if (!empty($avatarPath) && file_exists($avatarPath)) {
+                unlink($avatarPath);
+            }
+
+            // Save full path in DB
+            $updatesql = "UPDATE user u
+                    JOIN participants p ON p.user_id = u.user_id
+                    SET u.profile_picture_path = '$targetPath'
+                    WHERE p.participants_id  = $participant_id";
+            mysqli_query($database, $updatesql);
+
+            // Update variable for display
+            $avatarPath = $targetPath;
+        }
+
     }
 
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
