@@ -160,7 +160,6 @@
                     <select id="events-id" name="events_id" required>
                         <option value="">-- Select an Event --</option>
                         <?php
-                        include("Database.php");
                         $events_query = "SELECT events_id, event_name FROM events ORDER BY event_name";
                         $events_result = mysqli_query($database, $events_query);
                         

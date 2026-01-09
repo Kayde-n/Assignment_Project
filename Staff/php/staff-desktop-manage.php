@@ -29,7 +29,7 @@ require_once __DIR__ . "/../../config/database.php";
             <div id="account-icon">
                 <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="../../images/account-management.png" alt="Account"></button>
             </div>
-            <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
         </div>
     </div>
 

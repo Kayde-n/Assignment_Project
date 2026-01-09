@@ -1,21 +1,11 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/database.php";
     $user_id = $_SESSION['user_id'];
     $participants_id = $_SESSION['user_role_id'];
 
-    // DEBUG - Check what's in $_GET
-    echo "<!-- GET array: ";
-    print_r($_GET);
-    echo " -->";
-    
-    echo "<!-- isset GET tab: " . (isset($_GET['tab']) ? 'YES' : 'NO') . " -->";
-    echo "<!-- GET tab value: " . (isset($_GET['tab']) ? $_GET['tab'] : 'NOTHING') . " -->";
-
     $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'ongoing';
     
-    echo "<!-- active_tab variable: " . $active_tab . " -->";
-
     if ($active_tab == 'ongoing') {
         $sql = "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status, participants_challenges.date_accomplished
         FROM challenges
@@ -80,8 +70,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Challenges Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-challenges-mobile.css">    
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-challenges-mobile.css">    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -135,7 +125,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -189,9 +179,6 @@
                 $percent = ($daily_total > 0) ? ($completed_daily_total / $daily_total) * 100 : 0;
                 ?>
                 <div class="streak-fill" style="width: <?php echo $percent; ?>%;"></div>
-                <label for="dailyProgressMeter" class="streak-bar">
-                    <?php echo $completed_daily_total; ?>/<?php echo $daily_total; ?>
-                </label>
             </div>
             <div class="streak-info">
                 <span class="streak-text"><?php echo $completed_daily_total; ?>/<?php echo $daily_total; ?></span>
@@ -254,10 +241,10 @@
 
         <?php while ($event = mysqli_fetch_assoc($events_result)): ?>
             <div class="specials-card">
-                <img src="images/<?php echo htmlspecialchars($event['image_path']); ?>"
+                <img src="../../images/<?php echo htmlspecialchars($event['image_path']); ?>"
                     class="specials-image"
                     alt="event image"
-                    onerror="this.src='images/event-placeholder.png'">
+                    onerror="this.src='../../images/event-placeholder.png'">
 
                 <div class="specials-content">
                     <h4 class="specials-title">
@@ -289,7 +276,7 @@
                                             data-eco-news-id="' . htmlspecialchars($event['eco_news_id']) . '"
                                             data-title="' . htmlspecialchars($event['title']) . '"
                                             data-description="' . htmlspecialchars($event['description']) . '"
-                                            data-image="images/' . htmlspecialchars($event['image_path']) . '"
+                                            data-image="../../images/' . htmlspecialchars($event['image_path']) . '"
                                             data-venue="' . htmlspecialchars($event['venue']) . '"
                                             data-organizer="' . htmlspecialchars($event['organised_by']) . '"
                                             data-date="' . date('M d, Y', strtotime($event['start_time'])) . '"

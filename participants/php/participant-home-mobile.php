@@ -1,13 +1,13 @@
 <?php
 session_start();
-include("Database.php");
+require_once __DIR__ . "/../../config/database.php";
 // Check if system is under maintenance
-include("check-maintenance-status.php");
+require_once __DIR__ . "/../../check-maintenance-status.php";
 
 date_default_timezone_set("Asia/Kuala_Lumpur");
 
 if (!isset($_SESSION['user_role_id'])) {
-    header("Location: login.php");
+    header("Location: ../../login.php");
     exit();
 }
 
@@ -117,8 +117,8 @@ foreach ($user_total_points as $rank) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Home Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-home-mobile.css">
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-home-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -182,7 +182,7 @@ foreach ($user_total_points as $rank) {
 
         </div>
 
-        <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+        <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
             <button class="icon-btn"><i data-lucide="log-out"></i></button>
         </a>
     </nav>
@@ -254,7 +254,7 @@ foreach ($user_total_points as $rank) {
         </div>
         <div class="impact-boxes">
             <div class="impact-card card-co2">
-                <img src="images/bush.png" class="impact-img" alt="CO₂ image">
+                <img src="../../images/bush.png" class="impact-img" alt="CO₂ image">
                 <div class="impact-content">
                     <div class="impact-value"><?= $user_impact_emissions ?></div>
                     <div class="impact-label">CO₂ Saved</div>
@@ -262,7 +262,7 @@ foreach ($user_total_points as $rank) {
             </div>
 
             <div class="impact-card card-waste">
-                <img src="images/trash-can.webp" class="impact-img" alt="Waste image">
+                <img src="../../images/trash-can.webp" class="impact-img" alt="Waste image">
                 <div class="impact-content">
                     <div class="impact-value"><?= $user_impact_waste ?></div>
                     <div class="impact-label">Waste Diverted</div>
@@ -270,7 +270,7 @@ foreach ($user_total_points as $rank) {
             </div>
 
             <div class="impact-card card-streak">
-                <img src="images/flame.png" class="impact-img" alt="Streak image">
+                <img src="../../images/flame.png" class="impact-img" alt="Streak image">
                 <div class="impact-content">
                     <div class="impact-value"><?= $streak ?></div>
                     <div class="impact-label">Daily Streak</div>
@@ -278,7 +278,7 @@ foreach ($user_total_points as $rank) {
             </div>
 
             <div class="impact-card card-trophy">
-                <img src="images/trophy.png" class="impact-img" alt="Trophy image">
+                <img src="../../images/trophy.png" class="impact-img" alt="Trophy image">
                 <div class="impact-content">
                     <div class="impact-value"><?= $challenges_count ?></div>
                     <div class="impact-label">Challenges <br> Completed</div>
@@ -306,7 +306,7 @@ foreach ($user_total_points as $rank) {
                 <div class="news-card">
                     <a href="participant-econews-example-mobile.php?id=<?php echo $row['eco_news_id']; ?>"
                         class="news-link">
-                        <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="News image"
+                        <img src="../../images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="News image"
                             class="news-image">
                         <div class="news-content">
 
@@ -333,7 +333,7 @@ foreach ($user_total_points as $rank) {
             // Only search if user typed at least 2 characters
             if (query.length >= 2) {
                 // Send AJAX request to PHP
-                fetch('search.php?query=' + encodeURIComponent(query) + '&source=home')
+                fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=home')
                     .then(response => response.json())
                     .then(data => {
 

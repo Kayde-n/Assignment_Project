@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("database.php");
+require_once __DIR__ . "/../../config/database.php";
 $participant_id = $_SESSION['user_role_id'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

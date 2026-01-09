@@ -37,7 +37,7 @@ require_once __DIR__ . "/../../config/database.php";
                 <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
                         src="../../images/system-config.png" alt="System Config"></button>
             </div>
-            <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
         </div>
     </div>
 

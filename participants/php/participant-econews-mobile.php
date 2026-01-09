@@ -1,6 +1,6 @@
 <?php
-include("session.php");
-include("Database.php");
+require_once __DIR__ . "/../../session.php";
+require_once __DIR__ . "/../../config/database.php";
 
 date_default_timezone_set("Asia/Kuala_Lumpur");
 
@@ -51,8 +51,8 @@ $result_past = mysqli_query($database, $sql_past);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Econews Mobile</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="participant-econews-mobile.css">
+    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../css/participant-econews-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -116,7 +116,7 @@ $result_past = mysqli_query($database, $sql_past);
 
         </div>
 
-        <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+        <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
             <button class="icon-btn"><i data-lucide="log-out"></i></button>
         </a>
     </nav>
@@ -176,7 +176,7 @@ $result_past = mysqli_query($database, $sql_past);
                 <div class="news-card">
                     <a href="participant-econews-example-mobile.php?id=<?php echo (int) $row['eco_news_id']; ?>"
                         class="news-link">
-                        <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
+                        <img src="../../images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
                         <div class="news-content">
                             <div class="news-tag">Upcoming Event</div>
                             <h3 class="news-title"><?php echo $row['title']; ?></h3>
@@ -205,7 +205,7 @@ $result_past = mysqli_query($database, $sql_past);
                     <div class="news-card past-event">
                         <a href="participant-econews-example-mobile.php?id=<?php echo (int) $row['eco_news_id']; ?>"
                             class="news-link">
-                            <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
+                            <img src="../../images/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Eco News Image">
                             <div class="news-content">
                                 <div class="news-tag">Past Event</div>
                                 <h3 class="news-title"><?php echo $row['title']; ?></h3>
@@ -228,7 +228,7 @@ $result_past = mysqli_query($database, $sql_past);
         searchInput.addEventListener('input', function () {
             const query = this.value;
             if (query.length >= 2) {
-                fetch('search.php?query=' + encodeURIComponent(query) + '&source=eco_news')
+                fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=eco_news')
                     .then(response => response.json())
                     .then(data => displayResults(data));
             } else { searchResults.innerHTML = ''; }
@@ -241,7 +241,7 @@ $result_past = mysqli_query($database, $sql_past);
             }
             let html = '<div class="search-dropdown">';
             results.forEach(item => {
-                html += `<div class="search-item" onclick="location.href='event-manager-news-details.php?id=${item.eco_news_id}'">
+                html += `<div class="search-item" onclick="location.href='../../event-manager-news-details.php?id=${item.eco_news_id}'">
                             <strong>${item.title}</strong>
                          </div>`;
             });
