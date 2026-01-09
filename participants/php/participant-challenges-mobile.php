@@ -270,15 +270,15 @@
                             if (!empty($event['attendance_id'])) {
                                 if (isset($event['event_attended']) && $event['event_attended'] == 1) {
                                     // Already attended
-                                    echo '<div class="specials-btn" disabled>Attended</div>';
+                                    echo '<div class="specials-btn active" disabled>Attended</div>';
                                 } else {
                                     // Signed up but not yet attended
-                                    echo '<div class="specials-btn" disabled>Signed Up</div>';
+                                    echo '<div class="specials-btn active" disabled>Signed Up</div>';
                                 }
                             } else {
                                 if ($event['start_time'] <= date('Y-m-d H:i:s')) {
                                     // Event has already started/passed — no Join button
-                                    echo '<div class="specials-btn" disabled>Closed</div>';
+                                    echo '<div class="specials-btn active" disabled>Closed</div>';
                                 } else {
                                     // Not signed up yet — show Join button
                                     echo '<div class="specials-btn" onclick="showEventDetails(this)"
