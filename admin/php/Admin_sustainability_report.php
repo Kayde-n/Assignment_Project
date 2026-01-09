@@ -83,40 +83,35 @@ $total_events = $data_events['total_events'] ?? 0;
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/admin-sustainability-report.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
     <div class="top-bar">
-        <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'">
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="images/profile.png"
-                    alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
+            <button class="icon-btn"><i data-lucide="bell"></i></button>
+            <button class="icon-btn"><i data-lucide="settings"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="admin-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="../../images/home.png"
-                    alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
-                    src="../../images/system-analytics.png" alt="System Analytics"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><i data-lucide="home"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><i data-lucide="bar-chart-3"></i></button>
             <div id="sustainability-report-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
-                        src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><i data-lucide="file-text"></i></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
-                    src="../../images/system-config.png" alt="System Config"></button>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><i data-lucide="sliders"></i></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
     <div class="main-content">
-        <!-- Header Section -->
         <div class="page-header">
             <div class="title-box">
                 <h1>Sustainability Report</h1>
@@ -124,7 +119,7 @@ $total_events = $data_events['total_events'] ?? 0;
 
             <div class="date-selector">
                 <label for="month-year">
-                    <img src="images/calendar.png" alt="Calendar">
+                    <i data-lucide="calendar"></i>
                 </label>
                 <form method="GET">
                     <select id="month-year" name="month_year" onchange="this.form.submit()">
@@ -138,7 +133,6 @@ $total_events = $data_events['total_events'] ?? 0;
             </div>
         </div>
 
-        <!-- Executive Summary Section -->
         <section class="executive-summary">
             <h2>Executive Summary</h2>
             <p>
@@ -148,7 +142,6 @@ $total_events = $data_events['total_events'] ?? 0;
             </p>
         </section>
 
-        <!-- Environmental Impact Section -->
         <section class="environmental-impact">
             <h2>Environmental Impact</h2>
             <div class="impact-grid">
@@ -171,7 +164,6 @@ $total_events = $data_events['total_events'] ?? 0;
             </div>
         </section>
 
-        <!-- Participation Statistics Section -->
         <section class="participation-stats">
             <h2>Participation Statistics</h2>
             <div class="stat-item">
@@ -213,16 +205,17 @@ $total_events = $data_events['total_events'] ?? 0;
             </div>
         </section>
 
-        <!-- Download Button -->
         <div class="download-section">
             <button class="download-btn">
-                <img src="images/download.png" alt="Download">
+                <i data-lucide="download"></i>
                 Download Full Report as PDF
             </button>
         </div>
     </div>
 
-
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>
