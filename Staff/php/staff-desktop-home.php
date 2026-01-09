@@ -41,7 +41,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>newsdetails</title>
+    <title>Home Page</title>
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../../participant.css">
     <link rel="stylesheet" href="../../participants-home-desktop.css">
@@ -75,7 +75,7 @@
                 <script>
                     function logout_confirm() {
                         if (confirm("Are you sure you want to logout?")) {
-                            window.location.href = "logout.php";
+                            window.location.href = "../../logout.php";
                         }
                     }
                 </script>
@@ -86,7 +86,7 @@
     <div class="main-content">
         <div class="search-box">
             <input type="text" placeholder="Search..." id="search-input">
-            <div id="search-results"></div> <!-- placeholder for search results -->
+            <div id="search-results"></div>
         </div>
         <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
         </p>
@@ -127,7 +127,7 @@
                 onclick="window.location.href='staff-desktop-verification?id=<?= $row['participants_challenges_id']; ?>'">
 
                 <button class="image-holder">
-                    <img src="challenge_submission_uploads/<?= htmlspecialchars($row['proof_image']); ?>" alt="Proof Image">
+                    <img src="../../challenge_submission_uploads/<?= htmlspecialchars($row['proof_image']); ?>" alt="Proof Image">>
                 </button>
 
                 <!-- u.user_full_name, c.challenge_name, c.description, pc.date_accomplished -->
@@ -172,7 +172,7 @@
                 // Only search if user typed at least 2 characters
                 if (query.length >= 2) {
                     // Send AJAX request to PHP
-                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=staff')
+                    fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=staff')
                         .then(response => response.json())
                         .then(data => {
 

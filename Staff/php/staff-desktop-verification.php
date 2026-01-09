@@ -111,7 +111,7 @@
                     </div>
                     <div style="text-align: center; border-top: 1px solid #eee; pt: 15px;">
                         <p style="font-weight: bold; margin-bottom: 10px;">Submitted Proof Image:</p>
-                        <img src="challenge_submission_uploads/${data.image_path}" style="width: 100%; max-height: 250px; object-fit: contain; border-radius: 5px;" onerror="this.src='challenge_submission_uploads/default.png'">
+                        <img src="../../challenge_submission_uploads/${data.image_path}" style="width: 100%; max-height: 250px; object-fit: contain; border-radius: 5px;" onerror="this.src='challenge_submission_uploads/default.png'">
                     </div>
                 </div>
             `;
@@ -173,13 +173,13 @@
                         <?php while($row = mysqli_fetch_assoc($pendingList)): ?>
                             <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
                                 <div class="item-details">
-                                    <img src="<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp">
+                                    <img src="../../<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp" onerror="this.src='../../images/profile.png'">
                                     <div class="user-text">
                                         <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
                                         <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
                                     </div>
                                 </div>
-                                <img src="challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']); ?>" class="proof-img">
+                                <img src="../../challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']); ?>" class="proof-img">
                             </div>
                         <?php endwhile; ?>
                     </div>
@@ -191,14 +191,14 @@
                             <?php while($row = mysqli_fetch_assoc($approvedList)): ?>
                                 <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
                                     <div class="item-details">
-                                        <img src="<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp">
+                                        <img src="../../<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp">
                                         <div class="user-text">
                                             <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
                                             <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
                                             <span style="color: green; font-weight: bold;">✓ Approved</span>
                                         </div>
                                     </div>
-                                    <img src="challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']) ?>" class="proof-img">
+                                    <img src="../../challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']) ?>" class="proof-img">
                                 </div>
                             <?php endwhile; ?>
                         <?php else: ?>
@@ -213,14 +213,14 @@
                             <?php while($row = mysqli_fetch_assoc($rejectedList)): ?>
                                 <div class="verification-item" onclick='openModal(<?php echo json_encode($row); ?>)'>
                                     <div class="item-details">
-                                        <img src="<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp"> 
+                                        <img src="../../<?= htmlspecialchars($row['user_prof']) ?>" class="user-pfp"> 
                                         <div class="user-text">
                                             <span class="user-name"><?php echo htmlspecialchars($row['user_full_name']); ?></span>
                                             <h3 class="challenge-name"><?php echo htmlspecialchars($row['challenge_name']); ?></h3>
                                             <span style="color: red; font-weight: bold;">✕ Rejected</span>
                                         </div>
                                     </div>
-                                    <img src="challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']); ?>" class="proof-img">
+                                    <img src="../../challenge_submission_uploads/<?php echo htmlspecialchars($row['image_path']); ?>" class="proof-img">
                                 </div>
                             <?php endwhile; ?>
                         <?php else: ?>
