@@ -1,0 +1,115 @@
+<?php
+require_once __DIR__ . "/../../session.php";
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/admin-profile.css">
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+    <div class="side-bar">
+        <div class="admin-icon-container">
+            <div id="home-icon-box">
+                <button class="icon-btn" onclick="window.location.href='admin_home.php'"><img
+                        src="../../images/home.png" alt="Home"></button>
+            </div>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img src="../../images/system-analytics.png" alt="System Analytics"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
+                    src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
+            <button class="icon-btn"><img src="../../images/system-config.png" alt="System Config"></button>
+            <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
+        </div>
+    </div>
+
+
+
+    <!-- TOP BAR (hidden on mobile) -->
+    <div class="top-bar">
+        <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+        <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'">
+            <h2>EcoXP</h2>
+        </button>
+        <div class="default-icon-container">
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img
+                    src="../../images/profile.png" alt="Profile Logo"></button>
+            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification Logo"></button>
+            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting Logo"></button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT BOX -->
+    <div class="main-content">
+        <div class='text-box'>
+            Profile
+        </div>
+        <!-- PROFILE SECTION -->
+        <div class="profile-container">
+            <div class="profile-pic">
+                <img src="../../images/profile.png" alt="Profile Picture">
+            </div>
+            <div class="profile-info">
+                <p class="profile-name">Eiden Jackson</p>
+                <p class="profile-role">Bachelor of Environmental Science</p>
+            </div>
+        </div>
+
+
+        <!-- QUICK ACCESS -->
+        <div class="quick-access">
+            <h3>Quick Access</h3>
+            <ul>
+                <li>
+                    <a href="Admin_system_analytics.php">
+                        <div class="left">
+                            <img src="../../images/system-analytics.png" alt="System Analytics Icon">
+                            System Analytics
+                        </div>
+                        <img src="../../images/arrow.png" alt="Arrow Icon">
+                    </a>
+                </li>
+                <li>
+                    <a href="Admin_sustainability_report.php">
+                        <div class="left">
+                            <img src="../../images/sustainability-report.png" alt="Sustainability Report Icon">
+                            Sustainability Report
+                        </div>
+                        <img src="../../images/arrow.png" alt="Arrow Icon">
+                    </a>
+                </li>
+                <li>
+                    <a href="account-management.php">
+                        <div class="left">
+                            <img src="../../images/account-management.png" alt="Account Management Icon">
+                            Account Management
+                        </div>
+                        <img src="../../images/arrow.png" alt="Arrow Icon">
+                    </a>
+                </li>
+                <li>
+                    <a href="Admin_system_config.php">
+                        <div class="left">
+                            <img src="../../images/system-config.png" alt="System Config Icon">
+                            System Configuration
+                        </div>
+                        <img src="../../images/arrow.png" alt="Arrow Icon">
+                    </a>
+                </li>
+                >
+            </ul>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

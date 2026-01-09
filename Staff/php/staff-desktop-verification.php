@@ -1,17 +1,16 @@
 <?php 
     session_start();
-    include('Database.php'); 
+    require_once __DIR__ . "/../../config/database.php";
 
     date_default_timezone_set("Asia/Kuala_Lumpur");
     
     if (!isset($_SESSION['staff_id'])) {
-        header("Location: login.php");
+        header("Location: ../../login.php");
         exit();
     }
 
     $staff_id = (int) $_SESSION['staff_id'];
     // query approval or rejection actions
-
     if (isset($_POST['action']) && isset($_POST['id'])) {
 
         $challenge_id = (int) $_POST['id'];
@@ -89,9 +88,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="staff.css">
-    <link rel="stylesheet" href="staff-verification-desktop.css">
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="../css/staff.css">
+    <link rel="stylesheet" href="../css/staff-verification-desktop.css">
     <script>
         function openModal(data) {
             document.getElementById('modal-id').value = data.participants_challenges_id;
@@ -136,23 +135,23 @@
 <body>
     <div id="desktop">
         <div class="top-bar">
-            <img src="images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
+            <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
             <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
             <div class="default-icon-container">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="images/profile.png" alt="Profile"></button>
-                <button class="icon-btn"><img src="images/notif.png" alt="Notification"></button>
-                <button class="icon-btn"><img src="images/setting.png" alt="Setting"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="../../images/profile.png" alt="Profile"></button>
+                <button class="icon-btn"><img src="../../images/notif.png" alt="Notification"></button>
+                <button class="icon-btn"><img src="../../images/setting.png" alt="Setting"></button>
             </div>
         </div>
 
         <div class="side-bar">
             <div class="staff-icon-container">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="../../images/home.png" alt="Home"></button>
                 <div id="verification-icon">
-                    <button class="icon-btn"><img src="images/verification.png" alt="Verification"></button>
+                    <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="../../images/verification.png" alt="Verification"></button>
                 </div>
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="images/account-management.png" alt="Account"></button>
-                <button class="icon-btn" id="logout"><img src="images/logout.png" alt="Logout"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="../../images/account-management.png" alt="Account"></button>
+                <button class="icon-btn" id="logout"><img src="../../images/logout.png" alt="Logout"></button>
             </div>
         </div>
 
