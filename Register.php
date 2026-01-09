@@ -73,8 +73,26 @@ include("database.php");
             $row = mysqli_fetch_array($result_retreive_id);
             $user_id = $row['user_id'];
         }
+
+        // query last tp no (ignore blank tp's)
+        $tp_last = "SELECT TP_no FROM participants WHERE TP_no != ''
+            ORDER BY participants_id DESC LIMIT 1";
+        $tpResult = mysqli_query($database, $tp_last);
+
+        if($tpResult && mysqli_num_rows($tpResult) > 0){
+            $lastRow = mysqli_fetch_assoc($tpResult); // get tp00005
+            $LastTP = $lastRow['TP_no'];
+
+            $num_tp = (int)substr($LastTP ,2); // get 00005 = 5
+            $next_num = $num_tp +1;
+        } else{
+            $next_num = 1;
+        }
+
+        $tp_no = 'TP'. str_pad($next_num, 5, '0', STR_PAD_LEFT); // concat the 0000 and 5
+
         //insert data of newly registered user into participants table
-        $sql = "INSERT INTO participants (user_id) VALUES ($user_id)";
+        $sql = "INSERT INTO participants (user_id, TP_no) VALUES ($user_id, '$tp_no')";
         if (!mysqli_query($database, $sql)) {
             die('Error: ' . mysqli_error($database));
         } else {
