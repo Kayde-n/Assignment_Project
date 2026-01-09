@@ -1,9 +1,8 @@
 <?php
-
+ini_set('session.cookie_path', '/');
 session_start();
 
-
-include("database.php");
+require_once __DIR__ . "/config/database.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // username and password sent from Form

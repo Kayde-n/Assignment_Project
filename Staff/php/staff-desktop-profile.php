@@ -1,13 +1,21 @@
 <?php
-require_once __DIR__ . "/../../config/database.php";
+    session_start();
 
-    $current_user_id = 3;
+    require_once __DIR__ . "/../../config/database.php";
 
-    // query staff info
+    date_default_timezone_set("Asia/Kuala_Lumpur");
+
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'staff') {
+        header("Location: ../../login.php");
+        exit();
+    }
+
+    $current_user_id = (int) $_SESSION['user_role_id'];
+
     $query = "SELECT u.user_full_name, u.email, u.profile_picture_path, u.account_status, s.staff_id 
-            FROM user u 
-            JOIN staff s ON u.user_id = s.user_id 
-            WHERE u.user_id = ?";
+          FROM staff s
+          JOIN user u ON u.user_id = s.user_id
+          WHERE s.staff_id = ?";
 
     // use prepared stuff for security
     $stmt = mysqli_prepare($database, $query);

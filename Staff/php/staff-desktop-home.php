@@ -1,4 +1,13 @@
 <?php
+    session_start();
+
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'staff') {
+        header("Location: ../../Login.php");
+        exit();
+    }
+
+    $staff_id = $_SESSION['user_role_id'];
+
     require_once __DIR__ . "/../../config/database.php";
 
     // general statistics 

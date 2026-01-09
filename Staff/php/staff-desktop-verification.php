@@ -4,12 +4,12 @@
 
     date_default_timezone_set("Asia/Kuala_Lumpur");
     
-    if (!isset($_SESSION['staff_id'])) {
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'staff') {
         header("Location: ../../login.php");
         exit();
     }
 
-    $staff_id = (int) $_SESSION['staff_id'];
+    $staff_id = (int) $_SESSION['user_role_id'];
     // query approval or rejection actions
     if (isset($_POST['action']) && isset($_POST['id'])) {
 
