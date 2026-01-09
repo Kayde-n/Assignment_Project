@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_query($database, $sql_query3)) {
 
         $_SESSION['popup_message'] = "Upload successful: $newName";
-        header("Location: participants-desktop-logaction.php");
+        header("Location: participant-action-submit-mobile.php");
         exit();
     } else {
         die("Insert failed: " . mysqli_error($database));

@@ -1,113 +1,113 @@
 <?php
-    session_start();
-    include("Database.php");
-    // Check if system is under maintenance
-    include("check-maintenance-status.php");
+session_start();
+include("Database.php");
+// Check if system is under maintenance
+include("check-maintenance-status.php");
 
-    date_default_timezone_set("Asia/Kuala_Lumpur");
+date_default_timezone_set("Asia/Kuala_Lumpur");
 
-    if (!isset($_SESSION['user_role_id'])) {
-        header("Location: login.php");
-        exit();
-    }
+if (!isset($_SESSION['user_role_id'])) {
+    header("Location: login.php");
+    exit();
+}
 
-    $participant_id = (int) $_SESSION['user_role_id'];
+$participant_id = (int) $_SESSION['user_role_id'];
 
-    // participant impact
-    $sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
-    
-    // partcipants streak calculation
-    $sql_query_daily_streak = "SELECT date_accomplished FROM participants_challenges 
+// participant impact
+$sql_query_impact = "SELECT impact_type, impact_amount, participants_challenges_id FROM participants_challenges WHERE participants_id = $participant_id";
+
+// partcipants streak calculation
+$sql_query_daily_streak = "SELECT date_accomplished FROM participants_challenges 
                     WHERE participants_id = $participant_id
                     ORDER BY date_accomplished DESC";
-    $streak_result = mysqli_query($database, $sql_query_daily_streak);
-    $dates = [];
-    $streak = 0;
+$streak_result = mysqli_query($database, $sql_query_daily_streak);
+$dates = [];
+$streak = 0;
 
-    $challenges_count = 0; //amount of challenges 
-    $total_impact_amount = 0; // total CO2 reduction
-    $total_impact_amount2 = 0; // total waste recycled
-    $result = mysqli_query($database, $sql_query_impact);
+$challenges_count = 0; //amount of challenges 
+$total_impact_amount = 0; // total CO2 reduction
+$total_impact_amount2 = 0; // total waste recycled
+$result = mysqli_query($database, $sql_query_impact);
 
-    // news 
-    $sql_news = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
-    $result_news = mysqli_query($database, $sql_news);
+// news 
+$sql_news = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
+$result_news = mysqli_query($database, $sql_news);
 
-    if (!$result) {
-        error_log("Database query failed: " . mysqli_error($database));
-        exit();
+if (!$result) {
+    error_log("Database query failed: " . mysqli_error($database));
+    exit();
+}
+while ($row = mysqli_fetch_assoc($result)) {
+    $challenges_count++;
+
+    if ($row['impact_type'] === 'reduced carbon emission') {
+        $total_impact_amount += $row['impact_amount'];
+    } elseif ($row['impact_type'] === 'recycling trash') {
+        $total_impact_amount2 += $row['impact_amount'];
     }
-    while ($row = mysqli_fetch_assoc($result)) {
-        $challenges_count++;
+}
+$user_impact_emissions = $total_impact_amount . 'kg';
+$user_impact_waste = $total_impact_amount2 . 'kg';
 
-        if ($row['impact_type'] === 'reduced carbon emission') {
-            $total_impact_amount += $row['impact_amount'];
-        } elseif ($row['impact_type'] === 'recycling trash') {
-            $total_impact_amount2 += $row['impact_amount'];
-        }
-    }
-    $user_impact_emissions = $total_impact_amount . 'kg';
-    $user_impact_waste = $total_impact_amount2 . 'kg';
+while ($row = mysqli_fetch_assoc($streak_result)) {
+    $dates[] = $row['date_accomplished']; // push each date into array
+}
 
-    while ($row = mysqli_fetch_assoc($streak_result)) {
-        $dates[] = $row['date_accomplished']; // push each date into array
-    }
-
-    $today = new DateTime('today'); // Get today's date (no time, only date)
-    $current_day = clone $today;
+$today = new DateTime('today'); // Get today's date (no time, only date)
+$current_day = clone $today;
 
 
-    // Convert date strings into DateTime objects
-    $dates = array_map(function ($d) {
-        return new DateTime($d);
-    }, $dates);
+// Convert date strings into DateTime objects
+$dates = array_map(function ($d) {
+    return new DateTime($d);
+}, $dates);
 
-    while (true) {
-        $found = false;
-        foreach ($dates as $d) {
-            if ($d->format('Y-m-d') == $current_day->format('Y-m-d')) {
-                $found = true;
-                break;
-            }
-        }
-        if ($found) {
-            $streak++;
-            $current_day->modify('-1 day'); // go to previous day
-        } else {
-            // Streak breaks when a day is missing
+while (true) {
+    $found = false;
+    foreach ($dates as $d) {
+        if ($d->format('Y-m-d') == $current_day->format('Y-m-d')) {
+            $found = true;
             break;
         }
     }
-    /* TOTAL POINTS */
-    $points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) AS total_eco_points,p.participants_id AS participant_id,
+    if ($found) {
+        $streak++;
+        $current_day->modify('-1 day'); // go to previous day
+    } else {
+        // Streak breaks when a day is missing
+        break;
+    }
+}
+/* TOTAL POINTS */
+$points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) AS total_eco_points,p.participants_id AS participant_id,
                     COALESCE(SUM(r.points_required), 0) AS redeemed_points
                     FROM participants p
                     LEFT JOIN participants_challenges pc ON p.participants_id = pc.participants_id AND pc.challenges_status = 'approved'
                     LEFT JOIN challenges c ON pc.challenges_id = c.challenges_id LEFT JOIN reward_redemption rr ON rr.participants_id = p.participants_id
                     LEFT JOIN rewards r ON rr.rewards_id = r.rewards_id GROUP BY p.participants_id";
 
-    $points_result = mysqli_query($database, $points_sql);
-    while ($points_row = mysqli_fetch_assoc($points_result)) {
-        $points_info[] = [
-            'earned_points' => $points_row['total_eco_points'],
-            'redeemed_points' => $points_row['redeemed_points'],
-            'participant_id' => $points_row['participant_id']
-        ];
-    }
+$points_result = mysqli_query($database, $points_sql);
+while ($points_row = mysqli_fetch_assoc($points_result)) {
+    $points_info[] = [
+        'earned_points' => $points_row['total_eco_points'],
+        'redeemed_points' => $points_row['redeemed_points'],
+        'participant_id' => $points_row['participant_id']
+    ];
+}
 
-    foreach ($points_info as $p) {
-        $total_points = $p['earned_points'] - $p['redeemed_points'];
-        $user_total_points[] = [
-            'participant_id' => $p['participant_id'],
-            'total_points' => $total_points
-        ];
-    }
-    foreach ($user_total_points as $rank) {
-        if ($rank['participant_id'] == $participant_id) {
-            $user_points = $rank['total_points'];
+foreach ($points_info as $p) {
+    $total_points = $p['earned_points'] - $p['redeemed_points'];
+    $user_total_points[] = [
+        'participant_id' => $p['participant_id'],
+        'total_points' => $total_points
+    ];
+}
+foreach ($user_total_points as $rank) {
+    if ($rank['participant_id'] == $participant_id) {
+        $user_points = $rank['total_points'];
 
-        }
     }
+}
 
 ?>
 <!DOCTYPE html>
@@ -248,13 +248,10 @@
 
     <!-- Main points -->
     <main class="main-content">
-        <div class="search-container">
-                <div class="search-box">
-                    <i data-lucide="search" class="search-icon"></i>
-                    <input type="text" placeholder="Search news..." id="search-input">
-                </div>
-                <div id="search-results"></div> 
-            </div>
+        <div class="search-box">
+            <input type="text" placeholder="Search..." id="search-input">
+            <div id="search-results"></div> <!-- placeholder for search results -->
+        </div>
         <div class="impact-boxes">
             <div class="impact-card card-co2">
                 <img src="images/bush.png" class="impact-img" alt="CO₂ image">
@@ -326,64 +323,62 @@
     </main>
 
     <script>
-            const searchInput = document.getElementById('search-input');
-            const searchResults = document.getElementById('search-results');
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
 
-            // searches every keystroke
-            searchInput.addEventListener('input', function () {
-                const query = this.value;
+        // Trigger search on every keystroke
+        searchInput.addEventListener('input', function () {
+            const query = this.value;
 
-                // Only search if user typed at least 2 characters
-                if (query.length >= 2) {
-                    // Send AJAX request to PHP
-                    fetch('search.php?query=' + encodeURIComponent(query) + '&source=home')
-                        .then(response => response.json())
-                        .then(data => {
+            // Only search if user typed at least 2 characters
+            if (query.length >= 2) {
+                // Send AJAX request to PHP
+                fetch('search.php?query=' + encodeURIComponent(query) + '&source=home')
+                    .then(response => response.json())
+                    .then(data => {
 
-                            displayResults(data);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching search results:', error);
-                        });
-                } else {
-                    searchResults.innerHTML = ''; // Clear results if less than 2 chars
+                        displayResults(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                    });
+            } else {
+                searchResults.innerHTML = ''; // Clear results if less than 2 chars
+            }
+        });
+
+        function displayResults(results) { //builds HTML search results
+            if (results.length === 0) {
+                searchResults.innerHTML = '<p>No results found</p>';
+                return;
+            }
+
+            let html = '<div class="search-results-container">';
+            results.forEach(item => {
+                // Determine redirect URL
+                let redirectUrl = '';
+                if (item.url) {
+                    // For home search results with predefined url
+                    redirectUrl = item.url;
                 }
-            });
 
-            function displayResults(results) { //builds HTML search results
-                if (results.length === 0) {
-                    searchResults.innerHTML = '<p>No results found</p>';
-                    return;
-                }
-
-                let html = '<div class="search-results-container">';
-                results.forEach(item => {
-                    // Determine redirect URL
-                    let redirectUrl = '';
-                    if (item.url) {
-                        // For home search results with predefined url
-                        redirectUrl = item.url;
-                    } else if (item.eco_news_id) {
-                        // For eco news results
-                        redirectUrl = 'participants-desktop-newsdetails.php?id=' + item.eco_news_id;
-                    }
-
-                    html += `
+                html += `
                 <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
                     <h4>${item.title}</h4>
+                    <p>${item.description || ''}</p>
                 </div>
             `;
-                });
-                html += '</div>';
+            });
+            html += '</div>';
 
-                searchResults.innerHTML = html;
-            }
+            searchResults.innerHTML = html;
+        }
 
-            function redirectToResult(url) {
-                if (url) {
-                    window.location.href = url;
-                }
+        function redirectToResult(url) {
+            if (url) {
+                window.location.href = url;
             }
+        }
         lucide.createIcons();
     </script>
 
