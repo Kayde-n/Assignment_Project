@@ -107,7 +107,7 @@
             </button>
 
         </div>
-        <div class="text-box" onclick="window.location.href='participants/php/participants-desktop-econews.php'"
+        <div class="text-box" onclick="window.location.href='Staff/php/staff-desktop-verification.php'" 
             style="cursor: pointer;">
             Verifications Queue
         </div>
