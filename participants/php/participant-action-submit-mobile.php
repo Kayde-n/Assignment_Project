@@ -121,30 +121,18 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="header-title">Log Action</div>
         </div>
 
-        <!-- switch to qr/log action -->
-        <div class="switch-action-container">
-            <div class="switch-btn-container">
-                <a href="participant-action-submit-mobile.php" class="switch-btn-item active">
-                    <i data-lucide="image" class="switch-btn"></i>
-                </a>
-                <a href="participant-action-qr-mobile.php" class="switch-btn-item">
-                    <i data-lucide="qr-code" class="switch-btn"></i>
-                </a>
-            </div>
-        </div>
-
         <!-- submit -->
         <form action="challenges-upload.php" method="POST" enctype="multipart/form-data">
             <div class="submit-container">
                 <!-- select challenges -->
 
-                <div class="submit-select">
+                
                     <select class="submit-dropdown-box" name="challenge_selected">
                         <?php foreach ($challenges as $challenge): ?>
                             <option><?php echo $challenge['challenge_name']; ?></option>
                         <?php endforeach; ?>
                     </select>
-                </div>
+               
                 <!-- upload image -->
                 <div class="submit-image">
                     <label class="image-upload-box" for="imageInput">

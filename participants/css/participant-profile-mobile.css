@@ -133,3 +133,13 @@
     stroke: #d9534f;
 }
 
+.quick-item.logout button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+ 
+}
+
