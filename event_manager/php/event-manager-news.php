@@ -1,6 +1,6 @@
 <?php
-    include("session.php");
-    include("Database.php");
+    require_once __DIR__ . "/../../session.php";
+    require_once __DIR__ . "/../../config/Database.php";
 
     // get eco news data
     $sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
@@ -13,8 +13,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eco News Feed</title>
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="event-manager-news.css">
+    <link rel="stylesheet" href="../../mobile.css">
+    <link rel="stylesheet" href="../css/event-manager-news.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -42,7 +42,7 @@
             <a href="event-manager-news.php" class="icon-link active sidebar-icon"><button class="icon-btn"><i data-lucide="newspaper"></i></button></a>
             <a href="event-manager-rewards-management.php" class="icon-link sidebar-icon"><button class="icon-btn"><i data-lucide="badge-percent"></i></button></a>
         </div>
-        <a href="logout.php" id="logout" class="sidebar-icon"><button class="icon-btn"><i data-lucide="log-out"></i></button></a>
+        <a href="../../logout.php" id="logout" class="sidebar-icon"><button class="icon-btn"><i data-lucide="log-out"></i></button></a>
     </nav>
 
     <main class="main-content">
@@ -65,7 +65,7 @@
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                 <div class="news-card" onclick="window.location.href='event-manager-news-details.php?id=<?php echo $row['eco_news_id']; ?>'">
                     <div class="news-image-container">
-                        <img src="images/<?php echo $row['image_path']; ?>" alt="News">
+                        <img src="../../images/<?php echo $row['image_path']; ?>" alt="News">
                     </div>
                     <div class="news-details">
                         <div class="news-header">
@@ -101,7 +101,7 @@
         searchInput.addEventListener('input', function () {
             const query = this.value;
             if (query.length >= 2) {
-                fetch('search.php?query=' + encodeURIComponent(query) + '&source=eco_news')
+                fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=eco_news')
                     .then(response => response.json())
                     .then(data => displayResults(data));
             } else { searchResults.innerHTML = ''; }

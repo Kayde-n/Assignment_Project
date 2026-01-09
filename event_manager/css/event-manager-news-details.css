@@ -2,6 +2,19 @@ body {
     background-color: var(--ice-mint);
 }
 
+@media (max-width: 1025px) {
+    .back-bttn {
+        position: fixed;       
+        top: 16px;             
+        left: 16px;            
+        margin: 0;             
+        max-width: none;       
+        font-size: 1rem;      
+        padding: 8px 12px;     
+        z-index: 200;          
+    }
+}
+
 .content-holder {
     all: unset; 
     width: 95%;
@@ -9,7 +22,7 @@ body {
     background-color: #ffffff;
     border-radius: 16px;
     overflow: hidden;
-    margin-top: 100px;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -158,5 +171,19 @@ body {
 .back-bttn:hover {
     transform: translateX(-3px);
 }
+
+@media (max-width: 1024px) {
+    .back-bttn {
+        position: fixed;       
+        top: 16px;             
+        left: 16px;            
+        margin: 0;             
+        max-width: none;       
+        font-size: 1rem;      
+        padding: 8px 12px;     
+        z-index: 200;          
+    }
+}
+
 
 
