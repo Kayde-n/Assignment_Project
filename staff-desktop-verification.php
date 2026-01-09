@@ -1,76 +1,71 @@
 <?php 
-include('Database.php'); 
-if (isset($_POST['action']) && isset($_POST['id'])) {
-    $id = mysqli_real_escape_string($database, $_POST['id']);
-    $newStatus = ($_POST['action'] === 'approve') ? 'approved' : 'rejected';
+    include('Database.php'); 
 
-    $updateSql = "UPDATE participants_challenges 
-                  SET challenges_status = '$newStatus', 
-                      verified_date = NOW() 
-                  WHERE participants_challenges_id = '$id'";
-    
-    if (mysqli_query($database, $updateSql)) {
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    } else {
-        echo "Error updating record: " . mysqli_error($database);
+    // query approval or rejection actions
+    if (isset($_POST['action']) && isset($_POST['id'])) {
+        $id = mysqli_real_escape_string($database, $_POST['id']);
+        $newStatus = ($_POST['action'] === 'approve') ? 'approved' : 'rejected';
+
+       // update db with new status and set verify date
+        $updateSql = "UPDATE participants_challenges 
+                    SET challenges_status = '$newStatus', 
+                        verified_date = NOW() 
+                    WHERE participants_challenges_id = '$id'";
+        
+        if (mysqli_query($database, $updateSql)) {
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            echo "Error updating record: " . mysqli_error($database);
+        }
     }
-}
-if (isset($_POST['action']) && isset($_POST['id'])) {
-    $id = mysqli_real_escape_string($database, $_POST['id']);
-    $newStatus = ($_POST['action'] === 'approve') ? 'approved' : 'rejected';
-    $updateSql = "UPDATE participants_challenges 
-                  SET challenges_status = '$newStatus', 
-                      verified_date = NOW() 
-                  WHERE participants_challenges_id = '$id'";
-    if (mysqli_query($database, $updateSql)) {
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
+    // get category statistics (no off rejected and active)
+    $query = "SELECT 
+                SUM(CASE WHEN challenges_status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
+                SUM(CASE WHEN challenges_status = 'approved' THEN 1 ELSE 0 END) AS approved_count,
+                SUM(CASE WHEN challenges_status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count
+            FROM participants_challenges";
+
+    $result = mysqli_query($database, $query);
+
+    $pendingCount = 0;
+    $approvedCount = 0;
+    $rejectedCount = 0;
+
+    if ($result) {
+        $counts = mysqli_fetch_assoc($result);
+        $pendingCount  = $counts['pending_count'] ?? 0;
+        $approvedCount = $counts['approved_count'] ?? 0;
+        $rejectedCount = $counts['rejected_count'] ?? 0;
+
+        // retrive all
+        $listQuery = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
+                    FROM participants_challenges pc
+                    JOIN participants p ON pc.participants_id = p.participants_id
+                    JOIN user u ON p.user_id = u.user_id
+                    JOIN challenges c ON pc.challenges_id = c.challenges_id
+                    WHERE pc.challenges_status = 'pending'";
+
+        // retrieve approve
+        $listQueryApporve = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
+                            FROM participants_challenges pc 
+                            JOIN participants p ON pc.participants_id = p.participants_id 
+                            JOIN user u ON p.user_id = u.user_id 
+                            JOIN challenges c ON pc.challenges_id = c.challenges_id 
+                            WHERE pc.challenges_status = 'approved'";
+        
+        // retrieve rejected
+        $listQueryRejected = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
+                        FROM participants_challenges pc
+                        JOIN participants p ON pc.participants_id = p.participants_id
+                        JOIN user u ON p.user_id = u.user_id
+                        JOIN challenges c ON pc.challenges_id = c.challenges_id
+                        WHERE pc.challenges_status = 'rejected'";
+                        
+        $pendingList = mysqli_query($database, $listQuery);
+        $approvedList = mysqli_query($database, $listQueryApporve);
+        $rejectedList = mysqli_query($database, $listQueryRejected);
     }
-}
-$query = "SELECT 
-            SUM(CASE WHEN challenges_status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
-            SUM(CASE WHEN challenges_status = 'approved' THEN 1 ELSE 0 END) AS approved_count,
-            SUM(CASE WHEN challenges_status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count
-          FROM participants_challenges";
-
-$result = mysqli_query($database, $query);
-
-$pendingCount = 0;
-$approvedCount = 0;
-$rejectedCount = 0;
-
-if ($result) {
-    $counts = mysqli_fetch_assoc($result);
-    $pendingCount  = $counts['pending_count'] ?? 0;
-    $approvedCount = $counts['approved_count'] ?? 0;
-    $rejectedCount = $counts['rejected_count'] ?? 0;
-
-    $listQuery = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
-                FROM participants_challenges pc
-                JOIN participants p ON pc.participants_id = p.participants_id
-                JOIN user u ON p.user_id = u.user_id
-                JOIN challenges c ON pc.challenges_id = c.challenges_id
-                WHERE pc.challenges_status = 'pending'";
-
-    $listQueryApporve = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
-                        FROM participants_challenges pc 
-                        JOIN participants p ON pc.participants_id = p.participants_id 
-                        JOIN user u ON p.user_id = u.user_id 
-                        JOIN challenges c ON pc.challenges_id = c.challenges_id 
-                        WHERE pc.challenges_status = 'approved'";
-    
-    $listQueryRejected = "SELECT pc.*, u.user_full_name, c.challenge_name, c.description, pc.date_accomplished, pc.image_path, u.profile_picture_path AS user_prof
-                      FROM participants_challenges pc
-                      JOIN participants p ON pc.participants_id = p.participants_id
-                      JOIN user u ON p.user_id = u.user_id
-                      JOIN challenges c ON pc.challenges_id = c.challenges_id
-                      WHERE pc.challenges_status = 'rejected'";
-                      
-    $pendingList = mysqli_query($database, $listQuery);
-    $approvedList = mysqli_query($database, $listQueryApporve);
-    $rejectedList = mysqli_query($database, $listQueryRejected);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">

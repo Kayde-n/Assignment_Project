@@ -1,3 +1,79 @@
+<?php
+    include("session.php");
+    include("Database.php");
+    $user_id = $_SESSION['user_id'];
+    $participants_id = $_SESSION['user_role_id'];
+
+    // DEBUG - Check what's in $_GET
+    echo "<!-- GET array: ";
+    print_r($_GET);
+    echo " -->";
+    
+    echo "<!-- isset GET tab: " . (isset($_GET['tab']) ? 'YES' : 'NO') . " -->";
+    echo "<!-- GET tab value: " . (isset($_GET['tab']) ? $_GET['tab'] : 'NOTHING') . " -->";
+
+    $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'ongoing';
+    
+    echo "<!-- active_tab variable: " . $active_tab . " -->";
+
+    if ($active_tab == 'ongoing') {
+        $sql = "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status, participants_challenges.date_accomplished
+        FROM challenges
+        LEFT JOIN participants_challenges
+            ON challenges.challenges_id = participants_challenges.challenges_id
+            AND participants_challenges.participants_id = $participants_id
+            AND DATE(participants_challenges.date_accomplished) = CURDATE()
+        WHERE challenges.challenge_type = 'Daily'
+        AND (participants_challenges.challenges_id IS NULL
+            OR participants_challenges.challenges_status = 'pending')";
+        
+        $challenges_result = mysqli_query($database, $sql);
+
+    } else if ($active_tab == 'completed') {
+        $sql= "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status,participants_challenges.verified_date
+        FROM challenges
+        INNER JOIN participants_challenges
+            ON challenges.challenges_id = participants_challenges.challenges_id
+        WHERE participants_challenges.participants_id = $participants_id
+         AND participants_challenges.challenges_status IN ('approved', 'rejected')
+         ORDER BY participants_challenges.verified_date DESC";
+
+        $challenges_result = mysqli_query($database, $sql);
+    }
+
+     //counting the number of daily quest in db
+    $dailes_total_sql="SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type
+            FROM challenges
+            Where challenges.challenge_type = 'Daily'";
+    
+    $dailes_total_result = mysqli_query($database, $dailes_total_sql);
+    $daily_total = mysqli_num_rows($dailes_total_result);
+
+    //to get all completed/rejected/pending that are daily
+    $compledted_sql= "SELECT challenges.challenges_id,challenges.challenge_name,challenges.points_reward,challenges.challenge_type,participants_challenges.challenges_status
+        FROM challenges
+        INNER JOIN participants_challenges
+            ON challenges.challenges_id = participants_challenges.challenges_id
+        WHERE participants_challenges.participants_id = $participants_id
+         AND participants_challenges.challenges_status IN ('approved', 'rejected','pending')
+         AND challenges.challenge_type = 'Daily'
+         AND participants_challenges.verified_date= CURDATE()";
+
+    $daily_completed_total_result = mysqli_query($database, $compledted_sql);
+    $completed_daily_total = mysqli_num_rows($daily_completed_total_result);
+
+        //Special Events section - include attendance info for current participant
+        $events_sql = "SELECT eco_news.eco_news_id, eco_news.title, eco_news.description, eco_news.image_path, eco_news.venue, eco_news.organised_by, events.start_time, events.points_rewarded, events.events_id, attendance.attendance_id, attendance.event_attended
+            FROM eco_news
+            JOIN events ON eco_news.events_id = events.events_id
+            LEFT JOIN attendance ON attendance.events_id = events.events_id AND attendance.participants_id = $participants_id
+            ORDER BY events.start_time DESC LIMIT 10";
+
+        $events_result = mysqli_query($database, $events_sql);
+
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,8 +166,16 @@
     </div>
 <!-- category pill -->
     <div class="pill-filter">
-        <div class="category-pill active">Ongoing</div>
-        <div class="category-pill">Completed</div>
+        <button class="category-pill <?php echo ($active_tab == 'ongoing') ? 'active' : ''; ?>" 
+                id="tabOngoing" 
+                role="tab">
+            Ongoing
+        </button>
+        <button class="category-pill <?php echo ($active_tab == 'completed') ? 'active' : ''; ?>" 
+                id="tabCompleted" 
+                role="tab">
+            Completed
+        </button>
     </div>
 <!-- daily -->
     <section class="daily-quest-container">
@@ -101,70 +185,66 @@
 <!-- daily streak -->
         <div class="daily-streak">
             <div class="streak-bar">
-                <div class="streak-fill" style="width: 50%;"></div>
+                <?php
+                $percent = ($daily_total > 0) ? ($completed_daily_total / $daily_total) * 100 : 0;
+                ?>
+                <div class="streak-fill" style="width: <?php echo $percent; ?>%;"></div>
+                <label for="dailyProgressMeter" class="streak-bar">
+                    <?php echo $completed_daily_total; ?>/<?php echo $daily_total; ?>
+                </label>
             </div>
             <div class="streak-info">
-                <span class="streak-text">2 / 4</span>
+                <span class="streak-text"><?php echo $completed_daily_total; ?>/<?php echo $daily_total; ?></span>
                 <i data-lucide="flame" class="streak-icon"></i>
             </div>
         </div>
 <!-- daily quest -->
-        <div class="dailies-card">
-            <img src="https://picsum.photos/120/120" alt="dailies image" class="dailies-image">
-            <div class="dailies-content">
-                <h4 class="dailies-title">Bus to Campus</h4>
-                <div class="dailies-details">
-                    <p class="dailies-text">20GP</p>             
-                    <a href="participant-action-submit-mobile.php"> 
-                        <div class="dailies-btn">Submit</div>
-                    </a>  
-                </div>
-            </div>
-        </div>
-        
-        <div class="dailies-card">
-            <img src="https://picsum.photos/120/120" alt="dailies image" class="dailies-image">
-            <div class="dailies-content">
-                <h4 class="dailies-title">Bus to Campus</h4>
-                <div class="dailies-details">
-                    <p class="dailies-text">20GP</p>                
-                    <div class="dailies-btn">Claim</div>
-                </div>
-            </div>
-        </div>
+        <?php
+            mysqli_data_seek($challenges_result, 0);
 
-        <div class="dailies-card">
-            <img src="https://picsum.photos/120/120" alt="dailies image" class="dailies-image">
-            <div class="dailies-content">
-                <h4 class="dailies-title">Bus to Campus</h4>
-                <div class="dailies-details">
-                    <p class="dailies-text">20GP</p>                
-                    <div class="dailies-btn">Claim</div>
-                </div>
-            </div>
-        </div>
+            while ($row = mysqli_fetch_assoc($challenges_result)):
+                if ($row['challenge_type'] !== 'Daily') continue;
 
-        <div class="dailies-card">
-            <img src="https://picsum.photos/120/120" alt="dailies image" class="dailies-image">
-            <div class="dailies-content">
-                <h4 class="dailies-title">Bus to Campus</h4>
-                <div class="dailies-details">
-                    <p class="dailies-text">20GP</p>                
-                    <div class="dailies-btn active">Claimed</div>
-                </div>
-            </div>
-        </div>
+                $status = $row['challenges_status'] ?? null;
+            ?>
+            <div class="dailies-card">
+                <svg xmlns="http://www.w3.org/2000/svg" class="dailies-image" width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-swords-icon lucide-swords"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></svg>
 
-        <div class="dailies-card">
-            <img src="https://picsum.photos/120/120" alt="dailies image" class="dailies-image">
-            <div class="dailies-content">
-                <h4 class="dailies-title">Bus to Campus</h4>
+
+                <div class="dailies-content">
+                <h4 class="dailies-title">
+                    <?php echo htmlspecialchars($row['challenge_name']); ?>
+                </h4>
+
                 <div class="dailies-details">
-                    <p class="dailies-text">20GP</p>                
-                    <div class="dailies-btn active">Claimed</div>
+                    <p class="dailies-text">
+                        <?php echo htmlspecialchars($row['points_reward']); ?> GP
+                    </p>
+
+                    <?php if ($active_tab === 'completed' && !empty($row['verified_date'])): ?>
+                        <p class="dailies-text verified-date">
+                            Verified on: <?php echo date('d M Y', strtotime($row['verified_date'])); ?>
+                        </p>
+                    <?php endif; ?>
+
+                    <?php if ($status === 'pending'): ?>
+                        <div class="dailies-btn-pending">Pending</div>
+
+                    <?php elseif (is_null($status)): ?>
+                        <a href="participant-action-submit-mobile.php?challenge_id=<?php echo $row['challenges_id']; ?>">
+                            <div class="dailies-btn">Log Action</div>
+                        </a>
+
+                    <?php elseif ($status === 'approved'): ?>
+                        <div class="dailies-btn active">Claimed</div>
+
+                    <?php elseif ($status === 'rejected'): ?>
+                        <div class="dailies-btn-rejected">Rejected</div>
+                    <?php endif; ?>
                 </div>
             </div>
-        </div>
+            </div>
+            <?php endwhile; ?>
     </section>
 <!-- special events -->
     <section class="specials-container">
@@ -172,66 +252,159 @@
             <div class="section-title">Special Events</div>
         </div>
 
-        <div class="specials-card">
-            <img src="https://picsum.photos/120/120" alt="specials image" class="specials-image">
-            <div class="specials-content">
-                <h4 class="specials-title">Campus Cleanup Day</h4>
-                <div class="specials-details">
-                    <p class="specials-text">500GP</p>                
-                    <a href="participant-challenges-details-mobile.php">
-                        <div class="specials-btn">Join</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="specials-card">
-            <img src="https://picsum.photos/120/120" alt="specials image" class="specials-image">
-            <div class="specials-content">
-                <h4 class="specials-title">Campus Cleanup Day</h4>
-                <div class="specials-details">
-                    <p class="specials-text">500GP</p>                
-                    <div class="specials-btn">Join</div>
-                </div>
-            </div>
-        </div>
+        <?php while ($event = mysqli_fetch_assoc($events_result)): ?>
+            <div class="specials-card">
+                <img src="images/<?php echo htmlspecialchars($event['image_path']); ?>"
+                    class="specials-image"
+                    alt="event image"
+                    onerror="this.src='images/event-placeholder.png'">
 
-        <div class="specials-card">
-            <img src="https://picsum.photos/120/120" alt="specials image" class="specials-image">
-            <div class="specials-content">
-                <h4 class="specials-title">Campus Cleanup Day</h4>
-                <div class="specials-details">
-                    <p class="specials-text">500GP</p>                
-                    <div class="specials-btn">Join</div>
-                </div>
-            </div>
-        </div>
+                <div class="specials-content">
+                    <h4 class="specials-title">
+                        <?php echo htmlspecialchars($event['title']); ?>
+                    </h4>
 
-        <div class="specials-card">
-            <img src="https://picsum.photos/120/120" alt="specials image" class="specials-image">
-            <div class="specials-content">
-                <h4 class="specials-title">Campus Cleanup Day</h4>
-                <div class="specials-details">
-                    <p class="specials-text">500GP</p>                
-                    <div class="specials-btn">Join</div>
+                    <div class="specials-details">
+                        <p class="specials-text">
+                            <?php echo htmlspecialchars($event['points_rewarded']); ?> GP
+                        </p>
+                        <?php
+                            // If attendance record exists for this participant & event, show status
+                            if (!empty($event['attendance_id'])) {
+                                if (isset($event['event_attended']) && $event['event_attended'] == 1) {
+                                    // Already attended
+                                    echo '<div class="specials-btn" disabled>Attended</div>';
+                                } else {
+                                    // Signed up but not yet attended
+                                    echo '<div class="specials-btn" disabled>Signed Up</div>';
+                                }
+                            } else {
+                                if ($event['start_time'] <= date('Y-m-d H:i:s')) {
+                                    // Event has already started/passed — no Join button
+                                    echo '<div class="specials-btn" disabled>Closed</div>';
+                                } else {
+                                    // Not signed up yet — show Join button
+                                    echo '<div class="specials-btn" onclick="showEventDetails(this)"
+                                            data-event-id="' . htmlspecialchars($event['events_id']) . '"
+                                            data-eco-news-id="' . htmlspecialchars($event['eco_news_id']) . '"
+                                            data-title="' . htmlspecialchars($event['title']) . '"
+                                            data-description="' . htmlspecialchars($event['description']) . '"
+                                            data-image="images/' . htmlspecialchars($event['image_path']) . '"
+                                            data-venue="' . htmlspecialchars($event['venue']) . '"
+                                            data-organizer="' . htmlspecialchars($event['organised_by']) . '"
+                                            data-date="' . date('M d, Y', strtotime($event['start_time'])) . '"
+                                            data-time="' . date('H:i', strtotime($event['start_time'])) . '"
+                                            data-points="' . htmlspecialchars($event['points_rewarded']) . 'GP"
+                                        >Join</div>';
+                                }
+                            }
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
+            <?php endwhile; ?>
+            <div class="event-details-overlay" id="eventDetailsOverlay">
+                    <div class="event-details-container">
+                        <button class="event-details-close" id="closeEventDetails">&times;</button>
+                        
+                        <img class="event-details-image" id="eventImage" src="" alt="Event image">
+                        
+                        <h2 class="event-details-title" id="eventTitle"></h2>
+                        
+                        <div class="event-details-description" id="eventDescription"></div>
+                        
+                        <div class="event-details-info">
+                            <div class="event-info-row">
+                                <span class="event-info-label">Points Reward:</span>
+                                <span class="event-info-value" id="eventPoints"></span>
+                            </div>
+                            <div class="event-info-row">
+                                <span class="event-info-label">Start Time:</span>
+                                <span class="event-info-value" id="eventTime"></span>
+                            </div>
+                            <div class="event-info-row">
+                                <span class="event-info-label">Date:</span>
+                                <span class="event-info-value" id="eventDate"></span>
+                            </div>
+                            <div class="event-info-row">
+                                <span class="event-info-label">Venue:</span>
+                                <span class="event-info-value" id="eventVenue"></span>
+                            </div>
+                            <div class="event-info-row">
+                                <span class="event-info-label">Organiser:</span>
+                                <span class="event-info-value" id="eventOrganizer"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-details-actions">
+                            <button class="btn-cancel" id="cancelEvent">Cancel</button>
+                            <button class="btn-join-event" id="joinEventBtn">Join Event</button>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="specials-card">
-            <img src="https://picsum.photos/120/120" alt="specials image" class="specials-image">
-            <div class="specials-content">
-                <h4 class="specials-title">Campus Cleanup Day</h4>
-                <div class="specials-details">
-                    <p class="specials-text">500GP</p>              
-                    <div class="specials-btn">Join</div>
-                </div>
-            </div>
-        </div>
-    </section>
 </main>
 
     <script>
+        // Tab switching
+        document.getElementById('tabOngoing').addEventListener('click', function() {
+            window.location.href = 'participant-challenges-mobile.php?tab=ongoing';
+        });
+
+        document.getElementById('tabCompleted').addEventListener('click', function() {
+            window.location.href = 'participant-challenges-mobile.php?tab=completed';
+        });
+
+        // Event details modal
+        function showEventDetails(button) {
+            const overlay = document.getElementById('eventDetailsOverlay');
+            
+            // Populate modal with event data
+            document.getElementById('eventImage').src = button.dataset.image;
+            document.getElementById('eventTitle').textContent = button.dataset.title;
+            document.getElementById('eventDescription').textContent = button.dataset.description;
+            document.getElementById('eventDate').textContent = button.dataset.date;
+            document.getElementById('eventVenue').textContent = button.dataset.venue || 'N/A';
+            document.getElementById('eventOrganizer').textContent = button.dataset.organizer || 'N/A';
+            document.getElementById('eventPoints').textContent = button.dataset.points;
+            document.getElementById('eventTime').textContent = button.dataset.time;
+            
+            // Store event IDs for join action
+            document.getElementById('joinEventBtn').dataset.eventId = button.dataset.eventId;
+            document.getElementById('joinEventBtn').dataset.ecoNewsId = button.dataset.ecoNewsId;
+            
+            // Show overlay
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        // Close event details
+        document.getElementById('closeEventDetails').addEventListener('click', function() {
+            closeEventDetails();
+        });
+
+        document.getElementById('cancelEvent').addEventListener('click', function() {
+            closeEventDetails();
+        });
+
+        function closeEventDetails() {
+            const overlay = document.getElementById('eventDetailsOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }   
+        
+
+    // Close overlay when clicking outside the container
+    document.getElementById('eventDetailsOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeEventDetails();
+        }
+    });
+
+    document.getElementById('joinEventBtn').addEventListener('click', function () {
+    const eventId = this.dataset.eventId;
+    window.location.href = 'join-event.php?event_id=' + eventId;
+    });
         lucide.createIcons();
     </script>
 

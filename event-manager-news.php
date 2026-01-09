@@ -1,9 +1,10 @@
 <?php
-include("session.php");
-include("Database.php");
+    include("session.php");
+    include("Database.php");
 
-$sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
-$result = mysqli_query($database, $sql);
+    // get eco news data
+    $sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
+    $result = mysqli_query($database, $sql);
 ?>
 
 <!DOCTYPE html>
