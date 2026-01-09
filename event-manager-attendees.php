@@ -2,10 +2,12 @@
     include("session.php");
     include("Database.php");
 
+    // get event id from web url
     if (isset($_GET['events_id'])) {
     $eventId = $_GET['events_id'];  
     }
 
+    // query event details
     $specificevent_sql="SELECT events.events_id,events.event_name,events.max_participants,eco_news.image_path
     FROM events
     LEFT JOIN eco_news ON eco_news.events_id = events.events_id
@@ -14,26 +16,26 @@
     $event_result = mysqli_query($database, $specificevent_sql);
     $event = mysqli_fetch_assoc($event_result);
 
+    // handle that event image
     $image=$event['image_path'];
     $image = !empty($event['image_path'])
     ? $event['image_path']
     : 'images/default-event.jpg';
 
-
+    
     $present = "SELECT COUNT(attendance_id) as present_count 
     FROM attendance 
     WHERE events_id = '$eventId' 
     AND event_attended = '1'";
 
+
     $present_participants = mysqli_query($database, $present);
     $present_count = mysqli_fetch_assoc($present_participants);
 
     
+    mysqli_free_result($present_participants);
 
-
-mysqli_free_result($present_participants);
-
-
+    // Count attendees for specific event
     $participants_name = "SELECT participants.participants_id, user.user_full_name, attendance.event_attended, events.events_id
                         FROM participants
                         JOIN user ON participants.user_id = user.user_id
@@ -41,7 +43,7 @@ mysqli_free_result($present_participants);
                         JOIN events ON attendance.events_id = events.events_id
                         WHERE events.events_id = '$eventId'";
 
-
+    
     $participants_name_result = mysqli_query($database, $participants_name);
 
     if (!$participants_name_result) {

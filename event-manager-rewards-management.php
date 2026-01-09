@@ -1,31 +1,33 @@
 <?php
-include("session.php");
-include("Database.php");
+    include("session.php");
+    include("Database.php");
 
-$active_category = $_GET['category'] ?? 'All Rewards';
-$result = null;
+    // if no category then 'all rewards'
+    $active_category = $_GET['category'] ?? 'All Rewards';
+    $result = null;
 
-if ($active_category === 'All Rewards') {
+    // if user wanna see anything
+    if ($active_category === 'All Rewards') {
 
-    $sql = "SELECT rewards_id, reward_name, description, points_required 
-            FROM rewards";
-    $result = mysqli_query($database, $sql);
+        $sql = "SELECT rewards_id, reward_name, description, points_required 
+                FROM rewards";
+        $result = mysqli_query($database, $sql);
+    // if user clicked on 'Physical rewards'
+    } elseif ($active_category === 'Physical Rewards') {
 
-} elseif ($active_category === 'Physical Rewards') {
+        $sql = "SELECT rewards_id, reward_name, description, points_required 
+                FROM rewards 
+                WHERE category LIKE '%Physical%'";
+        $result = mysqli_query($database, $sql);
+    // if user clicked on 'Discount / Voucher'
+    } elseif ($active_category === 'Discount/Vouchers') {
 
-    $sql = "SELECT rewards_id, reward_name, description, points_required 
-            FROM rewards 
-            WHERE category LIKE '%Physical%'";
-    $result = mysqli_query($database, $sql);
+        $sql = "SELECT rewards_id, reward_name, description, points_required 
+                FROM rewards 
+                WHERE category LIKE '%Vouchers%'";
+        $result = mysqli_query($database, $sql);
 
-} elseif ($active_category === 'Discount/Vouchers') {
-
-    $sql = "SELECT rewards_id, reward_name, description, points_required 
-            FROM rewards 
-            WHERE category LIKE '%Vouchers%'";
-    $result = mysqli_query($database, $sql);
-
-}
+    }
 ?>
 
 <!DOCTYPE html>
@@ -169,7 +171,7 @@ if ($active_category === 'All Rewards') {
                         <div class="reward-info">
                             <h3><?php echo $row['reward_name']; ?></h3>
                             <p class="reward-points"><?php echo $row['points_required']; ?>GP</p>
-                            <button class="unavailible-btn" disabled >Unavailible</button>
+                            <button class="unavailible-btn" disabled >Unavailable</button>
                         </div>
                     </div>
                     <?php
