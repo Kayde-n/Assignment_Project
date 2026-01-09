@@ -133,3 +133,17 @@
     stroke: #d9534f;
 }
 
+#logout-button {
+    background: none;
+    border: none;
+    font: inherit; 
+    color: inherit; 
+    cursor: pointer;
+    text-align: left;
+    flex: 1; 
+    outline: none;
+}
+
+
+
+

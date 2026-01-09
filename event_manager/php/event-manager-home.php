@@ -160,18 +160,6 @@
                 </h3>
             </button>
 
-            <button class="impact-box">
-                <h3>
-                not available
-                </h3>
-            </button>
-
-            <button class="impact-box">
-                <h3>
-                not available
-                </h3>
-            </button>
-
         </div>
         <div class="text-box" >
             What's New?

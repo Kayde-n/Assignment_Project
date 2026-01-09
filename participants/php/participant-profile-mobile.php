@@ -116,7 +116,7 @@ foreach ($user_total_points as $rank) {
     }
 ?>
 
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,8 +124,8 @@ foreach ($user_total_points as $rank) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Profile Mobile</title>
-    <link rel="stylesheet" href="../css/mobile.css">
-    <link rel="stylesheet" href="../css/participant-profile-mobile.css">
+    <link rel="stylesheet" href="../../mobile.css">
+    <link rel="stylesheet" href="../../participant-profile-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -237,9 +237,9 @@ foreach ($user_total_points as $rank) {
                     <label class="avatar upload-avatar">
                         <?php if (!empty($avatarPath)): ?>
                             <img src="<?= '../../' . $avatarPath ?>" class="avatar-img">
-                            <span class="avatar-text">Change Photo</span>
+                            <span class="avatar-text"></span>
                         <?php else: ?>
-                            <span class="avatar-text">Upload Photo</span>
+                            <span class="avatar-text"></span>
                         <?php endif; ?>
 
                         <input type="file" name="avatar" accept="image/*" hidden onchange="this.form.submit()">

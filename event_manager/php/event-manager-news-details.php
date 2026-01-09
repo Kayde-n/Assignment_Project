@@ -108,12 +108,14 @@
 
     <main class="main-content">
 
-    <button class="back-bttn" id="back-bttn-id" onclick="window.history.back()">&larr;</button>
+    
 
     <div class="content-holder">
+        
 
         <!-- Image section -->
         <div class="content-image">
+            <button class="back-bttn" id="back-bttn-id" onclick="window.history.back()"><i data-lucide="arrow-left"></i></button>
             <img src="../../images/<?php echo $news['image_path']; ?>" alt="News Image">
         </div>
 
