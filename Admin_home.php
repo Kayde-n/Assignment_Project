@@ -4,41 +4,29 @@
     // check if its on maintenance
     include("check-maintenance-status.php");
 
-    // Most reason month in db
-    $sql_latest = "SELECT DATE_FORMAT(MAX(date_accomplished), '%Y-%m') AS latest_month
-            FROM participants_challenges";
+    // query overvall enviroment impact
+    $sql = "SELECT SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
+        SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon%' THEN impact_amount ELSE 0 END) AS carbon_emission,
+        SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
+        SUM(CASE WHEN LOWER(impact_type) LIKE '%water pollution%'OR LOWER(impact_type) LIKE '%reduced pollution%'THEN impact_amount ELSE 0 END) AS water_conserved
+        FROM participants_challenges
+        WHERE challenges_status = 'approved'";
 
-    $latest = mysqli_fetch_assoc(mysqli_query($database, $sql_latest));
-    $monthYear = $_GET['month_year'] ?? $latest['latest_month']; 
-    [$year, $month] = explode('-', $monthYear); // it splits 2023-10 to year and month
+    $result = mysqli_query($database, $sql);
 
+    if (!$result) {
+        die("Database error: " . mysqli_error($database));
+    }
 
-    // get all months that has data
-    $sql_months = "SELECT DISTINCT 
-                DATE_FORMAT(date_accomplished, '%Y-%m') AS ym,
-                DATE_FORMAT(date_accomplished, '%M %Y') AS label
-                FROM participants_challenges
-                ORDER BY ym DESC";
-    $result_months = mysqli_query($database, $sql_months);
+    $impacts = mysqli_fetch_assoc($result);
 
+    $air_pollution   = $impacts['air_pollution']   ?? 0;
+    $carbon_emission = $impacts['carbon_emission'] ?? 0;
+    $item_recycled   = $impacts['item_recycled']   ?? 0;
+    $water_conserved = $impacts['water_conserved'] ?? 0;
 
-    // calc data for selected month
-    $sql = "SELECT 
-                SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
-                SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon emmision%' THEN impact_amount ELSE 0 END) AS carbon_emission,
-                SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
-                SUM(CASE WHEN LOWER(impact_type) LIKE '%water pollution%' THEN impact_amount ELSE 0 END) AS water_conserved
-                FROM participants_challenges
-                WHERE DATE_FORMAT(date_accomplished, '%Y-%m') = '$monthYear'";
-
-
-    $data = mysqli_fetch_assoc(mysqli_query($database, $sql));
-
-    $air_pollution = $data['air_pollution'] ?? 0;
-    $carbon_emission = $data['carbon_emission'] ?? 0;
-    $item_recycled = $data['item_recycled'] ?? 0;
-    $water_conserved = $data['water_conserved'] ?? 0;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +87,7 @@
         <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
         </p>
         <div class="text-box">
-            Application Impact
+            Overall Environmental Impact
         </div>
 
         <div class="impact-container">
@@ -126,9 +114,43 @@
 
         </div>
 
-        <div class="text-box" onclick="window.location.href='participants-desktop-econews.php'"
-            style="cursor: pointer;">
-            What News?
+        <div class="text-box" style="cursor: pointer;">
+            Unavailable
+        </div>
+
+        <!-- Verification Item 1 -->
+        <div class="content-container">
+
+            <button class="image-holder">
+                <img src="challenge_submission_uploads/sample-proof-1.jpg" alt="Proof Image">
+            </button>
+
+            <button class="content-text-box">
+                <div class="text-inner">
+
+                    <h4 class="category-box">
+                        Unavailable
+                    </h4>
+
+                    <h3 class="title-box">
+                        Unavailable
+                    </h3>
+
+                    <h5 class="description-box">
+                        Unavailable
+                    </h5>
+
+                    <h5 class="description-box">
+                        Unavailable
+                    </h5>
+
+                </div>
+            </button>
+
+            <button class="next-btn">
+                <img src="images/next.png" alt="Next Icon">
+            </button>
+
         </div>
 
         <script>
