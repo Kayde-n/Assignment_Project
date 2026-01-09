@@ -1,6 +1,7 @@
 <?php
     include("Database.php");
 
+    // Get 5 most recent actions performed
     function getActivityLog($database, $user_id) {
         $logs = [];
 
@@ -16,23 +17,26 @@
             $logs[] = date('d M Y H:i', strtotime($row['timestamp'])) .
                     " - " . $row['action_performed'];
         }
-
         return $logs;
     }
 
+    // check user type in search, kalau x use emtpy string
     $search = $_POST['search'] ?? '';
     $search = mysqli_real_escape_string($database, $search);
 
+    // query total points for ranking
     $sql = "SELECT u.user_id,u.user_full_name,u.profile_picture_path,p.TP_no,COALESCE(SUM(c.points_reward), 0) AS total_points,RANK() OVER (ORDER BY COALESCE(SUM(c.points_reward), 0) DESC) AS ranking
         FROM participants p
         JOIN user u ON p.user_id = u.user_id
         LEFT JOIN participants_challenges pc ON p.participants_id = pc.participants_id AND pc.challenges_status = 'approved'
         LEFT JOIN challenges c ON pc.challenges_id = c.challenges_id";
 
+    // if search for name or ID
     if (!empty($search)) {
         $sql .= " WHERE u.user_full_name LIKE '%$search%' OR p.TP_no LIKE '%$search%'";
     }
-
+    
+    // group user points by user
     $sql .= " GROUP BY u.user_id, u.user_full_name, u.profile_picture_path, p.TP_no
             ORDER BY ranking ASC";
 
@@ -164,6 +168,7 @@
 
             <script>
             function openModal(name, pic, points, ranking, activityLog) {
+                // Update using the data passed in
                 document.getElementById('modalName').innerText = name;
                 document.getElementById('modalProfilePic').src = pic;
                 document.getElementById('modalPoints').innerText = points;

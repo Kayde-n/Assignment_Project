@@ -279,16 +279,19 @@
     background-color: #e2eee5;
 }
 
+/* Define fade and slide up  animation */
 @keyframes modalFadeUp {
     from {
         opacity: 0;
         transform: translateY(30px) scale(0.95);
     }
+    /* when its done */
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 }
+
 
 @media (max-width: 768px) {
     .profile-card {
