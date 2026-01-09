@@ -73,12 +73,18 @@
             if ($total_results > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
                     $status_label = $row['account_status'];
-
                     $status_class = (strtolower($status_label) == 'deactivated') ? 'suspended' : 'active';
+                    
+                    $raw_path = $row['profile_picture_path'];
+                    if (empty($raw_path) || $raw_path == 'NULL') {
+                        $image_src = "../../images/profile.png"; 
+                    } else {
+                        $image_src = "../../" . $raw_path;
+                    }
                     ?>
-                    <div class="user-card" onclick="openModal('<?php echo $row['user_id']; ?>', '<?php echo addslashes($row['user_full_name']); ?>', '<?php echo $row['TP_no']; ?>', '<?php echo $row['profile_picture_path']; ?>', '<?php echo $status_label; ?>')">
+                    <div class="user-card" onclick="openModal('<?php echo $row['user_id']; ?>', '<?php echo addslashes($row['user_full_name']); ?>', '<?php echo $row['TP_no']; ?>', '<?php echo $image_src; ?>', '<?php echo $status_label; ?>')">
                         <div class="user-details">
-                            <img src="<?php echo $row['profile_picture_path']; ?>" alt="User">
+                            <img src="<?php echo $image_src; ?>" alt="User">
                             <div>
                                 <div class="name"><?php echo htmlspecialchars($row['user_full_name']); ?></div>
                                 <div class="tp-num"><?php echo htmlspecialchars($row['TP_no']); ?></div>

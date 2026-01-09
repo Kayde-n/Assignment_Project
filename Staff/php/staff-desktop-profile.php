@@ -101,7 +101,7 @@
         <div class="profile-page-wrapper">
             <div class="profile-card">
                 <div class="profile-left-panel">
-                    <img src="<?php echo htmlspecialchars($staff['profile_picture_path']); ?>" alt="Staff Image" class="main-profile-pic">
+                    <img src="../../<?php echo htmlspecialchars($staff['profile_picture_path']); ?>" alt="Staff Image" class="main-profile-pic">
                     <div class="staff-id-badge">ID: #<?php echo htmlspecialchars($staff['staff_id']); ?></div>
                 </div>
 
