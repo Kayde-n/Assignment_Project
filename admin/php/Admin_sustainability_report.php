@@ -199,13 +199,6 @@ $total_events = $data_events['total_events'] ?? 0;
                 </div>
             </div>
         </section>
-
-        <div class="download-section">
-            <button class="download-btn">
-                <i data-lucide="download"></i>
-                Download Full Report as PDF
-            </button>
-        </div>
     </div>
 
     <script>
