@@ -1,16 +1,16 @@
 <?php
-    require_once __DIR__ . "/../../session.php";
-    require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../session.php";
+require_once __DIR__ . "/../../config/database.php";
 
-    // sql all data from rewards
-    $sql = "SELECT rewards_id, reward_name, description, points_required, quantity, category FROM rewards";
-    $result = mysqli_query($database, $sql);
+// sql all data from rewards
+$sql = "SELECT rewards_id, reward_name, description, points_required, quantity, category FROM rewards";
+$result = mysqli_query($database, $sql);
 
-    // fetch total points per person
-    $participant_id = (int) $_SESSION['user_role_id'];
-    
-    // query to total points then earned - redeemed
-    $points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) - COALESCE(SUM(r.points_required), 0) AS total_points
+// fetch total points per person
+$participant_id = (int) $_SESSION['user_role_id'];
+
+// query to total points then earned - redeemed
+$points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) - COALESCE(SUM(r.points_required), 0) AS total_points
         FROM participants p
         LEFT JOIN participants_challenges pc
             ON p.participants_id = pc.participants_id
@@ -23,9 +23,9 @@
             ON rr.rewards_id = r.rewards_id
         WHERE p.participants_id = $participant_id";
 
-    $result_points = mysqli_query($database, $points_sql);
-    $row_points = mysqli_fetch_assoc($result_points);
-    $total_points = (int) $row_points['total_points'];
+$result_points = mysqli_query($database, $points_sql);
+$row_points = mysqli_fetch_assoc($result_points);
+$total_points = (int) $row_points['total_points'];
 
 ?>
 
@@ -108,11 +108,11 @@
         </a>
 
         <script>
-        function logout_confirm() {
-            if (confirm("Are you sure you want to logout?")) {
-                window.location.href = "../../logout.php";
+            function logout_confirm() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../../logout.php";
+                }
             }
-        }
         </script>
     </nav>
 
@@ -164,11 +164,13 @@
                                 <div class="rewards-btn" data-title="<?php echo htmlspecialchars($row['reward_name']); ?>"
                                     data-description="<?php echo htmlspecialchars($row['description']); ?>"
                                     data-id="<?php echo $row['rewards_id']; ?>"
-                                    data-cost="<?php echo $row['points_required']; ?>" onclick="openModal(
+                                    data-cost="<?php echo $row['points_required']; ?>"
+                                    data-quantity="<?php echo $row['quantity'] ?>" onclick="openModal(
                                         this.dataset.title,
                                         this.dataset.description,
                                         this.dataset.id,
-                                        this.dataset.cost
+                                        this.dataset.cost,
+                                        this.dataset.quantity
                                     )">
                                     Redeem
                                 </div>
@@ -229,14 +231,14 @@
 
                 </div>
             </div>
-            
+
             <!-- sends php to js -->
             <script>
                 const USER_POINTS = <?php echo $total_points; ?>;
-            </script>
 
-            <!-- ===== JAVASCRIPT ===== -->
-            <script>
+
+                //<!-- ===== JAVASCRIPT ===== -->
+
                 let currentRewardId = null;
                 let currentRedemptionId = null;
                 let timeLeft = 600; // 10 minutes in seconds
@@ -300,10 +302,14 @@
                         timerInterval = null;
                     }
                 }
-
-
-
-
+                // Prevent accidental page close
+                window.onbeforeunload = function (e) {
+                    if (document.getElementById("qrModal").classList.contains("show")) {
+                        e.preventDefault();
+                        e.returnValue = "";
+                        return "Your redemption is still active. Are you sure you want to leave?";
+                    }
+                };
 
                 function endRedemption() {
 
@@ -311,13 +317,20 @@
                     document.getElementById("qrModal").classList.remove("show");
                 }
 
-                function openModal(title, description, rewardId, rewardCost) {
+                function openModal(title, description, rewardId, rewardCost, rewardQuantity) {
                     rewardCost = parseInt(rewardCost);
-                    if (USER_POINTS < rewardCost) {
-                        alert("You do not have enough points to redeem this reward.");
+                    rewardQuantity = parseInt(rewardQuantity);
+                    //if (USER_POINTS < rewardCost) {
+                    //alert("You do not have enough points to redeem this reward.");
+                    //return;
+                    //}
+                    if (rewardQuantity == 0) {
+                        alert("Reward is redeemed fully! Reward no longer available");
                         return;
                     }
-                    
+
+
+
                     currentRewardId = rewardId;
                     document.getElementById("modalTitle").innerText = title;
                     document.getElementById("termsText").innerHTML = description.replace(/\n/g, '<br>');
@@ -363,8 +376,8 @@
                         .catch(error => {
                             alert(error.message);
                         });
-                }
 
+                }
                 function closeQrModal() {
                     if (confirm('Closing will end your redemption. Continue?')) {
                         stopTimer();
@@ -373,13 +386,7 @@
                 }
 
 
-                // Prevent accidental page close
-                window.onbeforeunload = function () {
-                    if (document.getElementById("qrModal").classList.contains("show")) {
-                        e.preventDefault();
-                        return "Your redemption is still active. Are you sure you want to leave?";
-                    }
-                };
+
 
                 function filterRewards(el, category) {
                     const cards = document.querySelectorAll('.rewards-card');

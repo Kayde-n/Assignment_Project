@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("database.php");
+require_once __DIR__ . "/../../config/database.php";
 $participant_id = $_SESSION['user_role_id'];
 $reward_id = $_SESSION['redeem_reward_id'] ?? null;
 $date_redeemed = new DateTime();
