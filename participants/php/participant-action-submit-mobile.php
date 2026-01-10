@@ -7,19 +7,43 @@ if (isset($_SESSION['popup_message'])): ?>
     </script>
     <?php unset($_SESSION['popup_message']); ?>
 <?php endif;
-$participant_id = $_SESSION['user_role_id'];
-$date = new DateTime();
+
+$today = new DateTime();
 $todayString = $today->format("Y-m-d");
 
-$sql_query = "SELECT challenge_name FROM challenges WHERE date_accomplished != '$todayString' AND participants_id == '$participants_id'";
+$sql_query = "SELECT challenge_name 
+              FROM challenges c
+              LEFT JOIN participants_challenges pc
+              ON c.challenges_id = pc.challenges_id
+              WHERE pc.date_accomplished = '$todayString'";
+$sql_query_all_challenges = "SELECT challenge_name FROM challenges";
+$all_challenge_results = mysqli_query($database, $sql_query_all_challenges);
 $result = mysqli_query($database, $sql_query);
 if (!$result) {
     die("Database query failed: " . mysqli_error($database));
 }
 $challenges = [];
+// Get challenges completed today
+$all_challenges = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    $challenges[] = $row;
+    $challenges[] = $row['challenge_name'];
 }
+
+// Get all challenges
+$all_challenges = [];
+while ($row_2 = mysqli_fetch_assoc($all_challenge_results)) {
+    $all_challenges[] = $row_2['challenge_name'];
+}
+
+// Check which challenges are completed vs not completed
+foreach ($all_challenges as $challenge_name) {
+    if (in_array($challenge_name, $challenges)) {
+        continue;
+    } else {
+        $remaining_challenges[] = $challenge_name;
+    }
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -141,8 +165,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
                 <div class="submit-select">
                     <select class="submit-dropdown-box" name="challenge_selected">
-                        <?php foreach ($challenges as $challenge): ?>
-                            <option><?php echo $challenge['challenge_name']; ?></option>
+                        <?php foreach ($remaining_challenges as $challenge): ?>
+                            <option><?php echo $challenge; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
