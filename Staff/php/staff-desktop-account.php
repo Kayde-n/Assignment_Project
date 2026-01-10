@@ -19,27 +19,25 @@
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/staff.css">
     <link rel="stylesheet" href="../css/staff-account-desktop.css">
-    
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <div class="top-bar">
         <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="../../images/profile.png" alt="Profile"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><i data-lucide="user"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="staff-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="../../images/home.png" alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="../../images/verification.png" alt="Verification"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><i data-lucide="home"></i></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><i data-lucide="shield-check"></i></button>
             <div id="account-icon">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="../../images/account-management.png" alt="Account"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><i data-lucide="users"></i></button>
             </div>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
@@ -48,7 +46,7 @@
 
         <div class="search-bar-container">
             <input type="text" class="search-input" id="participantSearch" placeholder="Search by Name or TP Number" oninput="filterParticipants()">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon"><i data-lucide="search"></i></span>
         </div>
 
         <div class="verification-tabs">
@@ -64,7 +62,7 @@
             <span><?php echo $total_results; ?> results</span>
             <div class="action-buttons">
                 <button id="mainViewBtn" class="view-profile-btn" onclick="window.location.href='staff-desktop-view.php'">View Profile</button>
-                <button class="add-btn-circle" onclick="window.location.href='staff-desktop-manage.php'">+</button>
+                <button class="add-btn-circle" onclick="window.location.href='staff-desktop-manage.php'"><i data-lucide="plus"></i></button>
             </div>
         </div>
 
@@ -122,6 +120,9 @@
     </div>
 
     <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
     function filterParticipants() {
         let searchText = document.getElementById('participantSearch').value.toLowerCase();
         let selectedStatus = document.querySelector('input[name="status"]:checked').value.toLowerCase();
@@ -159,7 +160,7 @@
         document.getElementById('modalStatus').innerText = status;
         document.getElementById('userModal').style.display = "block";
         document.getElementById('viewProfileBtn').onclick = function() {
-        window.location.href = 'staff-desktop-view.php?id=' + id;
+            window.location.href = 'staff-desktop-view.php?id=' + id;
         };
     }
 

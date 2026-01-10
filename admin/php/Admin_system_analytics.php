@@ -20,15 +20,14 @@ $sql_active_users1 = "SELECT *
 $result = mysqli_query($database, $sql_active_users1);
 $todays_users = mysqli_num_rows($result);
 
-$sql_active_users2 = "SELECT * 
-                    from participants_challenges 
+$sql_active_users2 = "SELECT * from participants_challenges 
                     WHERE date_accomplished = '$yesterdayString'
                     ";
 $result1 = mysqli_query($database, $sql_active_users2);
 $yesterdays_users = mysqli_num_rows($result1);
 
 if ($yesterdays_users == 0) {
-    $percentage_diff = ($todays_users == 0) ? 0 : 100; // handle zero case
+    $percentage_diff = ($todays_users == 0) ? 0 : 100; 
 } else {
     $percentage_diff = (($todays_users - $yesterdays_users) / $yesterdays_users) * 100;
 }
@@ -179,7 +178,7 @@ foreach ($total_points_challenge_last_month as $challenge_points) {
 }
 
 if ($total_system_points_last_month == 0) {
-    $points_percentage_diff = ($total_system_points == 0) ? 0 : 100; // handle zero case
+    $points_percentage_diff = ($total_system_points == 0) ? 0 : 100; 
 } else {
     $points_percentage_diff = (($total_system_points - $total_system_points_last_month) / $total_system_points_last_month) * 100;
 }
@@ -189,9 +188,6 @@ if ($points_percentage_diff >= 0) {
     $points_percentage_change = 'negative';
 }
 
-
-/*echo $total_system_points;
-exit();*/
 
 $sql_event_distribution = "SELECT event_name,
                             COUNT(attendance_id) AS event_attendees
@@ -209,13 +205,6 @@ foreach ($best_events as $event) {
 
 }
 
-
-
-/*echo '<pre>';
-print_r($best_challenge);
-echo '<pre>';
-exit();*/
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -227,6 +216,7 @@ exit();*/
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/admin-system-analytics.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -236,50 +226,41 @@ exit();*/
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="../../imagesimages/profile.png"
-                    alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="../../imagesimages/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="../../imagesimages/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
+            <button class="icon-btn"><i data-lucide="bell"></i></button>
+            <button class="icon-btn"><i data-lucide="settings"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="admin-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="../../images/home.png"
-                    alt="Home"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><i data-lucide="home"></i></button>
             <div id="system-analytics-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
-                        src="../../images/system-analytics.png" alt="System Analytics"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><i data-lucide="bar-chart-3"></i></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
-                    src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
-                    src="../../images/system-config.png" alt="System Config"></button>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><i data-lucide="file-text"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><i data-lucide="sliders"></i></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Page Header -->
         <div class="page-header">
             <div class="title-box">
                 <h1>System Analytics</h1>
             </div>
         </div>
 
-        <!-- Analytics Grid -->
         <div class="analytics-grid">
-            <!-- Row 1 -->
             <div class="analytics-card">
                 <h3 class="card-title">Today's Users</h3>
                 <div class="card-content">
                     <div class="stat-value">
                         <?php echo $todays_users;
                         if ($percentage_change == 'positive') {
-                            echo '<span class="stat-change positive">+' . $percentage_diff . '%</span>';
+                            echo '<span class="stat-change positive">+' . round($percentage_diff, 1) . '%</span>';
                         } else {
-                            echo '<span class="stat-change negative">' . $percentage_diff . '%</span>';
+                            echo '<span class="stat-change negative">' . round($percentage_diff, 1) . '%</span>';
                         }
                         ?>
 
@@ -310,7 +291,7 @@ exit();*/
             <div class="analytics-card">
                 <h3 class="card-title">Activity Distribution</h3>
                 <div class="card-content">
-                    <canvas id="pieChart1" width="200 px" height="200 px"></canvas>
+                    <canvas id="pieChart1" width="200" height="200"></canvas>
                 </div>
             </div>
 
@@ -318,29 +299,28 @@ exit();*/
                 <h3 class="card-title">Green Points Awarded</h3>
                 <div class="card-content">
                     <div class="stat-value">
-                        <?php echo $total_system_points;
+                        <?php echo number_format($total_system_points);
                         if ($points_percentage_change == 'positive') {
-                            echo '<span class="stat-change positive">+' . $points_percentage_diff . '%</span>';
+                            echo '<span class="stat-change positive">+' . round($points_percentage_diff, 1) . '%</span>';
                         } else {
-                            echo '<span class="stat-change negative">' . $points_percentage_diff . '%</span>';
+                            echo '<span class="stat-change negative">' . round($points_percentage_diff, 1) . '%</span>';
                         }
                         ?>
                     </div>
                 </div>
             </div>
 
-            <!-- Large Cards -->
             <div class="large-analytics-card">
                 <h3 class="card-title">Active Users per Month</h3>
                 <div class="card-content">
-                    <canvas id="performanceChart1" width="400px" height="400px"></canvas>
+                    <canvas id="performanceChart1" width="400" height="400"></canvas>
                 </div>
             </div>
             <div class="large-analytics-card-2">
                 <h3 class="card-title">Monthly Sales</h3>
                 <p>*Sales are based on redeemed rewards</p>
                 <div class="card-content">
-                    <canvas id="performanceChart2" width="400px" height="400px"></canvas>
+                    <canvas id="performanceChart2" width="400" height="400"></canvas>
                 </div>
             </div>
 
@@ -350,6 +330,7 @@ exit();*/
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <script>
+        lucide.createIcons();
 
         const Ctx = document.getElementById('pieChart1');
         const lineCtx = document.getElementById('performanceChart1');

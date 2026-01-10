@@ -10,6 +10,7 @@ require_once __DIR__ . "/../../config/database.php";
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/account-management.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <div class="top-bar">
@@ -18,26 +19,21 @@ require_once __DIR__ . "/../../config/database.php";
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="../../images/profile.png"
-                    alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
+            <button class="icon-btn"><i data-lucide="bell"></i></button>
+            <button class="icon-btn"><i data-lucide="settings"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="admin-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="../../images/home.png"
-                    alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
-                    src="../../images/system-analytics.png" alt="System Analytics"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
-                    src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><i data-lucide="home"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><i data-lucide="bar-chart-3"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><i data-lucide="file-text"></i></button>
             <div id="system-config-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
-                        src="../../images/system-config.png" alt="System Config"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><i data-lucide="sliders"></i></button>
             </div>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
@@ -84,13 +80,16 @@ require_once __DIR__ . "/../../config/database.php";
         <hr style="margin: 50px 0; border: 0; border-top: 1px solid #eee;">
 
         <div class="list-section">
-            <h3 id="tableTitle" style="color: #53B757; margin-bottom: 20px;">Existing Participants</h3>
+            <h3 id="tableTitle" style="color: var(--primary-green); margin-bottom: 20px;">Existing Participants</h3>
             <div id="userTableContainer">
                 </div>
         </div>
     </div>
 
     <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
     function updateUI() {
         const role = document.getElementById("roleSelect").value;
         const tpGroup = document.getElementById("tpGroup");
@@ -110,6 +109,7 @@ require_once __DIR__ . "/../../config/database.php";
             .then(response => response.text())
             .then(data => {
                 container.innerHTML = data;
+                lucide.createIcons();
             })
             .catch(error => {
                 console.error('Error fetching data:', error);

@@ -1,10 +1,8 @@
 <?php
     session_start();
     require_once __DIR__ . "/../../config/database.php";
-    // check if its on maintenance
     require_once __DIR__ . "/../../check-maintenance-status.php";
 
-    // query overvall enviroment impact
     $sql = "SELECT SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
         SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon%' THEN impact_amount ELSE 0 END) AS carbon_emission,
         SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
@@ -38,7 +36,7 @@
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../../participant.css">
     <link rel="stylesheet" href="../../participants-home-desktop.css">
-
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -48,41 +46,27 @@
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img
-                    src="../../images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img
-                        src="../../images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><i data-lucide="home"></i></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
-                    src="../../images/system-analytics.png" alt="System Analytics"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
-                    src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
-                    src="../../images/system-config.png" alt="System Config"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><i data-lucide="bar-chart-3"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><i data-lucide="file-text"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><i data-lucide="sliders"></i></button>
             <button class="icon-btn" id="logout" onclick="logout_confirm()">
-                <script>
-                    function logout_confirm() {
-                        if (confirm("Are you sure you want to logout?")) {
-                            window.location.href = "../../logout.php";
-                        }
-                    }
-                </script>
-                <img src="../../images/logout.png" alt="Logout">
+                <i data-lucide="log-out"></i>
             </button>
         </div>
     </div>
     <div class="main-content">
         <div class="search-box">
             <input type="text" placeholder="Search..." id="search-input">
-            <div id="search-results"></div> <!-- placeholder for search results -->
+            <div id="search-results"></div> 
         </div>
         <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
         </p>
@@ -118,7 +102,6 @@
             Unavailable
         </div>
 
-        <!-- Verification Item 1 -->
         <div class="content-container">
 
             <button class="image-holder">
@@ -148,22 +131,25 @@
             </button>
 
             <button class="next-btn">
-                <img src="../../images/next.png" alt="Next Icon">
+                <i data-lucide="chevron-right"></i>
             </button>
 
         </div>
 
         <script>
+            function logout_confirm() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../../logout.php";
+                }
+            }
+
             const searchInput = document.getElementById('search-input');
             const searchResults = document.getElementById('search-results');
 
-            // Trigger search on every keystroke
             searchInput.addEventListener('input', function () {
                 const query = this.value;
 
-                // Only search if user typed at least 2 characters
                 if (query.length >= 2) {
-                    // Send AJAX request to PHP
                     fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=admin')
                         .then(response => response.json())
                         .then(data => {
@@ -174,11 +160,11 @@
                             console.error('Error fetching search results:', error);
                         });
                 } else {
-                    searchResults.innerHTML = ''; // Clear results if less than 2 chars
+                    searchResults.innerHTML = ''; 
                 }
             });
 
-            function displayResults(results) { //builds HTML search results
+            function displayResults(results) { 
                 if (results.length === 0) {
                     searchResults.innerHTML = '<p>No results found</p>';
                     return;
@@ -186,13 +172,10 @@
 
                 let html = '<div class="search-results-container">';
                 results.forEach(item => {
-                    // Determine redirect URL
                     let redirectUrl = '';
                     if (item.url) {
-                        // For home search results with predefined url
                         redirectUrl = item.url;
                     } else if (item.eco_news_id) {
-                        // For eco news results
                         redirectUrl = '../../participant/php/participants-desktop-newsdetails.php?id=' + item.eco_news_id;
                     }
 
@@ -213,6 +196,8 @@
                     window.location.href = url;
                 }
             }
+
+            lucide.createIcons();
         </script>
 
 </body>

@@ -1,6 +1,4 @@
-body {
-    background-color: var(--ice-mint);
-}
+
 #reward-icon-box {
     width: 116px;
     height: 76px;
@@ -26,14 +24,16 @@ body {
 .reward-categories {
     margin-top: 24px;
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     margin-bottom: 16px;
+    align-items: center;
 }
 
 .category-btn {
     padding: 8px 16px;
     border: 1px solid var(--secondary-text);
-    background-color: var(--ice-mint);
+    background-color: var(--cardwhite);
     border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
@@ -64,6 +64,9 @@ body {
 }
 
 .add-btn-container {
+    flex-shrink: 0;         
+    width: 32px;             
+    height: 32px;
     padding: 0;
     border-radius: 50%;
     display: inline-flex;
@@ -75,6 +78,7 @@ body {
     box-shadow: 0 2px 4px var(--shadow);
     transition: all 0.2s ease;
     position: relative; 
+    margin-right: auto;
 }
 
 .add-btn-container:hover,
@@ -134,14 +138,15 @@ body {
 }
 
 .reward-container {
-    display: flex;
-    flex-wrap: wrap;        /* Allows cards to wrap to next line */
-    gap: 16px;              /* Space between cards */
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;              
+    margin: 0 auto;
 }
 .reward-card {
     display: flex;
-    width: 280px;              
+    width: 280px;       
+    width: 100%;       
     min-height: 156px;         
     align-items: center;
     gap: 12px;
@@ -150,7 +155,14 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     position: relative;
-    flex-shrink: 0;           
+    flex-shrink: 0;  
+    box-sizing: border-box;         
+}
+
+@media (min-width: 1024px) {
+    .reward-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 

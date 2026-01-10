@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../../participant.css">
     <link rel="stylesheet" href="../../participants-home-desktop.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -54,32 +55,19 @@
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img
-                    src="../../images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><i data-lucide="user"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="participant-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img
-                        src="../../images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><i data-lucide="home"></i></button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img
-                    src="../../images/verification.png" alt="Verification"></button>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img
-                    src="../../images/account-management.png" alt="Account"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><i data-lucide="shield-check"></i></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><i data-lucide="users"></i></button>
             <button class="icon-btn" id="logout" onclick="logout_confirm()">
-                <script>
-                    function logout_confirm() {
-                        if (confirm("Are you sure you want to logout?")) {
-                            window.location.href = "../../logout.php";
-                        }
-                    }
-                </script>
-                <img src="../../images/logout.png" alt="Logout">
+                <i data-lucide="log-out"></i>
             </button>
         </div>
     </div>
@@ -127,10 +115,9 @@
                 onclick="window.location.href='staff-desktop-verification?id=<?= $row['participants_challenges_id']; ?>'">
 
                 <button class="image-holder">
-                    <img src="../../challenge_submission_uploads/<?= htmlspecialchars($row['proof_image']); ?>" alt="Proof Image">>
+                    <img src="../../challenge_submission_uploads/<?= htmlspecialchars($row['proof_image']); ?>" alt="Proof Image">
                 </button>
 
-                <!-- u.user_full_name, c.challenge_name, c.description, pc.date_accomplished -->
                 <button class="content-text-box">
                     <div class="text-inner">
 
@@ -154,7 +141,7 @@
                 </button>
 
                 <button class="next-btn">
-                    <img src="../../images/next.png" alt="Next Icon">
+                    <i data-lucide="chevron-right"></i>
                 </button>
 
             </div>
@@ -162,6 +149,15 @@
         <?php endwhile; ?>
 
         <script>
+            // Initialize Lucide Icons
+            lucide.createIcons();
+
+            function logout_confirm() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../../logout.php";
+                }
+            }
+
             const searchInput = document.getElementById('search-input');
             const searchResults = document.getElementById('search-results');
 

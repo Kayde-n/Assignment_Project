@@ -8,7 +8,7 @@
     <title>Participant FAQ Mobile</title>
 
     <!-- Main mobile styles --> 
-    <link rel="stylesheet" href="../css/mobile.css">
+    <link rel="stylesheet" href="../../mobile.css">
     
     <!-- FAQ specific styles -->
     <link rel="stylesheet" href="../css/participant-help-mobile.css">    

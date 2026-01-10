@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/admin-system-config.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -36,45 +37,37 @@
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img src="../../images/profile.png"
-                    alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
+            <button class="icon-btn"><i data-lucide="bell"></i></button>
+            <button class="icon-btn"><i data-lucide="settings"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="admin-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><img src="../../images/home.png"
-                    alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img
-                    src="../../images/system-analytics.png" alt="System Analytics"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
-                    src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><i data-lucide="home"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><i data-lucide="bar-chart-3"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><i data-lucide="file-text"></i></button>
             <div id="system-config-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><img
-                        src="../../images/system-config.png" alt="System Config"></button>
+                <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><i data-lucide="sliders"></i></button>
             </div>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
     <div class="main-content">
-        <!-- Header Section -->
         <div class="page-header">
             <button class="back-btn" onclick="window.history.back()">
-                <img src="../../Images/back-arrow.png" alt="Back">
+                <i data-lucide="arrow-left"></i>
             </button>
             <div class="title-box">
                 <h1>System Settings</h1>
             </div>
         </div>
 
-        <!-- System Maintenance Section -->
         <section class="system-maintenance">
             <h2>System Maintenance</h2>
 
-            <!-- Toggle Switch -->
             <div class="toggle-container">
                 <span class="toggle-label">Maintenance Mode</span>
                 <label class="toggle-switch">
@@ -83,7 +76,6 @@
                 </label>
             </div>
 
-            <!-- Date Time Inputs -->
             <form action="system-settings-change.php" method="POST">
                 <div class="datetime-group">
                     <div class="datetime-field">
@@ -100,11 +92,9 @@
 
         </section>
 
-        <!-- System Configurations Section -->
         <section class="system-configurations">
             <h2>System Configurations</h2>
 
-            <!-- Green Points Settings -->
             <div class="config-section">
                 <h3>Green Points Settings</h3>
                 <div class="points-grid">
@@ -119,43 +109,41 @@
             </div>
         </section>
 
-        <!-- Footer Buttons -->
         <div class="footer-buttons">
-            <button class="btn-reset">Reset</button>
-            <button class="btn-save">Save</button>
+            <button class="btn-reset" type="reset">Reset</button>
+            <button class="btn-save" type="submit">Save</button>
         </div>
         </form>
     </div>
-</body>
-<script>
-    function confirmMaintenance(checkbox) {
-        if (checkbox.checked) {
-            // Turning ON maintenance
-            if (confirm("Are you sure you want to enable maintenance mode?")) {
-                updateMaintenance(1);
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        function confirmMaintenance(checkbox) {
+            if (checkbox.checked) {
+                if (confirm("Are you sure you want to enable maintenance mode?")) {
+                    updateMaintenance(1);
+                } else {
+                    checkbox.checked = false; 
+                }
             } else {
-                checkbox.checked = false; // revert
-            }
-        } else {
-            // Turning OFF maintenance
-            if (confirm("Disable maintenance mode?")) {
-                updateMaintenance(0);
-            } else {
-                checkbox.checked = true; // revert
+                if (confirm("Disable maintenance mode?")) {
+                    updateMaintenance(0);
+                } else {
+                    checkbox.checked = true; 
+                }
             }
         }
-    }
 
-    function updateMaintenance(status) {
-
-        fetch("maintainence_toggle.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: 'status=' + status
-
-        })
+        function updateMaintenance(status) {
+            fetch("maintainence_toggle.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: 'status=' + status
+            })
             .then(response => response.text())
             .then(data => {
                 if (data !== "OK") {
@@ -166,9 +154,8 @@
             })
             .catch(error => {
                 console.log("Error: " + error.message);
-
             });
-    }
-</script>
-
+        }
+    </script>
+</body>
 </html>
