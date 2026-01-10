@@ -186,9 +186,6 @@ foreach ($user_total_points as $rank) {
                 <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
             </a>
 
-            <a class="icon-link active sidebar-icon" href="participant-profile-mobile.php" aria-label="Profile">
-                <button class="icon-btn"><i data-lucide="user-round"></i></button>
-            </a>
         </div>
 
         <a class="icon-link sidebar-icon" id="logout" style="cursor: pointer;">

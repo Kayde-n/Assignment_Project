@@ -38,10 +38,6 @@ require_once __DIR__ . "/../../config/database.php";
     </div>
 
     <div class="main-content">
-        <div class="text-box">
-            Add New Account
-        </div>
-
         <div class="create-user-container">
             <h3>Create New User Form</h3>
             <form action="process_add_user.php" method="POST">
