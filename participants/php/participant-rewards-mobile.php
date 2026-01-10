@@ -321,10 +321,10 @@ $total_points = (int) $row_points['total_points'];
                 function openModal(title, description, rewardId, rewardCost, rewardQuantity) {
                     rewardCost = parseInt(rewardCost);
                     rewardQuantity = parseInt(rewardQuantity);
-                    //if (USER_POINTS < rewardCost) {
-                    //alert("You do not have enough points to redeem this reward.");
-                    //return;
-                    //}
+                    if (USER_POINTS < rewardCost) {
+                        alert("You do not have enough points to redeem this reward.");
+                        return;
+                    }
                     if (rewardQuantity == 0) {
                         alert("Reward is redeemed fully! Reward no longer available");
                         return;
