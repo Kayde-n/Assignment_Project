@@ -43,7 +43,7 @@
             <a href="event-manager-news.php" class="icon-link active sidebar-icon"><button class="icon-btn"><i data-lucide="newspaper"></i></button></a>
             <a href="event-manager-rewards-management.php" class="icon-link sidebar-icon"><button class="icon-btn"><i data-lucide="badge-percent"></i></button></a>
         </div>
-        <a href="../../logout.php" id="logout" class="sidebar-icon"><button class="icon-btn"><i data-lucide="log-out"></i></button></a>
+        <a id="logout" class="sidebar-icon" onclick="return logout_confirm();"><button class="icon-btn"><i data-lucide="log-out"></i></button></a>
     </nav>
 
     <nav class="bottom-nav">
@@ -144,6 +144,11 @@
                 window.location.href = "delete_news.php?eco_news_id=" + id;
             }
         }
+        function logout_confirm() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../../logout.php";
+                }
+            }
     </script>
 </body>
 </html>
