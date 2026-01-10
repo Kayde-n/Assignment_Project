@@ -27,7 +27,7 @@ require_once __DIR__ . "/../../check-maintenance-status.php";
             <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><i data-lucide="home"></i></button>
             <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><i data-lucide="shield-check"></i></button>
             <div id="account-icon">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><i data-lucide="users-cog"></i></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><i data-lucide="users"></i></button>
             </div>
             <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
         </div>

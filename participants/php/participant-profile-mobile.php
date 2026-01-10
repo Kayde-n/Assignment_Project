@@ -300,7 +300,7 @@ foreach ($user_total_points as $rank) {
                     <script>
                         function logout_confirm() {
                             if (confirm("Are you sure you want to logout?")) {
-                                window.location.href = "logout.php";
+                                window.location.href = "../../logout.php";
                             }
                         }
                     </script>
