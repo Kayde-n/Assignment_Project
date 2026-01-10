@@ -49,7 +49,7 @@ require_once __DIR__ . "/../../session.php";
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='Admin_profile.php'">
                 <i data-lucide="user"></i>
-            
+
         </div>
     </div>
 
@@ -60,7 +60,7 @@ require_once __DIR__ . "/../../session.php";
             </div>
             <div class="profile-info">
                 <p class="profile-name">Eiden Jackson</p>
-                <p class="profile-role">Bachelor of Environmental Science</p>
+
             </div>
         </div>
 
