@@ -132,8 +132,7 @@
         </div>
         <!-- News Form -->
         <div class="news-form-container">
-            <form id="newsForm" method="POST" enctype="multipart/form-data">
-                
+            <form id="newsForm" method="POST" enctype="multipart/form-data" onsubmit="return validateImageUpload();">
                 <!-- Title Field -->
                 <div class="form-group">
                     <label for="news-title">News Title</label>
@@ -238,6 +237,17 @@
             reader.readAsDataURL(file);
         }
     }
+    function validateImageUpload() {
+        const imageInput = document.getElementById('news-image');
+
+        if (!imageInput.files || imageInput.files.length === 0) {
+            alert("Please upload an image before posting.");
+            return false; // stop form submission
+        }
+
+        return true; // allow submission
+    }
+
     lucide.createIcons();
     </script>
 </body>
