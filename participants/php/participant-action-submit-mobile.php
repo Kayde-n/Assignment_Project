@@ -7,8 +7,11 @@ if (isset($_SESSION['popup_message'])): ?>
     </script>
     <?php unset($_SESSION['popup_message']); ?>
 <?php endif;
+$participant_id = $_SESSION['user_role_id'];
+$date = new DateTime();
+$todayString = $today->format("Y-m-d");
 
-$sql_query = "SELECT challenge_name FROM challenges";
+$sql_query = "SELECT challenge_name FROM challenges WHERE date_accomplished != '$todayString' AND participants_id == '$participants_id'";
 $result = mysqli_query($database, $sql_query);
 if (!$result) {
     die("Database query failed: " . mysqli_error($database));
@@ -98,11 +101,11 @@ while ($row = mysqli_fetch_assoc($result)) {
         </a>
 
         <script>
-        function logout_confirm() {
-            if (confirm("Are you sure you want to logout?")) {
-                window.location.href = "../../logout.php";
+            function logout_confirm() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../../logout.php";
+                }
             }
-        }
         </script>
     </nav>
 

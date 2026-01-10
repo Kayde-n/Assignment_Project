@@ -11,15 +11,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM user WHERE email='$email'";
     $result = mysqli_query($database, $sql);
     $row = mysqli_fetch_assoc($result);
+<<<<<<< HEAD
+    if (password_verify($password, $row['hash_password'])) { // Password is correct
+=======
 
     if ($row && password_verify($password, $row['hash_password'])) { 
+>>>>>>> a0f12f1037acdfc0ee6a12c9aaa790c371c75e92
         $_SESSION['mySession'] = $row['user_id'];
         $_SESSION['user_id'] = $row['user_full_name'];
         header("location: authenticate-user-role.php");
         exit(); 
     } else {
+<<<<<<< HEAD
+        // Password is incorrect
+        echo '<script>alert("Your Email or Password is invalid. Please re-login.");</script>';
+
+
+=======
         header("Location: Login.php?error=1");
         exit();
+>>>>>>> a0f12f1037acdfc0ee6a12c9aaa790c371c75e92
     }
 }
 ?>

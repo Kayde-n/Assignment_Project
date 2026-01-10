@@ -21,12 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $allowed = ['image/jpeg', 'image/png', 'image/webp'];
 
     if (!in_array($fileType, $allowed)) {
-        die('Invalid file type');
+        echo "<script>alert('Invalid file type');
+        window.history.back();
+        </script>";
+
+        exit();
     }
 
     // Size limit (2MB)
     if ($fileSize > 2 * 1024 * 1024) {
-        die('File too large');
+        echo "<script>alert('File too large');
+        window.history.back();
+        </script>";
+
+        exit();
     }
 
     // Upload folder
@@ -43,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!move_uploaded_file($fileTmp, $targetPath)) {
         die('Failed to save file');
     }
-    // Insert into database
+    // Fetch challenge_id of challenge selected
     $sql_query1 = "SELECT challenges_id FROM challenges WHERE challenge_name = '$_POST[challenge_selected]'";
     $result = mysqli_query($database, $sql_query1);
     $row = mysqli_fetch_array($result);
