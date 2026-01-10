@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . "/../../session.php";
     require_once __DIR__ . "/../../config/Database.php";
+    require_once __DIR__ . "/../../check-maintenance-status.php";
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = mysqli_real_escape_string($database, $_POST['news_title']);

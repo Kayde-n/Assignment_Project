@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/../../session.php";
 require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../check-maintenance-status.php";
 if (!isset($_SESSION['mySession'])) {
     echo "<script>alert('Invalid profile ID.'); window.location.href='participants-desktop-home.php';</script>";
     exit();

@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require_once __DIR__ . "/../../check-maintenance-status.php";
 
     if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'staff') {
         header("Location: ../../Login.php");

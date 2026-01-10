@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . "/../../session.php";
     require_once __DIR__ . "/../../config/Database.php";
+    require_once __DIR__ . "/../../check-maintenance-status.php";
 
     // get start time, event name 
     $calender_events="SELECT events.events_id, events.event_name, events.start_time
