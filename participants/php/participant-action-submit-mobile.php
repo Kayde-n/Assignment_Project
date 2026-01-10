@@ -7,7 +7,7 @@ if (isset($_SESSION['popup_message'])): ?>
     </script>
     <?php unset($_SESSION['popup_message']); ?>
 <?php endif;
-
+$participant_id = $_SESSION['user_role_id'];
 $today = new DateTime();
 $todayString = $today->format("Y-m-d");
 
