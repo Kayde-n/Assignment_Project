@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . "/../../session.php";
     require_once __DIR__ . "/../../config/Database.php";
+    require_once __DIR__ . "/../../check-maintenance-status.php";
 
     $event_manager_id = $_SESSION['user_role_id'];
 

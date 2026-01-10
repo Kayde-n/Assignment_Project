@@ -1,5 +1,6 @@
 <?php 
     require_once __DIR__ . "/../../config/database.php";
+    require_once __DIR__ . "/../../check-maintenance-status.php";
     
     // query participant profile
     $query = "SELECT u.user_id, u.user_full_name, u.account_status, u.profile_picture_path, p.TP_no 

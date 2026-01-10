@@ -1,6 +1,7 @@
 <?php
     session_start();
     require_once __DIR__ . "/../../config/Database.php";
+    require_once __DIR__ . "/../../check-maintenance-status.php";
 
     if (!isset($_SESSION['user_role_id'])) {
         header("Location: /../../login.php");

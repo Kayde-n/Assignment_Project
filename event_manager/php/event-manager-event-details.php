@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . "/../../session.php";
     require_once __DIR__ . "/../../config/Database.php";
+    require_once __DIR__ . "/../../check-maintenance-status.php";
 
     if (isset($_GET['events_id'])) {
     $eventId = $_GET['events_id'];  

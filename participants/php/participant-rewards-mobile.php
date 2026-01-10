@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/../../session.php";
 require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../check-maintenance-status.php";
 
 // sql all data from rewards
 $sql = "SELECT rewards_id, reward_name, description, points_required, quantity, category FROM rewards";

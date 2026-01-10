@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . "/../../session.php";
     require_once __DIR__ . "/../../config/database.php";
+    require_once __DIR__ . "/../../check-maintenance-status.php";
     $participant_id = $_SESSION['user_role_id'];
 
     if (!isset($_SESSION['user_role_id'])) {

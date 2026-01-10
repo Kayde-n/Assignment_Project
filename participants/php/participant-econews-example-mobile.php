@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . "/../../session.php";
     require_once __DIR__ . "/../../config/database.php";
+    require_once __DIR__ . "/../../check-maintenance-status.php";
 
     // Check if id get from URL get req
     if(isset($_GET['id'])){

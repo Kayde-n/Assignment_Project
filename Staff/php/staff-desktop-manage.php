@@ -1,5 +1,6 @@
 <?php 
 require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../check-maintenance-status.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
