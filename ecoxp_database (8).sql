@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 10, 2026 at 02:44 PM
+-- Generation Time: Jan 10, 2026 at 04:25 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   UNIQUE KEY `attendance_id` (`attendance_id`),
   KEY `participants_id` (`participants_id`),
   KEY `events_id` (`events_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `attendance`
@@ -77,7 +77,8 @@ INSERT INTO `attendance` (`attendance_id`, `participants_id`, `events_id`, `time
 (5, 5, 3, '2025-12-28 14:58:53', 1),
 (6, 7, 2, NULL, 0),
 (7, 7, 1, NULL, 0),
-(8, 10, 5, NULL, 0);
+(8, 10, 5, NULL, 0),
+(9, 11, 3, '2026-01-10 00:08:00', 1);
 
 -- --------------------------------------------------------
 
@@ -121,7 +122,6 @@ CREATE TABLE IF NOT EXISTS `downtime` (
   `admin_id` int NOT NULL,
   `start_time` datetime NOT NULL,
   `end_time` datetime NOT NULL,
-  `Push_notif` tinyint(1) NOT NULL,
   PRIMARY KEY (`downtime_id`),
   UNIQUE KEY `downtime_id` (`downtime_id`),
   KEY `admin_id` (`admin_id`)
@@ -131,11 +131,11 @@ CREATE TABLE IF NOT EXISTS `downtime` (
 -- Dumping data for table `downtime`
 --
 
-INSERT INTO `downtime` (`downtime_id`, `admin_id`, `start_time`, `end_time`, `Push_notif`) VALUES
-(1, 1, '2025-12-21 07:01:39', '2025-12-22 15:01:40', 1),
-(2, 1, '2025-12-24 15:02:47', '2025-12-26 15:02:47', 0),
-(3, 3, '2025-12-03 15:02:47', '2025-12-05 15:02:47', 1),
-(4, 2, '2026-01-01 15:03:14', '2026-01-03 15:03:14', 1);
+INSERT INTO `downtime` (`downtime_id`, `admin_id`, `start_time`, `end_time`) VALUES
+(1, 1, '2025-12-21 07:01:39', '2025-12-22 15:01:40'),
+(2, 1, '2025-12-24 15:02:47', '2025-12-26 15:02:47'),
+(3, 3, '2025-12-03 15:02:47', '2025-12-05 15:02:47'),
+(4, 2, '2026-01-01 15:03:14', '2026-01-03 15:03:14');
 
 -- --------------------------------------------------------
 
@@ -345,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `participants_challenges` (
   KEY `participants_id` (`participants_id`),
   KEY `challenges_id` (`challenges_id`),
   KEY `staff_id` (`staff_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `participants_challenges`
@@ -362,7 +362,12 @@ INSERT INTO `participants_challenges` (`participants_challenges_id`, `participan
 (8, 7, 2, '2026-01-01', '2026-01-02', 'rejected', 'reduced pollution', 'img_695b394b7bbe24.19717501.jpg', 90, 'Null', 2),
 (10, 7, 1, '2026-01-05', '2026-01-05', 'pending', 'Reduced Pollution', 'img_695b394b7bbe24.19717501.jpg', 190, 'null', 6),
 (11, 7, 2, '2026-01-05', '2026-01-05', 'pending', 'Reduced Pollution', 'img_695b394b7bbe24.19717501.jpg', 190, 'NULL', 1),
-(12, 7, 1, '2026-01-06', NULL, 'pending', NULL, 'img_695c988fa07a63.73827008.png', NULL, '', 3);
+(12, 7, 1, '2026-01-06', NULL, 'pending', NULL, 'img_695c988fa07a63.73827008.png', NULL, '', 3),
+(13, 11, 1, '2026-01-10', NULL, 'pending', NULL, 'challenge_submission_uploads/img_696266caa61079.46334580.png', NULL, 'WWDADE', 5),
+(14, 11, 6, '2026-01-10', NULL, 'pending', NULL, 'challenge_submission_uploads/img_69626730846f83.44634885.png', NULL, 'aad', 3),
+(15, 11, 1, '2026-01-11', '2026-01-11', 'approved', 'reduced pollution', 'adwwd', 20, 'awdawd', 4),
+(16, 11, 6, '2026-01-11', '2026-01-11', 'pending', 'reduced pollution', 'dawadw', 20, 'awdwad', 1),
+(17, 11, 2, '2026-01-02', '2026-01-03', 'rejected', 'reduced pollution', 'wadawd', 20, 'awawd', 4);
 
 -- --------------------------------------------------------
 
