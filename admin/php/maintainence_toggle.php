@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("database.php");
+require_once __DIR__ . "/../../config/database.php";
 
 $status = $_POST['status'] ?? null;
 
@@ -19,7 +19,7 @@ if ($status !== null && ($status == '0' || $status == '1')) {
             echo "ERROR: " . mysqli_error($database);
         }
     } else {
-        $sql_query2 = "DELETE FROM downtime WHERE admin_id = 1 AND end_time IS '2099-12-31 23:59:59'";
+        $sql_query2 = "DELETE FROM downtime WHERE admin_id = 1 AND end_time = '2099-12-31 23:59:59'";
         if (mysqli_query($database, $sql_query2)) {
             echo "OK";
         } else {
