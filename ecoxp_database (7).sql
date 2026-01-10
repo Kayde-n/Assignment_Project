@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 08, 2026 at 01:27 PM
+-- Generation Time: Jan 10, 2026 at 02:44 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   PRIMARY KEY (`admin_id`),
   UNIQUE KEY `admin_id` (`admin_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `admin`
@@ -43,7 +43,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
 INSERT INTO `admin` (`admin_id`, `user_id`) VALUES
 (1, 1),
 (2, 2),
-(3, 18);
+(3, 18),
+(4, 27);
 
 -- --------------------------------------------------------
 
@@ -245,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `event_manager` (
   PRIMARY KEY (`event_manager_id`),
   UNIQUE KEY `event_manager_id` (`event_manager_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `event_manager`
@@ -258,7 +259,8 @@ INSERT INTO `event_manager` (`event_manager_id`, `user_id`) VALUES
 (4, 15),
 (5, 21),
 (6, 22),
-(7, 23);
+(7, 23),
+(8, 28);
 
 -- --------------------------------------------------------
 
@@ -302,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `participants` (
   PRIMARY KEY (`participants_id`),
   UNIQUE KEY `participant_id` (`participants_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `participants`
@@ -316,7 +318,8 @@ INSERT INTO `participants` (`participants_id`, `user_id`, `TP_no`) VALUES
 (5, 11, 'TP00005'),
 (6, 19, ''),
 (7, 20, ''),
-(10, 24, '');
+(10, 24, ''),
+(11, 25, 'TP00006');
 
 -- --------------------------------------------------------
 
@@ -377,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `rewards` (
   `category` varchar(255) NOT NULL,
   PRIMARY KEY (`rewards_id`),
   UNIQUE KEY `rewards_id` (`rewards_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `rewards`
@@ -435,7 +438,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   PRIMARY KEY (`staff_id`),
   UNIQUE KEY `staff_id` (`staff_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `staff`
@@ -447,7 +450,8 @@ INSERT INTO `staff` (`staff_id`, `user_id`) VALUES
 (3, 5),
 (4, 6),
 (5, 16),
-(6, 17);
+(6, 17),
+(7, 26);
 
 -- --------------------------------------------------------
 
@@ -515,7 +519,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `account_status` varchar(50) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
@@ -545,7 +549,11 @@ INSERT INTO `user` (`user_id`, `user_full_name`, `email`, `hash_password`, `prof
 (21, 'Albert', 'Albert@mail.com', '$2y$10$eW5x5O1nYj1kT3P2H4uJXeOQfT/ZxvVQ6zN1B6oQHxC0Vtq8M/1vK', 'NULL', 'active'),
 (22, 'Ku Wei Jun', 'Ku@mail.com', '$2y$10$WCEgiFOJgx3nd9zWPt9C/.xxiGfOu.eYlxS1vUXo5Fza2fxgekOW6', 'images/profile.png', 'Active'),
 (23, 'Hi', 'Hi@mail.com', '$2y$10$1qqmjhhCyZT9nI1WBjFb7etNCKO0dhNxgUL.Yu3hpCpEw7UTdtGo2', 'images/1767861274_roof open.jpg', 'Active'),
-(24, 'Bye', 'Bye@mail.com', '$2y$10$mcLc9xaqpLYyteoCZIjlDuryWHJ.JrZTpkYUjPUskuPAj4WHIEiku', 'images/profile.png', 'Active');
+(24, 'Bye', 'Bye@mail.com', '$2y$10$mcLc9xaqpLYyteoCZIjlDuryWHJ.JrZTpkYUjPUskuPAj4WHIEiku', 'images/profile.png', 'Active'),
+(25, 'participant', 'participant@mail.com', '$2y$10$8MGB6I137e.rvzausZKS3.Tw6u5qkb2ZtbDUfXGRW.rVQiu0PRPWS', 'images/profile.png', 'Active'),
+(26, 'staff', 'staff@mail.com', '$2y$10$UwmDlFezUDn.PV8A8bvRme6P0CERgruw//DFWN5T/x6CHHKnlyd1y', 'images/profile.png', 'Active'),
+(27, 'admin', 'admin@mail.com', '$2y$10$Zrmw3xPeY/FF5QXedgQwVez9vtZpAFNhi7LQrrW8EDJdPxKQx7iBu', 'images/profile.png', 'Active'),
+(28, 'event manager', 'event_manager@mail.com', '$2y$10$SIlO/rhn5I6p1zyNxhI/IO2Jhi8kEWGr8PsSon9Fzc0psekAaWxiS', 'images/profile.png', 'Active');
 
 --
 -- Constraints for dumped tables

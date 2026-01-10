@@ -211,7 +211,7 @@
         const eventsData = <?php echo json_encode($eventsArray); ?>;
         
 
-        // Month names
+        //all them months
         const monthNames = [
             'January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'
@@ -227,7 +227,7 @@
             return `${year}-${m}-${d}`;
         }
 
-        // Get number of days in month
+        // get number of days in each month
         function getDaysInMonth(year, month) {
             return new Date(year, month + 1, 0).getDate();
         }
