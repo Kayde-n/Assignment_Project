@@ -227,8 +227,7 @@ foreach ($best_events as $event) {
         </button>
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
-            <button class="icon-btn"><i data-lucide="bell"></i></button>
-            <button class="icon-btn"><i data-lucide="settings"></i></button>
+
         </div>
     </div>
 
