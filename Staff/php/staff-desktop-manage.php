@@ -17,8 +17,6 @@ require_once __DIR__ . "/../../config/database.php";
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="../../images/profile.png" alt="Profile"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting"></button>
         </div>
     </div>
 
@@ -76,7 +74,7 @@ require_once __DIR__ . "/../../config/database.php";
         <hr style="margin: 50px 0; border: 0; border-top: 1px solid #eee;">
 
         <div class="list-section">
-            <h3 id="tableTitle" style="color: #53B757; margin-bottom: 20px;">Existing Participants</h3>
+            <h3 id="tableTitle" style="color: var(--primary-green); margin-bottom: 20px;">Existing Participants</h3>
             <div id="userTableContainer">
                 </div>
         </div>

@@ -11,48 +11,58 @@ require_once __DIR__ . "/../../session.php";
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/admin-profile.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
 
 
-    <!-- SIDEBAR -->
     <div class="side-bar">
         <div class="admin-icon-container">
             <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='admin_home.php'"><img
-                        src="../../images/home.png" alt="Home"></button>
+                <button class="icon-btn" onclick="window.location.href='admin_home.php'">
+                    <i data-lucide="home"></i>
+                </button>
             </div>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><img src="../../images/system-analytics.png" alt="System Analytics"></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><img
-                    src="../../images/sustainability-report.png" alt="Sustainability Report"></button>
-            <button class="icon-btn"><img src="../../images/system-config.png" alt="System Config"></button>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'">
+                <i data-lucide="bar-chart-3"></i>
+            </button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'">
+                <i data-lucide="file-text"></i>
+            </button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'">
+                <i data-lucide="sliders"></i>
+            </button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'">
+                <i data-lucide="log-out"></i>
+            </button>
         </div>
     </div>
 
 
 
-    <!-- TOP BAR (hidden on mobile) -->
     <div class="top-bar">
         <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'">
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><img
-                    src="../../images/profile.png" alt="Profile Logo"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification Logo"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting Logo"></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'">
+                <i data-lucide="user"></i>
+            </button>
+            <button class="icon-btn">
+                <i data-lucide="bell"></i>
+            </button>
+            <button class="icon-btn">
+                <i data-lucide="settings"></i>
+            </button>
         </div>
     </div>
 
-    <!-- MAIN CONTENT BOX -->
     <div class="main-content">
         <div class='text-box'>
             Profile
         </div>
-        <!-- PROFILE SECTION -->
         <div class="profile-container">
             <div class="profile-pic">
                 <img src="../../images/profile.png" alt="Profile Picture">
@@ -64,52 +74,53 @@ require_once __DIR__ . "/../../session.php";
         </div>
 
 
-        <!-- QUICK ACCESS -->
         <div class="quick-access">
             <h3>Quick Access</h3>
             <ul>
                 <li>
                     <a href="Admin_system_analytics.php">
                         <div class="left">
-                            <img src="../../images/system-analytics.png" alt="System Analytics Icon">
+                            <i data-lucide="bar-chart-3" style="margin-right: 10px;"></i>
                             System Analytics
                         </div>
-                        <img src="../../images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="Admin_sustainability_report.php">
                         <div class="left">
-                            <img src="../../images/sustainability-report.png" alt="Sustainability Report Icon">
+                            <i data-lucide="file-text" style="margin-right: 10px;"></i>
                             Sustainability Report
                         </div>
-                        <img src="../../images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="account-management.php">
                         <div class="left">
-                            <img src="../../images/account-management.png" alt="Account Management Icon">
+                            <i data-lucide="users" style="margin-right: 10px;"></i>
                             Account Management
                         </div>
-                        <img src="../../images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="Admin_system_config.php">
                         <div class="left">
-                            <img src="../../images/system-config.png" alt="System Config Icon">
+                            <i data-lucide="sliders" style="margin-right: 10px;"></i>
                             System Configuration
                         </div>
-                        <img src="../../images/arrow.png" alt="Arrow Icon">
+                        <i data-lucide="chevron-right"></i>
                     </a>
                 </li>
-                >
             </ul>
         </div>
     </div>
 
-
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

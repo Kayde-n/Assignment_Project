@@ -72,26 +72,25 @@
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/staff.css">
     <link rel="stylesheet" href="../css/staff-profile-desktop.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
     </head>
 <body>
     <div class="top-bar">
         <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="../../images/profile.png" alt="Profile"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><i data-lucide="user"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="staff-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="../../images/home.png" alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="../../images/verification.png" alt="Verification"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><i data-lucide="home"></i></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><i data-lucide="shield-check"></i></button>
             <div id="account-icon-box">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="../../images/account-management.png" alt="Account"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><i data-lucide="users"></i></button>
             </div>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
@@ -140,7 +139,7 @@
                     <span class="stat-number"><?php echo $pending_count; ?></span>
                     <span class="stat-text">Pending Verification</span>
                 </div>
-                <img src="../../images/verification.png" alt="Icon">
+                <i data-lucide="shield-check"></i>
             </div>
 
             <div class="stat-box" onclick="window.location.href='staff-desktop-account.php'">
@@ -148,7 +147,7 @@
                     <span class="stat-number"><?php echo $active_count; ?></span>
                     <span class="stat-text">Participant Overview (Active)</span>
                 </div>
-                <img src="../../images/account-management.png" alt="Icon">
+                <i data-lucide="users"></i>
             </div>
         </div>
     </div>
@@ -177,6 +176,9 @@
     </div>
 
     <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
     function openModal() {
         document.getElementById('editProfileModal').style.display = 'block';
     }

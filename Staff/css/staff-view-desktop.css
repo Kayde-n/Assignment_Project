@@ -42,12 +42,12 @@
 }
 
 #participant-search:focus {
-    border-color: #53B757;
+    border-color: var(--primary-green);
 }
 
 .search-submit-btn {
     padding: 12px 20px;
-    background-color: #53B757;
+    background-color: var(--primary-green);
     color: white;
     border: none;
     border-radius: 0 8px 8px 0;
@@ -82,7 +82,7 @@
 .participant-card:focus {
     transform: translateY(-5px);
     box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    border-color: #53B757;
+    border-color: var(--primary-green);
 }
 
 .card-left {
@@ -99,7 +99,7 @@
     height: 70px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #53B757;
+    border: 2px solid var(--primary-green);
     transition: transform 0.2s;
 }
 
@@ -131,7 +131,7 @@
 .view-details-btn {
     width: fit-content;
     padding: 6px 14px;
-    background-color: #53B757;
+    background-color: var(--primary-green);
     color: white;
     border: none;
     border-radius: 6px;

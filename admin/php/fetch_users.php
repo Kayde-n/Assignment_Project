@@ -14,7 +14,7 @@ if ($role === 'Participants') {
 $result = mysqli_query($database, $query);
 
 echo '<table width="100%" style="border-collapse: collapse;">
-        <tr style="background-color: #53B757; color: white; text-align: left;">
+        <tr style="background-color: var(--primary-green); color: white; text-align: left;">
             <th style="padding: 12px;">Name</th>
             <th style="padding: 12px;">Email</th>';
 if ($role === 'Participants') echo '<th style="padding: 12px;">TP Number</th>';

@@ -28,7 +28,7 @@
 }
 
 .create-user-container h3 {
-    color: #53B757;
+    color: var(--primary-green);
     font-size: 28px;
     margin-bottom: 24px;
     font-weight: 500;
@@ -63,7 +63,7 @@
 }
 
 .form-group input:focus {
-    border-color: #53B757;
+    border-color: var(--primary-green);
 }
 
 .button-wrapper {
@@ -73,7 +73,7 @@
 }
 
 .add-btn {
-    background-color: #53B757;
+    background-color: var(--primary-green);
     color: white;
     padding: 12px 80px;
     border: none;
@@ -126,7 +126,7 @@
 }
 
 #userTableContainer thead tr {
-    background-color: #53B757;
+    background-color: var(--primary-green);
     color: #fff;
     text-align: left;
 }

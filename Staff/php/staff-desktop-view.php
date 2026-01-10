@@ -66,35 +66,37 @@
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/staff.css">
     <link rel="stylesheet" href="../css/staff-view-desktop.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
     </head>
 <body>
     <div class="top-bar">
         <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='staff-desktop-home.php'"><h2>EcoXP</h2></button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><img src="../../images/profile.png" alt="Profile"></button>
-            <button class="icon-btn"><img src="../../images/notif.png" alt="Notification"></button>
-            <button class="icon-btn"><img src="../../images/setting.png" alt="Setting"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-profile.php'"><i data-lucide="user"></i></button>
         </div>
     </div>
 
     <div class="side-bar">
         <div class="staff-icon-container">
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><img src="../../images/home.png" alt="Home"></button>
-            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><img src="../../images/verification.png" alt="Verification"></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-home.php'"><i data-lucide="home"></i></button>
+            <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><i data-lucide="shield-check"></i></button>
             <div id="account-icon">
-                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><img src="../../images/account-management.png" alt="Account"></button>
+                <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><i data-lucide="users"></i></button>
             </div>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><img src="../../images/logout.png" alt="Logout"></button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
     <div class="main-content">
-        <div class="text-box">Participant</div>
+        <div class="text-box">Participant Management</div>
 
         <div class="search-container">
-            <form method="POST">
-                <input type="text" name="search" placeholder="Search Name or TP Number..." id="participant-search" value="<?= htmlspecialchars($_POST['search'] ?? ''); ?>">
+            <form method="POST" style="display: flex; align-items: center; gap: 10px;">
+                <div style="position: relative; flex-grow: 1;">
+                    <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; color: #666;"></i>
+                    <input type="text" name="search" placeholder="Search Name or TP Number..." id="participant-search" value="<?= htmlspecialchars($_POST['search'] ?? ''); ?>" style="padding-left: 40px; width: 100%;">
+                </div>
                 <button type="submit" class="search-submit-btn">Search</button>
             </form>
         </div>
@@ -106,7 +108,7 @@
 
                 <div class="participant-card">
                     <div class="card-left">
-                        <img src="<?= htmlspecialchars($p['profile_picture_path'] ?? 'images/profile.png'); ?>" alt="Profile">
+                        <img src="../../<?= htmlspecialchars($p['profile_picture_path'] ?? 'images/profile.png'); ?>" alt="Profile">
                     </div>
 
                     <div class="card-right">
@@ -125,6 +127,7 @@
                                 <?= (int)$p["total_points"]; ?>,
                                 "#<?= $p["ranking"]; ?>",
                                 <?= json_encode($p["activity_log"]); ?>)'>
+                            <i data-lucide="external-link" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 5px;"></i>
                             View Profile
                         </button>
                     </div>
@@ -132,7 +135,10 @@
 
             <?php endforeach; ?>
         <?php else: ?>
-            <p>No participants found.</p>
+            <div style="text-align: center; padding: 40px; color: #666;">
+                <i data-lucide="user-search" style="width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.5;"></i>
+                <p>No participants found.</p>
+            </div>
         <?php endif; ?>
 
         <div id="participantModal" class="modal-overlay">
@@ -166,8 +172,10 @@
             </div>
 
             <script>
+            // Initialize Lucide Icons
+            lucide.createIcons();
+
             function openModal(name, pic, points, ranking, activityLog) {
-                // Update using the data passed in
                 document.getElementById('modalName').innerText = name;
                 document.getElementById('modalProfilePic').src = pic;
                 document.getElementById('modalPoints').innerText = points;
@@ -187,6 +195,8 @@
                 }
 
                 document.getElementById('participantModal').style.display = "flex";
+                // Re-run icon creation if new elements with data-lucide are added
+                lucide.createIcons();
             }
 
             function closeModal() {

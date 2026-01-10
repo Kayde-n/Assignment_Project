@@ -377,7 +377,7 @@ input:not(:checked) + .slider:before {
 
     .title-box h1 {
         font-size: 24px;
-        color: #53B757;
+        color: var(--primary-green);
         font-weight: 700;
     }
 

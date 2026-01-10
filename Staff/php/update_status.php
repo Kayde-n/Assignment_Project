@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "UPDATE user SET account_status = '$new_status' WHERE user_id = '$user_id'";
 
     if (mysqli_query($database, $sql)) {
-        // Redirect back to management page
+        
         header("Location: staff-desktop-account.php");
         exit();
     } else {

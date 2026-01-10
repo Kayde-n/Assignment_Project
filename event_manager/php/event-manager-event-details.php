@@ -109,11 +109,12 @@
     </nav>
 
     <main class="main-content">
-        <button class="back-bttn" id="back-bttn-id" onclick="window.history.back()">&larr;</button>
+        
         <!-- Event Details Card -->
         <div class="event-details-container">
             <!-- Event Image -->
             <div class="event-image-container">
+                <button class="back-bttn" id="back-bttn-id" onclick="window.history.back()"><i data-lucide="arrow-left"></i></button>
                     <img src="../../images/<?php echo htmlspecialchars($image); ?>"alt="Event Image" class="event-image">
             </div>
 
