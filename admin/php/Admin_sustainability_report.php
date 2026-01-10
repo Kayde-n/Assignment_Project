@@ -91,8 +91,6 @@ $total_events = $data_events['total_events'] ?? 0;
         </button>
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
-            <button class="icon-btn"><i data-lucide="bell"></i></button>
-            <button class="icon-btn"><i data-lucide="settings"></i></button>
         </div>
     </div>
 
@@ -143,11 +141,11 @@ $total_events = $data_events['total_events'] ?? 0;
             <h2>Environmental Impact</h2>
             <div class="impact-grid">
                 <div class="impact-card">
-                    <div class="impact-value"><?= number_format($air_pollution); ?> kg CO₂e</div>
+                    <div class="impact-value"><?= number_format($air_pollution); ?> kg </div>
                     <div class="impact-label">Reduced Air Pollution</div>
                 </div>
                 <div class="impact-card">
-                    <div class="impact-value"><?= number_format($carbon_emission); ?> kg CO₂e</div>
+                    <div class="impact-value"><?= number_format($carbon_emission); ?> kg </div>
                     <div class="impact-label">Reduced Carbon Emission</div>
                 </div>
                 <div class="impact-card">

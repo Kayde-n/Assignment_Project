@@ -36,14 +36,6 @@
         $leaderstats[$row['user_full_name']] = $row['total_eco_points'];
         $images[] = $row['profile_picture_path'];
     }
-    $total_slots = 20;
-    $empty_space = $total_slots - count($leaderstats);
-    $filled_space = 0;
-    while ($filled_space < $empty_space) {
-        $leaderstats['Spot Open ' . (count($leaderstats) + 1)] = 0;
-        $images[] = '../../images/profile.png';
-        $filled_space++;
-    }
 
     $topThree = array_slice($leaderstats, 0, 3, true);
 
@@ -56,6 +48,7 @@
         ]; //convert to array within an array 
 
     }
+    
 
 ?>
 <!DOCTYPE html>

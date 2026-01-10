@@ -34,55 +34,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home</title>
     <link rel="stylesheet" href="../../global.css">
-    <link rel="stylesheet" href="../../participant.css">
+     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../../participants-home-desktop.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
+    <div class="side-bar">
+        <div class="admin-icon-container">
+            <div id="home-icon-box">
+                <button class="icon-btn" onclick="window.location.href='admin_home.php'">
+                    <i data-lucide="home"></i>
+                </button>
+            </div>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'">
+                <i data-lucide="bar-chart-3"></i>
+            </button>
+            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'">
+                <i data-lucide="file-text"></i>
+            </button>
+            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'">
+                <i data-lucide="sliders"></i>
+            </button>
+            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'">
+                <i data-lucide="log-out"></i>
+            </button>
+        </div>
+    </div>
+
+
+
     <div class="top-bar">
         <img src="../../images/ecoxp-logo.png" alt="EcoXP Logo" class="eco-logo">
         <button class="icon-btn no-hover" onclick="window.location.href='Admin_home.php'">
             <h2>EcoXP</h2>
         </button>
         <div class="default-icon-container">
-            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
+            <button class="icon-btn" onclick="window.location.href='Admin_profile.php'">
+                <i data-lucide="user"></i>
+            </button>
+            
         </div>
     </div>
 
-    <div class="side-bar">
-        <div class="participant-icon-container">
-            <div id="home-icon-box">
-                <button class="icon-btn" onclick="window.location.href='Admin_home.php'"><i data-lucide="home"></i></button>
-            </div>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_analytics.php'"><i data-lucide="bar-chart-3"></i></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><i data-lucide="file-text"></i></button>
-            <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><i data-lucide="sliders"></i></button>
-            <button class="icon-btn" id="logout" onclick="logout_confirm()">
-                <i data-lucide="log-out"></i>
-            </button>
-        </div>
-    </div>
     <div class="main-content">
         <div class="search-box">
             <input type="text" placeholder="Search..." id="search-input">
             <div id="search-results"></div> 
         </div>
-        <p style="color: green;font-size: 24px;margin-left: 16px;">“Together We Save Energy. Together We Save Nature.”
+        <p style="color: green;font-size: 24px; font-weight: 600;margin-left: 16px; margin-bottom: 16px;">“Together We Save Nature.”
         </p>
-        <div class="text-box">
-            Overall Environmental Impact
+        <div class="page-header">
+        <div class="title-box">
+           Environmental Impact
+        </div>
         </div>
 
         <div class="impact-container">
 
             <div class="impact-box">
-                <h3><?= number_format($air_pollution); ?> kg CO₂e</h3>
+                <h3><?= number_format($air_pollution); ?> kg    </h3>
                 <p>Reduced Air Pollution</p>
             </div>
 
             <div class="impact-box">
-                <h3><?= number_format($carbon_emission); ?> kg CO₂e</h3>
+                <h3><?= number_format($carbon_emission); ?> kg </h3>
                 <p>Reduced Carbon Emission</p>
             </div>
 
@@ -98,41 +114,7 @@
 
         </div>
 
-        <div class="text-box" style="cursor: pointer;">
-            Unavailable
-        </div>
 
-        <div class="content-container">
-
-            <button class="image-holder">
-                <img src="../../challenge_submission_uploads/sample-proof-1.jpg" alt="Unavailable">
-            </button>
-
-            <button class="content-text-box">
-                <div class="text-inner">
-
-                    <h4 class="category-box">
-                        Unavailable
-                    </h4>
-
-                    <h3 class="title-box">
-                        Unavailable
-                    </h3>
-
-                    <h5 class="description-box">
-                        Unavailable
-                    </h5>
-
-                    <h5 class="description-box">
-                        Unavailable
-                    </h5>
-
-                </div>
-            </button>
-
-            <button class="next-btn">
-                <i data-lucide="chevron-right"></i>
-            </button>
 
         </div>
 

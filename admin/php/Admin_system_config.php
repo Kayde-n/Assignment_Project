@@ -38,8 +38,6 @@
         </button>
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
-            <button class="icon-btn"><i data-lucide="bell"></i></button>
-            <button class="icon-btn"><i data-lucide="settings"></i></button>
         </div>
     </div>
 
@@ -57,9 +55,6 @@
 
     <div class="main-content">
         <div class="page-header">
-            <button class="back-btn" onclick="window.history.back()">
-                <i data-lucide="arrow-left"></i>
-            </button>
             <div class="title-box">
                 <h1>System Settings</h1>
             </div>
