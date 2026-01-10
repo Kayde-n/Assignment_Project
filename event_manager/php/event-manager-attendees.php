@@ -23,7 +23,7 @@
     ? $event['image_path']
     : 'default-event.jpg';
 
-    
+    // Count attendees for specific event
     $present = "SELECT COUNT(attendance_id) as present_count 
     FROM attendance 
     WHERE events_id = '$eventId' 
@@ -36,7 +36,7 @@
     
     mysqli_free_result($present_participants);
 
-    // Count attendees for specific event
+    // Get all participants and their attendance status for the specific event
     $participants_name = "SELECT participants.participants_id, user.user_full_name, attendance.event_attended, events.events_id
                         FROM participants
                         JOIN user ON participants.user_id = user.user_id
