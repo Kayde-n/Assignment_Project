@@ -69,11 +69,11 @@
         </a>
         </div>
 
-        <a class="icon-link active sidebar-icon" href="event-manager-calendar.php" aria-label="Challenges">
+        <a class="icon-link active sidebar-icon" href="event-manager-calendar.php" aria-label="Callendar">
         <button class="icon-btn"><i data-lucide="calendar-fold"></i></button>
         </a>
 
-        <a class="icon-link sidebar-icon" href="event-manager-news.php" aria-label="Scan / Log Action">
+        <a class="icon-link sidebar-icon" href="event-manager-news.php" aria-label="News Feed Management">
         <button class="icon-btn"><i data-lucide="newspaper"></i></button>
         </a>
 
