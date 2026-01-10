@@ -108,7 +108,7 @@
 
                 <div class="participant-card">
                     <div class="card-left">
-                        <img src="<?= htmlspecialchars($p['profile_picture_path'] ?? 'images/profile.png'); ?>" alt="Profile">
+                        <img src="../../<?= htmlspecialchars($p['profile_picture_path'] ?? 'images/profile.png'); ?>" alt="Profile">
                     </div>
 
                     <div class="card-right">
