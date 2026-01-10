@@ -102,7 +102,7 @@
         <button class="icon-btn"><i data-lucide="calendar-fold"></i></button>
         </a>
 
-        <a class="icon-link sidebar-icon" href="event-manager-news.php" aria-label="Eco News Feed">
+        <a class="icon-link sidebar-icon" href="event-manager-news.php" aria-label="News Feed Management">
         <button class="icon-btn"><i data-lucide="newspaper"></i></button>
         </a>
 
