@@ -83,7 +83,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon"  id="logout" aria-label="Logout" onclick="return logout_confirm();">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
@@ -159,7 +159,15 @@
         </div>
     </div>
 
-    <script>lucide.createIcons();</script>
+    <script>
+        function logout_confirm() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../../logout.php";
+                }
+            }
+
+        lucide.createIcons();
+    </script>
 
 </body>
 </html>
