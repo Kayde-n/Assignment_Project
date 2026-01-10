@@ -122,7 +122,7 @@
         <div class="content-container">
 
             <button class="image-holder">
-                <img src="../../challenge_submission_uploads/sample-proof-1.jpg" alt="Proof Image">
+                <img src="../../challenge_submission_uploads/sample-proof-1.jpg" alt="Unavailable">
             </button>
 
             <button class="content-text-box">
