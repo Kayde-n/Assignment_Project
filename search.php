@@ -114,6 +114,21 @@ if ($source === 'eco_news') {
             'title' => 'Profile',
             'description' => 'Eco News Management enables administrators to view profile',
             'url' => 'event-manager-profile.php'
+        ],
+        [
+            'title' => 'Create new Event',
+            'description' => 'User will be able to create new events and insert into the database',
+            'url' => 'event-manager-event-form.php'
+        ],
+        [
+            'title' => 'Create new Reward',
+            'description' => 'User will be able to create new rewards and insert into the database',
+            'url' => 'event-manager-new-reward-post.php'
+        ],
+        [
+            'title' => 'Create new News',
+            'description' => 'User will be able to create new news and insert into the database',
+            'url' => 'event-manager-news-post-form.php'
         ]
     ];
     foreach ($items as $item) {
