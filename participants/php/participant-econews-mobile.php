@@ -251,7 +251,7 @@ $result_past = mysqli_query($database, $sql_past);
             }
             let html = '<div class="search-dropdown">';
             results.forEach(item => {
-                html += `<div class="search-item" onclick="location.href='../../event-manager-news-details.php?id=${item.eco_news_id}'">
+                html += `<div class="search-item" onclick="location.href='../php/participant-econews-example-mobile.php?id=${item.eco_news_id}'">
                             <strong>${item.title}</strong>
                          </div>`;
             });
