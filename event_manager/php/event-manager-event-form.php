@@ -84,7 +84,7 @@
 
     </div>
 
-    <a class="icon-link sidebar-icon" href="logout.php" id="logout" aria-label="Logout">
+    <a class="icon-link sidebar-icon" href="../../logout.php" id="logout" aria-label="Logout">
         <button class="icon-btn"><i data-lucide="log-out"></i></button>
     </a>
     </nav>
