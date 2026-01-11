@@ -10,23 +10,64 @@ $result = mysqli_query($database, $sql);
 // fetch total points per person
 $participant_id = (int) $_SESSION['user_role_id'];
 
-// query to total points then earned - redeemed
-$points_sql = "SELECT COALESCE(SUM(c.points_reward), 0) - COALESCE(SUM(r.points_required), 0) AS total_points
-        FROM participants p
-        LEFT JOIN participants_challenges pc
-            ON p.participants_id = pc.participants_id
-            AND pc.challenges_status = 'approved'
-        LEFT JOIN challenges c
-            ON pc.challenges_id = c.challenges_id
-        LEFT JOIN reward_redemption rr
-            ON rr.participants_id = p.participants_id
-        LEFT JOIN rewards r
-            ON rr.rewards_id = r.rewards_id
-        WHERE p.participants_id = $participant_id";
+/* TOTAL POINTS */
+$points_sql = "SELECT 
+    p.participants_id AS participant_id,
+    
+    
+    COALESCE(
+        (SELECT SUM(c.points_reward)
+         FROM participants_challenges pc
+         JOIN challenges c ON pc.challenges_id = c.challenges_id
+         WHERE pc.participants_id = p.participants_id
+           AND pc.challenges_status = 'approved'), 0
+    ) AS total_eco_points,
+    
+    
+    COALESCE(
+        (SELECT SUM(r.points_required)
+         FROM reward_redemption rr
+         JOIN rewards r ON rr.rewards_id = r.rewards_id
+         WHERE rr.participants_id = p.participants_id), 0
+    ) AS redeemed_points,
+    
+    
+      COALESCE(
+        (SELECT SUM(e.points_rewarded)
+         FROM attendance a
+         JOIN events e ON e.events_id = a.events_id
+         WHERE a.participants_id = p.participants_id
+           AND a.event_attended = 1
+    ), 0) AS rewarded_points
 
-$result_points = mysqli_query($database, $points_sql);
-$row_points = mysqli_fetch_assoc($result_points);
-$total_points = (int) $row_points['total_points'];
+FROM participants p
+GROUP BY p.participants_id";
+
+$points_result = mysqli_query($database, $points_sql);
+while ($points_row = mysqli_fetch_assoc($points_result)) {
+    $points_info[] = [
+        'earned_points' => $points_row['total_eco_points'],
+        'redeemed_points' => $points_row['redeemed_points'],
+        'participant_id' => $points_row['participant_id'],
+        'rewarded_points' => $points_row['rewarded_points']
+    ];
+}
+
+foreach ($points_info as $p) {
+    $total_points = $p['earned_points'] + $p['rewarded_points'] - $p['redeemed_points'];
+    $user_total_points[] = [
+        'participant_id' => $p['participant_id'],
+        'total_points' => $total_points
+
+    ];
+}
+
+foreach ($user_total_points as $rank) {
+    if ($rank['participant_id'] == $participant_id) {
+        $total_points = $rank['total_points'];
+
+    }
+}
 
 ?>
 

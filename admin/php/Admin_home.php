@@ -1,27 +1,27 @@
 <?php
-    session_start();
-    require_once __DIR__ . "/../../config/database.php";
-    require_once __DIR__ . "/../../check-maintenance-status.php";
+session_start();
+require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../check-maintenance-status.php";
 
-    $sql = "SELECT SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
+$sql = "SELECT SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
         SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon%' THEN impact_amount ELSE 0 END) AS carbon_emission,
         SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
         SUM(CASE WHEN LOWER(impact_type) LIKE '%water pollution%'OR LOWER(impact_type) LIKE '%reduced pollution%'THEN impact_amount ELSE 0 END) AS water_conserved
         FROM participants_challenges
         WHERE challenges_status = 'approved'";
 
-    $result = mysqli_query($database, $sql);
+$result = mysqli_query($database, $sql);
 
-    if (!$result) {
-        die("Database error: " . mysqli_error($database));
-    }
+if (!$result) {
+    die("Database error: " . mysqli_error($database));
+}
 
-    $impacts = mysqli_fetch_assoc($result);
+$impacts = mysqli_fetch_assoc($result);
 
-    $air_pollution   = $impacts['air_pollution']   ?? 0;
-    $carbon_emission = $impacts['carbon_emission'] ?? 0;
-    $item_recycled   = $impacts['item_recycled']   ?? 0;
-    $water_conserved = $impacts['water_conserved'] ?? 0;
+$air_pollution = $impacts['air_pollution'] ?? 0;
+$carbon_emission = $impacts['carbon_emission'] ?? 0;
+$item_recycled = $impacts['item_recycled'] ?? 0;
+$water_conserved = $impacts['water_conserved'] ?? 0;
 
 ?>
 
@@ -34,8 +34,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home</title>
     <link rel="stylesheet" href="../../global.css">
-     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="../../participants-home-desktop.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../../old/participants-home-desktop.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -73,27 +73,28 @@
             <button class="icon-btn" onclick="window.location.href='Admin_profile.php'">
                 <i data-lucide="user"></i>
             </button>
-            
+
         </div>
     </div>
 
     <div class="main-content">
         <div class="search-box">
             <input type="text" placeholder="Search..." id="search-input">
-            <div id="search-results"></div> 
+            <div id="search-results"></div>
         </div>
-        <p style="color: green;font-size: 24px; font-weight: 600;margin-left: 16px; margin-bottom: 16px;">“Together We Save Nature.”
+        <p style="color: green;font-size: 24px; font-weight: 600;margin-left: 16px; margin-bottom: 16px;">“Together We
+            Save Nature.”
         </p>
         <div class="page-header">
-        <div class="title-box">
-           Environmental Impact
-        </div>
+            <div class="title-box">
+                Environmental Impact
+            </div>
         </div>
 
         <div class="impact-container">
 
             <div class="impact-box">
-                <h3><?= number_format($air_pollution); ?> kg    </h3>
+                <h3><?= number_format($air_pollution); ?> kg </h3>
                 <p>Reduced Air Pollution</p>
             </div>
 
@@ -116,71 +117,71 @@
 
 
 
-        </div>
+    </div>
 
-        <script>
-            function logout_confirm() {
-                if (confirm("Are you sure you want to logout?")) {
-                    window.location.href = "../../logout.php";
-                }
+    <script>
+        function logout_confirm() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "../../logout.php";
+            }
+        }
+
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', function () {
+            const query = this.value;
+
+            if (query.length >= 2) {
+                fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=admin')
+                    .then(response => response.json())
+                    .then(data => {
+
+                        displayResults(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                    });
+            } else {
+                searchResults.innerHTML = '';
+            }
+        });
+
+        function displayResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<p>No results found</p>';
+                return;
             }
 
-            const searchInput = document.getElementById('search-input');
-            const searchResults = document.getElementById('search-results');
-
-            searchInput.addEventListener('input', function () {
-                const query = this.value;
-
-                if (query.length >= 2) {
-                    fetch('../../search.php?query=' + encodeURIComponent(query) + '&source=admin')
-                        .then(response => response.json())
-                        .then(data => {
-
-                            displayResults(data);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching search results:', error);
-                        });
-                } else {
-                    searchResults.innerHTML = ''; 
-                }
-            });
-
-            function displayResults(results) { 
-                if (results.length === 0) {
-                    searchResults.innerHTML = '<p>No results found</p>';
-                    return;
+            let html = '<div class="search-results-container">';
+            results.forEach(item => {
+                let redirectUrl = '';
+                if (item.url) {
+                    redirectUrl = item.url;
+                } else if (item.eco_news_id) {
+                    redirectUrl = '../../participant/php/participants-desktop-newsdetails.php?id=' + item.eco_news_id;
                 }
 
-                let html = '<div class="search-results-container">';
-                results.forEach(item => {
-                    let redirectUrl = '';
-                    if (item.url) {
-                        redirectUrl = item.url;
-                    } else if (item.eco_news_id) {
-                        redirectUrl = '../../participant/php/participants-desktop-newsdetails.php?id=' + item.eco_news_id;
-                    }
-
-                    html += `
+                html += `
                 <div class="search-result-box" onclick="redirectToResult('${redirectUrl}')">
                     <h4>${item.title}</h4>
                     <p>${item.description || ''}</p>
                 </div>
             `;
-                });
-                html += '</div>';
+            });
+            html += '</div>';
 
-                searchResults.innerHTML = html;
+            searchResults.innerHTML = html;
+        }
+
+        function redirectToResult(url) {
+            if (url) {
+                window.location.href = url;
             }
+        }
 
-            function redirectToResult(url) {
-                if (url) {
-                    window.location.href = url;
-                }
-            }
-
-            lucide.createIcons();
-        </script>
+        lucide.createIcons();
+    </script>
 
 </body>
 
