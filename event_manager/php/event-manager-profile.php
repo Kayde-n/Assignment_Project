@@ -194,7 +194,7 @@
             </a>
 
 <!-- logout -->
-            <a class="quick-item logout" href="../../logout.php" id="logout" aria-label="Logout">
+            <a class="quick-item logout" id="logout" aria-label="Logout" onclick="return logout_confirm();">
                 <button class="icon-btn"><i data-lucide="log-out"></i></button>
                 <span>Logout</span>
               </a>

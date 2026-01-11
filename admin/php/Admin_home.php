@@ -64,7 +64,7 @@
             <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'">
                 <i data-lucide="sliders"></i>
             </button>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'">
+            <button class="icon-btn" id="logout" onclick="logout_confirm()">
                 <i data-lucide="log-out"></i>
             </button>
         </div>

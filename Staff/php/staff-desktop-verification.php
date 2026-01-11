@@ -161,7 +161,7 @@
                     <button class="icon-btn" onclick="window.location.href='staff-desktop-verification.php'"><i data-lucide="shield-check"></i></button>
                 </div>
                 <button class="icon-btn" onclick="window.location.href='staff-desktop-account.php'"><i data-lucide="users"></i></button>
-                <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
+                <button class="icon-btn" id="logout" onclick="return logout_confirm();"><i data-lucide="log-out"></i></button>
             </div>
         </div>
 
@@ -265,6 +265,12 @@
     <script>
         // Initialize Lucide Icons
         lucide.createIcons();
+
+        function logout_confirm() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../../logout.php";
+                }
+            }
     </script>
 </body>
 </html>
