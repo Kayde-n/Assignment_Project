@@ -7,6 +7,13 @@
         header("Location: /../../login.php");
         exit();
     }
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'event_manager') {
+    echo "<script>
+        alert('Access denied. Event Manager only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
 
     $event_manager_id = $_SESSION['user_role_id'];
 

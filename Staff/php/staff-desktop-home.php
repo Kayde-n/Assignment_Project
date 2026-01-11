@@ -3,8 +3,11 @@
     require_once __DIR__ . "/../../check-maintenance-status.php";
 
     if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'staff') {
-        header("Location: ../../Login.php");
-        exit();
+    echo "<script>
+        alert('Access denied. Staff only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
     }
 
     $staff_id = $_SESSION['user_role_id'];

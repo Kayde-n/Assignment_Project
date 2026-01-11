@@ -3,6 +3,14 @@
     require_once __DIR__ . "/../../config/Database.php";
     require_once __DIR__ . "/../../check-maintenance-status.php";
 
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'event_manager') {
+    echo "<script>
+        alert('Access denied. Event Manager only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+
     // run if the user has submitted a form
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $event_name = $_POST['event_title'];

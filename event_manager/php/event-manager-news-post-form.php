@@ -3,6 +3,14 @@
     require_once __DIR__ . "/../../config/Database.php";
     require_once __DIR__ . "/../../check-maintenance-status.php";
     
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'event_manager') {
+    echo "<script>
+        alert('Access denied. Event Manager only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = mysqli_real_escape_string($database, $_POST['news_title']);
         $description = mysqli_real_escape_string($database, $_POST['news_description']);

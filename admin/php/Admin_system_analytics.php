@@ -2,6 +2,15 @@
 
 require_once __DIR__ . "/../../config/database.php";
 date_default_timezone_set("Asia/Kuala_Lumpur");
+
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    echo "<script>
+        alert('Access denied. Admin only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+
 $today = new DateTime();
 if ($today) {
     $todayString = $today->format("Y-m-d");

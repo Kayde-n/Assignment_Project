@@ -7,6 +7,14 @@
     if (isset($_GET['events_id'])) {
     $eventId = $_GET['events_id'];  
     }
+    
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'event_manager') {
+    echo "<script>
+        alert('Access denied. Event Manager only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
 
     // query event details
     $specificevent_sql="SELECT events.events_id,events.event_name,events.max_participants,eco_news.image_path
