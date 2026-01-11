@@ -201,7 +201,10 @@
             mysqli_data_seek($challenges_result, 0);
 
             while ($row = mysqli_fetch_assoc($challenges_result)):
-                if ($row['challenge_type'] !== 'Daily') continue;
+            // Only filter Daily for ONGOING tab
+            if ($active_tab === 'ongoing' && $row['challenge_type'] !== 'Daily') {
+                continue;
+            }
 
                 $status = $row['challenges_status'] ?? null;
             ?>
