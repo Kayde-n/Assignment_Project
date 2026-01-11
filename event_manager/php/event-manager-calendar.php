@@ -146,45 +146,6 @@
                     <div class="day-header">Th</div>
                     <div class="day-header">Fr</div>
                     <div class="day-header">Sa</div>
-
-                    <!-- Days (Previous Month) -->
-                    <div class="day-cell other-month">29</div>
-                    <div class="day-cell other-month">30</div>
-
-                    <!-- Days (Current Month) -->
-                    <div class="day-cell has-event" data-date="2025-11-01">1</div>
-                    <div class="day-cell">2</div>
-                    <div class="day-cell has-event" data-date="2025-11-03">3</div>
-                    <div class="day-cell">4</div>
-                    <div class="day-cell">5</div>
-                    <div class="day-cell">6</div>
-                    <div class="day-cell">7</div>
-                    <div class="day-cell">8</div>
-                    <div class="day-cell">9</div>
-                    <div class="day-cell">10</div>
-                    <div class="day-cell has-event" data-date="2025-11-11">11</div>
-                    <div class="day-cell">12</div>
-                    <div class="day-cell has-event" data-date="2025-11-13">13</div>
-                    <div class="day-cell has-event" data-date="2025-11-14">14</div>
-                    <div class="day-cell">15</div>
-                    <div class="day-cell">16</div>
-                    <div class="day-cell">17</div>
-                    <div class="day-cell">18</div>
-                    <div class="day-cell">19</div>
-                    <div class="day-cell">20</div>
-                    <div class="day-cell">21</div>
-                    <div class="day-cell">22</div>
-                    <div class="day-cell has-event" data-date="2025-11-23">23</div>
-                    <div class="day-cell">24</div>
-                    <div class="day-cell">25</div>
-                    <div class="day-cell">26</div>
-                    <div class="day-cell">27</div>
-                    <div class="day-cell other-month">28</div>
-                    <div class="day-cell has-event other-month" data-date="2025-11-29">29</div>
-                    <div class="day-cell has-event other-month" data-date="2025-11-30">30</div>
-                    <div class="day-cell has-event other-month" data-date="2025-12-01">31</div>
-                    <div class="day-cell other-month">1</div>
-                    <div class="day-cell other-month">2</div>
                 </div>
             </div>
 
@@ -463,7 +424,7 @@
             generateCalendar();
         }
 
-        // Show event menu (edit/delete)
+        // Show event menu (for deletion)
         function showEventMenu(button, title) {
             const eventId = button.dataset.eventId;
             if (confirm(`Options for "${title}":\n\nClick OK to delete this event`)) {
