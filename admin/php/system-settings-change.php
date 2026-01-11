@@ -25,7 +25,7 @@ if (isset($_POST['points']) && isset($_POST['challenge_names'])) {
 
     echo "<script>
         alert('Updated $success_count challenges!');
-        window.location.href='participant-challenges-mobile.php';
+        window.location.href='Admin_system_config.php';
     </script>";
 }
 ?>
