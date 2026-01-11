@@ -1,130 +1,165 @@
 <?php
-    require_once __DIR__ . "/../../session.php";
-    require_once __DIR__ . "/../../config/database.php";
-    require_once __DIR__ . "/../../check-maintenance-status.php";
-    $participant_id = $_SESSION['user_role_id'];
+require_once __DIR__ . "/../../session.php";
+require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../check-maintenance-status.php";
+$participant_id = $_SESSION['user_role_id'];
 
-    if (!isset($_SESSION['user_role_id'])) {
+if (!isset($_SESSION['user_role_id'])) {
     header("Location: ../../login.php");
     exit();
 }
 
-    $sql_query = "SELECT u.profile_picture_path,u.user_full_name,COALESCE(SUM(c.points_reward), 0) AS total_eco_points FROM user u
-                RIGHT JOIN participants p 
-                    ON u.user_id = p.user_id
-                LEFT JOIN participants_challenges pc 
-                    ON p.participants_id = pc.participants_id
-                    AND pc.challenges_status = 'approved'
-                LEFT JOIN challenges c 
-                    ON pc.challenges_id = c.challenges_id
-                WHERE u.account_status = 'Active'
-                GROUP BY u.user_id, u.user_full_name, u.profile_picture_path
-                ORDER BY total_eco_points DESC;";
+$sql_query = "SELECT 
+    p.participants_id AS participant_id,
+    u.user_full_name AS user_name,
+    u.profile_picture_path AS profile_path,
+    COALESCE(
+        (SELECT SUM(c.points_reward)
+         FROM participants_challenges pc
+         JOIN challenges c ON pc.challenges_id = c.challenges_id
+         WHERE pc.participants_id = p.participants_id
+           AND pc.challenges_status = 'approved'), 0
+    ) AS total_eco_points,
 
-    $result = mysqli_query($database, $sql_query);
+    COALESCE(
+        (SELECT SUM(e.points_rewarded)
+         FROM attendance a
+         JOIN events e ON e.events_id = a.events_id
+         WHERE a.participants_id = p.participants_id
+           AND a.event_attended = 1), 0
+    ) AS rewarded_points
 
-    if (!$result) {
-        die("Database query failed: " . mysqli_error($database));
-    }
+FROM participants p
+JOIN user u ON p.user_id = u.user_id
+GROUP BY p.participants_id";
+$result = mysqli_query($database, $sql_query);
 
-    $leaderstats = [];
+if (!$result) {
+    die("Database query failed: " . mysqli_error($database));
+}
 
-    if (mysqli_num_rows($result) == 0) {
-        echo "<script>alert('Insufficient leaderboard data found.'); window.location.href = 'participants/php/participant-home-mobile.php'; </script>";
-        exit();
-    }
-    while ($row = mysqli_fetch_assoc($result)) {
-        $leaderstats[$row['user_full_name']] = $row['total_eco_points'];
-        $images[] = $row['profile_picture_path'];
-    }
+$leaderstats = [];
 
-    $topThree = array_slice($leaderstats, 0, 3, true);
+if (mysqli_num_rows($result) == 0) {
+    echo "<script>alert('Insufficient leaderboard data found.'); window.location.href = 'participants/php/participant-home-mobile.php'; </script>";
+    exit();
+}
+while ($row = mysqli_fetch_assoc($result)) {
+    $leaderstats[] = [
+        'earned_points' => $row['total_eco_points'],
+        'participant_id' => $row['participant_id'],
+        'rewarded_points' => $row['rewarded_points'],
+        'user_name' => $row['user_name'],
+        'calculated_points' => $row['total_eco_points'] + $row['rewarded_points'],
+        'profile_path' => $row['profile_path']
 
-    $topThreeArrays = [];
+    ];
+}
+usort($leaderstats, function ($a, $b) {
+    return $b['calculated_points'] - $a['calculated_points'];
+});
 
-    foreach ($topThree as $name => $points) {
-        $topThreeArrays[] = [
-            'user_full_name' => $name,
-            'total_eco_points' => $points
-        ]; //convert to array within an array 
+$topThree = array_slice($leaderstats, 0, 3);
 
-    }
-    
+
+foreach ($leaderstats as $parsed_leaderstats) {
+    $changed_leaderstats[] = [
+        'user_name' => $parsed_leaderstats['user_name'],
+        'calculated_points' => $parsed_leaderstats['calculated_points'],
+        'profile_path' => $parsed_leaderstats['profile_path']
+    ];
+
+}
+
+
+
+
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Participant Leaderboard Mobile</title>
     <link rel="stylesheet" href="../../mobile.css">
-    <link rel="stylesheet" href="../css/participant-leaderboard-mobile.css">    
+    <link rel="stylesheet" href="../css/participant-leaderboard-mobile.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <!-- top bar -->
     <header class="top-bar" role="banner">
-    <div class="top-left">
-        <button class="icon-btn no-hover topbar-icon" onclick="window.location.href='participant-home-mobile.php'" style="display:flex;align-items:center;gap:8px;">
-            <svg width="56" height="56" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <path d="M17.0278 55.17C17.9238 56.03 18.8788 56.833 19.8928 57.579C23.3048 55.1141 26.0849 51.8767 28.0058 48.1313C29.9267 44.386 30.9338 40.2392 30.9448 36.03C30.9448 27.216 26.5978 19.398 19.8748 14.478C18.8713 15.2154 17.9201 16.0213 17.0278 16.89C20.2462 18.9439 22.8981 21.7722 24.7408 25.1159C26.5835 28.4597 27.5583 32.2122 27.5758 36.03C27.5758 44.016 23.3968 51.042 17.0278 55.17Z" fill="var(--primary-green)"/>
-                <path d="M57.0119 19.125C55.1822 23.1625 52.2267 26.5866 48.4997 28.9864C44.7728 31.3863 40.4326 32.6601 35.9999 32.655C31.5676 32.6595 27.2281 31.3854 23.5018 28.9856C19.7754 26.5858 16.8203 23.1621 14.9909 19.125C14.1119 20.205 13.3199 21.366 12.6299 22.578C15.0031 26.6727 18.4119 30.0707 22.5141 32.4309C26.6162 34.7911 31.2672 36.0303 35.9999 36.024C40.7325 36.0303 45.3835 34.7911 49.4857 32.4309C53.5878 30.0707 56.9967 26.6727 59.3699 22.578C58.6743 21.3678 57.886 20.2133 57.0119 19.125ZM30.9449 62.427C31.2809 47.787 43.0769 36.027 57.5669 36.027C59.3783 36.0212 61.1852 36.2063 62.9579 36.579C62.929 37.7587 62.8227 38.9352 62.6399 40.101C60.8168 39.6325 58.9422 39.3947 57.0599 39.393C54.0149 39.4167 51.005 40.0462 48.2057 41.2447C45.4064 42.4432 42.8736 44.1869 40.7549 46.374C38.6374 48.5623 36.9773 51.1506 35.8714 53.9878C34.7655 56.8249 34.236 59.854 34.3139 62.898C33.1812 62.8209 32.0553 62.6635 30.9449 62.427Z" fill="var(--primary-green)"/>
-                <path d="M59.5382 37.509C58.7462 49.572 48.2161 59.616 36.0001 59.616C35.0881 59.618 34.1841 59.561 33.2881 59.445L32.8681 62.817C36.416 63.2333 40.0111 62.9403 43.4447 61.955C46.8783 60.9697 50.0817 59.3118 52.8689 57.0776C55.6561 54.8433 57.9715 52.0774 59.6803 48.9405C61.3892 45.8036 62.4575 42.3584 62.8232 38.805L59.5892 37.695L59.5382 37.491V37.509ZM58.8152 21.639C55.7076 16.6761 51.0676 12.8608 45.5977 10.7707C40.1278 8.6807 34.1259 8.42974 28.5007 10.0558C22.8754 11.682 17.9332 15.0966 14.4221 19.7827C10.911 24.4689 9.02242 30.1715 9.04215 36.027C9.04215 44.382 12.8521 51.867 18.8131 56.802L21.5791 54.492C18.7623 52.3004 16.4753 49.5023 14.8882 46.3056C13.301 43.1089 12.4544 39.5958 12.4111 36.027C12.4111 23.322 23.2951 12.438 36.0001 12.438C40.1006 12.4994 44.1165 13.6131 47.6629 15.6723C51.2092 17.7316 54.1672 20.6673 56.2531 24.198L58.8152 21.639Z" fill="var(--primary-green)"/>
-            </svg>
-            <h2 class="top-title">EcoXP</h2>
-        </button>
-    </div>
-
-    <div class="top-center">
-    </div>
-
-    <div class="top-right">
-        <a href="participant-profile-mobile.php" aria-label="Profile" class="topbar-icon">
-            <button class="icon-btn" aria-label="Profile">
-                <i data-lucide="user-round"></i>
+        <div class="top-left">
+            <button class="icon-btn no-hover topbar-icon" onclick="window.location.href='participant-home-mobile.php'"
+                style="display:flex;align-items:center;gap:8px;">
+                <svg width="56" height="56" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                    focusable="false">
+                    <path
+                        d="M17.0278 55.17C17.9238 56.03 18.8788 56.833 19.8928 57.579C23.3048 55.1141 26.0849 51.8767 28.0058 48.1313C29.9267 44.386 30.9338 40.2392 30.9448 36.03C30.9448 27.216 26.5978 19.398 19.8748 14.478C18.8713 15.2154 17.9201 16.0213 17.0278 16.89C20.2462 18.9439 22.8981 21.7722 24.7408 25.1159C26.5835 28.4597 27.5583 32.2122 27.5758 36.03C27.5758 44.016 23.3968 51.042 17.0278 55.17Z"
+                        fill="var(--primary-green)" />
+                    <path
+                        d="M57.0119 19.125C55.1822 23.1625 52.2267 26.5866 48.4997 28.9864C44.7728 31.3863 40.4326 32.6601 35.9999 32.655C31.5676 32.6595 27.2281 31.3854 23.5018 28.9856C19.7754 26.5858 16.8203 23.1621 14.9909 19.125C14.1119 20.205 13.3199 21.366 12.6299 22.578C15.0031 26.6727 18.4119 30.0707 22.5141 32.4309C26.6162 34.7911 31.2672 36.0303 35.9999 36.024C40.7325 36.0303 45.3835 34.7911 49.4857 32.4309C53.5878 30.0707 56.9967 26.6727 59.3699 22.578C58.6743 21.3678 57.886 20.2133 57.0119 19.125ZM30.9449 62.427C31.2809 47.787 43.0769 36.027 57.5669 36.027C59.3783 36.0212 61.1852 36.2063 62.9579 36.579C62.929 37.7587 62.8227 38.9352 62.6399 40.101C60.8168 39.6325 58.9422 39.3947 57.0599 39.393C54.0149 39.4167 51.005 40.0462 48.2057 41.2447C45.4064 42.4432 42.8736 44.1869 40.7549 46.374C38.6374 48.5623 36.9773 51.1506 35.8714 53.9878C34.7655 56.8249 34.236 59.854 34.3139 62.898C33.1812 62.8209 32.0553 62.6635 30.9449 62.427Z"
+                        fill="var(--primary-green)" />
+                    <path
+                        d="M59.5382 37.509C58.7462 49.572 48.2161 59.616 36.0001 59.616C35.0881 59.618 34.1841 59.561 33.2881 59.445L32.8681 62.817C36.416 63.2333 40.0111 62.9403 43.4447 61.955C46.8783 60.9697 50.0817 59.3118 52.8689 57.0776C55.6561 54.8433 57.9715 52.0774 59.6803 48.9405C61.3892 45.8036 62.4575 42.3584 62.8232 38.805L59.5892 37.695L59.5382 37.491V37.509ZM58.8152 21.639C55.7076 16.6761 51.0676 12.8608 45.5977 10.7707C40.1278 8.6807 34.1259 8.42974 28.5007 10.0558C22.8754 11.682 17.9332 15.0966 14.4221 19.7827C10.911 24.4689 9.02242 30.1715 9.04215 36.027C9.04215 44.382 12.8521 51.867 18.8131 56.802L21.5791 54.492C18.7623 52.3004 16.4753 49.5023 14.8882 46.3056C13.301 43.1089 12.4544 39.5958 12.4111 36.027C12.4111 23.322 23.2951 12.438 36.0001 12.438C40.1006 12.4994 44.1165 13.6131 47.6629 15.6723C51.2092 17.7316 54.1672 20.6673 56.2531 24.198L58.8152 21.639Z"
+                        fill="var(--primary-green)" />
+                </svg>
+                <h2 class="top-title">EcoXP</h2>
             </button>
-        </a>
-    </div>
-    </header>
-
-<!-- side bar -->
-    <nav class="side-bar" role="navigation" aria-label="Main">
-    <div class="participant-icon-container">
-        <div id="home-icon-box">
-        <a href="participant-home-mobile.php" class="icon-link sidebar-icon" aria-label="Home">
-            <button class="icon-btn"><i data-lucide="house"></i></button>
-        </a>
         </div>
 
-        <a class="icon-link sidebar-icon" href="participant-challenges-mobile.php" aria-label="Challenges">
-        <button class="icon-btn"><i data-lucide="trophy"></i></button>
+        <div class="top-center">
+        </div>
+
+        <div class="top-right">
+            <a href="participant-profile-mobile.php" aria-label="Profile" class="topbar-icon">
+                <button class="icon-btn" aria-label="Profile">
+                    <i data-lucide="user-round"></i>
+                </button>
+            </a>
+        </div>
+    </header>
+
+    <!-- side bar -->
+    <nav class="side-bar" role="navigation" aria-label="Main">
+        <div class="participant-icon-container">
+            <div id="home-icon-box">
+                <a href="participant-home-mobile.php" class="icon-link sidebar-icon" aria-label="Home">
+                    <button class="icon-btn"><i data-lucide="house"></i></button>
+                </a>
+            </div>
+
+            <a class="icon-link sidebar-icon" href="participant-challenges-mobile.php" aria-label="Challenges">
+                <button class="icon-btn"><i data-lucide="trophy"></i></button>
+            </a>
+
+            <a class="icon-link sidebar-icon" href="participant-action-submit-mobile.php"
+                aria-label="Scan / Log Action">
+                <button class="icon-btn"><i data-lucide="scan-line"></i></button>
+            </a>
+
+            <a class="icon-link sidebar-icon" href="participant-rewards-mobile.php" aria-label="Rewards">
+                <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
+            </a>
+
+        </div>
+
+        <a class="icon-link sidebar-icon" id="logout" style="cursor: pointer;">
+            <button class="icon-btn" onclick="logout_confirm()">
+                <i data-lucide="log-out"></i>
+            </button>
         </a>
 
-        <a class="icon-link sidebar-icon" href="participant-action-submit-mobile.php" aria-label="Scan / Log Action">
-        <button class="icon-btn"><i data-lucide="scan-line"></i></button>
-        </a>
-
-        <a class="icon-link sidebar-icon" href="participant-rewards-mobile.php" aria-label="Rewards">
-        <button class="icon-btn"><i data-lucide="badge-percent"></i></button>
-        </a>
-
-    </div>
-
-    <a class="icon-link sidebar-icon" id="logout" style="cursor: pointer;">
-        <button class="icon-btn" onclick="logout_confirm()">
-            <i data-lucide="log-out"></i>
-        </button>
-    </a>
-
-    <script>
-    function logout_confirm() {
-        if (confirm("Are you sure you want to logout?")) {
-            window.location.href = "../../logout.php";
-        }
-    }
-    </script>
+        <script>
+            function logout_confirm() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../../logout.php";
+                }
+            }
+        </script>
     </nav>
 
     <nav class="bottom-nav">
@@ -146,110 +181,110 @@
     </nav>
 
     <main class="main-content">
-    <div class="page-header">
-        <a href="participant-profile-mobile.php" class="return-btn" aria-label="Return button">
-            <i data-lucide="arrow-left"></i>
-        </a>
-        <div class="header-title">Leaderboard</div>     
-    </div>
+        <div class="page-header">
+            <a href="participant-profile-mobile.php" class="return-btn" aria-label="Return button">
+                <i data-lucide="arrow-left"></i>
+            </a>
+            <div class="header-title">Leaderboard</div>
+        </div>
 
-    <!-- RANKING 2nd place -->
-    <div class="ranking-container">
-        <div class="rank-bar second">
-            <div class="avatar">
-                <div class="avatar-clip">
-                    <img src="../../<?php echo $images[1]; ?>" alt="test" class="profile-img">
+        <!-- RANKING 2nd place -->
+        <div class="ranking-container">
+            <div class="rank-bar second">
+                <div class="avatar">
+                    <div class="avatar-clip">
+                        <img src="../../<?php echo $topThree[1]['profile_path']; ?>" alt="test" class="profile-img">
+                    </div>
+                </div>
+                <div class="rank-content">
+                    <p class="name"><?php echo $topThree[1]['user_name']; ?></p>
+                    <p class="score"><?php echo $topThree[1]['calculated_points']; ?></p>
+                </div>
+                <div class="rank-medal">
+                    <div class="rank-label">2</div>
                 </div>
             </div>
-            <div class="rank-content">
-                <p class="name"><?php echo $topThreeArrays[1]['user_full_name']; ?></p>
-                <p class="score"><?php echo $topThreeArrays[1]['total_eco_points']; ?></p>
+
+            <!-- RANKING 1st place -->
+            <div class="rank-bar first">
+                <div class="avatar">
+                    <div class="avatar-clip">
+                        <img src="../../<?php echo $topThree[0]['profile_path']; ?>" alt="test" class="profile-img">
+                    </div>
+                </div>
+                <img src="../../images/crown.png" class="impact-img" alt="CO₂ image">
+                <div class="rank-content">
+                    <p class="name"><?php echo $topThree[0]['user_name']; ?></p>
+                    <p class="score"><?php echo $topThree[0]['calculated_points']; ?></p>
+                </div>
+                <div class="rank-medal">
+                    <div class="rank-label">1</div>
+                </div>
             </div>
-            <div class="rank-medal">
-                <div class="rank-label">2</div>
+
+            <!-- RANKING 3rd place -->
+            <div class="rank-bar third">
+                <div class="avatar">
+                    <div class="avatar-clip">
+                        <img src="../../<?php echo $topThree[2]['profile_path']; ?>" alt="test" class="profile-img">
+                    </div>
+                </div>
+                <div class="rank-content">
+                    <p class="name"><?php echo $topThree[2]['user_name']; ?></p>
+                    <p class="score"><?php echo $topThree[2]['calculated_points']; ?></p>
+                </div>
+                <div class="rank-medal">
+                    <div class="rank-label">3</div>
+                </div>
             </div>
         </div>
 
-        <!-- RANKING 1st place -->
-        <div class="rank-bar first">
-            <div class="avatar">
-                <div class="avatar-clip">
-                    <img src="../../<?php echo $images[0]; ?>" alt="test" class="profile-img">
-                </div>
-            </div>
-            <img src="../../images/crown.png" class="impact-img" alt="CO₂ image">
-            <div class="rank-content">
-                <p class="name"><?php echo $topThreeArrays[0]['user_full_name']; ?></p>
-                <p class="score"><?php echo $topThreeArrays[0]['total_eco_points']; ?></p>
-            </div>
-            <div class="rank-medal">
-                <div class="rank-label">1</div>
-            </div>
-        </div>
+        <div class="top-100-container">
+            <?php
+            $rank = 4;       // start from 4th place
+            $counter = 0;    // to skip top 3
+            $index = 3;      // images[0–2] = top 3, start at images[3]
+            
+            foreach ($changed_leaderstats as $profile) {
+                if ($counter < 3) {
+                    $counter++;
+                    continue;
+                }
 
-        <!-- RANKING 3rd place -->
-        <div class="rank-bar third">
-            <div class="avatar">
-                <div class="avatar-clip">
-                    <img src="../../<?php echo $images[2]; ?>" alt="test" class="profile-img">
-                </div>
-            </div>
-            <div class="rank-content">
-                <p class="name"><?php echo $topThreeArrays[2]['user_full_name']; ?></p>
-                <p class="score"><?php echo $topThreeArrays[2]['total_eco_points']; ?></p>
-            </div>
-            <div class="rank-medal">
-                <div class="rank-label">3</div>
-            </div>
-        </div>
-    </div>
 
-    <div class="top-100-container">
-    <?php
-        $rank = 4;       // start from 4th place
-        $counter = 0;    // to skip top 3
-        $index = 3;      // images[0–2] = top 3, start at images[3]
+                // Image from DB
+                $img_src = '../../' . $profile['profile_path'];
+                ?>
+                <div class="top-100-row">
+                    <div class="left-group">
+                        <div class="rank-number"><?php echo $rank; ?></div>
 
-        foreach ($leaderstats as $name => $points) {
-            if ($counter < 3) {
-                $counter++;
-                continue;
-            }
-
-            // Image from DB
-            $img_src = '../../' . $images[$index];
-        ?>
-            <div class="top-100-row">
-                <div class="left-group">
-                    <div class="rank-number"><?php echo $rank; ?></div>
-
-                    <div class="avatar">
-                        <div class="avatar-clip">
-                            <img src="<?php echo htmlspecialchars($img_src); ?>"
-                                alt="profile"
-                                class="profile-img">
+                        <div class="avatar">
+                            <div class="avatar-clip">
+                                <img src="<?php echo htmlspecialchars($img_src); ?>" alt="profile" class="profile-img">
+                            </div>
                         </div>
+
+                        <div class="name"><?php echo htmlspecialchars($profile['user_name']); ?></div>
                     </div>
 
-                    <div class="name"><?php echo htmlspecialchars($name); ?></div>
+                    <div class="points"><?php echo (int) $profile['calculated_points']; ?></div>
                 </div>
-
-                <div class="points"><?php echo (int)$points; ?></div>
-            </div>
-        <?php
-            $rank++;
-            $index++;   
-        }
-    ?>
+                <?php
+                $rank++;
+                $index++;
+            }
+            ?>
 
 
-    </div>
+        </div>
 
 
-</main>
+    </main>
 
     <script>
         lucide.createIcons();
     </script>
 </body>
+
 </html>
