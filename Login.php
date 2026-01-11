@@ -1,6 +1,9 @@
 <?php
 ini_set('session.cookie_path', '/');
 session_start();
+echo "<script>
+        alert('Hi Sir please use these data since our password is hash can cannot be seen in db.\\n\\nParticipant: \\nemail: participant@mail.com \\npassword: participant\\n\\nAdmin:\\nemail: admin@mail.com \\npassword: admin\\n\\nEvent Manager: \\nemail: event_manager@mail.com\\npassword: event_manager\\n\\n Staff:\\nemail: staff@mail.com\\npassword: staff');
+      </script>";
 
 require_once __DIR__ . "/config/database.php";
 
