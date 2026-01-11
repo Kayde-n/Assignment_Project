@@ -248,7 +248,7 @@ foreach ($best_events as $event) {
             </div>
             <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><i data-lucide="file-text"></i></button>
             <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><i data-lucide="sliders"></i></button>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
+            <button class="icon-btn" id="logout" onclick="logout_confirm()"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
@@ -339,6 +339,12 @@ foreach ($best_events as $event) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <script>
         lucide.createIcons();
+
+        function logout_confirm() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "../../logout.php";
+            }
+        }
 
         const Ctx = document.getElementById('pieChart1');
         const lineCtx = document.getElementById('performanceChart1');

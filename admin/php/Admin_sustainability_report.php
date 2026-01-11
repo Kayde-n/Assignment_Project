@@ -110,7 +110,7 @@ $total_events = $data_events['total_events'] ?? 0;
                 <button class="icon-btn" onclick="window.location.href='Admin_sustainability_report.php'"><i data-lucide="file-text"></i></button>
             </div>
             <button class="icon-btn" onclick="window.location.href='Admin_system_config.php'"><i data-lucide="sliders"></i></button>
-            <button class="icon-btn" id="logout" onclick="window.location.href='../../logout.php'"><i data-lucide="log-out"></i></button>
+            <button class="icon-btn" id="logout" onclick="logout_confirm()"><i data-lucide="log-out"></i></button>
         </div>
     </div>
 
@@ -211,6 +211,12 @@ $total_events = $data_events['total_events'] ?? 0;
 
     <script>
         lucide.createIcons();
+
+        function logout_confirm() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "../../logout.php";
+            }
+        }
     </script>
 </body>
 
