@@ -1,6 +1,16 @@
 <?php
+    require_once __DIR__ . "/../../session.php";
     require_once __DIR__ . "/../../config/database.php";
     require_once __DIR__ . "/../../check-maintenance-status.php";
+
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'staff') {
+    echo "<script>
+        alert('Access denied. Staff only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+
     // Get 5 most recent actions performed
     function getActivityLog($database, $user_id) {
         $logs = [];

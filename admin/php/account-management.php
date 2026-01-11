@@ -1,5 +1,15 @@
 <?php 
+require_once __DIR__ . "/../../session.php";
 require_once __DIR__ . "/../../config/database.php";
+
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    echo "<script>
+        alert('Access denied. Admin only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +30,6 @@ require_once __DIR__ . "/../../config/database.php";
         </button>
         <div class="default-icon-container">
             <button class="icon-btn" onclick="window.location.href='Admin_profile.php'"><i data-lucide="user"></i></button>
-            <button class="icon-btn"><i data-lucide="bell"></i></button>
-            <button class="icon-btn"><i data-lucide="settings"></i></button>
         </div>
     </div>
 
@@ -40,7 +48,7 @@ require_once __DIR__ . "/../../config/database.php";
     <div class="main-content">
         <div class="create-user-container">
             <h3>Create New User Form</h3>
-            <form action="process_add_user.php" method="POST">
+            <form action="../../Staff/php/process_add_user.php" method="POST">
                 <div class="form-group">
                     <label>Name</label>
                     <input type="text" name="full_name" placeholder="Enter username" required>

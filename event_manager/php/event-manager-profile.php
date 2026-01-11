@@ -3,6 +3,14 @@
     require_once __DIR__ . "/../../config/Database.php";
     require_once __DIR__ . "/../../check-maintenance-status.php";
 
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'event_manager') {
+    echo "<script>
+        alert('Access denied. Event Manager only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+
     $event_manager_id = $_SESSION['user_role_id'];
 
     echo "<script>console.log('Event Manager ID: " . $event_manager_id . "');</script>";

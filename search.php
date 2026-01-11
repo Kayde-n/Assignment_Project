@@ -81,6 +81,11 @@ if ($source === 'eco_news') {
             'description' => 'System Analytics provides insights into system usage',
             'url' => 'Admin_system_analytics.php'
         ],
+        [
+            'title' => 'Sustainability Report',
+            'description' => 'System sustainability report provides insights into enviromental impact',
+            'url' => 'Admin_sustainability_report.php'
+        ]
 
     ];
     foreach ($items as $item) {

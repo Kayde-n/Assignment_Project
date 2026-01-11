@@ -3,7 +3,15 @@ session_start();
 require_once __DIR__ . "/../../config/database.php";
 require_once __DIR__ . "/../../check-maintenance-status.php";
 
-$sql = "SELECT SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    echo "<script>
+        alert('Access denied. Admin only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+
+    $sql = "SELECT SUM(CASE WHEN LOWER(impact_type) LIKE '%air pollution%' THEN impact_amount ELSE 0 END) AS air_pollution,
         SUM(CASE WHEN LOWER(impact_type) LIKE '%carbon%' THEN impact_amount ELSE 0 END) AS carbon_emission,
         SUM(CASE WHEN LOWER(impact_type) LIKE '%recycling%' THEN impact_amount ELSE 0 END) AS item_recycled,
         SUM(CASE WHEN LOWER(impact_type) LIKE '%water pollution%'OR LOWER(impact_type) LIKE '%reduced pollution%'THEN impact_amount ELSE 0 END) AS water_conserved

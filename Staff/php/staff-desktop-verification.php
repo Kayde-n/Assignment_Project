@@ -3,6 +3,14 @@
     require_once __DIR__ . "/../../config/database.php";
     require_once __DIR__ . "/../../check-maintenance-status.php";
 
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'staff') {
+    echo "<script>
+        alert('Access denied. Staff only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+
     date_default_timezone_set("Asia/Kuala_Lumpur");
     
     if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'staff') {
@@ -118,9 +126,11 @@
                 </div>
             `;
             document.getElementById('verificationModal').style.display = "block";
+            document.body.style.overflow = 'hidden';
         }
         function closeModal() {
             document.getElementById('verificationModal').style.display = "none";
+            document.body.style.overflow = '';
         }
         function submitModal(actionType) {
             document.getElementById('modal-action').value = actionType;
