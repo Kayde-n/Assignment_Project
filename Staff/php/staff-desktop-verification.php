@@ -126,9 +126,11 @@
                 </div>
             `;
             document.getElementById('verificationModal').style.display = "block";
+            document.body.style.overflow = 'hidden';
         }
         function closeModal() {
             document.getElementById('verificationModal').style.display = "none";
+            document.body.style.overflow = '';
         }
         function submitModal(actionType) {
             document.getElementById('modal-action').value = actionType;
