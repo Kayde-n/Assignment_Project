@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 10, 2026 at 04:25 PM
+-- Generation Time: Jan 11, 2026 at 05:18 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -63,22 +63,23 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   UNIQUE KEY `attendance_id` (`attendance_id`),
   KEY `participants_id` (`participants_id`),
   KEY `events_id` (`events_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `attendance`
 --
 
 INSERT INTO `attendance` (`attendance_id`, `participants_id`, `events_id`, `time_taken`, `event_attended`) VALUES
-(1, 1, 2, '2025-12-23 12:55:47', 1),
+(1, 1, 2, '2025-12-23 12:55:47', 0),
 (2, 2, 2, '2025-12-23 13:57:08', 0),
-(3, 3, 2, '2025-12-26 09:58:32', 1),
+(3, 3, 2, '2025-12-26 09:58:32', 0),
 (4, 4, 2, '2025-12-26 10:58:53', 1),
 (5, 5, 3, '2025-12-28 14:58:53', 1),
 (6, 7, 2, NULL, 0),
 (7, 7, 1, NULL, 0),
 (8, 10, 5, NULL, 0),
-(9, 11, 3, '2026-01-10 00:08:00', 1);
+(9, 11, 3, '2026-01-10 00:08:00', 1),
+(11, 11, 5, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -103,8 +104,8 @@ CREATE TABLE IF NOT EXISTS `challenges` (
 --
 
 INSERT INTO `challenges` (`challenges_id`, `challenge_name`, `description`, `points_reward`, `venue`, `challenge_type`) VALUES
-(1, 'Carpool 1 time', 'Carpool with at least 2 people to complete the challenge (description includes T&C)', 150, 'No. 11, Jalan Teknologi 5, Taman Teknologi Malaysia, Bukit Jalil 57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur', 'Daily'),
-(2, 'Bring Your Own Bottle', 'Use a reusable bottle instead of disposable plastic bottles for the day (description includes T&C)', 100, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Daily'),
+(1, 'Carpool 1 time', 'Carpool with at least 2 people to complete the challenge (description includes T&C)', 1000, 'No. 11, Jalan Teknologi 5, Taman Teknologi Malaysia, Bukit Jalil 57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur', 'Daily'),
+(2, 'Bring Your Own Bottle', 'Use a reusable bottle instead of disposable plastic bottles for the day (description includes T&C)', 10022, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Daily'),
 (3, 'Public Transport Commute', 'Commute to campus using public transport at least once during the week (description includes T&C)', 300, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Weekly'),
 (4, 'No-Print Week', 'Avoid printing any documents for one full week to reduce paper usage (description includes T&C)', 500, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Weekly'),
 (5, 'Green Lifestyle Month', 'Participate in eco-friendly activities throughout the month to promote sustainability (description includes T&C)', 1200, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'Seasonal'),
@@ -125,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `downtime` (
   PRIMARY KEY (`downtime_id`),
   UNIQUE KEY `downtime_id` (`downtime_id`),
   KEY `admin_id` (`admin_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `downtime`
@@ -157,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `eco_news` (
   UNIQUE KEY `eco_news_id` (`eco_news_id`),
   KEY `events_id` (`events_id`),
   KEY `posted_by` (`posted_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `eco_news`
@@ -166,8 +167,7 @@ CREATE TABLE IF NOT EXISTS `eco_news` (
 INSERT INTO `eco_news` (`eco_news_id`, `title`, `description`, `image_path`, `venue`, `organised_by`, `events_id`, `posted_by`) VALUES
 (1, 'Beach Clean-up', 'Beach clean-up is an annual event where students clean up beaches along the coast of Klang', 'beach_cleanup.jpg', 'Kawasan Perindustrian Selat Klang Utara, 42000 Port Klang, Selangor', 'Petronas', 1, 3),
 (17, 'Tree Planting Day', 'Students and staff join to plant trees around the campus to promote greenery and reduce carbon footprint', 'tree_planting.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Green Club', 3, 2),
-(20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', 'recycling_event.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1),
-(22, 'awdawdawd', 'wadawdawd', 'lcd page 1.jpg', 'wddawdawd', 'awdawdawd', 5, 6);
+(20, 'Campus Recycling Drive', 'A week-long initiative to encourage students to bring recyclable materials to designated collection points', 'recycling_event.jpg', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU Sustainability Committee', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `events_id` int NOT NULL AUTO_INCREMENT,
   `event_name` varchar(50) NOT NULL,
   `description` text NOT NULL,
-  `points_rewarded` text NOT NULL,
+  `points_rewarded` int NOT NULL,
   `venue` text NOT NULL,
   `organised_by` varchar(255) NOT NULL,
   `organizer_email` varchar(255) NOT NULL,
@@ -189,19 +189,19 @@ CREATE TABLE IF NOT EXISTS `events` (
   `max_participants` int NOT NULL,
   PRIMARY KEY (`events_id`),
   UNIQUE KEY `events_id` (`events_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `events`
 --
 
 INSERT INTO `events` (`events_id`, `event_name`, `description`, `points_rewarded`, `venue`, `organised_by`, `organizer_email`, `start_time`, `end_time`, `max_participants`) VALUES
-(1, 'APU gotong-royong', 'A weekly event where students come together and make an effort to keep school premises clean', '500', 'No. 11, Jalan Teknologi 5, Taman Teknologi Malaysia, Bukit Jalil 57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur.”', 'Petronas', 'contactmplus@petronas.com', '2025-12-23 10:00:00', '2025-12-23 16:30:00', 300),
-(2, 'APU Blood Donation Drive', 'A campus-wide blood donation campaign in collaboration with hospitals to encourage students to donate blood', '800', 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'National Blood Centre', 'info@pdn.gov.my', '2025-12-26 09:00:00', '2025-12-26 15:00:00', 200),
-(3, 'APU Tech Awareness Workshop', 'An educational workshop aimed at increasing awareness of emerging technologies and digital safety among students', '300', 'APU Lecture Hall 5, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU IT Society', 'apuitsociety@apu.edu.my', '2025-12-28 14:00:00', '2025-12-28 17:30:00', 150),
-(4, 'Dorm Cleaning Day', 'The day where participants can come and help to clean the campus dorms', '100', 'APU Campus', 'APU Dorm Community', 'APUDormCommunity@gmail.com', '2026-01-16 13:01:11', '2026-01-17 13:01:11', 50),
-(5, 'Love Campaign', 'A Loving campaign to participants to a attended', '1000', 'APU Block A -05-01', 'APU Loving Community', 'APU@mail.com', '2026-01-28 17:24:45', '2026-01-28 20:24:45', 2),
-(7, 'Computer Lab Clean Up', 'Events that allow participants to help clean up the computer labs in campus', '500', 'APU Campus', 'APU LAB', 'APULAB@gmail.com', '2026-01-22 22:00:00', '2026-01-23 22:00:00', 20);
+(1, 'APU gotong-royong', 'A weekly event where students come together and make an effort to keep school premises clean', 500, 'No. 11, Jalan Teknologi 5, Taman Teknologi Malaysia, Bukit Jalil 57000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur.”', 'Petronas', 'contactmplus@petronas.com', '2025-12-23 10:00:00', '2025-12-23 16:30:00', 300),
+(2, 'APU Blood Donation Drive', 'A campus-wide blood donation campaign in collaboration with hospitals to encourage students to donate blood', 800, 'APU Campus, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'National Blood Centre', 'info@pdn.gov.my', '2025-12-26 09:00:00', '2025-12-26 15:00:00', 200),
+(3, 'APU Tech Awareness Workshop', 'An educational workshop aimed at increasing awareness of emerging technologies and digital safety among students', 300, 'APU Lecture Hall 5, Technology Park Malaysia, Bukit Jalil, Kuala Lumpur', 'APU IT Society', 'apuitsociety@apu.edu.my', '2025-12-28 14:00:00', '2025-12-28 17:30:00', 150),
+(4, 'Dorm Cleaning Day', 'The day where participants can come and help to clean the campus dorms', 100, 'APU Campus', 'APU Dorm Community', 'APUDormCommunity@gmail.com', '2026-01-16 13:01:11', '2026-01-17 13:01:11', 50),
+(5, 'Love Campaign', 'A Loving campaign to participants to a attended', 1000, 'APU Block A -05-01', 'APU Loving Community', 'APU@mail.com', '2026-01-28 17:24:45', '2026-01-28 20:24:45', 2),
+(7, 'Computer Lab Clean Up', 'Events that allow participants to help clean up the computer labs in campus', 500, 'APU Campus', 'APU LAB', 'APULAB@gmail.com', '2026-01-22 22:00:00', '2026-01-23 22:00:00', 20);
 
 -- --------------------------------------------------------
 
@@ -345,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `participants_challenges` (
   KEY `participants_id` (`participants_id`),
   KEY `challenges_id` (`challenges_id`),
   KEY `staff_id` (`staff_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `participants_challenges`
@@ -363,11 +363,14 @@ INSERT INTO `participants_challenges` (`participants_challenges_id`, `participan
 (10, 7, 1, '2026-01-05', '2026-01-05', 'pending', 'Reduced Pollution', 'img_695b394b7bbe24.19717501.jpg', 190, 'null', 6),
 (11, 7, 2, '2026-01-05', '2026-01-05', 'pending', 'Reduced Pollution', 'img_695b394b7bbe24.19717501.jpg', 190, 'NULL', 1),
 (12, 7, 1, '2026-01-06', NULL, 'pending', NULL, 'img_695c988fa07a63.73827008.png', NULL, '', 3),
-(13, 11, 1, '2026-01-10', NULL, 'pending', NULL, 'challenge_submission_uploads/img_696266caa61079.46334580.png', NULL, 'WWDADE', 5),
-(14, 11, 6, '2026-01-10', NULL, 'pending', NULL, 'challenge_submission_uploads/img_69626730846f83.44634885.png', NULL, 'aad', 3),
-(15, 11, 1, '2026-01-11', '2026-01-11', 'approved', 'reduced pollution', 'adwwd', 20, 'awdawd', 4),
-(16, 11, 6, '2026-01-11', '2026-01-11', 'pending', 'reduced pollution', 'dawadw', 20, 'awdwad', 1),
-(17, 11, 2, '2026-01-02', '2026-01-03', 'rejected', 'reduced pollution', 'wadawd', 20, 'awawd', 4);
+(13, 11, 2, '2026-01-11', '2026-01-11', 'pending', 'dad', 'daawd', 22, 'wdwa', 1),
+(14, 11, 6, '2026-01-11', '2026-01-11', 'approved', '2222', 'dawdawa', 22, 'awdwa', 5),
+(23, 11, 1, '2026-01-10', NULL, 'pending', NULL, 'challenge_submission_uploads/img_69628e343acfe2.38468076.png', NULL, 'awsedr', 4),
+(24, 11, 1, '2026-01-10', NULL, 'pending', NULL, 'challenge_submission_uploads/img_69628f4067c6e7.26126978.png', NULL, '', 7),
+(25, 11, 1, '2026-01-11', NULL, 'pending', NULL, 'challenge_submission_uploads/img_69628fb31ba893.26564989.png', NULL, '', 3),
+(26, 11, 4, '2026-01-11', '2026-01-12', 'approved', NULL, 'img_6963bc23ad7661.51833310.png', NULL, 'sss', 2),
+(27, 11, 5, '2026-01-11', '2026-01-11', 'rejected', 'awdwad', 'img_6963bca9cbd926.76407367.png', 222, 'aaaa', 6),
+(28, 11, 1, '2026-01-12', NULL, 'pending', NULL, 'img_6963d1e5cae142.04882216.png', NULL, '', 5);
 
 -- --------------------------------------------------------
 
@@ -416,7 +419,7 @@ CREATE TABLE IF NOT EXISTS `reward_redemption` (
   UNIQUE KEY `reward_redemption_id` (`reward_redemption_id`),
   KEY `participants_id` (`participants_id`),
   KEY `rewards_id` (`rewards_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `reward_redemption`
@@ -428,7 +431,8 @@ INSERT INTO `reward_redemption` (`reward_redemption_id`, `participants_id`, `rew
 (3, 3, 3, '2025-12-24', 0, 'eco_qr_8f3a2b1c9d4e5f6a7b8c9d0e1f2a3b4c'),
 (4, 4, 4, '2025-12-25', 1, 'eco_qr_8f3a2b1c9d4e5f6a7b8c9d0e1f2a3b4c'),
 (5, 5, 5, '2025-12-31', 1, 'eco_qr_8f3a2b1c9d4e5f6a7b8c9d0e1f2a3b4c'),
-(6, 7, 1, '2026-01-05', 0, 'c470e14616b5f4df962c1636ef77c827');
+(6, 7, 1, '2026-01-05', 0, 'c470e14616b5f4df962c1636ef77c827'),
+(7, 11, 4, '2026-01-11', 0, 'a3bab6f1e22cf53ccfa567c2d7003b03');
 
 -- --------------------------------------------------------
 
@@ -555,10 +559,10 @@ INSERT INTO `user` (`user_id`, `user_full_name`, `email`, `hash_password`, `prof
 (22, 'Ku Wei Jun', 'Ku@mail.com', '$2y$10$WCEgiFOJgx3nd9zWPt9C/.xxiGfOu.eYlxS1vUXo5Fza2fxgekOW6', 'images/profile.png', 'Active'),
 (23, 'Hi', 'Hi@mail.com', '$2y$10$1qqmjhhCyZT9nI1WBjFb7etNCKO0dhNxgUL.Yu3hpCpEw7UTdtGo2', 'images/1767861274_roof open.jpg', 'Active'),
 (24, 'Bye', 'Bye@mail.com', '$2y$10$mcLc9xaqpLYyteoCZIjlDuryWHJ.JrZTpkYUjPUskuPAj4WHIEiku', 'images/profile.png', 'Active'),
-(25, 'participant', 'participant@mail.com', '$2y$10$8MGB6I137e.rvzausZKS3.Tw6u5qkb2ZtbDUfXGRW.rVQiu0PRPWS', 'images/profile.png', 'Active'),
+(25, 'participant', 'participant@mail.com', '$2y$10$8MGB6I137e.rvzausZKS3.Tw6u5qkb2ZtbDUfXGRW.rVQiu0PRPWS', 'images/1768149514_swords.png', 'Active'),
 (26, 'staff', 'staff@mail.com', '$2y$10$UwmDlFezUDn.PV8A8bvRme6P0CERgruw//DFWN5T/x6CHHKnlyd1y', 'images/profile.png', 'Active'),
-(27, 'admin', 'admin@mail.com', '$2y$10$Zrmw3xPeY/FF5QXedgQwVez9vtZpAFNhi7LQrrW8EDJdPxKQx7iBu', 'images/profile.png', 'Active'),
-(28, 'event manager', 'event_manager@mail.com', '$2y$10$SIlO/rhn5I6p1zyNxhI/IO2Jhi8kEWGr8PsSon9Fzc0psekAaWxiS', 'images/profile.png', 'Active');
+(27, 'admin', 'admin@mail.com', '$2y$10$Zrmw3xPeY/FF5QXedgQwVez9vtZpAFNhi7LQrrW8EDJdPxKQx7iBu', 'images/1768150367_erd rwdd.drawio.png', 'Active'),
+(28, 'event manager', 'event_manager@mail.com', '$2y$10$SIlO/rhn5I6p1zyNxhI/IO2Jhi8kEWGr8PsSon9Fzc0psekAaWxiS', '../../images/1768150382_swords.png', 'Active');
 
 --
 -- Constraints for dumped tables
