@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../../session.php";
 require_once __DIR__ . "/../../config/database.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -30,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($_SESSION['user_role'] === 'staff'){
             header("Location: staff-desktop-manage.php?success=1");
             } else {
-            header("Location: ../../admin/php/account-management.php");
+            header("Location: ../../admin/php/account-management.php?success=1");
         } 
 }catch (Exception $e) {
             mysqli_rollback($database);

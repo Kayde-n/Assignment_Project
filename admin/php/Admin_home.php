@@ -43,7 +43,7 @@ $water_conserved = $impacts['water_conserved'] ?? 0;
     <title>Admin Home</title>
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="../../old/participants-home-desktop.css">
+    <link rel="stylesheet" href="../../participants-home-desktop.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
