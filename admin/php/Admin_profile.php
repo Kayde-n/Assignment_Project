@@ -1,5 +1,13 @@
 <?php
 require_once __DIR__ . "/../../session.php";
+
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    echo "<script>
+        alert('Access denied. Admin only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

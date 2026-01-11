@@ -3,6 +3,14 @@
     require_once __DIR__ . "/../../config/Database.php";
     require_once __DIR__ . "/../../check-maintenance-status.php";
 
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'event_manager') {
+    echo "<script>
+        alert('Access denied. Event Manager only.');
+        window.location.href = '../../login.php';
+    </script>";
+    exit();
+    }
+
     // get eco news data
     $sql = "SELECT eco_news_id, title, description, image_path FROM eco_news ORDER BY eco_news_id DESC";
     $result = mysqli_query($database, $sql);
