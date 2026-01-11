@@ -1,4 +1,5 @@
 <?php
+    require_once __DIR__ . "/../../session.php";
     require_once __DIR__ . "/../../config/database.php";
     require_once __DIR__ . "/../../check-maintenance-status.php";
 
@@ -9,7 +10,7 @@
     </script>";
     exit();
     }
-    
+
     // Get 5 most recent actions performed
     function getActivityLog($database, $user_id) {
         $logs = [];
