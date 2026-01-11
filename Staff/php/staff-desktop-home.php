@@ -48,7 +48,7 @@ $pendingList = mysqli_query($database, $listQuery);
     <title>Home Page</title>
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="../../participant.css">
-    <link rel="stylesheet" href="../../old/participants-home-desktop.css">
+    <link rel="stylesheet" href="../../participants-home-desktop.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 

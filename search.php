@@ -147,21 +147,20 @@ if ($source === 'eco_news') {
 
 } elseif ($source === 'staff') {
     $items = [
-
-        [
-            'title' => 'Eco News Management',
-            'description' => 'Eco News Management enables administrators to create, update, and publish environmental news and announcements.',
-            'url' => 'event-manager-news.php'
-        ],
         [
             'title' => 'Participants Management',
-            'description' => 'Participants Management enables administrators to manage participant accounts, profiles, and participation records.',
+            'description' => 'Participants Management enables staff to manage participant accounts, profiles, and participation records.',
             'url' => 'staff-desktop-account-.php'
         ],
         [
             'title' => 'Challenge Submission Verifications',
-            'description' => 'Challenge Submission Verifications enables administrators to review, verify, and approve participant challenge submissions.',
+            'description' => 'Challenge Submission Verifications enables staff to review, verify, and approve participant challenge submissions.',
             'url' => 'staff-desktop-verification.php'
+        ],
+        [
+            'title' => 'Profile',
+            'description' => 'Profile enables staff to view and manage their profile information.',
+            'url' => 'staff-desktop-profile.php'
         ]
     ];
     foreach ($items as $item) {
