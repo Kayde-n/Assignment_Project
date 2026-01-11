@@ -27,10 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         mysqli_query($database, $q2);
         mysqli_commit($database);
-        header("Location: staff-desktop-manage.php?success=1");
-    } catch (Exception $e) {
-        mysqli_rollback($database);
-        header("Location: staff-desktop-manage.php?error=1");
-    }
+        if($_SESSION['user_role'] === 'staff'){
+            header("Location: staff-desktop-manage.php?success=1");
+            } else {
+            header("Location: ../../admin/php/account-management.php");
+        } 
+}catch (Exception $e) {
+            mysqli_rollback($database);
+            header("Location: staff-desktop-manage.php?error=1");
+            }
 }
+
 ?>
